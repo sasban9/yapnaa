@@ -1,0 +1,56 @@
+[04-Jul-2016 09:19:20 UTC] PHP Fatal error:  Class 'model' not found in /home/automobi/public_html/movilo/controller/user_controller.php on line 10
+[04-Jul-2016 09:22:53 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[05-Jul-2016 10:01:30 UTC] PHP Fatal error:  Class 'model' not found in /home/automobi/public_html/movilo/controller/user_controller.php on line 10
+[12-Jul-2016 06:00:20 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[12-Jul-2016 11:37:13 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[12-Jul-2016 13:34:40 UTC] PHP Fatal error:  Call to undefined function _iscurl() in /home/automobi/public_html/movilo/controller/user_controller.php on line 642
+[12-Jul-2016 13:34:42 UTC] PHP Fatal error:  Call to undefined function _iscurl() in /home/automobi/public_html/movilo/controller/user_controller.php on line 642
+[12-Jul-2016 13:50:56 UTC] PHP Fatal error:  Cannot use object of type stdClass as array in /home/automobi/public_html/movilo/controller/user_controller.php on line 661
+[12-Jul-2016 13:50:58 UTC] PHP Fatal error:  Cannot use object of type stdClass as array in /home/automobi/public_html/movilo/controller/user_controller.php on line 661
+[13-Jul-2016 06:23:35 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[13-Jul-2016 06:26:47 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[18-Jul-2016 10:37:05 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[18-Jul-2016 10:56:34 UTC] PHP Fatal error:  Call to undefined method model::brand_product_list_by_category() in /home/automobi/public_html/movilo/controller/user_controller.php on line 559
+[25-Jul-2016 09:10:31 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 09:26:33 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 09:27:33 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 09:49:44 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/automobi/public_html/movilo/controller/user_controller.php on line 944
+[25-Jul-2016 09:54:00 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 09:54:56 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 10:25:23 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 10:29:19 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 10:29:36 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 10:34:31 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 10:34:33 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 10:34:33 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 10:34:49 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[25-Jul-2016 12:32:08 UTC] PHP Fatal error:  Class 'users' not found in /home/automobi/public_html/movilo/mobi_index.php on line 6
+[11-Aug-2016 09:57:36 UTC] PHP Fatal error:  Class 'model' not found in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 10
+[12-Aug-2016 09:59:09 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[22-Aug-2016 17:31:21 Asia/Kolkata] PHP Fatal error:  Call to undefined method users::sendMessageThroughGCM() in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 1184
+[22-Aug-2016 17:31:34 Asia/Kolkata] PHP Fatal error:  Call to undefined method users::sendMessageThroughGCM() in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 1184
+[22-Aug-2016 17:31:57 Asia/Kolkata] PHP Fatal error:  Call to undefined method users::sendMessageThroughGCM() in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 1184
+[01-Sep-2016 10:12:48 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[21-Sep-2016 06:41:00 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[21-Sep-2016 13:19:53 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[21-Sep-2016 13:31:44 UTC] PHP Fatal error:  Function name must be a string in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 933
+[21-Sep-2016 13:31:50 UTC] PHP Fatal error:  Function name must be a string in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 933
+[21-Sep-2016 13:32:10 UTC] PHP Fatal error:  Function name must be a string in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 933
+[21-Sep-2016 13:32:12 UTC] PHP Fatal error:  Function name must be a string in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 933
+[21-Sep-2016 13:32:34 UTC] PHP Fatal error:  Function name must be a string in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 932
+[21-Sep-2016 13:32:44 UTC] PHP Fatal error:  Function name must be a string in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 932
+[21-Sep-2016 13:33:02 UTC] PHP Fatal error:  Function name must be a string in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 933
+[21-Sep-2016 13:39:06 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[03-Oct-2016 12:53:26 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[03-Oct-2016 12:54:12 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[03-Oct-2016 12:54:16 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[05-Oct-2016 06:17:50 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[05-Oct-2016 13:06:36 UTC] PHP Fatal error:  [] operator not supported for strings in /home/moviloglobal/public_html/movilo/model/model.php on line 252
+[05-Oct-2016 13:06:38 UTC] PHP Fatal error:  [] operator not supported for strings in /home/moviloglobal/public_html/movilo/model/model.php on line 252
+[05-Oct-2016 13:06:41 UTC] PHP Fatal error:  [] operator not supported for strings in /home/moviloglobal/public_html/movilo/model/model.php on line 252
+[05-Oct-2016 13:06:56 UTC] PHP Fatal error:  [] operator not supported for strings in /home/moviloglobal/public_html/movilo/model/model.php on line 252
+[05-Oct-2016 13:06:58 UTC] PHP Fatal error:  [] operator not supported for strings in /home/moviloglobal/public_html/movilo/model/model.php on line 252
+[06-Oct-2016 13:33:57 UTC] PHP Fatal error:  Class 'model' not found in /home/moviloglobal/public_html/movilo/controller/user_controller.php on line 10
+[06-Oct-2016 13:51:49 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[07-Oct-2016 11:44:12 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6
+[07-Oct-2016 11:44:15 UTC] PHP Fatal error:  Class 'users' not found in /home/moviloglobal/public_html/movilo/mobi_index.php on line 6

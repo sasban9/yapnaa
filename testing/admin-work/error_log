@@ -1,0 +1,25 @@
+[05-Jul-2016 04:42:27 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/automobi/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:17:41 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:17:41 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:17:41 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:23 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:18:23 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:23 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:27 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:18:27 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:27 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:33 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:18:33 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:33 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:40 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:18:40 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:40 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:44 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:18:44 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:18:44 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:23:16 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:23:16 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:23:16 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:24:42 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 6
+[10-Aug-2016 12:24:42 UTC] PHP Notice:  Undefined variable: username in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
+[10-Aug-2016 12:24:42 UTC] PHP Warning:  mysqli::mysqli(): (28000/1045): Access denied for user 'moviloglobal'@'localhost' (using password: YES) in /home/moviloglobal/public_html/movilo/admin-work/config/config.php on line 10
