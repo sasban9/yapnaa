@@ -3,7 +3,7 @@
 //Banner FOr Home screen
 if(!empty($_POST['banner_for'])){ 
 
-	$get_banner_images				= 	$obj_search->get_banner_home_screen_images(); 
+	$get_banner_images		= 	$obj_search->get_banner_home_screen_images(); 
 	
 	if($get_banner_images){
 		$data					=	array();
@@ -220,7 +220,7 @@ if(!empty($_POST['amc_price_list'])){
 //APK Versoin Check
 if(!empty($_POST['apk_version'])){
 	$apk_version_check	=	$obj_search->apk_version_check();
-	// print_r($apk_version_check);
+	//print_r($apk_version_check);
 	if($apk_version_check){ 
 		$data								=	array(); 
 		$data['msg']						=	'success'; 

@@ -23,7 +23,7 @@
 		// Update your Google Cloud Messaging API Key
 		//asif hello
 		// define("GOOGLE_API_KEY", "AIzaSyCGxfkv_z6Miz1q-dJr1foyCUNNTwwOdM0");  
-		define("GOOGLE_API_KEY", "AIzaSyCdKmh8V0icBG2x2kE2ymk_Afp6fuvDTp8");   // Server Key
+		define("GOOGLE_API_KEY", "AIzaSyDfjQepXPy2GltXwE5ob-h8vw1o5w3pzls");   // Server Key
 	
 
 

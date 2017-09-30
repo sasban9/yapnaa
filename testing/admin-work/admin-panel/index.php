@@ -7,7 +7,7 @@ if(isset($_SESSION['admin_email_id']))
 	 $admin_email_id	= $_SESSION['admin_email_id'];
 	 $admin_name		= $_SESSION['admin_name'];
 	 $admin_last_login	= $_SESSION['admin_last_login'];
-	 
+	 $ar_role_name  	= $_SESSION['admin_role_id'];
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
 	 

@@ -19,18 +19,24 @@ if(isset($_SESSION['admin_email_id']))
 	{		
 	
 		$user_phone 				= 	$_POST['mobile'];
-		$desc 						= 	$_POST['desc'];
-		$ch = curl_init();
-		$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_phone)."&message=".urlencode("".$desc ."");
-		curl_setopt( $ch,CURLOPT_URL, $url );
-		curl_setopt( $ch,CURLOPT_POST, false ); 
-		curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
-		$result = curl_exec($ch );
-		curl_close( $ch ); 
-		 
-			echo '<script>alert("sms sent successfully.")</script>';
-			echo '<script>window.location.assign("send-sms.php")</script>'; 
+		
+		$numb_arr = explode(",",$user_phone);
+		for($i=0;$i<count($numb_arr);$i++){
+			$user_phone = $numb_arr[$i];
+			$desc 						= 	$_POST['desc'];
+			$ch = curl_init();
+			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_phone)."&message=".urlencode("".$desc ."");
+			curl_setopt( $ch,CURLOPT_URL, $url );
+			curl_setopt( $ch,CURLOPT_POST, false ); 
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+			$result = curl_exec($ch );
+			curl_close( $ch ); 
+			 
+			
+		}
+		echo '<script>alert("sms sent successfully.")</script>';
+		echo '<script>window.location.assign("send-sms.php")</script>'; 
 	}
 	
 	  
@@ -84,9 +90,21 @@ if(isset($_SESSION['admin_email_id']))
 
 			</div>
 		</div>	  
-
-
-		
+	<div class="row" style="margin: 20px;">
+		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
+			<p id="p1">Thank you for your time. Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/2kkl44e today.</p>
+			<input type="button" style="margin-right:30%;" value="Use template" class="btn btn-info pull-right template"  id="1"/>
+		</div>
+		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
+			<p id="p2">Thanks for confirming your appointment​ for AMC​ of ZeroB Water filter. We look forward to seeing you on [Date] at [Time].​ ​</p>
+			<input type="button"  style="margin-right:30%;" value="Use template" class="btn btn-info pull-right template"   id="2"/>
+		</div>
+		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
+			<p id="p3">Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/2kkl44e today.</p>
+			<br>
+			<input type="button" style="margin-right:30%;"  value="Use template" class="btn btn-info pull-right template"   id="3"/>
+		</div>
+	</div>
 		<div class="row">
             <div class="col-lg-12">
                 <div class="wrapper wrapper-content">
@@ -115,7 +133,7 @@ if(isset($_SESSION['admin_email_id']))
 																			<fieldset class="form-horizontal">
 																				<div class="form-group"><label class="col-sm-2 control-label">Mobile No:</label>
 																					<div class="col-sm-10">
-																					<input type="number" class="form-control" name="mobile" id="mobile" required maxlength="10">	
+																					<input type="text" pattern="[0-9,]*" class="form-control" name="mobile" id="mobile" required >	
 																					</div>
 																				</div>
 																				
@@ -154,11 +172,12 @@ if(isset($_SESSION['admin_email_id']))
             </div>
         </div>
 		
-                
+            
                
 <?php include "footer.php";?>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
 <script>
 
 function myFunction() {
@@ -183,6 +202,7 @@ $('#desc').focus();
 }
 
 }
+
 </script>
 
 <?php

@@ -58,7 +58,7 @@ class model {
 	function get_details_condition_orderby_asc($table,$fields,$condition,$orderby)
 	{
 		$sql = "SELECT $fields FROM $table where $condition order by $orderby asc";
-		//echo $sql;
+		// echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){
@@ -105,7 +105,7 @@ class model {
 	function get_Details_condition($table,$fields,$condition)
 	{
 		$sql = "SELECT $fields FROM $table where $condition";
-		//echo $sql; //exit;
+		//echo $sql; exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){
@@ -276,7 +276,7 @@ class model {
 		
 		
 		// $sql = "SELECT $fields FROM $table where $condition";
-		// echo $sql; exit;
+		//echo $sql; exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){

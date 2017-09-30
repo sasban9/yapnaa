@@ -4,7 +4,17 @@
 			float:right;
 		}
 	</style>
-
+<?php
+/*session_start(); 
+if(isset($_SESSION['admin_email_id']))
+{
+	 $admin_email_id	= $_SESSION['admin_email_id'];
+	 $admin_name		= $_SESSION['admin_name'];
+	 $admin_last_login	= $_SESSION['admin_last_login'];
+	echo $ar_role_name  	= $_SESSION['ar_role_name'];
+	require_once('controller/admin_controller.php');
+}*/
+?>
 	<nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
@@ -36,6 +46,11 @@
 					<li>
                         <a href="users.php"><i class="fa fa-user"></i> User List</a>
                     </li>
+
+                    <li>
+                        <a href="users_product.php"><i class="fa fa-user"></i>All users products</a>
+                    </li>
+
                     <li>
                         <a href="add-faq.php"><i class="fa fa-question"></i> Add FAQ's</a>
                     </li>
@@ -61,6 +76,10 @@
 					<li>
                         <a href="send-sms.php"><i class="fa fa-envelope-o"></i> Send SMS</a>
                     </li>
+					
+					<li>
+                        <a href="zerob_customers.php"><i class="fa fa-envelope-o"></i> Search ZeroB Data</a>
+                    </li>
 					<li >
                       <a href="add-banner.php">
                         <i class="fa fa-picture-o">
@@ -69,6 +88,12 @@
                         <span>Banner Images</span>
                       </a> 
                     </li>
+                  
+                    <li>
+                        <a href="user_notifications.php"><i class="fa fa-envelope-o"></i>Notifications</a>
+                    </li>
+				   
+
                 </ul>
 
             </div>

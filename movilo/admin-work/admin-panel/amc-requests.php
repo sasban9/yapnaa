@@ -90,8 +90,8 @@ if(isset($_SESSION['admin_email_id']))
 					<?php $j=1;?>
 					<?php for($i=0;$i<count($get_amc_list);$i++){ ?>
 						<tr>
-							<td><?php echo  $j; ?></td>
-							<td><a href="user-details.php?id=<?php echo $get_amc_list[$i]['user_id']; ?>" target="_blank"><?php echo $get_amc_list[$i]['user_email_id']; ?></a></td>
+							<td><a href="user-details.php?id=<?php echo $get_amc_list[$i]['user_id']; ?>" target="_blank"><?php echo  $j; ?></a></td>
+							<td><?php echo $get_amc_list[$i]['user_email_id']; ?></td>
 							<td><?php echo $get_amc_list[$i]['user_phone']; ?></td>
 							<td><?php echo $get_amc_list[$i]['p_category_name']; ?></td>
 							<td><?php echo $get_amc_list[$i]['brand_name']; ?></td> 

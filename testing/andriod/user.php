@@ -1,15 +1,20 @@
 <?php 
-//print_r($_POST);
+$file = fopen("/var/www/html/Movtesting.txt","w");
+fwrite($file,json_encode($_REQUEST));
+fclose($file);
+//print_r($_POST);die;
 // User Registration
-if(!empty($_POST['reg_submit'])){	
-// echo "hello";exit;
+if(!empty($_POST['reg_submit'])){
+	//echo "hello";exit;
 	$arr_user_reg_info		= 	$obj_search->user_resgitartion();
 	// print_r($arr_user_reg_info);exit;
 	if($arr_user_reg_info){
-		$arr_user_reg_info_msg['msg'] 	=	'Success';
-		$arr_user_reg_info_msg['otp'] 	=	$arr_user_reg_info;
-		print_r(json_encode($arr_user_reg_info_msg));
+		//$arr_user_reg_info['msg'] 	=	'Success';
+		//$arr_user_reg_info_msg['otp'] 	=	$arr_user_reg_info;
+		print_r(json_encode($arr_user_reg_info));
 	}else{
+		//print_r($user_add_product);
+		//die();
 		// $arr_user_reg_info['msg'] 	=	'Email-Id or contact number already registered or App key - Secret key mismatch.';
 		$arr_user_reg_info['msg'] 	=	'failure';
 		print_r(json_encode($arr_user_reg_info));
@@ -19,7 +24,24 @@ if(!empty($_POST['reg_submit'])){
 
 /*=============================================================================================*/
 
+// User app open
+if(!empty($_POST['user_app_launch'])){
+	$user_app_launch			= 	$obj_search->user_app_launch();
+	// print_r($arr_user_reg_otp_verification);exit;
+	if($user_app_launch){
+		$arr_success_msg['msg']  = 'success';
+		print_r(json_encode($arr_success_msg));
+	}else{
+		// $arr_success_msg['msg']  = 'Wrong OTP or App key - Secret key mismatch.';
+		$arr_success_msg['msg']  = 'failure';
+		print_r(json_encode($arr_success_msg));
+	}
+}
 
+
+
+
+/*=============================================================================================*/
 
 // User registartion OTP verification
 if(!empty($_POST['reg_otp'])){
@@ -67,12 +89,12 @@ if(!empty($_POST['resend_otp_phone_no'])){
 // User Login
 if(!empty($_POST['login_submit'])){
 	$arr_user_login		= 	$obj_search->user_login();
-	// print_r($arr_user_login);exit;
+	//print_r($arr_user_login);exit;
 	if($arr_user_login){ 
-		$data					=	array();
+		/*$data					=	array();
 		$data['user_details']	=	$arr_user_login;
-		$data['msg']			=	'success';
-		print_r(json_encode($data));
+		$data['msg']			=	'success';*/
+		print_r(json_encode($arr_user_login));
 		
 		// $arr_user_login[0]['msg']	=	'success';
 		// print_r(json_encode($arr_user_login));
@@ -83,35 +105,13 @@ if(!empty($_POST['login_submit'])){
 	}
 }
 
-//print_r($_POST);die;
-//echo "<pre>";
-//print_r($_FILES,$_POST);
+
+
+
 /*=============================================================================================*/
-if(!empty($_POST['digilocker'])){//print_r($_POST);die;
-	$user_add_digilocker				= 	$obj_search->upload_digilocker();
-	// print_r($user_add_product);exit;
-	if($user_add_digilocker==1){ 
-		$arr_success_msg['msg']  = 'Token key expire';
-		print_r(json_encode($arr_success_msg));
-	}else{
-		$arr_success_msg['msg']  = 'File added to your digilocker successfully';
-		print_r(json_encode($arr_success_msg));
-	}
-}
-	
-if(!empty($_POST['digilocker_list'])){//print_r($_POST);die;
-	$user_add_digilocker_list				= 	$obj_search->user_digilocker_list();
-	// print_r($user_add_product);exit;
-	if($user_add_digilocker==1){ 
-		$arr_success_msg['msg']  = 'Token key expire';
-		print_r(json_encode($arr_success_msg));
-	}else{
-		$arr_success_msg['msg']  = 'success';
-		$arr_success_msg['data']  = $user_add_digilocker_list;
-		print_r(json_encode($arr_success_msg));
-	}
-}	
-	
+
+
+
 // User Forgot Password
 if(!empty($_POST['forgot_password_submit'])){
 	$arr_forgot_password			= 	$obj_search->forgot_password();
@@ -185,7 +185,58 @@ if(!empty($_POST['user_logout_id'])){
 }
 
 
+/*=============================Check if user has added that product=======================================*/
 
+
+
+// User Add Product
+if(!empty($_POST['user_product_check'])){
+	$user_product_check				= 	$obj_search->user_product_check();
+	// print_r($user_add_product);exit;
+	$arr_success_msg['prod_added'] = 0;
+	if($user_product_check==1){ 
+		$arr_success_msg['msg']  = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}elseif($user_product_check==2){
+		$arr_success_msg['msg']  = 'success';
+		$arr_success_msg['prod_added'] = 1;
+		print_r(json_encode($arr_success_msg));
+	}else{
+		$arr_success_msg['msg']  = 'success';
+		print_r(json_encode($arr_success_msg));
+	}
+}
+
+
+
+
+
+/*=============================================================================================*/
+/*=============================CREATE A SR WITHOUT ADDING PRODUCT================================================================*/
+
+
+
+// User Add Product
+if(!empty($_POST['user_sr_product'])){
+	$user_add_product				= 	$obj_search->user_sr_product();
+	// print_r($user_add_product);exit;
+	if($user_add_product==1){ 
+		$arr_success_msg['msg']  = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}elseif($user_add_product==2){
+		$arr_success_msg['msg']  = 'This serial number is already exist or failure';
+		print_r(json_encode($arr_success_msg));
+	}else{
+		$arr_success_msg['msg']  = 'success';
+		print_r(json_encode($arr_success_msg));
+	}
+}
+
+
+
+
+
+/*=============================================================================================*/
 
 
 
@@ -205,6 +256,8 @@ if(!empty($_POST['user_add_product'])){
 		print_r(json_encode($arr_success_msg));
 	}else{
 		$arr_success_msg['msg']  = 'success';
+		$arr_success_msg['user_product_id']  = $_POST['user_product_id'];
+		$arr_success_msg['product_type_id']  = $_POST['add_product_product_id'];
 		print_r(json_encode($arr_success_msg));
 	}
 }
@@ -236,7 +289,30 @@ if(!empty($_POST['user_product_list_user_id'])){
 
 /*=============================================================================================*/
 
-
+if(!empty($_POST['digilocker'])){//print_r($_POST);die;
+	$user_add_digilocker				= 	$obj_search->upload_digilocker();
+	// print_r($user_add_product);exit;
+	if($user_add_digilocker==1){ 
+		$arr_success_msg['msg']  = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}else{
+		$arr_success_msg['msg']  = 'File added to your digilocker successfully';
+		print_r(json_encode($arr_success_msg));
+	}
+}
+	
+if(!empty($_POST['digilocker_list'])){//print_r($_POST);die;
+	$user_add_digilocker_list				= 	$obj_search->user_digilocker_list();
+	// print_r($user_add_product);exit;
+	if($user_add_digilocker==1){ 
+		$arr_success_msg['msg']  = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}else{
+		$arr_success_msg['msg']  = 'success';
+		$arr_success_msg['data']  = $user_add_digilocker_list;
+		print_r(json_encode($arr_success_msg));
+	}
+}	
 
 // User Add Product
 if(!empty($_POST['user_particular_product_list_id'])){
@@ -307,8 +383,9 @@ if(!empty($_POST['user_srm_ans_user_token_key'])){
 
 
 // User SRM List 
-if(!empty($_POST['user_srm_list_user_token_key'])){
+if(!empty($_POST['user_srm_list_user_token_key'])){//echo "HEre";die;
 	$user_srm_list				= 	$obj_search->user_srm_list();
+	//print_r($user_srm_list);die;
 	// print_r($user_srm_question_answers);exit;
 	
 	if($user_srm_list==1){

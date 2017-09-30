@@ -1,5 +1,5 @@
 <?php 
-$file = fopen("/var/www/html/Movtest.txt","w");
+$file = fopen("/var/www/html/Movtesting.txt","w");
 fwrite($file,json_encode($_REQUEST));
 fclose($file);
 //print_r($_POST);die;
@@ -23,8 +23,6 @@ if(!empty($_POST['reg_submit'])){
 
 
 /*=============================================================================================*/
-
-
 
 // User app open
 if(!empty($_POST['user_app_launch'])){

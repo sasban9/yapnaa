@@ -24,9 +24,49 @@ class users
     
     
     
+    
+	// user registartion
+    function user_app_launch()
+    {
+		//print_r($_POST);die;
+		date_default_timezone_set('Asia/Kolkata');
+        $user_phone 			= 	$_POST['user_phone'];
+        $user_email_id 			= 	$_POST['user_email_id'];
+        $user_gcm_id      		= 	$_POST['user_gcm_id'];
+        $user_device_model		= 	$_POST['user_device_model'];
+        $user_device_version	= 	$_POST['user_device_version'];
+        $user_device_name		= 	$_POST['user_device_name'];
+        $user_device_level		= 	$_POST['user_device_level'];
+        $user_imei				= 	$_POST['user_imei'];
+        $user_created_date 			= 	date('Y-m-d h:i:s');
+          
+            $fields_reg = array(
+                'launch_no' 				=> $user_phone,
+                'launch_email' 			=> $user_email_id,
+                'launch_gcm_id' 				=> $user_gcm_id,
+                'launch_device_model'			=> $user_device_model,
+                'launch_device_version'			=> $user_device_version,
+                'launch_device_name'			=> $user_device_name,
+                'launch_device_level'			=> $user_device_level,
+                'launch_IMEI' 					=> $user_imei,
+                'launch_created_date' 		=> $user_created_date,
+            );
+            
+            // print_r($fields_reg);exit;
+			
+            $table_log_in = 'launch_data_capture';
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
+		return $arr_result;
+    }
+    
+	
+/*-----------------------------------------------------------------------------------------------------------------------*/
+	
+	
 	// user registartion
     function user_resgitartion()
     {
+
 		$keys=array("abcdefghijklmnopqrstuvwxyz", "123456abcdefghijklmnopqrstuvwxyz");
 		// print_r($keys[0]);
 		// print_r($keys[1]);
@@ -65,12 +105,22 @@ class users
             // $condition_user  = 'user_phone    = ' . "'" . $user_phone . "'" . ' OR user_email_id = ' . "'" . $user_email_id . "'";
             $condition_user  = 'user_phone    = ' . "'" . $user_phone . "'";
             $arr_result_test = $this->model->get_Details_condition($table_user, $fields_user, $condition_user);
-            // print_r($arr_result_test);exit;
+			//print_r($arr_result_test);	echo "here";die;
+           if($arr_result_test){
+			   if($arr_result_test[0]['user_reg_verification_otp']>0){
+				   $msg ='OTP verification Pending';
+			   }
+			   else{
+				   $msg ='This mobile number is already registered with Yapnaa';
+			   }
+			   $arr = array('msg'=>$msg,'otp'=>$arr_result_test[0]['user_reg_verification_otp'],'data'=>$arr_result_test);
+			   return $arr;
+		   }
            
         }else{
 			$arr_result_test=1;
 		}
-          // print_r($arr_result_test);exit;
+        //print_r($arr_result_test);exit;
         if (empty($arr_result_test)) {
           
             $fields_reg = array(
@@ -118,8 +168,36 @@ class users
 				// return $user_reg_verification_otp;
             // }			return $fields_reg;
 			
+			/********************************************
+				// E-Mail To User
+			//$to 			= 	$user_email_id;
+			$to 			= 	'hema.jjbytes@gmail.com';
+			$subject		=	"Registration done succesfully.";
+			 $message		=	'<html>
+									<body>
+										<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+											<p>From YAPNAA,
+											<strong>' . $user_full_name . '</strong></p>
+											<p> New User has joined in YAPNAA.</p>
+										</table>
+									</body>
+								</html>';
+	
 			
+            $headers1 		= 	"MIME-Version: 1.0" . "\r\n";
+					
+            $headers1 		.= 	"Content-type:text/html;charset=iso-8859-1" . "\r\n";
+            
+            $headers1 		.= 	"From:yapnaa@gmail.com\r\n";
+            
+            mail($to, $subject, $message, $headers1);
+            
+            if (mail($to, $subject, $message, $headers1)) {
+				// return $user_reg_verification_otp;
+            }			return $fields_reg;
 			
+
+			*******************************************/
 			
 			$ch = curl_init();
 			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_phone)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
@@ -130,10 +208,14 @@ class users
 			$result = curl_exec($ch );
 			curl_close( $ch ); 
 			
-			return $user_reg_verification_otp;
+			return $arr = array('otp'=>$user_reg_verification_otp,'msg'=>'success');
 			
             
         }
+		else{
+			$arr = array('msg'=>"Mobile number already registered",'otp'=>$arr_result_test[0]['user_reg_verification_otp'],'data'=>$arr_result_test);
+			return $arr;
+		}
     }
     
 	
@@ -173,7 +255,7 @@ class users
             );
             $condition     = 'user_reg_verification_otp = ' . "'" . $reg_otp . "'";
             $arr_log_in1    = $this->model->update($table_log_in, $set_array, $condition);
-			return $arr_log_in;
+			return array("data"=>$arr_log_in,"msg"=>"success");
 			
 		}
 		else{
@@ -271,32 +353,25 @@ class users
     }
 	
 	
+function checkout_user_login(){
 	
-	
-/*-----------------------------------------------------------------------------------------------------------------------*/
-
-
-
-	
-	// User Login
-	function user_login()
-    {
-        $keys=array("abcdefghijklmnopqrstuvwxyz", "123456abcdefghijklmnopqrstuvwxyz");
+	 $keys=array("abcdefghijklmnopqrstuvwxyz", "123456abcdefghijklmnopqrstuvwxyz");
 		$table           				 = 	table();
-        $user_phone			           	 = 	$_POST['user_login_mobile'];
-        // $user_pin			        	 = 	($_POST['user_login_pin']);
-        $user_pin			        	 = 	md5($_POST['user_login_pin']);
-        $user_gcm			        	 =  $_POST['user_login_gcm'];
-        $app_key	      				 = 	$_POST['login_app_key'];
-        $app_secret      				 = 	$_POST['login_app_secret'];
-        $user_login_device_type			 = 	$_POST['user_login_device_type'];
-        $table_log_in    				 = 	$table['tb1'];
-        $fields_log_in   				 = 	'*';
-        $condition_log_in				 = 	'user_pin    = ' . "'" . $user_pin . "'" . ' and user_phone = ' . "'" . $user_phone . "'" . ' and user_status = 1';
-        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+        $cuser_phone			         = 	$_POST['cu_user_mobile'];
+        // $user_pin			         = 	($_POST['user_login_pin']);
+        $cuser_pin			        	 = 	md5($_POST['cu_user_password']);
+		$cuser_email			         = 	$_POST['cu_user_email'];
+        $cuser_gcm			        	 =  $_POST['user_login_gcm'];
+        $capp_key	      				 = 	$_POST['clogin_app_key'];
+        $capp_secret      				 = 	$_POST['clogin_app_secret'];
+        $cuser_login_device_type		 = 	$_POST['cuser_login_device_type'];
+        $ctable_log_in    				 = 	$table['tb15'];
+        $cfields_log_in   				 = 	'*';
+        $ck_condition_log_in		     = 	'cu_user_password    = ' . "'" . $cuser_pin . "'" . ' and cu_user_email = ' . "'" . $cuser_email . "'" . '';
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($ctable_log_in, $cfields_log_in, $ck_condition_log_in);
 		 // print_r($arr_log_in);exit;
 		
-		if(($keys[0]==$app_key) && ($keys[1]==$app_secret)){
+		if(($keys[0]==$capp_key) && ($keys[1]==$capp_secret)){
 			$res	=	1;
 		}else{
 			$res	=	0;
@@ -307,26 +382,164 @@ class users
 		if($res==1){
 			date_default_timezone_set('Asia/Kolkata');
 			$user_last_login 			= 	date('Y-m-d h:i:s');
-			$user_token					=   rand(1000,9999999);
+			$cuser_token				=   rand(1000,9999999);
 			
-            $set_array     = array(
-                'user_gcm_id' 				=> $user_gcm,
-				'user_token' 				=> $user_token,
-                'user_last_login' 			=> $user_last_login,
-                'user_login_device' 		=> $user_login_device_type, 
+            $cset_array     = array(
+                'cuser_gcm_id' 			=> $cuser_gcm,
+				'cu_token' 				=> $cuser_token,
+				'cu_user_updated' 		=> $user_last_login
             );
-            $condition     					=	'user_phone = ' . "'" . $user_phone . "'";
-            $arr_log_in1   					 = 	$this->model->update($table_log_in, $set_array, $condition);
-			$fields_log_in   				 = 	'*';
-			$condition_log_in				 = 	'user_pin    = ' . "'" . $user_pin . "'" . ' and user_phone = ' . "'" . $user_phone . "'" . ' and user_status = 1';
-			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+            $ck_condition     					=	'user_phone = ' . "'" . $cuser_phone . "'";
+            $carr_log_in1   					 = 	$this->model->update($ctable_log_in, $cset_array, $ck_condition);
+			$cfields_log_in   				 = 	'*';
+			$ckcondition_log_in				 = 	'user_pin    = ' . "'" . $cuser_pin . "'" . ' and user_phone = ' . "'" . $cuser_phone . "'" . ' and user_status = 1';
+			$carr_log_in      	 			 = 	$this->model->get_Details_condition($ctable_log_in, $cfields_log_in, $ckcondition_log_in);
 			 // print_r($arr_log_in);exit;
-			return $arr_log_in;
+			return $carr_log_in;
 			
 		}
 		else{
-			return $arr_log_in="";
+			return $carr_log_in="";
 		}
+	
+}	
+	
+/*-----------------------------------------------------------------------------------------------------------------------*/
+
+
+
+	
+	// User Login
+	function user_login()
+    {
+		$table           				 = 	table();
+		//$table 					= table();
+		$table_log_in    				 = 	$table['tb1'];
+		$fields_log_in   				 = 	'*';
+		
+		//If social media login
+		if(isset($_POST["user_login_type"])> 0 && $_POST["user_login_type"] > 0){ 
+			//Check if the user is already registered in yapnaa
+			$condition_log_in				 = 	"user_social_id = ".$user_social_id;
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			//If the user is not registered in yapnaa, save details and login
+			if(empty($arr_log_in )){
+				
+				date_default_timezone_set('Asia/Kolkata');
+				$user_address 				= 	$_POST['user_address'];
+				$user_phone 				= 	isset($_POST['user_phone'])?$_POST['user_phone']:"";
+				
+				$user_name           		= 	isset($_POST['user_name'])?$_POST['user_name']:"";
+				$user_social_id           	= 	isset($_POST['user_social_id'])?$_POST['user_social_id']:"";
+				$user_profile_pic           = 	isset($_POST['user_profile_pic'])?$_POST['user_profile_pic']:"";
+				$user_gender          		 = 	isset($_POST['user_gender'])?$_POST['user_gender']:"";
+				$user_email_id          		 = 	isset($_POST['user_email_id'])?$_POST['user_email_id']:"";
+				$user_city           		= 	$_POST['user_city'];
+				// $user_pin		    		= 	($_POST["user_pin"]);
+				//$user_pin		    		= 	md5($_POST["user_pin"]);
+				$user_area_pincode			= 	$_POST["user_area_pincode"];
+				$user_gcm_id      			= 	$_POST['user_gcm_id'];
+				$user_login_device		= 	$_POST['user_login_device_type'];
+				$app_key	      			= 	$_POST['app_key'];
+				$app_secret      			= 	$_POST['app_secret'];
+				$user_created_date 			= 	date('Y-m-d h:i:s');
+				$user_last_login 			= 	date('Y-m-d h:i:s');
+				$user_reg_verification_otp	= rand(1000,9999);
+				$user_token					= rand(1000,9999999);
+				
+				
+				$fields_reg	=	array(
+									"user_login_device"	=>		$user_login_device,	
+									"user_name"					=>		$user_name,	
+									"user_address"				=>		$user_address,	
+									"user_phone"				=>		$user_phone,	
+									"user_email_id"				=>		$user_email_id,	
+									"user_social_id"			=>		$user_social_id,	
+									"user_profile_pic"			=>		$user_profile_pic,	
+									"user_gender"				=>		$user_gender,	
+									"user_city"					=>		$user_city,	
+									"user_area_pincode"			=>		$user_area_pincode,	
+									"user_gcm_id"				=>		$user_gcm_id,	
+									"user_address"				=>		$user_address,	
+									"user_created_date"			=>		$user_created_date,	
+									"user_last_login"			=>		$user_last_login,	
+									"user_token"				=>		$user_token,	
+				
+								);
+				
+				$table_log_in = $table['tb1'];
+				$arr_result   = $this->model->insert($table_log_in, $fields_reg);
+				
+				$condition_log_in				 = 	"user_id = ".$arr_result;
+				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				
+				$arr =  array('user_details'=>$arr_log_in[0],'msg'=>'success');
+				return $arr;
+			}
+			else{
+				
+				$arr =  array('user_details'=>$arr_log_in[0],'msg'=>'success');
+				return $arr;
+			}
+		}
+		else{
+			$keys=array("abcdefghijklmnopqrstuvwxyz", "123456abcdefghijklmnopqrstuvwxyz");
+			
+			$user_phone			           	 = 	$_POST['user_login_mobile'];
+			// $user_pin			         = 	($_POST['user_login_pin']);
+			$user_pin			        	 = 	md5($_POST['user_login_pin']);
+			$user_gcm			        	 =  $_POST['user_login_gcm'];
+			$app_key	      				 = 	$_POST['login_app_key'];
+			$app_secret      				 = 	$_POST['login_app_secret'];
+			$user_login_device_type			 = 	$_POST['user_login_device_type'];
+			
+			$condition_log_in				 = 	"user_phone = ".$user_phone;
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			//print_r($arr_log_in);exit;
+			if(!empty($arr_log_in) && $arr_log_in[0]['user_reg_verification_otp']>0   ){
+				//$arr_log_in['otp'] = $arr_log_in[0]['user_reg_verification_otp'];
+				$arr =  array('otp'=>$arr_log_in[0]['user_reg_verification_otp'],'user_details'=>$arr_log_in,'msg'=>'OTP verification pending');
+				return $arr;
+				//return "verification pending";
+			}
+			
+			$condition_log_in				 = 	'user_pin    = ' . "'" . $user_pin . "'" . ' and user_phone = ' . "'" . $user_phone . "'" . ' and user_status = 1';
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			//print_r($arr_log_in);exit;
+			
+			if(($keys[0]==$app_key) && ($keys[1]==$app_secret)){
+				$res	=	1;
+			}else{
+				$res	=	0;
+			}
+			
+			
+			
+			if($arr_log_in){
+				date_default_timezone_set('Asia/Kolkata');
+				$user_last_login 			= 	date('Y-m-d h:i:s');
+				$user_token					=   rand(1000,9999999);
+				
+				$set_array     = array(
+					'user_gcm_id' 				=> $user_gcm,
+					'user_token' 				=> $user_token,
+					'user_last_login' 			=> $user_last_login,
+					'user_login_device' 		=> $user_login_device_type, 
+				);
+				$condition     					=	'user_phone = ' . "'" . $user_phone . "'";
+				$arr_log_in1   					 = 	$this->model->update($table_log_in, $set_array, $condition);
+				$fields_log_in   				 = 	'*';
+				$condition_log_in				 = 	'user_pin    = ' . "'" . $user_pin . "'" . ' and user_phone = ' . "'" . $user_phone . "'" . ' and user_status = 1';
+				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				//print_r($arr_log_in);exit;
+				$arr =  array('user_details'=>$arr_log_in,'msg'=>'success');
+				return $arr;
+			}
+			else{
+				return $arr_log_in="";
+			}
+		}
+        
 		
     }
 	
@@ -453,10 +666,12 @@ class users
 		if($res==1){
             $set_array     = array(
                 'user_forgot_otp' => 0,
+                'user_reg_verification_otp' => 0,
+                'user_status' => 1
             );
             $condition     = 'user_forgot_otp = ' . "'" . $forgot_otp . "'";
             $arr_log_in1    = $this->model->update($table_log_in, $set_array, $condition);
-			return $arr_log_in;
+			return array("data"=>$arr_log_in,"msg"=>"success");
 			
 		}
 		else{
@@ -750,13 +965,139 @@ class users
 	
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
-
-	 
+	
+	//Check if user has added that product already
+	function user_product_check()
+    {
+    	$file = fopen("/var/www/html/Movtest.txt","w");
+		fwrite($file,json_encode($_REQUEST));
+		fclose($file);
+    	/*
+    	echo 'hello';
+    	$to= 'hema.jjbytes@gmail.com';
+				$subject		=	'Registration22.';
+				$message        =	'content222';
+	            mail($to, $subject, $message);
+    	die();
+    	*/
+        $table           				 = 	table();
+		date_default_timezone_set('Asia/Kolkata');
+        $add_product_user_token_key   	 = 	$_POST['user_token_key'];
+        $add_product_user_id		   	 = 	$_POST['user_id'];
+        $add_product_product_id		  	 = 	$_POST['product_id'];
+		
+		$table_log_in    				 = 	$table['tb1'];
+        $fields_log_in   				 = 	'*';
+        // $condition_log_in				 = 	'user_token    = '.$add_product_user_token_key;
+        $condition_log_in				 =  "user_token    =$add_product_user_token_key and user_id= $add_product_user_id";
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		
+		
+		$device_type				     =	$arr_log_in[0]['user_login_device']; 
+		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
+		
+		
+		if($arr_log_in){
+			
+			$table_log_in    				 = 	$table['tb4'];
+			$fields_log_in   				 = 	'*';
+			$condition_log_in				 =  "up_product_id    =$add_product_product_id and up_user_id= $add_product_user_id";
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			
+			if($arr_log_in){
+				return $arr_result1=2;
+			}
+			else{
+				return $arr_result1=3;
+			}
+			
+		}else{
+			return $arr_log_in=1;
+		}
+    }
+	
+	
+	//Raise an SR without adding a product
+	function user_sr_product()
+    {
+    	$file = fopen("/var/www/html/Movtest.txt","w");
+		fwrite($file,json_encode($_REQUEST));
+		fclose($file);
+    	
+        $table           				 = 	table();
+		date_default_timezone_set('Asia/Kolkata');
+        $sr_user_token_key   	 = 	$_POST['sr_user_token_key'];
+        $sr_user_id		   		 = 	$_POST['sr_user_id'];
+        $sr_product_id		  	 = 	$_POST['sr_product_id'];
+        $prod_added		  	 	= 	$_POST['sr_prod_added'];
+        $sr_issue		  	 	= 	$_POST['sr_issue'];
+		
+		$table_log_in    				 = 	$table['tb1'];
+        $fields_log_in   				 = 	'*';
+        // $condition_log_in				 = 	'user_token    = '.$add_product_user_token_key;
+        $condition_log_in				 =  "user_token    =$sr_user_token_key and user_id= $sr_user_id";
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		
+		
+		$device_type				     =	$arr_log_in[0]['user_login_device']; 
+		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
+		
+		
+		if($arr_log_in){
+			if($prod_added>0){
+				$table_log_in    				 = 	$table['tb4'];
+				$fields_log_in   				 = 	'*';
+				$condition_log_in				 =  "up_product_id    =$sr_product_id and up_user_id= $sr_user_id";
+				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				$sr_product_id = $arr_log_in[0]['up_product_id'];  
+			}
+			else{
+				$fields_reg = array(
+									'up_user_id' 						=> $sr_user_id,
+									'up_product_id'						=> $sr_product_id,
+									'up_dealer_name'					=> "",
+									'up_serial_no' 						=> "",
+									'up_created_date' 					=> date('Y-m-d h:i:s'),
+									'up_serial_no_image'				=> ""
+								);
+								
+				$table_log_in = $table['tb4']; 
+				$new_product_id   = $this->model->insert($table_log_in, $fields_reg);
+				
+			}
+			//raise service request
+			
+			$srm_c_date 					 = 	date('Y-m-d H:i:s');
+			$fields_reg = array(
+								'srm_user_id' 				=> $sr_user_id,  
+								'srm_product_id'			=> $sr_product_id,
+								'srm_user_notes'			=> $sr_issue,
+								'srm_c_date' 				=> $srm_c_date,
+								'srm_user_generated_date'	=> $srm_c_date,
+								'srm_installation'			=> "",
+								'srm_installation_date'		=> "",
+							); 
+			 //print_r($fields_reg);exit;
+			$table_log_in = $table['tb8'];
+			$sr_product_id   = $this->model->insert($table_log_in, $fields_reg);
+				
+			if($sr_product_id){
+				return $arr_result1=3;
+			}
+			else{
+				return $arr_result1=2;
+			}
+			
+		}else{
+			return $arr_log_in=1;
+		}
+    } 
 	 
 	 
 	//Adding user product
 	function user_add_product()
     {
+    	
         $table           				 = 	table();
 		date_default_timezone_set('Asia/Kolkata');
         $add_product_user_token_key   	 = 	$_POST['add_product_user_token_key'];
@@ -779,181 +1120,72 @@ class users
 		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
 		
 		
-		
-		// print_r($arr_log_in);exit;
 		if($arr_log_in){
-			$table_log_in    				 = 	$table['tb4'];
-			$fields_log_in   				 = 	'*';
-			$condition_log_in				 = 	"up_serial_no    = '$add_product_user_serial_no'";
-			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-			// print_r($arr_log_in);exit;
-			if($arr_log_in){
-				// $arr_result[]		=	"This serial number already exist";
-				return $arr_result=2;
-			}else{
-				$headers = array("Content-Type:multipart/form-data"); 
-				$url='http://www.automobi.in/movilo/brand-api/mobi_index.php?page=user&serial_no='.$add_product_user_serial_no;
-				$ch = curl_init();
-			    curl_setopt($ch, CURLOPT_URL, $url);
-			    curl_setopt($ch, CURLOPT_POST, true);
-			    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			    curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
-			    curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);	
-			    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			    // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-			    $result = curl_exec($ch);	
-				// $info = curl_getinfo($ch);
-				// print_r($info);
-			    if ($result === FALSE) {
-				   die('Curl failed: ' . curl_error($ch));
-				}
-				curl_close($ch);
-				// var_dump(curl_getinfo($ch,CURLINFO_HEADER_OUT));
-				// print_r($result);
+			
+			
+					 $fields_reg = array(
+									'up_user_id' 						=> $add_product_user_id,
+									'up_product_id'						=> $add_product_product_id,
+									'up_dealer_name'					=> $add_product_user_dealer_name,
+									'up_serial_no' 						=> $add_product_user_serial_no,
+									'up_created_date' 					=> date('Y-m-d h:i:s'),
+									'up_serial_no_image'				=> $add_icon
+								);
+								
+				$table_log_in = $table['tb4'];
+				$arr_result1   = $this->model->insert($table_log_in, $fields_reg);
+				$_POST['user_product_id'] = $arr_result1;
 				
-				
-				
-				
-				if(!empty($_FILES['serial_no_img']['tmp_name']))
-			{ 
-				// echo "hi";exit;
-				$filename = basename($_FILES['serial_no_img']['name']);
-				$ext = substr($filename, strrpos($filename, '.') + 1);
-				$now = new DateTime();
-				$times = $now->getTimestamp();
-				$target = "./serial-no-images/"; 
-				//Determine the path to which we want to save this file
-				$newname = $target.$times.'-'.$filename;
-				$newname1 = $times.'-'.$filename;
-				// echo $newname;exit;
-				//Check if the file with the same name is already exists on the server
-					if (!file_exists($newname)) {
-					//Attempt to move the uploaded file to it's new place
-						if ((move_uploaded_file($_FILES['serial_no_img']['tmp_name'],$newname))) {
-							 $add_icon=$newname1;
-						}else{
-								$message	=	"Could not move the file!";
+				//print_r($arr_result1);die;
+				if($arr_result1){
+					if( $add_product_installation=='Yes'){
+						$srm_c_date 					 = 	date('Y-m-d H:i:s');
+						$fields_reg = array(
+								'srm_user_id' 				=> $add_product_user_id,  
+								'srm_product_id'			=> $add_product_product_id,
+								'srm_user_notes'			=> 'Requested for insatllaion',
+								'srm_c_date' 				=> $srm_c_date,
+								'srm_user_generated_date'	=> $srm_c_date,
+								'srm_installation'			=> $add_product_installation,
+								'srm_installation_date'		=> $add_product_instal_date,
+							); 
+							// print_r($fields_reg);exit;
+						$table_log_in = $table['tb8'];
+						$arr_result   = $this->model->insert($table_log_in, $fields_reg);
+						  
+						if($device_type=='Android'){    
+							$pushMessage['SRM_id']			 = 	$arr_result;
+							$pushMessage['message']			 = 	"Service request for insatllation";
+								if (isset($user_gcm_id) && isset($pushMessage)) {		
+								$gcmRegIds  = array($user_gcm_id); 
+								$message = array("msg" => $pushMessage);	
+								$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
+								// echo'<pre>';print_r($message); 
+								}
+							return $result;
 						}
-					}
-				
-			}
-			
-				
-				if($result!='0'){
-						$new_arr = json_decode($result);
-						foreach ($new_arr as $trend)  
-						{         
-							  $bp_serial_no					=	 $trend->bp_serial_no;    
-							  $bp_id_invoice_copy			=	 $trend->bp_id_invoice_copy;    
-							  $bp_id_invoice_no				=	 $trend->bp_id_invoice_no;    
-							  $bp_id_manual					=	 $trend->bp_id_manual;    
-							  $bp_id_guarantee_document		=	 $trend->bp_id_guarantee_document;    
-							  $bp_id_warranty_document		=	 $trend->bp_id_warranty_document;    
-							  $bp_id_user_email				=	 $trend->bp_id_user_email;    
-							  $bp_id_user_address			=	 $trend->bp_id_user_address;    
-							  $bp_id_purchase_date			=	 $trend->bp_id_purchase_date;    
-							  $bp_id_purchase_city			=	 $trend->bp_id_purchase_city;    
-							  $bp_id_purchase_pincode		=	 $trend->bp_id_purchase_pincode;    
-							  $bp_id_retailer_name			=	 $trend->bp_id_retailer_name;    
-							  $bp_id_retailer_code			=	 $trend->bp_id_retailer_code;    
-							  $bp_id_retailer_number		=	 $trend->bp_id_retailer_number;    
-							  $bp_id_warranty_start_date	=	 $trend->bp_id_warranty_start_date;    
-							  $bp_id_warranty_end_date		=	 $trend->bp_id_warranty_end_date;    
-							  $bp_id_guarantee_start_date	=	 $trend->bp_id_guarantee_start_date;    
-							  $bp_id_image					=	 $trend->bp_id_image;    
-							  $bp_id_guarantee_end_date		=	 $trend->bp_id_guarantee_end_date;    
-						} 
+	 
 						
 						
-						 date_default_timezone_set('Asia/Kolkata');
-						  $fields_reg = array(
-								'up_user_id' 						=> $add_product_user_id,
-								'up_product_id'						=> $add_product_product_id,
-								'up_dealer_name'					=> $add_product_user_dealer_name,
-								'up_serial_no' 						=> $bp_serial_no,
-								'up_owner_invoice_copy' 			=> $bp_id_invoice_copy,
-								'up_owner_invoice_no' 				=> $bp_id_invoice_no,
-								'up_owner_manual' 					=> $bp_id_manual,
-								'up_owner_guarantee_document' 		=> $bp_id_guarantee_document,
-								'up_owner_warranty_document' 		=> $bp_id_warranty_document,
-								'up_owner_email' 					=> $bp_id_user_email,
-								'up_owner_address' 					=> $bp_id_user_address,
-								'up_owner_purchase_date' 			=> $bp_id_purchase_date,
-								'up_owner_purchase_city' 			=> $bp_id_purchase_city,
-								'up_owner_purchase_pincode'			=> $bp_id_purchase_pincode,
-								'up_owner_retailer_name' 			=> $bp_id_retailer_name,
-								'up_owner_retailer_code' 			=> $bp_id_retailer_code,
-								'up_owner_retailer_number' 			=> $bp_id_retailer_number,
-								'up_owner_warranty_start_date' 		=> $bp_id_warranty_start_date,
-								'up_owner_warranty_end_date' 		=> $bp_id_warranty_end_date,
-								'up_owner_guarantee_start_date' 	=> $bp_id_guarantee_start_date,
-								'up_owner_guarantee_end_date' 		=> $bp_id_guarantee_end_date,
-								'up_owner_image' 					=> $bp_id_image,
-								'up_created_date' 					=> date('Y-m-d h:i:s'),
-								'up_serial_no_image'				=> $add_icon
-							);
-					
-					// print_r($fields_reg);exit;
-			}else{
-				 $fields_reg = array(
-								'up_user_id' 						=> $add_product_user_id,
-								'up_product_id'						=> $add_product_product_id,
-								'up_dealer_name'					=> $add_product_user_dealer_name,
-								'up_serial_no' 						=> $add_product_user_serial_no,
-								'up_created_date' 					=> date('Y-m-d h:i:s'),
-								'up_serial_no_image'				=> $add_icon
-							);
-			}
-			// print_r($fields_reg);exit;
-            $table_log_in = $table['tb4'];
-            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
-			if($arr_result){
-				if( $add_product_installation=='Yes'){
-					$srm_c_date 					 = 	date('Y-m-d H:i:s');
-					$fields_reg = array(
-							'srm_user_id' 				=> $add_product_user_id,  
-							'srm_product_id'			=> $add_product_product_id,
-							'srm_user_notes'			=> 'Requested for insatllaion',
-							'srm_c_date' 				=> $srm_c_date,
-							'srm_user_generated_date'	=> $srm_c_date,
-							'srm_installation'			=> $add_product_installation,
-							'srm_installation_date'		=> $add_product_instal_date,
-						); 
-						// print_r($fields_reg);exit;
-					$table_log_in = $table['tb8'];
-					$arr_result   = $this->model->insert($table_log_in, $fields_reg);
-					  
-					if($device_type=='Android'){    
-						$pushMessage['SRM_id']			 = 	$arr_result;
-						$pushMessage['message']			 = 	"Service request for insatllation";
-							if (isset($user_gcm_id) && isset($pushMessage)) {		
-							$gcmRegIds  = array($user_gcm_id); 
-							$message = array("msg" => $pushMessage);	
-							$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
-							// echo'<pre>';print_r($message); 
-							}
-						return $result;
+						if($device_type=='IOS'){ 
+							return $result;
+						}	
+						
+						
+						
+						
 					}
- 
-					
-					
-					if($device_type=='IOS'){ 
-						return $result;
-					}	
-					
-					
-					
-					
-				}
 			}
-			// print_r($arr_result);exit;
-			return $arr_result;
 			
-			}
+			return $arr_result1=3;
+			
+			
 		}else{
 			return $arr_log_in=1;
 		}
     }
+	
+
 	/*********************************************************************************************************************************/	
 
 	function upload_digilocker(){
@@ -968,7 +1200,9 @@ class users
         $dl_product_id				  	 = 	$_POST['dl_product_id'];
         $dl_updated_time				 = 	 date('Y-m-d h:i:s');
        
-		
+		/*print_r($_FILES);
+		echo $dl_document;
+		die;*/
 	   
 		$table_log_in    				 = 	$table['tb1'];
         $fields_log_in   				 = 	'*';
@@ -1019,7 +1253,7 @@ class users
 				$ext = substr($filename, strrpos($filename, '.') + 1);
 				$now = new DateTime();
 				$times = $now->getTimestamp();
-				$target = "/var/www/html/testing/digilocker_images/"; 
+				$target = "/var/www/html/movilo/digilocker_images/"; 
 				//Determine the path to which we want to save this file
 				$newname = $target.$times.'-'.$filename;
 				$newname1 = $times.'-'.$filename;
@@ -1038,6 +1272,9 @@ class users
 					else return "error";
 			}
 	}
+/*----------------------------------------------------------------------------------------------------------------------*/		
+
+	
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
 
@@ -1067,11 +1304,7 @@ class users
     }
 	
 	
-	
-	
 		
-/*----------------------------------------------------------------------------------------------------------------------*/		
-	
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
 
@@ -1106,6 +1339,11 @@ class users
 	
 		
 /*----------------------------------------------------------------------------------------------------------------------*/		
+	
+		
+/*----------------------------------------------------------------------------------------------------------------------*/		
+	
+
 	
 	//feching User Particular Product List
 	function user_particular_product_list()
@@ -1257,7 +1495,7 @@ class users
 	// User SRM list
 	function user_srm_list()
     {
-        $table           				 = 	table();
+		$table           				 = 	table();
         $user_srm_user_token_key	     = 	$_POST['user_srm_list_user_token_key'];
         $user_srm__list_user_id			 = 	$_POST['user_srm__list_user_id']; 
 		
@@ -1265,13 +1503,13 @@ class users
         $fields_log_in   				 = 	'*';
         $condition_log_in				 = 	"user_token    =$user_srm_user_token_key and user_id=  $user_srm__list_user_id";
         $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-		// print_r($arr_log_in );exit;
+		
 		if($arr_log_in){
 			$table		    				 = 	$table['tb8'];
 			$fields							 =  '*';
 			$condition		 				 = 	'srm_user_id    ='.$user_srm__list_user_id;
 			$arr_log_in       				 = 	$this->model->user_srm_list($table, $fields, $condition);
-			// print_r($arr_log_in );
+			//print_r($arr_log_in );die;
 			if($arr_log_in ){
 				return $arr_log_in;
 			}else{
@@ -1717,6 +1955,8 @@ class users
         $up_p_address				   	 	= 	$_POST['up_p_address'];
         $up_p_pincode				   		= 	$_POST['up_p_pincode']; 
         $up_p_name					   		= 	$_POST['up_p_name']; 
+        $up_p_mobile					   	= 	$_POST['up_p_mobile']; 
+        $up_p_email					   		= 	$_POST['up_p_email']; 
 		
 		$table_log_in    				    = 	$table['tb1'];
         $fields_log_in   				    = 	'*'; 
@@ -1729,7 +1969,9 @@ class users
 				 $fields_reg = array( 
 								'user_address'						=> $up_p_address,
 								'user_area_pincode'					=> $up_p_pincode,
-								'user_name' 						=> $up_p_name
+								'user_name' 						=> $up_p_name,
+								'user_phone' 						=> $up_p_mobile,
+								'user_email_id' 					=> $up_p_email
 							);
 				
 			// print_r($fields_reg);exit;
@@ -2044,7 +2286,7 @@ class users
 							'user_gcm_id'						=> $gcm_user, 
 						);
 			
-		// print_r($fields_reg);exit; 
+		//print_r($fields_reg);exit; 
 		$condition     = 'user_id = ' . "'" . $up_p_user_id . "'";
 		$arr_log_in    = $this->model->update($table_log_in, $fields_reg, $condition); 
 		return $arr_log_in; 

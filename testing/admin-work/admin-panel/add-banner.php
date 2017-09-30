@@ -61,6 +61,27 @@ if(isset($_SESSION['admin_email_id']))
 	}
 
 
+	//Edit
+	if(isset($_POST['edit']))
+	{	
+
+		//echo '<table>';
+		//echo '<tr>';
+		//echo '<td>'.$_POST['banner_id'].'</td>';
+		//echo '</tr>';
+		//echo '</table>';
+		 $banner_id = $_POST['id'];
+        echo '<script>window.location.assign("add-edit.php?bann_id='.$banner_id.'")</script>';
+
+        /*
+		$activate_main_category	=	$control->edit_banner();
+		// print_r($update_main_category);exit;
+		if(!empty($activate_main_category)){
+			echo '<script>alert("Banner Updated successfully.")</script>';
+			echo '<script>window.location.assign("add-banner.php")</script>';
+		} 
+		*/
+	}
 
 	//delete
 	if(isset($_POST['delete']))
@@ -142,7 +163,7 @@ if(isset($_SESSION['admin_email_id']))
 																<ul class="nav nav-tabs">
 																	<li class="active"><a href="#tab-1" data-toggle="tab">Banner For Home Screen </a></li>
 																	<li><a href="#tab-3" data-toggle="tab">Banner For AMC Screen</a></li>
-																	<li class=""><a href="#tab-2" data-toggle="tab">Add Product Category  </a></li>
+																	<li class=""><a href="#tab-2" data-toggle="tab">Add Banners  </a></li>
 																</ul>
 															</div>
 														</div>
@@ -162,6 +183,7 @@ if(isset($_SESSION['admin_email_id']))
 																			<th width="25%">Img</th>
 																		<!--	<th width="15%">Edit</th>-->
 																			<th width="25%">Action</th>
+																			<th width="15%">Edit</th>
 																			<th width="15%">Delete</th>
 																		  </tr>
 																		</thead>
@@ -216,7 +238,12 @@ if(isset($_SESSION['admin_email_id']))
 																					</form>
 																				</td><?php } ?> 
 																				 
-																				 
+																				<td>
+																					<form id="form" method="POST">
+																						<input type="hidden" class="form-control" value="<?php echo $get_banner_list[$i]['banner_id']?>" name="id" required>	
+																						<button type="submit" name="edit" class="btn">Edit</button> 
+																					</form>
+																				</td> 
 																				<td>
 																					<form id="form" method="POST">
 																						<input type="hidden" class="form-control" value="<?php echo $get_banner_list[$i]['banner_id']?>" name="id" required>	
@@ -367,6 +394,13 @@ if(isset($_SESSION['admin_email_id']))
 																							<option value="1">Application</option>
 																							<option value="2">Website</option> 
 																						</select> 
+																					</div>
+																				</div>
+																				 	
+																				<div class="form-group">
+																					<label class="col-sm-2 control-label">Banner URL:</label>
+																					<div class="col-sm-10">
+																							<input type="url" class="form-control" name="banner_url" placeholder="Enter Banner URL" data-required="false">    
 																					</div>
 																				</div>
 																				

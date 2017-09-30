@@ -16,7 +16,8 @@
 					'tb10'	=>	'amc_requests',
 					'tb11'	=>	'banner_images',
 					'tb12'	=>	'amc_price_list',
-					'tb13'	=>	'apk_version',
+					'tb13'	=>	'apk_version'
+					
 					);
 		return $tb;
 

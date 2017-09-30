@@ -2,6 +2,17 @@
 
     <!-- Mainly scripts -->
     <script src="js/jquery-2.1.1.js"></script>
+	
+	
+<script>	
+	$(document).ready(function(){
+		$(".template").click(function(){
+			para_id = $(this).attr("id");
+			$("#desc").val($("#p"+para_id).html());
+		});
+	});
+</script>  
+	
     <script src="js/bootstrap.min.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>

@@ -19,7 +19,19 @@ class model {
 			}
 		return $ret;
 	}
-	
+		/* To run custom data query*/
+	function data_query($sql)
+	{
+		//$sql		=	"SELECT * FROM `users_products` up, zerob_consol1 zc, users u WHERE `up_product_id` =1 AND u.user_id = 2";
+		//echo $sql;exit;
+		$qry	=	connection()->query($sql);	//print_r($qry);exit;
+		$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+		//echo json_encode($ret);exit;
+		return $ret;
+	}
 		
 	/* To get data based on conditions and specified fields with Order By*/
 	function get_details_orderby($table,$fields,$orderby)
@@ -97,7 +109,7 @@ class model {
 		//$table		=	"` $table`";
 		$sql="UPDATE $table SET $set WHERE $condition"; 
 		// echo $sql;exit;
-		unset($set);
+		//unset($set);
 		$qry	=	connection()->query($sql);
 		return $qry;
 		
@@ -107,18 +119,22 @@ class model {
 	
 	function admin_login_val($admin_email_id,$admin_password)
 	{
-		$sql	=	"
+		/*$sql	=	"
 		SELECT *
 		FROM admin_login
-		WHERE admin_email_id='$admin_email_id' AND admin_password='$admin_password'";
-		// echo $sql;exit;
+		WHERE admin_email_id='$admin_email_id' AND admin_password='$admin_password'";*/
+				$sql	="SELECT al.*,ar.ar_role_name 
+		FROM admin_login al left join admin_role ar on ar.ar_id=al.admin_role_id
+		WHERE al.admin_email_id =  '$admin_email_id'
+		AND al.admin_password =  '$admin_password'";
+		//echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		if(!empty($qry)){
 			while($row=mysqli_fetch_assoc($qry)){
 					$ret[]=$row;
 				}
-			//	print_r($ret);
+				//print_r($ret);
 			return $ret;
 		}
 	}
@@ -137,7 +153,7 @@ class model {
 		$values		=	"'".implode("','",$values)."'";	
 		//$table		=	"` $table`";
 		$sql		=	"INSERT INTO $table ($fieldlist) VALUES ($values)";	
-		// echo $sql;exit;
+		//echo $sql;exit;
 		$con =	connection();
 		$result	= mysqli_query($con,$sql) or die(mysqli_error($con));
 		$id = mysqli_insert_id($con);
@@ -467,8 +483,10 @@ class model {
 	
 	
 	// Get Zerob Customer List
-	function get_zerob_list($param,$filter,$fromDate,$toDate )
+	function get_zerob_list($param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
 	{	
+	//echo $amc_fromDate;
+	
 			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
 		
 		$condition = "";
@@ -477,22 +495,33 @@ class model {
 		}
 		
 		if($fromDate != null){
-			$condition = " and last_called >= $fromDate";
+			$condition = " and last_called >= '$fromDate'";
 		}
 		if($toDate != null){
-			$condition = " and last_called <= $toDate";
+			$condition = " and last_called <= '$toDate'";
 		}
 		if($fromDate != null && $toDate != null){
 			$condition = " and (last_called between '$fromDate' and '$toDate')";
 		}
-		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition;
+		if($amc_fromDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
+		}
+		if($amc_toDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <= '$amc_toDate'";
+		}
+		if($amc_fromDate != null && $amc_toDate != null){
+			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
+		}
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." order by last_called asc";
+		
+		
 		
 		if($filter == 7){
 			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 		}
 				
-				 
-		// echo $sql;exit;
+		//echo 	$fromDate."==".$toDate."<br>"	 ;
+		//echo $sql;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){

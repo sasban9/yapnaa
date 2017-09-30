@@ -7,7 +7,11 @@ if(isset($_SESSION['admin_email_id']))
 	 $admin_email_id	= $_SESSION['admin_email_id'];
 	 $admin_name		= $_SESSION['admin_name'];
 	 $admin_last_login	= $_SESSION['admin_last_login'];
+	 $ar_role_name  	= $_SESSION['ar_role_name'];
+	 $admin_phone_no  	= $_SESSION['admin_phone_no'];
+	 $ar_id  	        = $_SESSION['ar_id'];
 	 
+	 //echo  $ar_id  	= $_SESSION['ar_id'];
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
 	 
@@ -50,13 +54,13 @@ if(isset($_SESSION['admin_email_id']))
                 <div class="row  border-bottom white-bg dashboard-header">
 
                      <div class="col-sm-12">
-                        <h2>Welcome Admin </h2>
+                        <h2>Welcome <?php echo ucfirst($admin_name);?> </h2>
 						<div class="statistic-box">
 							<p>
 								Admin Name: <?php echo $admin_email_id;?>
 							</p>
 							<p>
-								Phone No: <?php echo $admin_name;?>
+								Phone No: <?php echo $admin_phone_no;?>
 							</p>
 							<p>
 							   Last Login: <?php echo $admin_last_login;?>

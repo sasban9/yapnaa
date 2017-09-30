@@ -3420,6 +3420,8 @@ table.table-mail tr td {
 .ibox .open > .dropdown-menu {
   left: auto;
   right: 0;
+  overflow: scroll;
+    height: 400px;
 }
 /* BACKGROUNDS */
 .gray-bg {

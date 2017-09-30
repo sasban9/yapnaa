@@ -32,10 +32,14 @@ class model {
 	
 	function admin_login_val($admin_email_id,$admin_password)
 	{
-		$sql	=	"
+		/* $sql	=	"
 		SELECT *
 		FROM admin_login
-		WHERE admin_email_id='$admin_email_id' AND admin_password='$admin_password'";
+		WHERE admin_email_id='$admin_email_id' AND admin_password='$admin_password'"; */
+		$sql	="SELECT al.*,ar.ar_role_name,ar.ar_id 
+		FROM admin_login al left join admin_role ar on ar.ar_id=al.admin_role_id
+		WHERE al.admin_email_id =  '$admin_email_id'
+		AND al.admin_password =  '$admin_password'";
 		// echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();

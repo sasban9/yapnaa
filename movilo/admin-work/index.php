@@ -24,6 +24,8 @@ if(isset($_POST['admin_login']))
 		$_SESSION['admin_last_login']		=	$login_val[0]['admin_last_login'];
 		$_SESSION['admin_phone_no']			=	$login_val[0]['admin_phone_no'];
 		$_SESSION['admin_address']			=	$login_val[0]['admin_address'];
+		$_SESSION['ar_role_name']			=	$login_val[0]['ar_role_name'];
+		$_SESSION['ar_id']			        =	$login_val[0]['ar_id'];
 	}
 	
 	
@@ -39,6 +41,12 @@ if(isset($_POST['admin_login']))
 			case 2: 
 					echo  '<script>window.location.assign("admin-panel/index.php"); </script>';
 					break;
+			case 3: 
+					echo  '<script>window.location.assign("admin-panel/index.php"); </script>';
+					break;
+			case 4: 
+					echo  '<script>window.location.assign("admin-panel/index.php"); </script>';
+					//break;
 			// case 3: 
 					// $email=$_SESSION['email'];
 					// echo  '<script>window.location.assign("buy/index.php"); </script>';break;

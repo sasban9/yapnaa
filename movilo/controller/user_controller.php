@@ -412,63 +412,239 @@ function checkout_user_login(){
 	// User Login
 	function user_login()
     {
-        $keys=array("abcdefghijklmnopqrstuvwxyz", "123456abcdefghijklmnopqrstuvwxyz");
 		$table           				 = 	table();
-        $user_phone			           	 = 	$_POST['user_login_mobile'];
-        // $user_pin			         = 	($_POST['user_login_pin']);
-        $user_pin			        	 = 	md5($_POST['user_login_pin']);
-        $user_gcm			        	 =  $_POST['user_login_gcm'];
-        $app_key	      				 = 	$_POST['login_app_key'];
-        $app_secret      				 = 	$_POST['login_app_secret'];
-        $user_login_device_type			 = 	$_POST['user_login_device_type'];
-        $table_log_in    				 = 	$table['tb1'];
-        $fields_log_in   				 = 	'*';
-		
-        $condition_log_in				 = 	"user_phone = ".$user_phone;
-		$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-		//print_r($arr_log_in);exit;
-		if(!empty($arr_log_in) && $arr_log_in[0]['user_reg_verification_otp']>0   ){
-			//$arr_log_in['otp'] = $arr_log_in[0]['user_reg_verification_otp'];
-			$arr =  array('otp'=>$arr_log_in[0]['user_reg_verification_otp'],'user_details'=>$arr_log_in,'msg'=>'OTP verification pending');
-			return $arr;
-			//return "verification pending";
-		}
-		
-		$condition_log_in				 = 	'user_pin    = ' . "'" . $user_pin . "'" . ' and user_phone = ' . "'" . $user_phone . "'" . ' and user_status = 1';
-        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-		//print_r($arr_log_in);exit;
-		
-		if(($keys[0]==$app_key) && ($keys[1]==$app_secret)){
-			$res	=	1;
-		}else{
-			$res	=	0;
-		}
-		
-		
-		
-		if($arr_log_in){
-			date_default_timezone_set('Asia/Kolkata');
-			$user_last_login 			= 	date('Y-m-d h:i:s');
-			$user_token					=   rand(1000,9999999);
+		//$table 					= table();
+		$table_log_in    				 = 	$table['tb1'];
+		$fields_log_in   				 = 	'*';
+		$user_social_id           	= 	isset($_POST['user_social_id'])?$_POST['user_social_id']:"";
+
+		//If social media login
+		if(isset($_POST["user_login_type"])> 0 && $_POST["user_login_type"] > 0){ 
+			//Check if the user is already registered in yapnaa
+			$condition_log_in				= 	"user_social_id = ".$user_social_id;
 			
-            $set_array     = array(
-                'user_gcm_id' 				=> $user_gcm,
-				'user_token' 				=> $user_token,
-                'user_last_login' 			=> $user_last_login,
-                'user_login_device' 		=> $user_login_device_type, 
-            );
-            $condition     					=	'user_phone = ' . "'" . $user_phone . "'";
-            $arr_log_in1   					 = 	$this->model->update($table_log_in, $set_array, $condition);
-			$fields_log_in   				 = 	'*';
+			if(isset($_POST['user_email_id']) && !empty($_POST['user_email_id'])){
+				$condition_log_in			= 	"user_social_id = ".$user_social_id." or user_email_id = '".$_POST['user_email_id']."'";
+				//echo $condition_log_in;die;
+			}
+			if(isset($_POST['user_phone']) && !empty($_POST['user_phone'])){
+				$condition_log_in			= 	"user_social_id = ".$user_social_id." or user_phone = ".$_POST['user_phone'];
+				//echo $condition_log_in;die;
+			}
+			
+			//echo $condition_log_in;die;
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			
+			//print_r($arr_log_in);die;
+		
+		
+				date_default_timezone_set('Asia/Kolkata');
+				$user_address 				= 	$_POST['user_address'];
+				$user_phone 				= 	isset($_POST['user_phone'])?$_POST['user_phone']:"";
+				
+				$user_name           		= 	isset($_POST['user_name'])?$_POST['user_name']:"";
+				$user_social_id           	= 	isset($_POST['user_social_id'])?$_POST['user_social_id']:"";
+				$user_profile_pic           = 	isset($_POST['user_profile_pic'])?$_POST['user_profile_pic']:"";
+				$user_gender          		 = 	isset($_POST['user_gender'])?$_POST['user_gender']:"";
+				$user_email_id          		 = 	isset($_POST['user_email_id'])?$_POST['user_email_id']:"";
+				$user_city           		= 	$_POST['user_city'];
+				// $user_pin		    		= 	($_POST["user_pin"]);
+				//$user_pin		    		= 	md5($_POST["user_pin"]);
+				$user_area_pincode			= 	$_POST["user_area_pincode"];
+				$user_gcm_id      			= 	$_POST['user_gcm_id'];
+				$user_login_device		= 	$_POST['user_login_device_type'];
+				$app_key	      			= 	$_POST['app_key'];
+				$app_secret      			= 	$_POST['app_secret'];
+				$user_created_date 			= 	date('Y-m-d h:i:s');
+				$user_last_login 			= 	date('Y-m-d h:i:s');
+				$user_reg_verification_otp	= rand(1000,9999);
+				$user_token					= rand(1000,9999999);
+				
+				
+				
+				
+				$fields_reg	=	array(
+									"user_login_device"	=>		$user_login_device,	
+									"user_name"					=>		$user_name,	
+									"user_address"				=>		$user_address,	
+									"user_phone"				=>		$user_phone,	
+									"user_email_id"				=>		$user_email_id,	
+									"user_social_id"			=>		$user_social_id,	
+									"user_profile_pic"			=>		$user_profile_pic,	
+									"user_gender"				=>		$user_gender,	
+									"user_city"					=>		$user_city,	
+									"user_area_pincode"			=>		$user_area_pincode,	
+									"user_gcm_id"				=>		$user_gcm_id,		
+									"user_created_date"			=>		$user_created_date,	
+									"user_last_login"			=>		$user_last_login,	
+									"user_login_type"			=>		$user_login_type,	
+									"user_status"				=>		1,	
+									"user_token"				=>		$user_token	
+				
+								);
+								
+			if(empty($arr_log_in )){
+				
+				//print_r($fields_reg);die;
+				$table_log_in = $table['tb1'];
+				$arr_result   = $this->model->insert($table_log_in, $fields_reg);
+				
+				$condition_log_in				 = 	"user_id = ".$arr_result;
+				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				
+							
+							
+						///E-Mail To User
+						$to 			= 	$user_email_id;
+						$subject		=	"Welcome to Yapnaa";
+						$message		=	'<html>
+												<body>
+													<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+														<p>Hi,<strong>' . $user_name . '</strong></p>
+														<span>Warm welcome from Yapnaa team. We are glad to have you on board.
+
+You could now connect with brand of your owned durables instantly.
+Please follow following simple step just once and be ready to receive all the benefits till product life. 
+Brand\'s authorized personal shall be at your door step. 
+
+- Tap add product icon on home screen. 
+- Provide 2 inputs; Brand Name and Product Model. 
+- Tap "submit"
+
+That\'s it. Yapnaa will take care of the rest. 
+
+Once product is registered, you could without any hassle request support, escalate unsolved matters to brand and provide feedback effortlessly.  
+
+Not just this, you could 
+
+  - Monitor warranty, 
+  - Look into service history without storing unnecessary paper, bills
+  - Keep track of scheduled service and 
+  - Get reminded well before warranty expiry date
+
+Digilocker,
+In addition, you are being given access to your own personalized digilocker to save important documents, bills and warranty cards. It can be accessed securely from anywhere whenever required.
+
+Please stay tuned to receive all the benefits and promotions on Yapnaa. 
+
+We anticipate you registered on Yapnaa to manage your products till life. Are you looking for all above or more?
+click here to let us know if you are looking for something more. 
+
+Yapnaa team will help you to take all necessary steps on preventive care, maintenance tips. 
+You could now comfortably extend warranty and maintenance contracts on Yapnaa to secure product and its performance. 
+
+We shall be glad to serve you to your complete satisfaction. Please share your experience and feedback or suggestions to improve ourselves.
+
+reach us at contactus@yapnaa.com or post your comments on yapnaa/facebook and twitter. 
+
+
+Warm regards
+yapnaa team </span>
+													</table>
+												</body>
+											</html>';
+				
+						
+						$headers1 		= 	"MIME-Version: 1.0" . "\r\n";
+								
+						$headers1 		.= 	"Content-type:text/html;charset=iso-8859-1" . "\r\n";
+						
+						$headers1 		.= 	"From:admin@yapnaa.com\r\n";
+						
+						$return	=	mail($to, $subject, $message, $headers1);
+						echo $return." - "; print_r($arr_log_in[0]);die;
+				$arr =  array('user_details'=>$arr_log_in[0],'msg'=>'success');
+				return $arr;
+			}
+			else{
+				//If already exists, then update data and return the data
+				if(!isset($_POST['user_name']) || empty($_POST['user_name'])){
+					unset($fields_reg['user_name']);
+				}
+				if(!isset($_POST['user_address']) || empty($_POST['user_address'])){
+					unset($fields_reg['user_address']);
+				}
+				if(!isset($_POST['user_email_id']) || empty($_POST['user_email_id'])){
+					unset($fields_reg['user_email_id']);
+				}
+				if(!isset($_POST['user_phone']) || empty($_POST['user_phone'])){
+					unset($fields_reg['user_phone']);
+				}
+				if(!isset($_POST['user_profile_pic']) || empty($_POST['user_profile_pic'])){
+					unset($fields_reg['user_profile_pic']);
+				}
+				if(!isset($_POST['user_area_pincode']) || empty($_POST['user_area_pincode'])){
+					unset($fields_reg['user_area_pincode']);
+				}
+				if(!isset($_POST['user_gender']) || empty($_POST['user_gender'])){
+					unset($fields_reg['user_gender']);
+				}
+				
+				$condition_log_in				= 	"user_id = ".$arr_log_in[0]["user_id"];
+				$update_result      	 		= 	$this->model->update('users',$fields_reg,$condition_log_in);
+				$arr_log_in      	 			= 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				$arr =  array('user_details'=>$arr_log_in[0],'msg'=>'success');
+				return $arr;
+			}
+		}
+		else{
+			$keys=array("abcdefghijklmnopqrstuvwxyz", "123456abcdefghijklmnopqrstuvwxyz");
+			
+			$user_phone			           	 = 	$_POST['user_login_mobile'];
+			// $user_pin			         = 	($_POST['user_login_pin']);
+			$user_pin			        	 = 	md5($_POST['user_login_pin']);
+			$user_gcm			        	 =  $_POST['user_login_gcm'];
+			$app_key	      				 = 	$_POST['login_app_key'];
+			$app_secret      				 = 	$_POST['login_app_secret'];
+			$user_login_device_type			 = 	$_POST['user_login_device_type'];
+			
+			$condition_log_in				 = 	"user_phone = ".$user_phone;
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			//print_r($arr_log_in);exit;
+			if(!empty($arr_log_in) && $arr_log_in[0]['user_reg_verification_otp']>0   ){
+				//$arr_log_in['otp'] = $arr_log_in[0]['user_reg_verification_otp'];
+				$arr =  array('otp'=>$arr_log_in[0]['user_reg_verification_otp'],'user_details'=>$arr_log_in,'msg'=>'OTP verification pending');
+				return $arr;
+				//return "verification pending";
+			}
+			
 			$condition_log_in				 = 	'user_pin    = ' . "'" . $user_pin . "'" . ' and user_phone = ' . "'" . $user_phone . "'" . ' and user_status = 1';
 			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
 			//print_r($arr_log_in);exit;
-			$arr =  array('user_details'=>$arr_log_in,'msg'=>'success');
-			return $arr;
+			
+			if(($keys[0]==$app_key) && ($keys[1]==$app_secret)){
+				$res	=	1;
+			}else{
+				$res	=	0;
+			}
+			
+			
+			
+			if($arr_log_in){
+				date_default_timezone_set('Asia/Kolkata');
+				$user_last_login 			= 	date('Y-m-d h:i:s');
+				$user_token					=   rand(1000,9999999);
+				
+				$set_array     = array(
+					'user_gcm_id' 				=> $user_gcm,
+					'user_token' 				=> $user_token,
+					'user_last_login' 			=> $user_last_login,
+					'user_login_device' 		=> $user_login_device_type, 
+				);
+				$condition     					=	'user_phone = ' . "'" . $user_phone . "'";
+				$arr_log_in1   					 = 	$this->model->update($table_log_in, $set_array, $condition);
+				$fields_log_in   				 = 	'*';
+				$condition_log_in				 = 	'user_pin    = ' . "'" . $user_pin . "'" . ' and user_phone = ' . "'" . $user_phone . "'" . ' and user_status = 1';
+				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				//print_r($arr_log_in);exit;
+				$arr =  array('user_details'=>$arr_log_in,'msg'=>'success');
+				return $arr;
+			}
+			else{
+				return $arr_log_in="";
+			}
 		}
-		else{
-			return $arr_log_in="";
-		}
+        
 		
     }
 	
@@ -1884,6 +2060,7 @@ function checkout_user_login(){
         $up_p_address				   	 	= 	$_POST['up_p_address'];
         $up_p_pincode				   		= 	$_POST['up_p_pincode']; 
         $up_p_name					   		= 	$_POST['up_p_name']; 
+        $up_p_mobile					   	= 	$_POST['up_p_mobile']; 
         $up_p_email					   		= 	$_POST['up_p_email']; 
 		
 		$table_log_in    				    = 	$table['tb1'];
@@ -1898,6 +2075,7 @@ function checkout_user_login(){
 								'user_address'						=> $up_p_address,
 								'user_area_pincode'					=> $up_p_pincode,
 								'user_name' 						=> $up_p_name,
+								'user_phone' 						=> $up_p_mobile,
 								'user_email_id' 					=> $up_p_email
 							);
 				

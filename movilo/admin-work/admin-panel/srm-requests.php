@@ -81,6 +81,85 @@ if(isset($_SESSION['admin_email_id']))
 		</div>	  
 
 
+		    
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+					<thead>
+					<tr>
+							<th>S.No</th>
+							<th>Email </th>
+							<th>Phone No</th>
+							<th>Installation</th>
+							<th>City</th>
+							<th>Pincode</th>
+							<th>Address</th>
+							<th>Product Name</th> 
+							<th>Brand Name</th> 
+							<th>View</th>
+							<th>Action</th>
+						
+						
+					</tr>
+					</thead>
+					<tbody>
+					<?php for($i=0;$i<count($srm_request_list);$i++){ ?>
+						<tr>
+							<td><a href="user-details.php?id=<?php echo $srm_request_list[$i]['user_id']; ?>" target="_blank"><?php echo  $i+1; ?></a></td>
+							<td><?php echo $srm_request_list[$i]['user_email_id']; ?></td>
+							<td><?php echo $srm_request_list[$i]['user_phone']; ?></td>
+							<td><?php if( $srm_request_list[$i]['srm_installation']){
+											echo $srm_request_list[$i]['srm_installation'].' ('.$srm_request_list[$i]['srm_installation_date'].')'; 
+										}else{
+											echo "No";
+										}?>
+							</td>
+							<td><?php echo $srm_request_list[$i]['user_city']; ?></td> 
+							<td><?php echo $srm_request_list[$i]['user_area_pincode']; ?></td>   
+							<td><?php echo $srm_request_list[$i]['user_address']; ?></td>   
+							<td><?php echo $srm_request_list[$i]['p_category_name']; ?></td>   
+							<td><a href="user-product-details.php?id=<?php echo $srm_request_list[$i]['srm_product_id']; ?>" target="_blank"><?php echo $srm_request_list[$i]['brand_name']; ?><a></td> 
+																				<td><a href="srm-request-details.php?id=<?php echo $srm_request_list[$i]['srm_id']; ?>">View Details</a></td>
+																				<td>
+																					<?php if($srm_request_list[$i]['srm_status']==0) {?>
+																							<span class="btn btn-primary"> Open</span>
+																					<?php }else if($srm_request_list[$i]['srm_status']==2){?>
+																							<span class="btn btn-info" >In Progress</span>
+																					<?php }else if($srm_request_list[$i]['srm_status']==3){?>
+																					<span class="btn btn-info" >Assignining Engineer </span>
+																					<?php }else if($srm_request_list[$i]['srm_status']==4){?>
+																					<span class="btn btn-success" >SE Assigned</span>
+																					<?php }else if($srm_request_list[$i]['srm_status']==5){?>
+																					<span class="btn btn-danger" >Service Cancelled</span>
+																					<?php }else if($srm_request_list[$i]['srm_status']==6){?>
+																					<span class="btn btn-warning" >Ticket Closed</span>
+																					<?php }else if($srm_request_list[$i]['srm_status']==7){?>
+																					<span class="btn btn-success" >Service Completed</span>
+																					<?php }  else{ ?>
+																						<span class="btn btn-success" >Completed</span>
+																					<?php }?>
+																				</td>
+																				
+						</tr>
+					<?php } ?>
+					</tbody>
+				</table>  
+
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+
+         
+		
+		
+		
+		
 
 		
 		<div class="row">
@@ -213,11 +292,22 @@ if(isset($_SESSION['admin_email_id']))
         </div>
                
 <?php include "footer.php";?>  
+ <script src="js/jquery-2.1.1.js"></script>
 <script type="text/javascript"
-src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript"
-src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+src="js/jquery-ui-1.10.4.min.js"></script>
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+ 
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+
+    <!-- Data Tables -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="js/plugins/dataTables/dataTables.responsive.js"></script>
+    <script src="js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+ 
 <script type="text/javascript">
 $(function() {
 	var availableTags = <?php include('get_user_list.php'); ?>;
@@ -239,6 +329,20 @@ else
 ?>
 <script>
   window.location.assign("../index.php")
+  
+        $(document).ready(function() {
+            $('.dataTables-example').dataTable({
+                responsive: true,
+                "tableTools": {
+                    "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+                }
+            });
+
+
+        });
+
+
+    </script>
 </script>
 <?php
 }

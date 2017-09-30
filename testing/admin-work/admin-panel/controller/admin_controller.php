@@ -10,11 +10,13 @@ class admin	{
 		global $obj_model;
 		global $tb;
 		$this->model=& $obj_model;
+
 	}
 	
 	
 	function admin_login_val($admin_email_id,$admin_password)
 	{
+		
 		$result	=	$this->model->admin_login_val($admin_email_id,$admin_password);
 		return $result;
 	}
@@ -249,9 +251,385 @@ class admin	{
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		return $result;
 	}
+	function updateStatus($id,$comment,$status){
+		date_default_timezone_set('Asia/Kolkata');
+		$today = date("Y-m-d H:i:s");
+		/*$user_table		    =	'users';
+		$user_condition 	=	"user_phone='".$number."'";	
+		$user_fields		=	'*';
+				
+		$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+		if($user_result1 !=NULL)
+		{*/
+		$set_array = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>$status,
+						'last_sms_sent'=>''
+					);
+					
+		$table		=	'zerob_consol1';
+		$condition 	=	"id='".$id."'";	
+	    $fields		=	'*';
+				
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);				
+		if($result1 !=NULL)
+		{
+		$result	=	$this->model->update($table,$set_array,$condition);
+		}
+		else
+		{
+			$set_array1 = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>$status,
+						'last_sms_sent'=>'',
+						'id'=>$id
+					);
+			$result	=	$this->model->insert($table,$set_array1);
+		}
+			if($result){
+				return 1;
+			 }
+			 else{
+				return 0;
+			}
+		/*}
+		else{
+			return 0;
+		}*/
+	}
+	function zerob_appointment_sms($id,$apptDate,$number,$comment){ 
+		date_default_timezone_set('Asia/Kolkata');
+		$today = date("Y-m-d H:i:s");
+		$message	=	"Thanks for confirming your appointment​ for AMC​ of ZeroB Water filter. We look forward to seeing you on ​".$apptDate;
+		$user_number = array($number);
+		//checck registed user
+		/*$user_table		    =	'users';
+		$user_condition 	=	"user_phone='".$number."'";	
+		$user_fields		=	'*';
+				
+		$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+		if($user_result1 !=NULL)
+		{*/
+		$set_array = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>3,
+						'last_sms_sent'=>$message
+					);
+					
+		$table		=	'zerob_consol1';
+		$condition 	=	"id='".$id."'";	
+		$fields		=	'*';
+				
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+		if($result1 !=NULL)
+		{
+		$result	=	$this->model->update($table,$set_array,$condition);
+		}
+		else
+		{
+			$set_array1 = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>3,
+						'last_sms_sent'=>$message,
+						'id'=>$id
+					);
+			$result	=	$this->model->insert($table,$set_array1);
+		}
+			if($result){
+				return 1;
+			  }
+			  else{
+				return 0;
+			}
+		/*}
+		else{
+			return 0;
+		}*/
+	}
+	function zerob_appointment_expiry_sms($id,$apptDate,$number,$comment){ 
+		date_default_timezone_set('Asia/Kolkata');
+		$today = date("Y-m-d H:i:s");
+		$message	=	"AMC for your ZeroB product is expiring on ​".$apptDate.". Register with Yapnaa and renew your AMC. http://bit.ly/2kkl44e";
+		$user_number = array($number);
+		
+		/*$user_table		    =	'users';
+		$user_condition 	=	"user_phone='".$number."'";	
+		$user_fields		=	'*';
+				
+		$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+		if($user_result1 !=NULL)
+		{*/
+		$this->send_user_sms($user_number,$message,$id,$comment);
+		
+		$set_array = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>6,
+						'last_sms_sent'=>$message
+					);
+					
+		$table		=	'zerob_consol1';
+		$condition 	=	"id='".$id."'";	
+        $fields		=	'*';
+		
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+		if($result1 !=NULL)
+		{
+		$result	=	$this->model->update($table,$set_array,$condition);
+		}
+		else
+		{
+			$set_array1 = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>3,
+						'last_sms_sent'=>$message,
+						'id'=>$id
+					);
+			$result	=	$this->model->insert($table,$set_array1);
+		}
+			if($result){
+				return 1;
+			 }
+			 else{
+				return 0;
+			}
+		/*}
+		else{
+			return 0;
+		}*/
+	}
+	
+	function send_user_sms($user_numbers,$message,$id,$comment=""){ 
+		date_default_timezone_set('Asia/Kolkata');
+		$today = date("Y-m-d H:i:s");
+		if($user_numbers){
+			
+			for($i=0;$i<count($user_numbers);$i++){
+				if($user_numbers[$i]){
+                  	//$get_user_list = $control->get_user_sms($user_sms[2],$subject,$message);
+		              	$user_phone = $user_numbers[$i];
+						$desc = $message;
+						//$user_phone 				= 	$_POST['mobile'];
+						//$desc 						= 	$_POST['desc'];
+						$ch = curl_init();
+						$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_phone)."&message=".urlencode("".$desc ."");
+						curl_setopt( $ch,CURLOPT_URL, $url );
+						curl_setopt( $ch,CURLOPT_POST, false ); 
+						curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+						curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+						$result = curl_exec($ch );
+						curl_close( $ch ); 
+						/*if($ch){
+							return 1;
+						}*/
+						/*$user_table		    =	'users';
+						$user_condition 	=	"user_phone='".$number."'";	
+						$user_fields		=	'*';
+								
+						$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+						if($user_result1 !=NULL)
+						{*/
+								$set_array = array(
+								'last_called'=>$today,
+								'last_call_comment'=>$comment,
+								'status'=>5,
+								'last_sms_sent'=>$message
+							);
+								
+							$table		=	'zerob_consol1';
+							$condition 	=	"id='".$id[$i]."'";	
+                            $fields		=	'*';							
+							$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+								if($result1 !=NULL)
+								{
+								$result	=	$this->model->update($table,$set_array,$condition);
+								}
+								else
+								{
+									$set_array1 = array(
+												'last_called'=>$today,
+												'last_call_comment'=>$comment,
+												'status'=>5,
+												'last_sms_sent'=>$message,
+												'id'=>$id[$i]
+											);
+									$result	=	$this->model->insert($table,$set_array1);
+								}
+						//}
+				}
+			}	
+		}		
+		else{
+			return 0;
+		}
+	}
 	
 	
 	
+	function get_user_sms($user_list,$subject,$message){
+		//print_r($user_list);
+		//die();
+		for($i=0;$i<count($user_list);$i++){
+              $user_sms = explode("|",$user_list[$i]);
+              //print_r($user_sms);
+              	if($user_sms[2]){
+                  	//$get_user_list = $control->get_user_sms($user_sms[2],$subject,$message);
+		              	$user_phone = $user_sms[2];
+						$desc = $message;
+						//$user_phone 				= 	$_POST['mobile'];
+						//$desc 						= 	$_POST['desc'];
+						$ch = curl_init();
+						$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_phone)."&message=".urlencode("".$desc ."");
+						curl_setopt( $ch,CURLOPT_URL, $url );
+						curl_setopt( $ch,CURLOPT_POST, false ); 
+						curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+						curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+						$result = curl_exec($ch );
+						curl_close( $ch ); 
+
+			        }
+			   }
+		
+		 
+		//if($result){
+			//echo '1';
+			//echo '<script>alert("sms sent successfully.")</script>';
+		//}
+		echo '<script>alert("sms sent successfully.")</script>';	   
+		echo '<script>window.location.assign("user_notifications.php")</script>';
+			 
+	}
+
+	function get_user_mail($user_list,$subject,$message){
+
+		//echo 'tt';
+		/*
+		$to= 'hema.jjbytes@gmail.com';
+				$subject		=	'testing';
+				$message        =	'test';
+	            mail($to, $subject, $message);
+		*/
+
+	    for($i=0;$i<count($user_list);$i++){
+            $user_mail = explode("|",$user_list[$i]);
+              //print_r($user_mail);
+              //die();
+	          if($user_mail[1]){
+	              	$to 			= 	$user_mail[1];
+					$subject		=	$subject;
+					$message		=	'<html>
+					<body>
+					 <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+					<p>Hi,<strong>' . $user_full_name . '</strong></p>
+					<p>'.$message.'</p>
+				
+					</table>
+					</body>
+					</html>';
+				
+						
+			        $headers1 		= 	"MIME-Version: 1.0" . "\r\n";
+			        $headers1 		.= 	"Content-type:text/html;charset=iso-8859-1" . "\r\n";
+			        $headers1 		.= 	"From:admin@gmail.com\r\n";
+			        //mail($to, $subject, $message, $headers1);
+			        if(mail($to, $subject, $message, $headers1)){
+			        	$res =  "1";
+			        }
+	          }
+        } 
+
+      
+    	if($res ==1){
+          	echo '<script>alert("Mail sent successfully.")</script>';
+          	echo '<script>window.location.assign("user_notifications.php")</script>';
+      	}
+          
+
+        //echo '<script>alert("Mail sent successfully.")</script>';
+        //echo '<script>window.location.assign("user_notifications.php")</script>';
+		/*
+		$to 			= 	"hema.jjbytes@gmail.com";
+		$subject		=	$subject;
+		$message		=	'<html>
+		<body>
+		 <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+		<p>Hi,<strong>' . $user_full_name . '</strong></p>
+		<p>'.$message.'</p>
+	
+		</table>
+		</body>
+		</html>';
+	
+			
+        $headers1 		= 	"MIME-Version: 1.0" . "\r\n";
+					
+        $headers1 		.= 	"Content-type:text/html;charset=iso-8859-1" . "\r\n";
+            
+        $headers1 		.= 	"From:admin@gmail.com\r\n";
+            mail($to, $subject, $message, $headers1);
+
+        //if (mail($to, $subject, $message, $headers1)) {
+				// return $user_reg_verification_otp;
+        //}			//return $fields_reg;
+
+        */
+	} 
+
+	function sent_noti_user($user_list,$message,$subject){
+		
+		for($i=0;$i<count($user_list);$i++){
+            $user_gcm = explode("|",$user_list[$i]);
+              //print_r($user_mail[1]);
+              //die();
+            if($user_gcm[3]){
+                //$gcm = $this->sendMessageThroughGCM($user_gcm[3],$message);
+            	$url = 'https://android.googleapis.com/gcm/send';
+		        $fields = array(
+		            'registration_ids' => array($user_gcm[3]),
+		            'data' => array("title" => $subject, "message"=> $message,"id"=>"")
+		        );
+				/*echo '<pre>';print_r($fields);
+				exit;*/	
+				// Update your Google Cloud Messaging API Key 
+				define("GOOGLE_API_KEY", "AIzaSyDfjQepXPy2GltXwE5ob-h8vw1o5w3pzls"); 
+		        $headers = array(
+		            'Authorization: key='.GOOGLE_API_KEY,
+		            'Content-Type: application/json'
+		        );
+		        $ch = curl_init();
+		        curl_setopt($ch, CURLOPT_URL, $url);
+		        curl_setopt($ch, CURLOPT_POST, true);
+		        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);	
+		        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+		        $result = curl_exec($ch);
+		        curl_close($ch);
+
+		        print_r($result);
+		       				
+		        if ($result === FALSE) {
+		            die('Curl failed: ' . curl_error($ch));
+		        }
+				// print_r($result);  exit;
+		        curl_close($ch);
+		        
+		        
+
+            }
+			//return $result ;
+        }
+        echo '<script>alert('.$result.')</script>';
+
+        //echo '<script>alert("Notification sent successfully.")</script>';
+        //echo '<script>window.location.assign("user_notifications.php")</script>';	
+	}
 	
 	/* update_brand update*/
 	function update_brand()
@@ -746,6 +1124,12 @@ class admin	{
 		return $result;
 	}
 	
+	function get_user_added_products()
+	{
+		$table		=	'users_products';
+		$result	=	$this->model->get_Detail_user_added_products($table);
+		return $result;
+	}
 	
 	
 	
@@ -811,6 +1195,96 @@ class admin	{
 		
 	}
 	
+	
+    
+	// user registartion
+    function user_resgitartion($name,$mobile,$email)
+    {
+
+		$keys=array("abcdefghijklmnopqrstuvwxyz", "123456abcdefghijklmnopqrstuvwxyz");
+		// print_r($keys[0]);
+		// print_r($keys[1]);
+		$pin = rand(1000,9999);
+        $table 					= table();
+		date_default_timezone_set('Asia/Kolkata');
+        $user_name 					=	$name;
+        $user_address 				= 	"";
+        $user_phone 				= 	$mobile;
+        $user_email_id 				= 	$email;
+        $user_city           		= 	"";
+        $user_pin		    		= 	md5($pin);
+        $user_area_pincode			= 	"";
+        $user_gcm_id      			= 	"";
+        $user_login_device_type		= 	"";
+        $app_key	      			= 	$_POST['app_key'];
+        $app_secret      			= 	$_POST['app_secret'];
+        $user_created_date 			= 	date('Y-m-d h:i:s');
+        $user_last_login 			= 	date('Y-m-d h:i:s');
+        $user_reg_verification_otp	= "";
+        $user_token					= "";
+		
+		if(($keys[0]==$app_key) && ($keys[1]==$app_secret)){
+			$res	=	1;
+		}else{
+			$res	=	0;
+		}
+		
+		
+		
+		
+        if ($res==1) {
+            $table           = table();
+            $table_user      = $table['tb1'];
+            $fields_user     = '*';
+            // $condition_user  = 'user_phone    = ' . "'" . $user_phone . "'" . ' OR user_email_id = ' . "'" . $user_email_id . "'";
+            $condition_user  = 'user_phone    = ' . "'" . $user_phone . "'";
+            $arr_result_test = $this->model->get_Details_condition($table_user, $fields_user, $condition_user);
+            // print_r($arr_result_test);exit;
+           
+        }else{
+			$arr_result_test=1;
+		}
+          // print_r($arr_result_test);exit;
+        if (empty($arr_result_test)) {
+          
+            $fields_reg = array(
+                'user_name' 				=> $user_name,
+                'user_address' 				=> $user_address,
+                'user_phone' 				=> $user_phone,
+                'user_email_id' 			=> $user_email_id,
+                'user_city' 				=> $user_city,
+                'user_pin' 					=> $user_pin,
+                'user_area_pincode' 		=> $user_area_pincode,
+                'user_token' 				=> $user_token,
+                'user_gcm_id' 				=> $user_gcm_id,
+                'user_login_device'			=> $user_login_device_type,
+                'user_reg_verification_otp'	=> $user_reg_verification_otp,
+                'user_created_date' 		=> $user_created_date,
+                'user_last_login' 			=> $user_last_login
+            );
+            
+            // print_r($fields_reg);exit;
+			
+            $table_log_in = $table['tb1'];
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
+			
+			
+			
+			$ch = curl_init();
+			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_phone)."&message=You have been registered to Yapnaa, Use your mobile number with ".urlencode("".$user_reg_verification_otp ." as password.\n.");
+			curl_setopt( $ch,CURLOPT_URL, $url );
+			curl_setopt( $ch,CURLOPT_POST, false ); 
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+			$result = curl_exec($ch );
+			curl_close( $ch ); 
+			
+			return $user_reg_verification_otp;
+			
+            
+        }
+    }
+    
 	
 	/* user_block update*/
 	function user_acitve()
@@ -1789,7 +2263,27 @@ class admin	{
 	
 	
 		
+/*----------------------------------------------------------------------------------------------------------------------*/	
+
+		
 /*----------------------------------------------------------------------------------------------------------------------*/		
+	
+
+	
+	// SEARCH Customer
+	function get_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
+    {
+		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
+		$arr_log_in       				 = 	$this->model->get_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		return $arr_log_in;
+		// print_r($arr_log_in );
+
+    }
+	
+	
+	
+		
+/*----------------------------------------------------------------------------------------------------------------------*/			
 	function add_banner()
 	{ 
 		$table_name  	  		=	 'banner_images';
@@ -1798,7 +2292,7 @@ class admin	{
 		$banner_priority		=	($_POST['banner_priority']); 
 		$banner_for				=	($_POST['banner_for']); 
 		$banner_screens_for		=	($_POST['banner_screens_for']); 
-		
+		$banner_url = ($_POST['banner_url']);
 		
 		$fields		    	= 	 'banner_title';
 		$condition		  	= 	 'banner_title    = ' . "'" . $banner_title . "'";
@@ -1838,6 +2332,7 @@ class admin	{
 							'banner_status'					=>	1,
 							'banner_for'					=>	$banner_for,
 							'banner_screens_for'			=>	$banner_screens_for,
+							'banner_url'                    =>	$banner_url
 							);
 			// echo'<pre>';print_r($arr_input);exit;
 			$result				=	$this->model->insert($table_name,$arr_input);
@@ -1846,7 +2341,91 @@ class admin	{
 			return $result=2;
 		}
 	}
+
+	function add_banner_edit($banner_id)
+	{ 
+		$table_name  	  		=	 'banner_images';
+		$banner_title			=	($_POST['banner_title']);
+		$banner_created_by		=	($_POST['banner_created_by']); 
+		$banner_priority		=	($_POST['banner_priority']); 
+		$banner_for				=	($_POST['banner_for']); 
+		$banner_screens_for		=	($_POST['banner_screens_for']); 
+		$banner_url = ($_POST['banner_url']);
+		/*
+		$fields		    	= 	 'banner_title';
+		$condition		  	= 	 'banner_title    = ' . "'" . $banner_title . "'";
+		$arr_result		 	= 	 $this->model->get_Details_condition($table_name, $fields, $condition);
+		// echo'<pre>';print_r($arr_result);exit;
+		*/
+		//if(empty($arr_result)){ 
+			//Main category file to move in to folder
+			if(!empty($_FILES['banner_image']['tmp_name']))
+			{  
+				$filename = basename($_FILES['banner_image']['name']);
+				$ext = substr($filename, strrpos($filename, '.') + 1); 
+				$target = "../../banner-images/"; 
+				//Determine the path to which we want to save this file
+				$now = new DateTime();
+				$times = $now->getTimestamp();
+				$newname = $target.$times.$mc_title.'.'.$ext;  	
+				// $newname = $target.$mc_title.'.'.$ext;   
+				// $newname = $target.$times.$mc_title.'.'.$ext;   
+				//Check if the file with the same name is already exists on the server
+				if (!file_exists($newname)) {
+				//Attempt to move the uploaded file to it's new place
+					if ((move_uploaded_file($_FILES['banner_image']['tmp_name'],$newname))) {
+						$banner_image	=	$times.$mc_title.'.'.$ext;
+					}else{
+						$message	=	"Could not move the file!";
+					}
+				}
+				
+			}
+			if(!empty($_FILES['banner_image']['tmp_name']))
+			{   
+					$arr_input	=	array(
+							'banner_title'					=>	$banner_title,
+							'banner_img'					=>	$banner_image, 
+							'banner_c_date'					=>	$this->date, 
+							'banner_priority'				=>	$banner_priority,
+							'banner_status'					=>	1,
+							'banner_for'					=>	$banner_for,
+							'banner_screens_for'			=>	$banner_screens_for,
+							'banner_url'                    =>	$banner_url
+							);
+			}else{
+				$arr_input	=	array(
+							'banner_title'					=>	$banner_title,
+							'banner_c_date'					=>	$this->date, 
+							'banner_priority'				=>	$banner_priority,
+							'banner_status'					=>	1,
+							'banner_for'					=>	$banner_for,
+							'banner_screens_for'			=>	$banner_screens_for,
+							'banner_url'                    =>	$banner_url
+							);
+			}
+			// echo'<pre>';print_r($arr_input);exit;
+			//$result				=	$this->model->insert($table_name,$arr_input);
+			$condition 	=	"banner_id	='".$banner_id."'";				
+			$result		=	$this->model->update($table_name,$arr_input,$condition);
+			return $result=1;
+		//}else{
+			//return $result=2;
+		//}
+	}
 	
+
+/*----------------------------------------------------------------------------------------------------------------------*/	
+
+	function get_banner_by_id($bid)
+	{
+		$table_name =	 'banner_images';
+		$fields     =	 "*"; 
+		$id    		=	 $bid;  
+		$arr_result	= 	 $this->model->get_details_by_id($table_name,$fields,$id);
+		// print_r($arr_result_test);exit;
+		return $arr_result;
+	}
 	
 	
 /*----------------------------------------------------------------------------------------------------------------------*/	
@@ -1900,7 +2479,23 @@ class admin	{
 		$result		=	$this->model->update($table_name,$set_array,$condition);
 		return $result;
 	}
+/*----------------------------------------------------------------------------------------------------------------------*/	
 	
+	
+	/* Edit update*/
+	function edit_banner()
+	{
+		$table_name  	  	=	 'banner_images';
+		$banner_id			=	$_POST['id']; 
+		$set_array			=	array(
+									'banner_status'		=> 1
+								);
+		// print_r($set_array);exit;
+		$condition 	=	"banner_id	='".$banner_id."'";				
+		$result		=	$this->model->update($table_name,$set_array,$condition);
+		return $result;
+	}
+		
 		
 /*----------------------------------------------------------------------------------------------------------------------*/	
 

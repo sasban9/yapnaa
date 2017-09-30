@@ -4,7 +4,7 @@ global $tb;
 	function connection(){
 		$servername = "localhost";//host name 
 		$username 	= "root"; //user name
-		$password 	= "yapnaa";    //user password
+		$password 	= "M0v!Lo@987";    //user password
 		$database	= "movilogl_movilo"; //db name
 		// Create connection
 		$con = new mysqli($servername, $username, $password, $database);

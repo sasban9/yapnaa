@@ -4,14 +4,21 @@
 session_start(); 
 if(isset($_SESSION['admin_email_id']))
 {
+	
 	 $admin_email_id	= $_SESSION['admin_email_id'];
 	 $admin_name		= $_SESSION['admin_name'];
 	 $admin_last_login	= $_SESSION['admin_last_login'];
+	 $ar_role_name  	= $_SESSION['ar_role_name'];
+	 $admin_phone_no  	= $_SESSION['admin_phone_no'];
+	 $ar_id  	        = $_SESSION['ar_id'];
 
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
 	
-	
+	if($ar_id ==3 || $ar_id ==4){
+		echo '<script>alert("You do not have enough credential.")</script>';
+		echo '<script>window.location.assign("index.php")</script>';
+	}
 	// Get Sub Categories List
 	$get_brand = $control->get_brand();
 	// print_r($get_brand);

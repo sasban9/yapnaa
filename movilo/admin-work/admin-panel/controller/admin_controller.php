@@ -16,6 +16,7 @@ class admin	{
 	
 	function admin_login_val($admin_email_id,$admin_password)
 	{
+		
 		$result	=	$this->model->admin_login_val($admin_email_id,$admin_password);
 		return $result;
 	}
@@ -148,7 +149,156 @@ class admin	{
 		return $result;
 	}
 	
+	function sent_notifications($user_gcm_arr,$message,$subject){
+		
+		
+        
+        $url = 'https://android.googleapis.com/gcm/send';
+		
+        $fields = array(
+		            'registration_ids' => $user_gcm_arr,
+		            'data' => array("title" => $subject, "message"=> $message,"id"=>"")
+		        );
+				
+		define("GOOGLE_API_KEY", "AIzaSyDfjQepXPy2GltXwE5ob-h8vw1o5w3pzls"); 
+		       
+	   $headers = array(
+		            'Authorization: key='.GOOGLE_API_KEY,
+		            'Content-Type: application/json'
+		        );
+
+		$ch = curl_init();
+		    curl_setopt($ch, CURLOPT_URL, $url);
+		    curl_setopt($ch, CURLOPT_POST, true);
+		    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);	
+		    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+
+		$result = curl_exec($ch);
+		curl_close($ch);
+		       
+		        if ($result === FALSE) {
+		            die('Curl failed: ' . curl_error($ch));
+		        }
+				else{
+					curl_close($ch);
+					return $result;
+				} 
+	}
 	
+	
+	function send_bulk_sms($user_numbers,$message){ 
+		date_default_timezone_set('Asia/Kolkata');
+		$today = date("Y-m-d H:i:s");
+		if($user_numbers){
+			for($i=0;$i<count($user_numbers);$i++){
+				if($user_numbers[$i]){
+					$ch = curl_init();
+					$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_numbers[$i])."&message=".urlencode("".$message."");
+					curl_setopt( $ch,CURLOPT_URL, $url );
+					curl_setopt( $ch,CURLOPT_POST, false ); 
+					curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+					curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+					$result = curl_exec($ch );
+					curl_close( $ch );
+				}
+			}	
+		}		
+		else{
+			return 0;
+		}
+	}
+	
+	
+	function updateAMC($admin_id,$start,$expire,$custID,$comments,$closedBy,$phone1,$phone2)
+	{
+		$table		=	'zerob_consol1';
+		$set_array	=	array(
+							'amc_updated_by'		=> $admin_id,
+							'CONTRACT_TO'		=> $expire,
+							'CONTRACT_FROM'		=> $start,
+							'CONTRACT_BY'		=> $closedBy,
+							'last_call_comment'	=> $comments,
+							'status'			=>	"7"
+						);
+		
+		$condition 	=	"id='".$custID."'";				
+		$update_zerob_result		=	$this->model->update($table,$set_array,$condition);
+		
+		
+		$table		=	'users';
+		$condition 	=	"user_phone=".$phone1." OR user_phone=".$phone2;	
+	    $fields		=	'*';
+				
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+		
+		if($result1){
+		
+			$sql 		= "SELECT * FROM `users_products` up WHERE `up_product_id` =1 AND up.up_user_id =  ".$result1[0]['user_id']." order by up_created_date asc";
+			
+			$result		=	$this->model->data_query($sql);
+		
+			if($result){
+				//If the zerob water filter is added, update the AMC date and send notification
+				$table			=	"users_products";
+				$set_array		=	array('up_warranty_start_date' => $start,'up_warranty_end_date'=>$expire,'up_amc_from_date'  => $start,'up_amc_to_date' =>$expire);
+				$condition		=	"up_id = ".$result[0]['up_id'];
+				$update_result	=	$this->model->update($table,$set_array,$condition);
+				
+				//echo json_encode($update_result);die;
+				$message = "AMC for your ZeroB has been updated from ".$start." to ".$expire;
+				$subject = "AMC for your ZeroB Water Filter has been updated";
+				
+				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message,$subject);
+				//print_r($not_status);die;
+				return 1;
+			}
+			else{
+				
+				$condition 			=	"id='".$custID."'";				
+				$zerob_result		=	$this->model->get_Details_condition($table,'*',$condition);
+				
+				//Add product and send notification
+				$prod_details	=		array(
+											"up_user_id"				=>		$result1[0]['user_id'],
+											"up_product_id"				=>		1,
+											"up_amc_from_date"			=>		$start,
+											"up_amc_to_date"			=>		$expire,
+											"up_warranty_start_date"	=>		$start,
+											"up_warranty_end_date"		=>		$expire,
+											"up_serial_no"				=>		$zerob_result[0]['PRODUCT_SLNO'],
+											"up_date_of_purchase"		=>		$zerob_result[0]['INSTALLATION_DATE'],
+											"up_amc"					=>		"Yes",
+											"up_product_title"			=>		"ZeroB Water Filter"
+								);
+				//echo "Here";die;
+				$prod_id	=	$this->add_user_product($prod_details);
+				$message	=	"AMC for your ZeroB has been updated from ".$start." to ".$expire;
+				$subject	=	"AMC for your ZeroB Water Filter has been updated";
+				
+				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message,$subject);
+				return 1;
+			}
+		}
+		else{
+			$number = array($phone1);
+			$message = 'AMC for your ZeroB Water Filter has been updated. Download the Yapnaa app http://bit.ly/2kkl44e to maintain services, AMC and bills for your electronic products.';
+			$get_amc_list = $this->send_bulk_sms($number,$message);
+			return 1;
+		}
+		return 0;
+	}
+	
+	function add_user_product($prod_deatils){
+		$table		=	"users_products";//print_r($prod_deatils);die;
+		$result		=	$this->model->insert($table,$prod_deatils);
+		if($result){
+			return $result;
+		}
+		return 0;
+	}
 	
 		/*Delete the faq*/
 	function del_faq()
@@ -250,31 +400,67 @@ class admin	{
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		return $result;
 	}
-	function notInterested($id,$comment){
+	function updateStatus($id,$comment,$status){
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
+		/*$user_table		    =	'users';
+		$user_condition 	=	"user_phone='".$number."'";	
+		$user_fields		=	'*';
+				
+		$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+		if($user_result1 !=NULL)
+		{*/
 		$set_array = array(
 						'last_called'=>$today,
 						'last_call_comment'=>$comment,
-						'status'=>2,
+						'status'=>$status,
 						'last_sms_sent'=>''
 					);
 					
 		$table		=	'zerob_consol1';
-		$condition 	=	"id='".$id."'";				
+		$condition 	=	"id='".$id."'";	
+	    $fields		=	'*';
+				
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);				
+		if($result1 !=NULL)
+		{
 		$result	=	$this->model->update($table,$set_array,$condition);
-		if($result){
-			return 1;
 		}
-		else return 0;
+		else
+		{
+			$set_array1 = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>$status,
+						'last_sms_sent'=>'',
+						'id'=>$id
+					);
+			$result	=	$this->model->insert($table,$set_array1);
+		}
+			if($result){
+				return 1;
+			 }
+			 else{
+				return 0;
+			}
+		/*}
+		else{
+			return 0;
+		}*/
 	}
 	function zerob_appointment_sms($id,$apptDate,$number,$comment){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
 		$message	=	"Thanks for confirming your appointment​ for AMC​ of ZeroB Water filter. We look forward to seeing you on ​".$apptDate;
 		$user_number = array($number);
-		$this->send_user_sms($user_number,$message);
-		
+		//checck registed user
+		/*$user_table		    =	'users';
+		$user_condition 	=	"user_phone='".$number."'";	
+		$user_fields		=	'*';
+				
+		$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+		if($user_result1 !=NULL)
+		{*/
 		$set_array = array(
 						'last_called'=>$today,
 						'last_call_comment'=>$comment,
@@ -283,37 +469,91 @@ class admin	{
 					);
 					
 		$table		=	'zerob_consol1';
-		$condition 	=	"id='".$id."'";				
+		$condition 	=	"id='".$id."'";	
+		$fields		=	'*';
+				
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+		if($result1 !=NULL)
+		{
 		$result	=	$this->model->update($table,$set_array,$condition);
-		if($result){
-			return 1;
 		}
-		else return 0;
+		else
+		{
+			$set_array1 = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>3,
+						'last_sms_sent'=>$message,
+						'id'=>$id
+					);
+			$result	=	$this->model->insert($table,$set_array1);
+		}
+			if($result){
+				return 1;
+			  }
+			  else{
+				return 0;
+			}
+		/*}
+		else{
+			return 0;
+		}*/
 	}
-	function zerob_appointment_expiry_sms($id,$apptDate,$number){ 
+	function zerob_appointment_expiry_sms($id,$apptDate,$number,$comment){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
 		$message	=	"AMC for your ZeroB product is expiring on ​".$apptDate.". Register with Yapnaa and renew your AMC. http://bit.ly/2kkl44e";
 		$user_number = array($number);
-		$this->send_user_sms($user_number,$message);
+		
+		/*$user_table		    =	'users';
+		$user_condition 	=	"user_phone='".$number."'";	
+		$user_fields		=	'*';
+				
+		$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+		if($user_result1 !=NULL)
+		{*/
+		$this->send_user_sms($user_number,$message,$id,$comment);
 		
 		$set_array = array(
 						'last_called'=>$today,
-						'last_call_comment'=>'',
+						'last_call_comment'=>$comment,
 						'status'=>6,
 						'last_sms_sent'=>$message
 					);
 					
 		$table		=	'zerob_consol1';
-		$condition 	=	"id='".$id."'";				
+		$condition 	=	"id='".$id."'";	
+        $fields		=	'*';
+		
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+		if($result1 !=NULL)
+		{
 		$result	=	$this->model->update($table,$set_array,$condition);
-		if($result){
-			return 1;
 		}
-		else return 0;
+		else
+		{
+			$set_array1 = array(
+						'last_called'=>$today,
+						'last_call_comment'=>$comment,
+						'status'=>3,
+						'last_sms_sent'=>$message,
+						'id'=>$id
+					);
+			$result	=	$this->model->insert($table,$set_array1);
+		}
+			if($result){
+				return 1;
+			 }
+			 else{
+				return 0;
+			}
+		/*}
+		else{
+			return 0;
+		}*/
 	}
 	
-	function send_user_sms($user_numbers,$message,$id){ 
+	function send_user_sms($user_numbers,$message,$id,$comment=""){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
 		if($user_numbers){
@@ -333,19 +573,43 @@ class admin	{
 						curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
 						$result = curl_exec($ch );
 						curl_close( $ch ); 
-						if($ch){
+						/*if($ch){
 							return 1;
-						}
-						$set_array = array(
-						'last_called'=>$today,
-						'last_call_comment'=>'',
-						'status'=>5,
-						'last_sms_sent'=>$message
-					);
+						}*/
+						/*$user_table		    =	'users';
+						$user_condition 	=	"user_phone='".$number."'";	
+						$user_fields		=	'*';
 								
-					$table		=	'zerob_consol1';
-					$condition 	=	"id='".$id."'";				
-					$result	=	$this->model->update($table,$set_array,$condition);
+						$user_result1	=	$this->model->get_Details_condition($user_table,$user_fields,$user_condition);	
+						if($user_result1 !=NULL)
+						{*/
+								$set_array = array(
+								'last_called'=>$today,
+								'last_call_comment'=>$comment,
+								'status'=>5,
+								'last_sms_sent'=>$message
+							);
+								
+							$table		=	'zerob_consol1';
+							$condition 	=	"id='".$id[$i]."'";	
+                            $fields		=	'*';							
+							$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+								if($result1 !=NULL)
+								{
+								$result	=	$this->model->update($table,$set_array,$condition);
+								}
+								else
+								{
+									$set_array1 = array(
+												'last_called'=>$today,
+												'last_call_comment'=>$comment,
+												'status'=>5,
+												'last_sms_sent'=>$message,
+												'id'=>$id[$i]
+											);
+									$result	=	$this->model->insert($table,$set_array1);
+								}
+						//}
 				}
 			}	
 		}		
@@ -2156,9 +2420,10 @@ class admin	{
 
 	
 	// SEARCH Customer
-	function get_zerob_list($tag,$filter,$fromDate,$toDate)
+	function get_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
     {
-		$arr_log_in       				 = 	$this->model->get_zerob_list($tag,$filter,$fromDate,$toDate);
+		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
+		$arr_log_in       				 = 	$this->model->get_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
 		return $arr_log_in;
 		// print_r($arr_log_in );
 

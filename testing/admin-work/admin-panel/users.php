@@ -40,7 +40,19 @@ if(isset($_SESSION['admin_email_id']))
 		}
 	}
 	
-	
+	if(isset($_POST['submit']))
+	{	
+		$name = $_POST['user_name'];
+		$name = $_POST['user_email'];
+		$name = $_POST['user_mobile'];
+		$user_block	=	$control->user_block();
+		
+		// print_r($update_main_category);exit;
+		if(!empty($user_block)){
+			echo '<script>alert("User blocked successfully.")</script>';
+			echo '<script>window.location.assign("users.php")</script>';
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -89,7 +101,8 @@ if(isset($_SESSION['admin_email_id']))
 
                 </div>
             </div>
-            
+<!--          
+		  
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
@@ -115,8 +128,8 @@ if(isset($_SESSION['admin_email_id']))
 						<tr>
 							<td><?php echo  $j; ?></td>
 							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_email_id']; ?></a></td>
-							<td><?php echo $get_user_list[$i]['user_phone']; ?></td>
-							<td><?php echo $get_user_list[$i]['user_city']; ?></td>
+							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_phone']; ?></td>
+							<td><?php echo $get_user_list[$i]['user_city']; ?></a></td>
 							<td><?php echo $get_user_list[$i]['user_area_pincode']; ?></td>
 							<td><?php echo $get_user_list[$i]['user_address']; ?></td>
 							
@@ -146,8 +159,131 @@ if(isset($_SESSION['admin_email_id']))
             </div>
         </div>
         
-
+-->
                
+			   
+	
+		
+		<div class="row">
+            <div class="col-lg-12">
+                <div class="wrapper wrapper-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-content">
+										<div class="media-body ">
+										   <div class="row m-t-sm">
+												<div class="col-lg-12">
+													<div class="panel blank-panel">
+														<div class="panel-heading">
+															<div class="panel-options">
+																<ul class="nav nav-tabs">
+																	<li class="active"><a href="#tab-1" data-toggle="tab"> Users List</a></li>
+																	<li class=""><a href="#tab-2" data-toggle="tab">Add Users</a></li>
+																</ul>
+															</div>
+														</div>
+
+														<div class="panel-body">
+
+															<div class="tab-content">
+															
+															
+																<div class="tab-pane active" id="tab-1">
+																	  <table class="table table-striped table-bordered table-hover dataTables-example" >
+					<thead>
+					<tr>
+							<th>S.No</th>
+							<th>Email </th>
+							<th>Phone No</th>
+							<th>City</th>
+							<th>Pincode</th>
+							<th>Address</th>
+							<th>Action</th>
+						
+						
+					</tr>
+					</thead>
+					<tbody>
+					<?php $j=1;?>
+					<?php for($i=0;$i<count($get_user_list);$i++){ ?>
+						<tr>
+							<td><?php echo  $j; ?></td>
+							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_email_id']; ?></a></td>
+							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_phone']; ?></td>
+							<td><?php echo $get_user_list[$i]['user_city']; ?></a></td>
+							<td><?php echo $get_user_list[$i]['user_area_pincode']; ?></td>
+							<td><?php echo $get_user_list[$i]['user_address']; ?></td>
+							
+							<td>
+								<?php if($get_user_list[$i]['user_status']==1) {?>
+								
+									<form id="form" method="POST">
+										<input type="hidden" class="form-control" value="<?php echo $get_user_list[$i]['user_id']?>" name="id" required>	
+										<input id="submit" onclick="return confirm('Are you sure you want to activate this user?');" type="submit" name="block" class="delete_profile btn btn-danger" value="Block">
+									</form>
+								<?php } else { ?>
+									<form id="form" method="POST">
+										<input type="hidden" class="form-control" value="<?php echo 		$get_user_list[$i]['user_id']?>" name="id" required>	
+										<input id="submit" onclick="return confirm('Are you sure you want to activate this user?');" type="submit" name="active" class="delete_profile btn btn-info" value="Activate">
+									</form>
+									<?php } ?>
+							</td>
+							
+						</tr>
+					<?php $j++; } ?>
+					</tbody>
+				</table> 
+																</div>
+															
+																<div class="tab-pane" id="tab-2">
+																		<form id="form" method="POST" enctype="multipart/form-data">
+																			<fieldset class="form-horizontal">
+																				
+																			<div class="form-group">
+																				<label class="col-sm-2 control-label">User Name:</label>
+																				<div class="col-sm-10">
+																					<input type="text" placeholder="Enter a name" name="user_name" class="maincls form-control"  maxlength="60"/>
+																				</div>
+																			</div>	
+																			<div class="form-group">
+																				<label class="col-sm-2 control-label">Email ID:</label>
+																				<div class="col-sm-10">
+																					<input type="text" placeholder="Enter user email id" name="user_email"  class="maincls form-control"  maxlength="60"/>
+																				</div>
+																			</div>	
+																			<div class="form-group">
+																				<label class="col-sm-2 control-label">Mobile Number:</label>
+																				<div class="col-sm-10">
+																					<input type="number" placeholder="Enter user mobile" name="user_mobile"  class="maincls form-control"  maxlength="10" required/>
+																				</div>
+																			</div>
+																			
+																				
+																				<input id="submit" onclick="myFunction()" type="submit" name="submit" class="btn btn-info pull-right"  value="Add">
+																			</fieldset>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+		
+          		   
+			   
+			   
+			   
+			   
+			   
 <?php include "footer.php";?>
 
     <!-- Mainly scripts -->

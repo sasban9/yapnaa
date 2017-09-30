@@ -1,3 +1,3 @@
 <?php
-mail("jitesh@jjbytes.com","jitesh@jjbytes.com","jitesh@jjbytes.com","jitesh@jjbytes.com");
+echo mail("jitesh@jjbytes.com","jitesh@jjbytes.com","jitesh@jjbytes.com","jitesh@jjbytes.com");
 ?>

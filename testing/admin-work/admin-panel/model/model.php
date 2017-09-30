@@ -34,6 +34,20 @@ class model {
 		return $ret;
 	}
 	
+
+	/* To get data based on conditions Where id matches*/
+	function get_details_by_id($table,$fields,$id)
+	{
+
+		$sql = "SELECT $fields FROM $table WHERE banner_id=".$id;
+		// echo $sql;exit;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+		return $ret;
+	}
 	
 	
 			
@@ -82,8 +96,8 @@ class model {
 		$set 		= implode(', ', $updates);
 		//$table		=	"` $table`";
 		$sql="UPDATE $table SET $set WHERE $condition"; 
-		// echo $sql;exit;
-		unset($set);
+		 //echo $sql;exit;
+		//unset($set);
 		$qry	=	connection()->query($sql);
 		return $qry;
 		
@@ -93,18 +107,22 @@ class model {
 	
 	function admin_login_val($admin_email_id,$admin_password)
 	{
-		$sql	=	"
+		/*$sql	=	"
 		SELECT *
 		FROM admin_login
-		WHERE admin_email_id='$admin_email_id' AND admin_password='$admin_password'";
-		// echo $sql;exit;
+		WHERE admin_email_id='$admin_email_id' AND admin_password='$admin_password'";*/
+				$sql	="SELECT al.*,ar.ar_role_name 
+		FROM admin_login al left join admin_role ar on ar.ar_id=al.admin_role_id
+		WHERE al.admin_email_id =  '$admin_email_id'
+		AND al.admin_password =  '$admin_password'";
+		//echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		if(!empty($qry)){
 			while($row=mysqli_fetch_assoc($qry)){
 					$ret[]=$row;
 				}
-			//	print_r($ret);
+				//print_r($ret);
 			return $ret;
 		}
 	}
@@ -222,6 +240,37 @@ class model {
 		return $ret;
 	}
 	
+
+	function get_Detail_user_added_products($table){
+    	
+    	$sel = "SELECT 	
+    					u.user_id,
+    					u.user_name,
+    					pc.p_category_name,
+    					b.brand_name,
+    					up.up_serial_no,
+    					up.up_dealer_name,
+    					up.up_location
+
+    					 FROM users_products up ,
+    	 						users u,
+    	 						brand_products bp,
+    	 						brands b,
+    	 						product_category_list pc
+    	 		WHERE up.up_user_id=u.user_id AND
+    	 	 	up.up_product_id=bp.product_id AND
+    	 	 	bp.product_brand_id =b.brand_id AND bp.product_name=pc.p_category_id";
+
+    	$qry	=	connection()->query($sel);
+    	//print_r($sel);
+    	$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+			//print_r($ret);exit;
+		return $ret;
+
+    }
 	
 	
 	
@@ -411,6 +460,56 @@ class model {
 				
 				 
 		// echo $sql;exit;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+			//print_r($ret);exit;
+		return $ret;
+	}
+	
+	
+	// Get Zerob Customer List
+	function get_zerob_list($param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
+	{	
+	//echo $amc_fromDate;
+	
+			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
+		
+		$condition = "";
+		if($filter>0){
+			$condition = " and status = $filter";
+		}
+		
+		if($fromDate != null){
+			$condition = " and last_called >= '$fromDate'";
+		}
+		if($toDate != null){
+			$condition = " and last_called <= '$toDate'";
+		}
+		if($fromDate != null && $toDate != null){
+			$condition = " and (last_called between '$fromDate' and '$toDate')";
+		}
+		if($amc_fromDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
+		}
+		if($amc_toDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <= '$amc_toDate'";
+		}
+		if($amc_fromDate != null && $amc_toDate != null){
+			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
+		}
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition;
+		
+		
+		
+		if($filter == 7){
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+		}
+				
+		//echo 	$fromDate."==".$toDate."<br>"	 ;
+		//echo $sql;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){

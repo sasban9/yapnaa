@@ -4,7 +4,19 @@
 			float:right;
 		}
 	</style>
-
+<?php
+session_start(); 
+if(isset($_SESSION['admin_email_id']))
+{
+	 $admin_email_id	= $_SESSION['admin_email_id'];
+	 $admin_name		= $_SESSION['admin_name'];
+	 $admin_last_login	= $_SESSION['admin_last_login'];
+	 $ar_role_name  	= $_SESSION['ar_role_name'];
+	 $admin_phone_no  	= $_SESSION['admin_phone_no'];
+	 $ar_id  	        = $_SESSION['ar_id'];
+	require_once('controller/admin_controller.php');
+}
+?>
 	<nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
@@ -14,14 +26,81 @@
                              </span>
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo $admin_email_id;?></strong>
-                             </span> <span class="text-muted text-xs block">Admin <b class="caret"></b></span> </span> </a>
+                             </span> <span class="text-muted text-xs block"><?php echo ucfirst($admin_name);?> <b class="caret"></b></span> </span> </a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
 								<li><a  data-toggle="modal" data-target="#myModal">Change Passowrd</a></li>
 								<li class="divider"></li>
 								<li><a href="../logout.php">Logout</a></li>
 							</ul>
                         </div>
+						<?php switch($ar_id){
+                               case 1:			?>
 					<li>
+                        <a href="index.php"><i class="fa fa-home"></i> Home</a>
+                    </li>
+					<li>
+                        <a href="brand-list.php"><i class="fa fa-edit"></i> Brand List</a>
+                    </li>
+                   <li>
+                        <a href="products-category.php"><i class="fa fa-th-list"></i> Category</a>
+                    </li>
+                    <li>
+                        <a href="brand-products.php"><i class="fa fa-th-large"></i> Brand Products</a>
+                    </li>
+					<li>
+                        <a href="users.php"><i class="fa fa-user"></i> User List</a>
+                    </li>
+
+                    <li>
+                        <a href="users_product.php"><i class="fa fa-user"></i>All users products</a>
+                    </li>
+
+                    <li>
+                        <a href="add-faq.php"><i class="fa fa-question"></i> Add FAQ's</a>
+                    </li>
+					<li>
+                        <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>
+                    </li>
+					
+					<li>
+                        <a href="amc-requests.php"><i class="fa fa-clock-o"></i>AMC Requests</a>
+                    </li>
+					
+					
+						
+					<li>
+                        <a href="amc-price-list.php"><i class="fa fa-clock-o"></i>AMC Price List</a>
+                    </li>
+					
+					
+					<li>
+                        <a href="apk-version-update.php"><i class="fa fa-android"></i>APK Version Update</a>
+                    </li>
+					
+					<li>
+                        <a href="send-sms.php"><i class="fa fa-envelope-o"></i> Send SMS</a>
+                    </li>
+				
+					<li>
+                        <a href="zerob_customers.php"><i class="fa fa-envelope-o"></i> Search ZeroB Data</a>
+                    </li>
+					
+					<li >
+                      <a href="add-banner.php">
+                        <i class="fa fa-picture-o">
+                          <b class="bg-success"></b>
+                        </i> 
+                        <span>Banner Images</span>
+                      </a> 
+                    </li>
+                  
+                    <li>
+                        <a href="user_notifications.php"><i class="fa fa-envelope-o"></i>Notifications</a>
+                    </li>
+						<?php break;
+						case 2:?>
+						
+						<li>
                         <a href="index.php"><i class="fa fa-home"></i> Home</a>
                     </li>
 					<li>
@@ -66,10 +145,11 @@
 					<li>
                         <a href="send-sms.php"><i class="fa fa-envelope-o"></i> Send SMS</a>
                     </li>
-					
+				
 					<li>
                         <a href="zerob_customers.php"><i class="fa fa-envelope-o"></i> Search ZeroB Data</a>
                     </li>
+					
 					<li >
                       <a href="add-banner.php">
                         <i class="fa fa-picture-o">
@@ -82,8 +162,30 @@
                     <li>
                         <a href="user_notifications.php"><i class="fa fa-envelope-o"></i>Notifications</a>
                     </li>
-				   
-
+						
+						<?php
+						break;
+						case 3:?>
+						
+						<li>
+                        <a href="send-sms.php"><i class="fa fa-envelope-o"></i> Send SMS</a>
+                    </li>
+				
+					<li>
+                        <a href="zerob_customers.php"><i class="fa fa-envelope-o"></i> Search ZeroB Data</a>
+                    </li>
+					
+					
+						<?php
+						break;
+						case 4:?>
+						<li>
+                        <a href="zerob_customers.php"><i class="fa fa-envelope-o"></i> Search ZeroB Data</a>
+                    </li>
+					
+					
+						<?php }?>
+                    
                 </ul>
 
             </div>

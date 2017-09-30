@@ -10,9 +10,11 @@ if(isset($_SESSION['admin_email_id']))
 
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
-	
- 
-	
+	$numbers = "";
+ //print_r($_POST);die;
+	if(isset($_POST['sendSMSSubmit'])){
+		$numbers = implode(",",array_values($_POST['sms']));
+	}
 	
 	//send sms
 	if(isset($_POST['submit']))
@@ -133,7 +135,9 @@ if(isset($_SESSION['admin_email_id']))
 																			<fieldset class="form-horizontal">
 																				<div class="form-group"><label class="col-sm-2 control-label">Mobile No:</label>
 																					<div class="col-sm-10">
-																					<input type="text" pattern="[0-9,]*" class="form-control" name="mobile" id="mobile" required >	
+																					<input type="text" pattern="[0-9,]*" class="form-control" name="mobile" id="mobile" 
+																					value="<?php echo $numbers;?>"
+																					required >	
 																					</div>
 																				</div>
 																				
