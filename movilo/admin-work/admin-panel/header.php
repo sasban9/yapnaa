@@ -124,7 +124,7 @@ if(isset($_SESSION['admin_email_id']))
                         <a href="add-faq.php"><i class="fa fa-question"></i> Add FAQ's</a>
                     </li>
 					<li>
-                        <a href="srm-requests.php"><i class="fa fa-send"></i>SRM Requests</a>
+                        <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>
                     </li>
 					
 					<li>

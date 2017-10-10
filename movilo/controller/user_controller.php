@@ -552,7 +552,7 @@ yapnaa team </span>
 						$headers1 		.= 	"From:admin@yapnaa.com\r\n";
 						
 						$return	=	mail($to, $subject, $message, $headers1);
-						echo $return." - "; print_r($arr_log_in[0]);die;
+						//echo $return." - "; print_r($arr_log_in[0]);die;
 				$arr =  array('user_details'=>$arr_log_in[0],'msg'=>'success');
 				return $arr;
 			}
