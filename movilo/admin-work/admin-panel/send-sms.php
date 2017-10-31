@@ -184,6 +184,12 @@ if(isset($_SESSION['admin_email_id']))
 
 <script>
 
+	//alert("reaching here");
+	if(localStorage.getItem('numbers') != '' || localStorage.getItem('numbers') != null){
+		$("#mobile").val(localStorage.getItem('numbers'));
+		localStorage.removeItem('numbers')
+	}
+
 function myFunction() {
 	
 var add_cat = $("#mobile").val();

@@ -14,12 +14,20 @@ if(isset($_SESSION['admin_email_id']))
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
 	
+	
 	if($ar_id ==3 || $ar_id ==4){
 		echo '<script>alert("You do not have enough credential.")</script>';
 		echo '<script>window.location.assign("index.php")</script>';
 	}
 	// Get Sub Categories List
-	$get_user_list = $control->get_user_list();
+	if(isset($_POST['filterSubmit'])){
+		$get_user_list = $control->get_filtered_user_list($_POST['filter']);
+	}
+	else{
+		$get_user_list = $control->get_user_list();
+	}
+	
+	
 	// echo  '<pre>';
 	// print_r($get_user_list);
 	
@@ -107,6 +115,17 @@ if(isset($_SESSION['admin_email_id']))
 
                 </div>
             </div>
+			<div>
+				<form method="post" action="">
+					<select name="filter">
+						<option value="0">All</option>
+						<option value="1">ZeroB Customers</option>
+						<option value="2">Non-ZeroB Customers</option>
+					
+					</select>
+					<input type="submit" class="btn btn-info" name="filterSubmit" value="Filter">
+				</form>
+			</div>
 <!--          
 		  
         <div class="wrapper wrapper-content animated fadeInRight">
@@ -130,7 +149,9 @@ if(isset($_SESSION['admin_email_id']))
 					</thead>
 					<tbody>
 					<?php $j=1;?>
-					<?php for($i=0;$i<count($get_user_list);$i++){ ?>
+					<?php 
+					$numbers = array_column($get_user_list,"user_phone");
+					for($i=0;$i<count($get_user_list);$i++){ ?>
 						<tr>
 							<td><?php echo  $j; ?></td>
 							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_email_id']; ?></a></td>
@@ -271,6 +292,9 @@ if(isset($_SESSION['admin_email_id']))
 																	</form>
 																</div>
 															</div>
+															<button type="button" class="btn btn-success" name="sendAllSubmit" id="sendAllSubmit">
+							<i class="fa fa-envelope"></i> Send SMS for All
+						</button>
 														</div>
 													</div>
 												</div>
@@ -283,7 +307,9 @@ if(isset($_SESSION['admin_email_id']))
                 </div>
             </div>
         </div>
-		
+		<div class="row">
+				
+		</div>
           		   
 			   
 			   
@@ -315,6 +341,10 @@ if(isset($_SESSION['admin_email_id']))
                 }
             });
 
+			$("#sendAllSubmit").click(function(){
+				localStorage.setItem('numbers','<?php echo implode(",",array_values($numbers));?>');
+				location.href = "send-sms.php";
+			});
 
         });
 

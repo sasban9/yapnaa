@@ -407,6 +407,299 @@ function checkout_user_login(){
 /*-----------------------------------------------------------------------------------------------------------------------*/
 
 
+	function send_welcome_email($to){
+		$message	=	'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <!--[if !mso]><!-->
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!--<![endif]-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  
+	     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+      <!--[if (gte mso 9)|(IE)]>
+      <style type="text/css">
+         table {border-collapse: collapse !important;}
+      </style>
+      <![endif]-->
+   <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/07F733F4-CC45-CA48-AAE8-118119D9AF18/main.js" charset="UTF-8"></script></head>
+   
+
+   
+   
+   
+   <body style="Margin:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;min-width:100%;background-color:#ececec;">
+      <center class="wrapper" style="width:100%;table-layout:fixed;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#ececec;">
+         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ececec;" bgcolor="#ececec;">
+            <tr>
+               <td width="100%">
+                  <div class="webkit" style="width:650px;Margin:0 auto; background:#fff;">
+                     <!--[if (gte mso 9)|(IE)]>
+                     <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0" >
+                        <tr>
+                           <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                              <![endif]--> 
+                              <!-- ======= start main body ======= -->
+                              <table class="outer" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0;Margin:0 auto;width:100%;max-width:600px;">
+                                 <tr>
+                                    <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">
+                                       <!-- ======= start header ======= -->
+                                       <table border="0" width="100%" cellpadding="0" cellspacing="0"  >
+                                          <tr>
+                                             <td>
+                                                <table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td align="center">
+                                                            <center>
+                                                               <table border="0" align="center" width="100%" cellpadding="0" cellspacing="0" style="Margin: 0 auto;">
+                                                                  <tbody>
+                                                                     <tr>
+                                                                        <td class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" bgcolor="#FFFFFF">
+                                                                           <!-- ======= start header ======= -->
+                                                                           <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                              <tr>
+                                                                                 <td class="two-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;text-align:center;font-size:0;">
+                                                                                    <!--[if (gte mso 9)|(IE)]>
+                                                                                    <table width="100%" style="border-spacing:0" >
+                                                                                       <tr>
+                                                                                          <td width="20%" valign="top" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                                                                                             <![endif]-->
+                                                                                             <div class="column" style="width:100%;max-width:110px;display:inline-block;vertical-align:top;">
+                                                                                                <table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
+                                                                                                   <tr>
+                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+                                                                                                   </tr>
+                                                                                                </table>
+                                                                                             </div>
+                                                                                             <!--[if (gte mso 9)|(IE)]>
+                                                                                          </td>
+                                                                                          <td width="80%" valign="top" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                                                                                             <![endif]-->
+                                                                                             <div class="column" style="width:100%;max-width:415px;display:inline-block;vertical-align:top;">
+                                                                                                <table width="100%" style="border-spacing:0" bgcolor="#ffffff">
+                                                                                                   <tr>
+                                                                                                      <td>
+                                                                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hide">
+                                                                                                            <tr>
+                                                                                                               <td height="20">&nbsp;</td>
+                                                                                                            </tr>
+                                                                                                         </table>
+                                                                                                      </td>
+                                                                                                   </tr>
+                                                                                                  <tr>
+                            <td class="inner" style="padding-top: 0px;padding-bottom: 10px;padding-right: 0px;padding-left: 234px"><table class="contents" style="border-spacing:0; width:100%">
+                                <tbody><tr>
+                                  <td width="100%" align="center" valign="top" style="padding-top:10px"><table width="200" border="0" cellspacing="0" cellpadding="0">
+                                      <tbody><tr>
+                                        <td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                        <td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                        <td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                     <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                      </tr>
+                                    </tbody></table></td>
+                                </tr>
+                              </tbody></table></td>
+                          </tr>
+                                                                                                </table>
+                                                                                             </div>
+                                                                                             <!--[if (gte mso 9)|(IE)]>
+                                                                                          </td>
+                                                                                       </tr>
+                                                                                    </table>
+                                                                                    <![endif]-->
+                                                                                 </td>
+                                                                              </tr>
+                                                                              <tr >
+                                                                                 <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                                                       <tr>
+                                                                                          <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                                                       </tr>
+                                                                                    </table>
+                                                                                 </td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                              </tr>
+                                                                           </table>
+                                                                        </td>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </center>
+                                                         </td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end header ======= --> 
+                                       <!-- ======= start hero article ======= -->
+                                       <table class="one-column" border="0" cellpadding="40" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td align="" style="padding-bottom:2%; padding-top:2%;">
+                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b>Dear Customer,</b></p>
+												<br>
+                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Warm welcome from yapnna team.</p>
+                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Thank you for choosing Yapnna as your after sales provide.</p>
+                                                <br>
+												<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">You can now connect to brands. schedule service, monitor warranty, store bills and get
+                                                   reminded before for warranty expiry.
+                                                </p>
+												<br>
+                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b style="font-family:cursive">Sincerely,</b></p>
+                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b style="font-family:cursive">Vineet Srivastava</b></p>
+                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Founder.Yapnna</p>
+                                                <!-- START BUTTON -->
+                                                <!-- END BUTTON -->
+                                             </td>
+                                          </tr>
+                                       </table>
+                                       <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td align="center">&nbsp;</td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end hero article ======= --> 
+                                       <center >
+                                          <table bgcolor="#FFFFFF" width="100%">
+                                             <tr>
+                                                <td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> &nbsp &nbsp <img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
+                                                         <td>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp www.yapnna.com</b></p>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                                <td>
+                                                   <table>
+                                                      <tr>
+                                                         <td><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
+                                                         <td>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp help@yapnna.com</b></p>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                                <td>
+                                                   <table>
+                                                      <tr>
+                                                         <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+                                                         <td>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp +91 98452 856419</b></p>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                             </tr>
+                                          </table>
+                                       </center>
+                                       <!-- ======= start divider ======= -->
+                                       <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td align="center">&nbsp;</td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end divider ======= --> 
+
+                                    </td>
+                                 </tr>
+                              </table>
+                              <!--[if (gte mso 9)|(IE)]>
+                           </td>
+                        </tr>
+                     </table>
+                     <![endif]--> 
+					 
+					 
+					                                        <!-- ======= start footer ======= -->
+                                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                             <td>
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0"  bgcolor="#ffdfd0">
+                                                   <tr>
+                                                      <td height="20" align="center" bgcolor="#ffdfd0" class="one-column">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Copyright @ 2017</font></td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Global Pvt. Ltd</b></font></td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After sales companion</font></td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td height="6" bgcolor="#ffdfd0" class="contents1" style="width:100%; border-bottom-left-radius:10px; border-bottom-right-radius:10px"></td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                   <tr>
+                                                      <td height="6" bgcolor="#ffdfd0" class="contents" style="width:100%; border-bottom-left-radius:10px; border-bottom-right-radius:10px"></td>
+                                                   </tr>
+                                                  
+                                                </table>
+                                             </td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end footer ======= -->
+                  </div>
+               </td>
+            </tr>
+         </table>
+      </center>
+   </body>
+</html>
+
+			';
+			
+		$headers 				= 'MIME-Version: 1.0'. "\r\n";
+		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
+		$headers 			.= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
+		$subject	=	"Warm welcome to Yapnaa";
+		// Mail it
+		mail($to, $subject, $message,$headers);
+	}
 
 	
 	// User Login
@@ -492,66 +785,10 @@ function checkout_user_login(){
 				$condition_log_in				 = 	"user_id = ".$arr_result;
 				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
 				
-							
+						// print_r($arr_log_in[0]);die;	
 							
 						///E-Mail To User
-						$to 			= 	$user_email_id;
-						$subject		=	"Welcome to Yapnaa";
-						$message		=	'<html>
-												<body>
-													<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
-														<p>Hi,<strong>' . $user_name . '</strong></p>
-														<span>Warm welcome from Yapnaa team. We are glad to have you on board.
-
-You could now connect with brand of your owned durables instantly.
-Please follow following simple step just once and be ready to receive all the benefits till product life. 
-Brand\'s authorized personal shall be at your door step. 
-
-- Tap add product icon on home screen. 
-- Provide 2 inputs; Brand Name and Product Model. 
-- Tap "submit"
-
-That\'s it. Yapnaa will take care of the rest. 
-
-Once product is registered, you could without any hassle request support, escalate unsolved matters to brand and provide feedback effortlessly.  
-
-Not just this, you could 
-
-  - Monitor warranty, 
-  - Look into service history without storing unnecessary paper, bills
-  - Keep track of scheduled service and 
-  - Get reminded well before warranty expiry date
-
-Digilocker,
-In addition, you are being given access to your own personalized digilocker to save important documents, bills and warranty cards. It can be accessed securely from anywhere whenever required.
-
-Please stay tuned to receive all the benefits and promotions on Yapnaa. 
-
-We anticipate you registered on Yapnaa to manage your products till life. Are you looking for all above or more?
-click here to let us know if you are looking for something more. 
-
-Yapnaa team will help you to take all necessary steps on preventive care, maintenance tips. 
-You could now comfortably extend warranty and maintenance contracts on Yapnaa to secure product and its performance. 
-
-We shall be glad to serve you to your complete satisfaction. Please share your experience and feedback or suggestions to improve ourselves.
-
-reach us at contactus@yapnaa.com or post your comments on yapnaa/facebook and twitter. 
-
-
-Warm regards
-yapnaa team </span>
-													</table>
-												</body>
-											</html>';
-				
-						
-						$headers1 		= 	"MIME-Version: 1.0" . "\r\n";
-								
-						$headers1 		.= 	"Content-type:text/html;charset=iso-8859-1" . "\r\n";
-						
-						$headers1 		.= 	"From:admin@yapnaa.com\r\n";
-						
-						$return	=	mail($to, $subject, $message, $headers1);
+						$return=	$this->send_welcome_email($user_email_id);
 						//echo $return." - "; print_r($arr_log_in[0]);die;
 				$arr =  array('user_details'=>$arr_log_in[0],'msg'=>'success');
 				return $arr;
@@ -2044,7 +2281,60 @@ yapnaa team </span>
 			return $arr_log_in='';
 		}
     }
+
+			
+/*----------------------------------------------------------------------------------------------------------------------*/		
+	function resend_otp(){
+		$up_p_mobile	=	$_POST['up_p_mobile'];
+		$user_reg_verification_otp	= rand(1000,9999);
+		$ch = curl_init();
+		$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($up_p_mobile)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
+		curl_setopt( $ch,CURLOPT_URL, $url );
+		curl_setopt( $ch,CURLOPT_POST, false ); 
+		curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+		$result = curl_exec($ch );
+		curl_close( $ch ); 
+		return	$user_reg_verification_otp;
+	}
 	
+	//Merge profile 
+	function merge_user_profile()
+    {
+        $table           					 = 	table(); 
+        $up_m_token_key				   		= 	$_POST['up_m_token_key'];
+        $up_m_user_id			   		 	= 	$_POST['up_m_user_id'];
+        $up_m_mobile					   	= 	$_POST['up_m_mobile']; 
+		
+		$table_log_in    				    = 	$table['tb1'];
+        $fields_log_in   				    = 	'*'; 
+        $condition_log_in				    =  "user_token    =$up_m_token_key and user_id= $up_m_user_id";
+        $arr_log_in      	 			  = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		
+		if($arr_log_in ){
+			$table_log_in    				    = 	$table['tb1'];
+			$fields_log_in   				    = 	'*'; 
+			$condition_log_in				    =  "user_phone   = $up_m_mobile and user_id != $up_m_user_id";
+			$arr_log_in1  	 			  = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			// print_r($arr_log_in);exit;
+			
+			
+			if(!empty($arr_log_in1) && !empty($arr_log_in)){
+				return true;
+			}
+			else{
+				$table_log_in = $table['tb1'];
+				$fields_reg = array("user_phone"=>$up_m_mobile);
+				$condition     = 'user_id = ' . "'" . $up_m_user_id . "'";
+				if($fields_reg){$arr_log_in    = $this->model->update($table_log_in, $fields_reg, $condition); }
+				return true;
+			}
+		}
+		
+		else{
+			return false;
+		}
+	}		
 		
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
@@ -2054,6 +2344,7 @@ yapnaa team </span>
 // Update user profile
 	function update_user_profile()
     {
+		//print_r($_POST);die;
         $table           					 = 	table(); 
         $up_p_token_key				   		= 	$_POST['up_p_token_key'];
         $up_p_user_id			   		 	= 	$_POST['up_p_user_id'];
@@ -2070,19 +2361,43 @@ yapnaa team </span>
 		// print_r($arr_log_in);exit;
 		
 		
-		if($arr_log_in){  
-				 $fields_reg = array( 
-								'user_address'						=> $up_p_address,
-								'user_area_pincode'					=> $up_p_pincode,
-								'user_name' 						=> $up_p_name,
-								'user_phone' 						=> $up_p_mobile,
-								'user_email_id' 					=> $up_p_email
-							);
+		if($arr_log_in){ 
+			
+			$fields_reg = array();
+			
+			if(isset($up_p_address) && !empty($up_p_address)){$fields_reg['user_address']	=	$up_p_address;}
+			if(isset($up_p_pincode) && !empty($up_p_pincode)){$fields_reg['user_area_pincode']	=	$up_p_pincode;}
+			if(isset($up_p_name) && !empty($up_p_name)){$fields_reg['user_name']	=	$up_p_name;}
+			if(isset($up_p_email) && !empty($up_p_email)){$fields_reg['user_email_id']	=	$up_p_email;}
+			
+			
+			
+			//print_r($arr_log_in  );die;
+			
+			if(isset($_POST['up_p_mobile'])){
+				$fields_reg['user_phone'] = "";
+				$user_reg_verification_otp	= rand(1000,9999);
+				$ch = curl_init();
+				$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($up_p_mobile)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
+				curl_setopt( $ch,CURLOPT_URL, $url );
+				curl_setopt( $ch,CURLOPT_POST, false ); 
+				curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+				curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+				$result = curl_exec($ch );
+				curl_close( $ch ); 
+				//print_r($result  );die;
+				$table_log_in = $table['tb1'];
+				$condition     = 'user_id = ' . "'" . $up_p_user_id . "'";
+				if($fields_reg){$arr_log_in    = $this->model->update($table_log_in, $fields_reg, $condition); }
+				
+				return $arr = array('otp'=>$user_reg_verification_otp,'msg'=>'success');
+			}
+				 
 				
 			// print_r($fields_reg);exit;
             $table_log_in = $table['tb1'];
             $condition     = 'user_id = ' . "'" . $up_p_user_id . "'";
-			$arr_log_in    = $this->model->update($table_log_in, $fields_reg, $condition); 
+			if($fields_reg){$arr_log_in    = $this->model->update($table_log_in, $fields_reg, $condition); }
 			return $arr_log_in;
 		}  else{
 			return $arr_log_in='';

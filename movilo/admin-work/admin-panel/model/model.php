@@ -518,13 +518,18 @@ class model {
 		
 		
 		if($filter == 7){
-			$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}
-				
+		
 		//echo 	$fromDate."==".$toDate."<br>"	 ;
 		//echo $sql;die;
 		$qry	=	connection()->query($sql);
 		$ret=array();
+		//print_r(mysqli_fetch_assoc($qry));die;
 		while($row=mysqli_fetch_assoc($qry)){
 				$ret[]=$row;
 			}

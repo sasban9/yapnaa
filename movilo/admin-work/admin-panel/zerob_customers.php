@@ -173,18 +173,18 @@ if(isset($_SESSION['admin_email_id']))
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-					<form action="send-sms.php" method="POST">
+				<form action="send-sms.php" method="POST">
                     <table class="table table-striped table-bordered table-hover dataTables-example" >
 					<thead>
 					<tr>
-							<th></th>
+							<th><!--input type="checkbox" name="" id="selectAll" /--></th>
 							<th>ZeroB ID</th>
 							<th>Phone </th>
 							<th>Name</th>
 							<th>AMC From & To</th>
 							<th>Last Call</th>
 							<th>Last Action</th>
-							<th>Last Comment</th>
+							<th>Last Comment/SMS</th>
 							<th>Action</th> 
 						
 						
@@ -192,7 +192,9 @@ if(isset($_SESSION['admin_email_id']))
 					</thead>
 					<tbody>
 					<?php $j=1;?>
-					<?php for($i=0;$i<count($get_amc_list);$i++){ 
+					<?php 
+						$numbers = array_column($get_amc_list,"PHONE1");//print_r($numbers);die;
+					for($i=0;$i<count($get_amc_list);$i++){ 
 								
 							date_default_timezone_set('Asia/Kolkata');
 	
@@ -208,11 +210,11 @@ if(isset($_SESSION['admin_email_id']))
 						<tr>
 							<td><input type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
 							<td <?php //echo "status".$get_amc_list[$i]['status'];
-									if($get_amc_list[$i]['users'] != null || !empty($get_amc_list[$i]['users'])){
+									/*if($get_amc_list[$i]['users'] != null || !empty($get_amc_list[$i]['users'])){
 											echo 'style="background-color:orange;color:white;font-style:bold;"><i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>Yapnaa Registered';
 										}
 									
-									else{
+									else{*/
 											
 											switch($get_amc_list[$i]['status']){
 										
@@ -244,7 +246,7 @@ if(isset($_SESSION['admin_email_id']))
 												case 4:
 												//Registered in App
 													if(!$datediff <= 15){
-														echo 'style="background-color:orange;color:white;font-style:bold;"><i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>Yapnaa Registered';
+														echo 'style="background-color:orange;color:white;font-style:bold;"><i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>'.$get_amc_list[$i]['CUSTOMERID'];
 													}
 												break;
 												
@@ -273,8 +275,7 @@ if(isset($_SESSION['admin_email_id']))
 												echo "style='background-color:#23c6c8;color:white;'>";
 											}*/
 											
-										}
-									
+										//}
 									
 									?>
 									
@@ -284,7 +285,7 @@ if(isset($_SESSION['admin_email_id']))
 							<td><?php echo (empty($get_amc_list[$i]['CONTRACT_FROM']) && empty($get_amc_list[$i]['CONTRACT_TO'])) ? '-' :($get_amc_list[$i]['CONTRACT_FROM']." to ".$get_amc_list[$i]['CONTRACT_TO']); ?></td>
 							<td><?php echo ($get_amc_list[$i]['last_called'] == '0000-00-00 00:00:00') ? '-' : $get_amc_list[$i]['last_called']; ?></td> 
 							<td><?php
-							if($get_amc_list[$i]['users'] == null || empty($get_amc_list[$i]['users'])){
+							//if($get_amc_list[$i]['users'] == null || empty($get_amc_list[$i]['users'])){
 								switch($get_amc_list[$i]['status']){
 									
 									case 1:
@@ -294,7 +295,8 @@ if(isset($_SESSION['admin_email_id']))
 										echo "Not interested";
 									break;
 									case 3:
-										echo "Appointment set";
+										$time = strtotime($get_amc_list[$i]['amc_appointment_datetime']);
+										echo "Appointment set - ".date('d-m-Y H:i',$time);
 									break;
 									case 4:
 										echo "Registered in App";
@@ -310,14 +312,14 @@ if(isset($_SESSION['admin_email_id']))
 										echo "-";
 									break;
 								}
-							}
+							/*}
 							else{
 								echo "Registered in App";
-							}
+							}*/
 								
 							
 							?></td> 
-							<td><?php echo $get_amc_list[$i]['last_call_comment']; ?></td>
+							<td><?php echo empty($get_amc_list[$i]['last_call_comment'])?$get_amc_list[$i]['last_sms_sent']:$get_amc_list[$i]['last_call_comment']; ?></td>
 							<td><?php //if(!($datediff <= 15)){ ?>  
 							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button>
 							
@@ -331,6 +333,9 @@ if(isset($_SESSION['admin_email_id']))
 					<div class="row">
 						<button type="submit" class="btn btn-success" name="sendSMSSubmit">
 							<i class="fa fa-envelope"></i> Send SMS for Selected
+						</button>
+						<button type="button" class="btn btn-success" name="sendAllSubmit" id="sendAllSubmit">
+							<i class="fa fa-envelope"></i> Send SMS for All
 						</button>
 					</div>
 				</form>
@@ -404,8 +409,7 @@ if(isset($_SESSION['admin_email_id']))
       
     </div>
   </div>
-               
-<?php include "footer.php";?>
+           
 
  <!-- Modal -->
   <div class="modal fade" id="editAMC" role="dialog">
@@ -483,6 +487,9 @@ if(isset($_SESSION['admin_email_id']))
     </div>
   </div>
        
+		   
+<?php include "footer.php";?>
+
 
 
 
@@ -512,6 +519,19 @@ if(isset($_SESSION['admin_email_id']))
                 }
             });
 
+			$("#selectAll").click(function(){
+				if($(this).attr('checked') != 'checked'){
+					$("input[type='checkbox']").attr('checked', true);
+				}
+				else{
+					$("input[type='checkbox']").attr('checked', false);
+				}
+				
+			});
+			$("#sendAllSubmit").click(function(){
+				localStorage.setItem('numbers','<?php echo implode(",",array_values($numbers));?>');
+				location.href = "send-sms.php";
+			});
 			$(".actionBox,editAMC").click(function(){
 				sessionStorage.id = $(this).attr('data-id');
 				sessionStorage.name = $(this).attr('data-name');

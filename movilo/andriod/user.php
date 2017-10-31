@@ -38,8 +38,9 @@ if(!empty($_POST['user_app_launch'])){
 	}
 }
 
-
-
+if(!empty($_REQUEST['send_email'])){
+	$user_app_launch			= 	$obj_search->send_welcome_email("jitesh@jjbytes.com");
+}
 
 /*=============================================================================================*/
 
@@ -126,6 +127,7 @@ if(!empty($_POST['forgot_password_submit'])){
 		print_r(json_encode($arr_success_msg));
 	}
 }
+
 
 /*=============================================================================================*/
 
@@ -526,6 +528,27 @@ if(!empty($_POST['user_p_token_key'])){
 
 
 
+/*=============================================================================================*/
+
+
+
+//Edit user profile   
+if(!empty($_POST['resend_otp'])){
+	$update_user_profile				= 	$obj_search->resend_otp();
+	// print_r($update_user_product);exit;
+	if($update_user_profile){ 
+		$data					=	array(); 
+		$data['msg']			=	'success';
+		$data['otp']			=	$update_user_profile;
+		print_r(json_encode($data));
+	}
+	else{
+		$arr_success_msg['msg']  = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}
+}
+
+
 
 /*=============================================================================================*/
 
@@ -534,12 +557,37 @@ if(!empty($_POST['user_p_token_key'])){
 //Edit user profile   
 if(!empty($_POST['up_p_token_key'])){
 	$update_user_profile				= 	$obj_search->update_user_profile();
-	// print_r($update_user_product);exit;
-	if($update_user_profile){ 
+	//print_r($update_user_profile);exit;
+	if($update_user_profile && !isset($update_user_profile['otp'])){ 
 		$data					=	array(); 
 		$data['msg']			=	'success';
 		print_r(json_encode($data));
+	}
+	if($update_user_profile && isset($update_user_profile['otp'])){ 
+		$data					=	$update_user_profile;
+		//$data['msg']			=	'success';
+		print_r(json_encode($data));
 	}else{
+		$arr_success_msg['msg']  = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}
+}
+
+
+/*=============================================================================================*/
+
+
+
+//User profile   merge
+if(!empty($_POST['up_m_token_key'])){
+	$update_user_profile				= 	$obj_search->merge_user_profile();
+	// print_r($update_user_product);exit;
+	if($update_user_profile ){ 
+		$data					=	array(); 
+		$data['msg']			=	'success';
+		print_r(json_encode($data));
+	}
+	else{
 		$arr_success_msg['msg']  = 'Token key expire';
 		print_r(json_encode($arr_success_msg));
 	}
