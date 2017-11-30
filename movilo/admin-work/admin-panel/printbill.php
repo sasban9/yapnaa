@@ -48,6 +48,7 @@ if(isset($_REQUEST['id'])){
 <html lang="en" class="app">
 <head>
   <meta charset="utf-8" />
+   <link rel="icon" type="image/png" href="images/Yapnaa_logo-96x96.png">
   <title>Prithvi Billing</title>
   <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 

@@ -8,6 +8,7 @@
         <meta name="description" content="">
         <meta name="keywords" content="Support for consumer durables,Support for home appliances,AMC for home appliances, AMC for washing machine, Refrigerator, Washing machine, Water cooler, Like this write each product, Support centre for consumer durables, Support centre for consumer electronics, Support centre for consumer appliances, Zero B Water purifier ">
         <!--<meta name="author" content="Webpentagon">-->
+		<link rel="icon" type="image/png" href="movilo/admin-workadmin-panel/images/Yapnaa_logo-96x96.png">
         <title>Yapnaa</title>
 		<!-- Short cut favicon Icon Link-->
        	<link rel="shortcut icon" href="images/yapnaa-fav.png" type="image/x-icon">
@@ -244,7 +245,7 @@
 											</div>
 											<div class="form-group">
 												<div class="col-md-12">
-													<input type="submit"  class="banner-input-field-submit" value="SEND NOW">
+													<input type="submit"   class="banner-input-field-submit" value="SEND NOW">
 												</div>
 											</div>
 										</fieldset>
@@ -1479,7 +1480,7 @@
 			
 			//banner form
 			$('#bannerform').click (function(){
-			// alert ('hi');
+			 //alert ('hi');
 			
 			$('#loader-image').show();	
 				

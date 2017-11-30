@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <?php
 session_start(); 
 if(isset($_SESSION['admin_email_id']))
@@ -7,7 +6,7 @@ if(isset($_SESSION['admin_email_id']))
 	 $admin_email_id	= $_SESSION['admin_email_id'];
 	 $admin_name		= $_SESSION['admin_name'];
 	 $admin_last_login	= $_SESSION['admin_last_login'];
-
+      $ar_id  	        = $_SESSION['ar_id'];
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
 	
@@ -57,6 +56,9 @@ if(isset($_SESSION['admin_email_id']))
 		//echo $fromDate."--".$toDate;die;
 		//echo $date1;exit;
 		$get_amc_list = $control->get_zerob_list($search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		if(isset($_POST['da_downl']) || !empty($_POST['da_downl'])){
+			$control->download_zerob_list($search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		}
 	}
 	/*else{
 		$get_amc_list = $control->get_zerob_list("");
@@ -74,12 +76,11 @@ if(isset($_SESSION['admin_email_id']))
 <html>
 
 
-<!-- Mirrored from webapplayers.com/inspinia_admin-v2.0/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 24 Apr 2015 10:49:42 GMT -->
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+     <link rel="icon" type="image/png" href="images/Yapnaa_logo-96x96.png">
     <title>Movilo | Dashboard</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -93,7 +94,7 @@ if(isset($_SESSION['admin_email_id']))
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 </head>
 
 <body>
@@ -125,18 +126,18 @@ if(isset($_SESSION['admin_email_id']))
 				
                 <div class="col-lg-3">
 					<label>Search Keyword</label>
-					<input type="text" id="searchBox" class="maincls form-control"  maxlength="60" name="search" placeholder="Enter name, number or area">
+					<input type="text" id="searchBox" class="maincls form-control" value="<?php echo($_POST['search']==0)?$_POST['search']:"";?>"  maxlength="60" name="search" placeholder="Enter name, number or area">
 				</div>
                 <div class="col-lg-2">
 					<label>Filter By</label>
 					<select id="filterBy" class="form-control" name="filter">
-						<option value="0">Filter</option>
-						<option value="1" >Call Back</option>
-						<option value="2" >Not Interested</option>
-						<option value="3" >Appointment Set</option>
-						<option value="5" >Yapnaa Interested SMS Sent</option>
-						<option value="6" >Expiry SMS Sent</option>
-						<option value="7" >Yapnaa Registered</option>
+						<option value="0"<?php echo($_POST['filter']==0)?"selected":"";?>>Filter</option>
+						<option value="1" <?php echo($_POST['filter']==1)?"selected":"";?>>Call Back</option>
+						<option value="2"<?php echo($_POST['filter']==2)?"selected":"";?> >Not Interested</option>
+						<option value="3" <?php echo($_POST['filter']==3)?"selected":"";?>>Appointment Set</option>
+						<option value="5"<?php echo($_POST['filter']==5)?"selected":"";?> >Yapnaa Interested SMS Sent</option>
+						<option value="6" <?php echo($_POST['filter']==6)?"selected":"";?>>Expiry SMS Sent</option>
+						<option value="7" <?php echo($_POST['filter']==7)?"selected":"";?>>Yapnaa Registered</option>
 					</select>
 				</div>
 			</div>
@@ -144,23 +145,28 @@ if(isset($_SESSION['admin_email_id']))
 			<div class="row">
 			<div class="col-lg-2">
 					<label>AMC From</label>
-					<input type="date" class="form-control" id="amc_fromDate" name="amc_fromDate">
+					<input type="date" class="form-control"  id="amc_fromDate" name="amc_fromDate" >
 				</div>
 				<div class="col-lg-2">
 					<label>AMC To</label>
-					<input type="date" class="form-control"  id="amc_toDate" name="amc_toDate">
+					<input type="date" class="form-control"  id="amc_toDate" name="amc_toDate" >
 				</div>
 					<div class="col-lg-2">
 					<label>Last Call From</label>
-					<input type="date" class="form-control" id="fromDate" name="fromDate">
+					<input type="date" class="form-control" id="fromDate" name="fromDate" value="<?php echo(isset($_POST['fromDate']))?$_POST['fromDate']:"";?>">
 				</div>
 				<div class="col-lg-2">
 					<label>Last Call To</label>
-					<input type="date" class="form-control"  id="toDate" name="toDate">
+					<input type="date" class="form-control"  id="toDate" name="toDate" value="<?php echo(isset($_POST['toDate']))?$_POST['toDate']:"";?>">
 				</div>
-				<div class="col-lg-2"  style="margin-left:-3%;margin-top: 23px;">
-					<input type="submit" id="submit"  class="btn btn-info pull-right" value="Search"  name="submit" >
+				<div class="col-lg-2"  style="margin-top: 23px;">
+					<input type="submit" id="submit"  class="btn btn-info " value="Search"  name="submit" >
 				</div>
+				<?php if($ar_id==1 || $ar_id==2){?>
+				<div class="col-sm-2"  style="margin-left: -86px;margin-top: 23px;">
+					<input type="submit" id="da_downl" name="da_downl"  class="btn btn-info" value="Download">
+				</div>
+				<?php }?>
 				<div class="col-lg-2">
 					<input type="submit" id="submit"  class="btn btn-info pull-right"  name="none" style="visibility:hidden;">
 				</div>
@@ -323,7 +329,7 @@ if(isset($_SESSION['admin_email_id']))
 							<td><?php //if(!($datediff <= 15)){ ?>  
 							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button>
 							
-							<button type="button"  style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
+							<button type="button"  style="margin-right:2px; width:38px" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
 							 
 						</tr>
 					<?php $j++; } ?>
@@ -337,6 +343,11 @@ if(isset($_SESSION['admin_email_id']))
 						<button type="button" class="btn btn-success" name="sendAllSubmit" id="sendAllSubmit">
 							<i class="fa fa-envelope"></i> Send SMS for All
 						</button>
+						<?php if($ar_id==1 || $ar_id==2){?>
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#csv_yapana" name="csv_upl" id="csv_upl">
+							 UPLOAD 
+						</button>
+						<?php }?>
 					</div>
 				</form>
                     </div>
@@ -370,7 +381,12 @@ if(isset($_SESSION['admin_email_id']))
 					<label>Appointment Time</label>
 				</div>
 				<div class="col-lg-4"> 
-					<input type="datetime-local"  class="maincls form-control" id="appDate"  name="bdaytime"/>
+					<!--input type="datetime-local"  class="maincls form-control" id="appDate"  name="bdaytime" size=16 /-->
+					<div class="controls input-append date form_datetime" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1">
+						<input size="16" type="text" value="" id="appDate"  name="bdaytime"  readonly>
+						<span class="add-on"><i class="icon-remove"></i></span>
+						<span class="add-on"><i class="icon-th"></i></span>
+					</div>
 				</div>
 				<div class="col-lg-4"> 
 					<button type="button" class="btn btn-success" id="appSMS">
@@ -487,6 +503,34 @@ if(isset($_SESSION['admin_email_id']))
     </div>
   </div>
        
+<div class="modal fade" id="csv_yapana" role="dialog">
+    <div class="modal-dialog  modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" id="modal-title">Do something!</h4>
+        </div>
+        <div class="modal-body">
+			
+         
+			
+		<form action="csv_file_up_yapnna.php" method="POST" enctype="multipart/form-data">
+		 <input type="file" name="file" class="" >	
+		<!--div class="col-lg-5"> 
+        </div-->
+        <div class="modal-footer">
+			
+			<input type="submit" id="up_csv" name="up_csv" class="btn btn-info pull left" data-toggle="modal">
+							
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</form>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
 		   
 <?php include "footer.php";?>
 
@@ -499,7 +543,14 @@ if(isset($_SESSION['admin_email_id']))
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
-
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script type="text/javascript">
+		$(".form_datetime").datetimepicker({
+			format: "dd-mm-yyyy hh:ii",
+			linkField: "mirror_field",
+			linkFormat: "yyyy-mm-dd hh:ii"
+		});
+	</script> 
     <!-- Data Tables -->
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
@@ -510,8 +561,10 @@ if(isset($_SESSION['admin_email_id']))
     <script>
         $(document).ready(function() {
 			/*$("#submit").click(function(){
-				if
+				if$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate
 			});*/
+		  
+			
             $('.dataTables-example').dataTable({
                 responsive: true,
                 "tableTools": {

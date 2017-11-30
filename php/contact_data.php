@@ -21,7 +21,7 @@
 	if($res){ 
 			if (isset($_REQUEST['email']))  {
 
-			$admin_email = "vineet@moviloglobal.com,kapil@jjbytes.com,jitesh@jjbytes.com,faizan.jjbytes@gmail.com";
+			$admin_email = "vineet@moviloglobal.com,kapil@jjbytes.com,jitesh@jjbytes.com,faizan.jjbytes@gmail.com,sriramm@moviloglobal.com";
 			$email       = $_REQUEST['email'];
 			$subject     = 'Form filled on Yapnaa';
 			$message     = "Name 	: $name

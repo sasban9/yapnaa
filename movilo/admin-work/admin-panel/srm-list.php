@@ -39,7 +39,7 @@ if(isset($_SESSION['admin_email_id']))
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+     <link rel="icon" type="image/png" href="images/Yapnaa_logo-96x96.png">
     <title>Movilo | Dashboard</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -63,13 +63,13 @@ if(isset($_SESSION['admin_email_id']))
 
 		<div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>AMC Request List</h2>
+                    <h2>SRM Request List</h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.php">Home</a>
                         </li>
                         <li class="active">
-                            <strong>AMC Request List</strong>
+                            <strong>SRM Request List</strong>
                         </li>
                     </ol>
                 </div>
@@ -95,14 +95,14 @@ if(isset($_SESSION['admin_email_id']))
 					<thead>
 					<tr>
 							<th>S.No</th>
-							<th>Email </th>
+							
 							<th>Phone No</th>
 							<th>Installation</th>
-							<th>City</th>
-							<th>Pincode</th>
+							
 							<th>Address</th>
 							<th>Product Name</th> 
 							<th>Brand Name</th> 
+							<th>Requested Date</th>
 							<th>View</th>
 							<th>Action</th>
 						
@@ -113,17 +113,17 @@ if(isset($_SESSION['admin_email_id']))
 																		<?php for($i=0;$i<count($srm_request_list);$i++){ ?>
 																			<tr>
 																				<td><?php echo  $j; ?></td>
-																				<td><a href="user-details.php?id=<?php echo $srm_request_list[$i]['srm_user_id']; ?>" target="_blank"><?php echo $srm_request_list[$i]['user_email_id']; ?></a></td>
+																				
 																				<td><?php echo $srm_request_list[$i]['user_phone']; ?></td>
 																				<td><?php if( $srm_request_list[$i]['srm_installation']){echo $srm_request_list[$i]['srm_installation'].' ('.$srm_request_list[$i]['srm_installation_date'].')'; 
 																				}else{
 																					echo "No";
 																				}?></td> 
-																				<td><?php echo $srm_request_list[$i]['user_city']; ?></td>
-																				<td><?php echo $srm_request_list[$i]['user_area_pincode']; ?></td>
+																				
 																				<td><?php echo $srm_request_list[$i]['user_address']; ?></td>
 																				<td><?php echo $srm_request_list[$i]['p_category_name']; ?></td>
-																				<td><a href="user-product-details.php?id=<?php echo $srm_request_list[$i]['srm_product_id']; ?>" target="_blank"><?php echo $srm_request_list[$i]['brand_name']; ?><a></td> 
+																				<td><a href="user-product-details.php?id=<?php echo $srm_request_list[$i]['srm_product_id']; ?>" target="_blank"><?php echo $srm_request_list[$i]['brand_name']; ?><a></td>
+                                                                                <td><a href="user-details.php?id=<?php echo $srm_request_list[$i]['srm_user_id']; ?>" target="_blank"><?php echo $srm_request_list[$i]['srm_user_generated_date']; ?></a></td>																				
 																				<td><a href="srm-request-details.php?id=<?php echo $srm_request_list[$i]['srm_id']; ?>">View Details</a></td>
 																				<td>
 																					<?php if($srm_request_list[$i]['srm_status']==0) {?>

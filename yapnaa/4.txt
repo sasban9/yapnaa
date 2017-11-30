@@ -1,0 +1,1 @@
+{"msg":"success","cart_details":[{"user_cart_id":"244","user_cart_qty":"1","user_cart_p_price":"50","p_product_title":"PATANJALI DIGESTIVE WHOLE WHEAT BISCUT"},{"user_cart_id":"243","user_cart_qty":"2","user_cart_p_price":"35","p_product_title":"PATANJALI SOUNDARYA BODY CLEANSER 75GM"}]}
