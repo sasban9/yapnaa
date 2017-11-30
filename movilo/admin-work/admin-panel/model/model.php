@@ -19,6 +19,7 @@ class model {
 			}
 		return $ret;
 	}
+	
 		/* To run custom data query*/
 	function data_query($sql)
 	{
@@ -91,6 +92,18 @@ class model {
 			}
 		return $ret;
 	}
+	/* To get All data order by desc*/
+	function get_Detail_all_order_by_desc($table_name,$order_by)
+	{
+		$sql		=	"SELECT * FROM $table_name order by $order_by desc";
+		// echo $sql;exit;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+		return $ret;
+	}
 	
 	
 	
@@ -127,7 +140,7 @@ class model {
 		FROM admin_login al left join admin_role ar on ar.ar_id=al.admin_role_id
 		WHERE al.admin_email_id =  '$admin_email_id'
 		AND al.admin_password =  '$admin_password'";
-		//echo $sql;exit;
+		echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		if(!empty($qry)){
@@ -303,7 +316,7 @@ class model {
 		
 		
 							
-		$sql = "SELECT * FROM $table  as srm JOIN brand_products as bp on srm.srm_product_id	=	bp.product_id join brands as b on b.brand_id = bp.product_brand_id join product_category_list as pcl on pcl.p_category_id = bp.product_name  join users as u on  u.user_id= srm.srm_user_id";
+		$sql = "SELECT * FROM $table  as srm JOIN brand_products as bp on srm.srm_product_id	=	bp.product_id join brands as b on b.brand_id = bp.product_brand_id join product_category_list as pcl on pcl.p_category_id = bp.product_name  join users as u on  u.user_id= srm.srm_user_id order by srm.srm_user_generated_date desc";
 		
 		
 		// echo $sql;exit;
@@ -467,7 +480,7 @@ class model {
 									join  product_category_list as pcl 
 										on pcl.p_category_id = bp.product_name 
 									join users as us 
-										on amc.amc_req_user_id	=	us.user_id";
+										on amc.amc_req_user_id	=	us.user_id order by amc.amc_req_c_date desc";
 				
 				
 				 
@@ -514,7 +527,61 @@ class model {
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		}
-		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." order by last_called asc";
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." order by last_called desc";
+		
+		
+		if($filter == 7){
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
+		}
+		
+		//echo 	$fromDate."==".$toDate."<br>"	 ;
+		//echo $sql;die;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		//print_r(mysqli_fetch_assoc($qry));die;
+		while($row=mysqli_fetch_assoc($qry)){
+			   
+				$ret[]=$row;
+			}
+			//print_r($ret);exit;
+		return $ret;
+	}
+	function download_zerob_list($param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
+	{	
+	//echo $amc_fromDate;
+	
+			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
+		
+		$columns = "id ,CUSTOMERID,CUSTOMER_NAME,CUSTOMER_ADDRESS1,CUSTOMER_ADDRESS2,CUSTOMER_ADDRESS3,CUSTOMER_AREA,CUSTOMER_PINCODE,PHONE1,PHONE2,CUSTOMER_CONTACT_NOS1,CUSTOMER_CONTACT_NOS2,email,PRODUCT,PRODUCT_SLNO,INSTALLATION_DATE,IW,IC,CONTRACT_FROM,CONTRACT_TO,CONTRACT_TYPE,CONTRACT_BY,tag,amc_updated_by,last_called,last_call_comment,last_sms_sent,status";
+		
+		$condition = "";
+		if($filter>0){
+			$condition = " and status = $filter";
+		}
+		
+		if($fromDate != null){
+			$condition = " and last_called >= '$fromDate'";
+		}
+		if($toDate != null){
+			$condition = " and last_called <= '$toDate'";
+		}
+		if($fromDate != null && $toDate != null){
+			$condition = " and (last_called between '$fromDate' and '$toDate')";
+		}
+		if($amc_fromDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
+		}
+		if($amc_toDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <= '$amc_toDate'";
+		}
+		if($amc_fromDate != null && $amc_toDate != null){
+			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
+		}
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." order by last_called desc";
 		
 		
 		if($filter == 7){
@@ -533,7 +600,7 @@ class model {
 		while($row=mysqli_fetch_assoc($qry)){
 				$ret[]=$row;
 			}
-			//print_r($ret);exit;
+			
 		return $ret;
 	}
 	

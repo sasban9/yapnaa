@@ -41,7 +41,18 @@ if(isset($_SESSION['admin_email_id']))
 			echo '<script>window.location.assign("users.php")</script>';
 		}
 	}
-	
+	if(isset($_POST['add_user']))
+	{
+		$res = $control->add_user();
+		if(!empty($res))
+		{
+				echo '<script>alert("User added successfully.")</script>';
+				echo '<script>window.location.assign("users.php")</script>';
+		}else{
+			echo '<script>alert("User already exist.")</script>';
+			echo '<script>window.location.assign("users.php")</script>';
+		}
+	}
 	
 	//user_block
 	if(isset($_POST['block']))
@@ -77,7 +88,7 @@ if(isset($_SESSION['admin_email_id']))
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+     <link rel="icon" type="image/png" href="images/Yapnaa_logo-96x96.png">
     <title>Movilo | Dashboard</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -261,7 +272,10 @@ if(isset($_SESSION['admin_email_id']))
 					<?php $j++; } ?>
 					</tbody>
 				</table> 
-																</div>
+						                                    <button type="button" class="btn btn-success" name="sendAllSubmit" id="sendAllSubmit">
+																<i class="fa fa-envelope"></i> Send SMS for All
+															</button>										
+															</div>
 															
 																<div class="tab-pane" id="tab-2">
 																		<form id="form" method="POST" enctype="multipart/form-data">
@@ -270,7 +284,7 @@ if(isset($_SESSION['admin_email_id']))
 																			<div class="form-group">
 																				<label class="col-sm-2 control-label">User Name:</label>
 																				<div class="col-sm-10">
-																					<input type="text" placeholder="Enter a name" name="user_name" class="maincls form-control"  maxlength="60"/>
+																					<input type="text" placeholder="Enter a name" name="user_name" class="maincls form-control"  maxlength="60"required/>
 																				</div>
 																			</div>	
 																			<div class="form-group">
@@ -287,14 +301,12 @@ if(isset($_SESSION['admin_email_id']))
 																			</div>
 																			
 																				
-																				<input id="submit" onclick="myFunction()" type="submit" name="submit" class="btn btn-info pull-right"  value="Add">
+																				<input id="add_user" onclick="myFunction()" type="submit" name="add_user" class="btn btn-info pull-right"  value="Add">
 																			</fieldset>
 																	</form>
 																</div>
 															</div>
-															<button type="button" class="btn btn-success" name="sendAllSubmit" id="sendAllSubmit">
-							<i class="fa fa-envelope"></i> Send SMS for All
-						</button>
+															
 														</div>
 													</div>
 												</div>
@@ -348,7 +360,7 @@ if(isset($_SESSION['admin_email_id']))
 
         });
 
-
+	
     </script>
 </body>
 

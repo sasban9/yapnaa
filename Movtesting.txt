@@ -1,1 +1,1 @@
-{"page":"user","user_product_list_user_id":"461","user_product_list_token_key":"1595063"}
+{"page":"user","user_app_launch":"submit","user_phone":"+15551234567","user_email_id":"","user_device_model":"Calypso AppCrawler","user_device_version":"6.0.1","user_device_name":"generic","user_device_level":"23","user_imei":"12345678902468"}

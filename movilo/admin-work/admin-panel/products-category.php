@@ -83,7 +83,7 @@ if(isset($_SESSION['admin_email_id']))
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="icon" type="image/png" href="images/Yapnaa_logo-96x96.png">
     <title>Movilo | Dashboard</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">

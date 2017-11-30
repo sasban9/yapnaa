@@ -14,7 +14,7 @@ if(isset($_SESSION['admin_email_id']))
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
 	
-	if($ar_id ==3 || $ar_id ==4){
+	if($ar_id ==3 || $ar_id ==4 || $ar_id ==5){
 		echo '<script>alert("You do not have enough credential.")</script>';
 		echo '<script>window.location.assign("index.php")</script>';
 	}
@@ -104,7 +104,7 @@ if(isset($_SESSION['admin_email_id']))
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+     <link rel="icon" type="image/png" href="images/Yapnaa_logo-96x96.png">
     <title>Movilo | Dashboard</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">

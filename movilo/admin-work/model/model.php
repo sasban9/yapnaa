@@ -40,7 +40,7 @@ class model {
 		FROM admin_login al left join admin_role ar on ar.ar_id=al.admin_role_id
 		WHERE al.admin_email_id =  '$admin_email_id'
 		AND al.admin_password =  '$admin_password'";
-		// echo $sql;exit;
+		//echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		if(!empty($qry)){

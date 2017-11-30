@@ -46,9 +46,10 @@ if(isset($_POST['admin_login']))
 					break;
 			case 4: 
 					echo  '<script>window.location.assign("admin-panel/index.php"); </script>';
-					//break;
-			// case 3: 
-					// $email=$_SESSION['email'];
+					
+				   break;
+		    case 5: 
+				echo  '<script>window.location.assign("admin-panel/index.php"); </script>';
 					// echo  '<script>window.location.assign("buy/index.php"); </script>';break;
 			// case 4: 
 					// $email=$_SESSION['email'];
@@ -81,7 +82,7 @@ if(isset($_POST['admin_login']))
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="icon" type="image/png" href="admin-panel/images/Yapnaa_logo-96x96.png">
     <title>Admin | Login</title>
 
     <link href="admin-panel/css/bootstrap.min.css" rel="stylesheet">

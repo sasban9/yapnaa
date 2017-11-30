@@ -1,4 +1,0 @@
-[12-Jul-2016 12:26:39 UTC] PHP Fatal error:  Call to undefined method users::user_resgitartion() in /home/automobi/public_html/movilo/brand-api/andriod/user.php on line 6
-[12-Jul-2016 12:26:48 UTC] PHP Fatal error:  Call to undefined method users::user_resgitartion() in /home/automobi/public_html/movilo/brand-api/andriod/user.php on line 6
-[12-Jul-2016 12:26:49 UTC] PHP Fatal error:  Call to undefined method users::user_resgitartion() in /home/automobi/public_html/movilo/brand-api/andriod/user.php on line 6
-[12-Jul-2016 12:27:02 UTC] PHP Fatal error:  Call to undefined method users::user_resgitartion() in /home/automobi/public_html/movilo/brand-api/andriod/user.php on line 6
