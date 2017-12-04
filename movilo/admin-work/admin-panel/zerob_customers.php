@@ -141,6 +141,7 @@ if(isset($_SESSION['admin_email_id']))
 						<option value="7" <?php echo($_POST['filter']==7)?"selected":"";?>>Yapnaa Registered</option>
 					</select>
 				</div>
+				<?php if($ar_id==1 || $ar_id==2){?>
 				 <div class="col-lg-2">
 					<label>Action Taken By</label>
 					<select id="filterBy" class="form-control" name="action_taken_by">
@@ -152,6 +153,7 @@ if(isset($_SESSION['admin_email_id']))
 						
 					</select>
 				</div>
+				<?php }?>
 			</div>
 			</br>
 			<div class="row">
