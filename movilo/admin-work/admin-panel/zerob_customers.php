@@ -27,6 +27,7 @@ if(isset($_SESSION['admin_email_id']))
 	if(isset($_POST['search']) || !empty($_POST['search'])){
 		//echo "<pre>";print_r($_POST);
 		$search = $_POST['search'];
+		$action_taken_by = $_POST['action_taken_by'];
 		$filter = $_POST['filter'];
 		if(isset($_POST['fromDate']) && !empty($_POST['fromDate'])){ //echo "<br>in from";
 			$fromDate = date_format(date_create($_POST['fromDate']),"Y-m-d H:i:s");
@@ -55,9 +56,9 @@ if(isset($_SESSION['admin_email_id']))
 		
 		//echo $fromDate."--".$toDate;die;
 		//echo $date1;exit;
-		$get_amc_list = $control->get_zerob_list($search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		$get_amc_list = $control->get_zerob_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
 		if(isset($_POST['da_downl']) || !empty($_POST['da_downl'])){
-			$control->download_zerob_list($search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+			$control->download_zerob_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
 		}
 	}
 	/*else{
@@ -138,6 +139,17 @@ if(isset($_SESSION['admin_email_id']))
 						<option value="5"<?php echo($_POST['filter']==5)?"selected":"";?> >Yapnaa Interested SMS Sent</option>
 						<option value="6" <?php echo($_POST['filter']==6)?"selected":"";?>>Expiry SMS Sent</option>
 						<option value="7" <?php echo($_POST['filter']==7)?"selected":"";?>>Yapnaa Registered</option>
+					</select>
+				</div>
+				 <div class="col-lg-2">
+					<label>Action Taken By</label>
+					<select id="filterBy" class="form-control" name="action_taken_by">
+						<option value=""<?php echo(trim($_POST['action_taken_by'])=='')?"selected":"";?>>Filter</option>
+						<option value="Jitesh" <?php echo(trim($_POST['action_taken_by'])=='Jitesh')?"selected":"";?>>Jitesh</option>
+						<option value="Vineet"<?php echo(trim($_POST['action_taken_by'])=='Vineet')?"selected":"";?> >Vineet</option>
+						<option value="Sriram" <?php echo(trim($_POST['action_taken_by'])=='Vineet')?"selected":"";?>>Sriram</option>
+						<option value="Jalaja"<?php echo($_POST['action_taken_by']=='Jalaja')?"selected":"";?> >Jalaja</option>
+						
 					</select>
 				</div>
 			</div>

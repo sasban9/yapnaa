@@ -496,8 +496,9 @@ class model {
 	
 	
 	// Get Zerob Customer List
-	function get_zerob_list($param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
+	function get_zerob_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
 	{	
+	//echo $action_taken_by;die;
 	//echo $amc_fromDate;
 	
 			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
@@ -508,7 +509,9 @@ class model {
 		if($filter>0){
 			$condition = " and status = $filter";
 		}
-		
+		if($action_taken_by != null){
+			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
+		}
 		if($fromDate != null){
 			$condition = " and last_called >= '$fromDate'";
 		}
@@ -527,13 +530,13 @@ class model {
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		}
-		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." order by last_called desc";
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
 		
 		
 		if($filter == 7){
 			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
-			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
 			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}
@@ -550,7 +553,7 @@ class model {
 			//print_r($ret);exit;
 		return $ret;
 	}
-	function download_zerob_list($param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
+	function download_zerob_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
 	{	
 	//echo $amc_fromDate;
 	
@@ -562,7 +565,9 @@ class model {
 		if($filter>0){
 			$condition = " and status = $filter";
 		}
-		
+		if($action_taken_by != null){
+			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
+		}
 		if($fromDate != null){
 			$condition = " and last_called >= '$fromDate'";
 		}
@@ -581,13 +586,13 @@ class model {
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		}
-		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." order by last_called desc";
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." ".$action_taken_by."order by last_called desc";
 		
 		
 		if($filter == 7){
 			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
-			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
 			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}

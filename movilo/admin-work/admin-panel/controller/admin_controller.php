@@ -1510,13 +1510,17 @@ class admin	{
 	{
 		$google_feedback_link="https://goo.gl/forms/D1HvGtyi68EVl11l2";
 		$table		=	'zerob_consol1';
+		$admin_name		= $_SESSION['admin_name'];
+		$ar_id  	        = $_SESSION['ar_id'];
 		$set_array	=	array(
 							'amc_updated_by'		=> $admin_id,
-							'CONTRACT_TO'		=> $expire,
-							'CONTRACT_FROM'		=> $start,
-							'CONTRACT_BY'		=> $closedBy,
-							'last_call_comment'	=> $comments,
-							'status'			=>	"7"
+							'CONTRACT_TO'		    => $expire,
+							'CONTRACT_FROM'		    => $start,
+							'CONTRACT_BY'		    => $closedBy,
+							'last_call_comment'	    => $comments,
+							'action_taken_by'	    => $admin_name,
+							'action_taken_by_id'    => $ar_id,
+							'status'			    =>	"7"
 						);
 		
 		$condition 	=	"id='".$custID."'";				
@@ -1703,6 +1707,8 @@ class admin	{
 	}
 	function updateStatus($id,$comment,$status){
 		date_default_timezone_set('Asia/Kolkata');
+		$admin_name		= $_SESSION['admin_name'];
+		$ar_id  	        = $_SESSION['ar_id'];
 		$today = date("Y-m-d H:i:s");
 		/*$user_table		    =	'users';
 		$user_condition 	=	"user_phone='".$number."'";	
@@ -1715,7 +1721,9 @@ class admin	{
 						'last_called'=>$today,
 						'last_call_comment'=>$comment,
 						'status'=>$status,
-						'last_sms_sent'=>''
+						'last_sms_sent'=>'',
+						'action_taken_by'=>$admin_name,
+						'action_taken_by_id'=>$ar_id
 					);
 					
 		$table		=	'zerob_consol1';
@@ -1734,7 +1742,9 @@ class admin	{
 						'last_call_comment'=>$comment,
 						'status'=>$status,
 						'last_sms_sent'=>'',
-						'id'=>$id
+						'id'=>$id,
+						'action_taken_by'=>$admin_name,
+						'action_taken_by_id'=>$ar_id
 					);
 			$result	=	$this->model->insert($table,$set_array1);
 		}
@@ -1754,7 +1764,8 @@ class admin	{
 		$today = date("Y-m-d H:i:s");
 		$message	=	"Thanks for confirming your appointment​ for AMC​ of ZeroB Water filter. We look forward to seeing you on ​".$apptDate;
 		$user_number = array($number);
-		
+		$admin_name		= $_SESSION['admin_name'];
+		  $ar_id  	        = $_SESSION['ar_id'];
 		//$this->send_user_sms($user_number,$message,$id,$comment);
 		
 		$time = strtotime($apptDate);
@@ -1765,7 +1776,9 @@ class admin	{
 						'last_call_comment'=>$comment,
 						'status'=>3,
 						'last_sms_sent'=>$message,
-						'amc_appointment_datetime'=>$newformat
+						'amc_appointment_datetime'=>$newformat,
+						'action_taken_by'=>$admin_name,
+						'action_taken_by_id'=>$ar_id
 					);
 					
 		$table		=	'zerob_consol1';
@@ -1784,7 +1797,9 @@ class admin	{
 						'last_call_comment'=>$comment,
 						'status'=>3,
 						'last_sms_sent'=>$message,
-						'id'=>$id
+						'id'=>$id,
+						'action_taken_by'=>$admin_name,
+						'action_taken_by_id'=>$ar_id
 					);
 			$result	=	$this->model->insert($table,$set_array1);
 		}
@@ -1804,7 +1819,8 @@ class admin	{
 		$today = date("Y-m-d H:i:s");
 		$message	=	"AMC for your ZeroB product is expiring on ​".$apptDate.". Register with Yapnaa and renew your AMC. http://bit.ly/2kkl44e";
 		$user_number = array($number);
-		
+		$admin_name		= $_SESSION['admin_name'];
+		 $ar_id  	        = $_SESSION['ar_id'];
 		/*$user_table		    =	'users';
 		$user_condition 	=	"user_phone='".$number."'";	
 		$user_fields		=	'*';
@@ -1818,7 +1834,9 @@ class admin	{
 						'last_called'=>$today,
 						'last_call_comment'=>$comment,
 						'status'=>6,
-						'last_sms_sent'=>$message
+						'last_sms_sent'=>$message,
+						'action_taken_by'=>$admin_name,
+						'action_taken_by_id'=>$ar_id 
 					);
 					
 		$table		=	'zerob_consol1';
@@ -1837,7 +1855,9 @@ class admin	{
 						'last_call_comment'=>$comment,
 						'status'=>3,
 						'last_sms_sent'=>$message,
-						'id'=>$id
+						'id'=>$id,
+						'action_taken_by'=>$admin_name,
+						'action_taken_by_id'=>$ar_id 
 					);
 			$result	=	$this->model->insert($table,$set_array1);
 		}
@@ -1856,6 +1876,8 @@ class admin	{
 	function send_user_sms($user_numbers,$message,$id,$comment=""){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
+		$admin_name		= $_SESSION['admin_name'];
+		 $ar_id  	        = $_SESSION['ar_id'];
 		if($user_numbers){
 			
 			for($i=0;$i<count($user_numbers);$i++){
@@ -1887,7 +1909,9 @@ class admin	{
 								'last_called'=>$today,
 								'last_call_comment'=>$comment,
 								'status'=>5,
-								'last_sms_sent'=>$message
+								'last_sms_sent'=>$message,
+								'action_taken_by'=>$admin_name,
+								'action_taken_by_id'=> $ar_id 
 							);
 								
 							$table		=	'zerob_consol1';
@@ -1905,6 +1929,8 @@ class admin	{
 												'last_call_comment'=>$comment,
 												'status'=>5,
 												'last_sms_sent'=>$message,
+												'action_taken_by'=>$admin_name,
+								                'action_taken_by_id'=> $ar_id,
 												'id'=>$id[$i]
 											);
 									$result	=	$this->model->insert($table,$set_array1);
@@ -3770,17 +3796,17 @@ class admin	{
 
 	
 	// SEARCH Customer
-	function get_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
+	function get_zerob_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
     {
 		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
-		$arr_log_in       				 = 	$this->model->get_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		$arr_log_in       				 = 	$this->model->get_zerob_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
 		return $arr_log_in;
 		// print_r($arr_log_in );
 
     }
 	// SEARCH Customer
 	
-	 function download_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
+	 function download_zerob_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
     {
 		$tag          = $_POST['tag'];
 		$filter           = $_POST['filter'];
@@ -3788,7 +3814,7 @@ class admin	{
 		$toDate           = $_POST['toDate'];
 		$amc_fromDate     = $_POST['amc_fromDate'];
 		$amc_toDate       = $_POST['amc_toDate'];
-		$arr_log_in       				 = 	$this->model->download_zerob_list($tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		$arr_log_in       				 = 	$this->model->download_zerob_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
 		$this->download_csv_results($arr_log_in,"yapnaa.csv");
 		
 		exit;
