@@ -1504,7 +1504,12 @@ class admin	{
 			return 0;
 		}
 	}
-	
+	function get_standard_comments()
+	{
+		$table="yapnaa_standard_amc_comment";
+		$result		=	$this->model->get_Detail_all($table);
+		return $result;
+	}
 	
 	function updateAMC($admin_id,$start,$expire,$custID,$comments,$closedBy,$phone1,$phone2)
 	{
@@ -1548,8 +1553,16 @@ class admin	{
 				
 				//echo json_encode($update_result);die;
 				//$message = "AMC for your ZeroB has been updated from ".$start." to ".$expire;
-				
-				$message = "Thank you for signing AMC. Kindly share your feedback on our services in the link below :-\n\n".$google_feedback_link;
+				$username=$result1[0]['user_name'];
+				if($username !=NULL)
+				{
+				$condition_msg="Hi $username,\n\nGreeting from yapnaa!\n\n";
+				}
+				else
+				{
+				$condition_msg="Greeting from yapnaa!,\n\n";	
+				}
+				$message = "<pre>".$condition_msg."Thank you for signing AMC. Kindly share your feedback on our services in the link below :-\n\n".$google_feedback_link.'</pre>';
 				$subject = "AMC for your ZeroB Water Filter has been updated";
 				
 				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message,$subject);
@@ -1578,7 +1591,16 @@ class admin	{
 								);
 				//echo "Here";die;
 				$prod_id	=	$this->add_user_product($prod_details);
-				$message    = "Thank you for signing AMC. Kindly share your feedback on our services in the link below :-\n\n".$google_feedback_link;
+				$username=$result1[0]['user_name'];
+				if($username !=NULL)
+				{
+				$condition_msg="Hi $username,\n\nGreeting from yapnaa!\n\n";
+				}
+				else
+				{
+				$condition_msg="Greeting from yapnaa!,\n\n";	
+				}
+				$message = "<pre>".$condition_msg."Thank you for signing AMC. Kindly share your feedback on our services in the link below :-\n\n".$google_feedback_link.'</pre>';
 				$subject	=	"AMC for your ZeroB Water Filter has been updated";
 				
 				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message,$subject);
@@ -4495,9 +4517,9 @@ class admin	{
                                                 <td>
                                                    <table>
                                                       <tr>
-                                                         <td>  <img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
+                                                         <td> <a href="http://www.yapnaa.com"><img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
                                                          <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> www.yapnna.com</b></p>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> www.yapnaa.com</b></p>
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -4505,9 +4527,9 @@ class admin	{
                                                 <td>
                                                    <table>
                                                       <tr>
-                                                         <td><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
+                                                         <td><a href="http://help@yapnaa.com"><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
                                                          <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> help@yapnna.com</b></p>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> help@yapnaa.com</b></p>
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -4575,7 +4597,7 @@ class admin	{
                                                       <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
                                                    </tr>
                                                    <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After sales companion</font></td>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your after sales companion</font></td>
                                                    </tr>
                                                    <tr>
                                                       <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
