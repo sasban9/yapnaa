@@ -13,6 +13,7 @@ if(isset($_SESSION['admin_email_id']))
 	
 	if(isset($_POST['editAMCSubmit'])){
 		//print_r($_POST);die;
+		
 		$get_amc_list = $control->updateAMC($_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['custID'],$_POST['comments'],$_POST['closedBy'],$_POST['phone1'],$_POST['phone2']);
 		if($get_amc_list){
 			$_POST = array();
@@ -70,7 +71,7 @@ if(isset($_SESSION['admin_email_id']))
 	// echo  '<pre>';
 	// print_r($get_amc_list);
 	
-	 
+	$std_comments = $control->get_standard_comments(); 
 	
 ?>
 <!DOCTYPE html>
@@ -139,6 +140,7 @@ if(isset($_SESSION['admin_email_id']))
 						<option value="5"<?php echo($_POST['filter']==5)?"selected":"";?> >Yapnaa Interested SMS Sent</option>
 						<option value="6" <?php echo($_POST['filter']==6)?"selected":"";?>>Expiry SMS Sent</option>
 						<option value="7" <?php echo($_POST['filter']==7)?"selected":"";?>>Yapnaa Registered</option>
+						<option value="8" <?php echo($_POST['filter']==8)?"selected":"";?>>Renewed AMCs</option>
 					</select>
 				</div>
 				<?php if($ar_id==1 || $ar_id==2){?>
@@ -153,7 +155,7 @@ if(isset($_SESSION['admin_email_id']))
 						<option value="Harshal"<?php echo($_POST['action_taken_by']=='Harshal')?"selected":"";?> >Harshal</option>
 					</select>
 				</div>
-				<?php }?>
+					<?php }?>
 			</div>
 			</br>
 			<div class="row">
@@ -421,8 +423,18 @@ if(isset($_SESSION['admin_email_id']))
 				</div>
 			</div>
 		<div class="row"  style="margin-top:2%;">
-			<i class="fa fa-comments" style="margin-right:1%;"></i><label>Customers Comments:</label></br>
-				<textarea rows="5" cols="70" id="comments" class="maincls form-control" ></textarea>
+			<i class="fa fa-comments" style="margin-right:1%;"></i><label>Standard Comments:</label></br>
+			<select id="std_comments" class="form-control" name="std_comments" style="width:405px">
+			<option value="">Filter</option>
+			<?php foreach($std_comments as $std_in){?>
+						<option value="<?php echo $std_in['comments'] ;?>"><?php echo $std_in['comments'] ;?></option>
+						
+			<?php } ?>
+             </select>						
+		</div>
+		<div class="row"  style="margin-top:2%;">
+			<i class="fa fa-comments" style="margin-right:1%;"></i><label>Other Comments:</label></br>
+				<textarea rows="1" cols="70" id="comments" class="maincls form-control"  ></textarea>
 		</div>
 		
         </div>
@@ -640,10 +652,11 @@ if(isset($_SESSION['admin_email_id']))
 					alert("Appointment Date and time is not entered!");
 				}
 				else{
+				var fncomment=$("#std_comments").find(":selected").val()+' '+$("#comments").val();
 					$.ajax({
 						url:"smsActions.php?appointmentDate="+date,
 						type:"POST",
-						data:{id:sessionStorage.id,number:sessionStorage.mobile,comment:$("#comments").val()},
+						data:{id:sessionStorage.id,number:sessionStorage.mobile,comment:fncomment},
 						success:function(response){
 							console.log(response);
 							if(response){
@@ -664,10 +677,11 @@ if(isset($_SESSION['admin_email_id']))
 					alert("Expiry Date is not entered!");
 				}
 				else{
+					var fncomment=$("#std_comments").find(":selected").val()+' '+$("#comments").val();
 					$.ajax({
 						url:"smsActions.php?expiryDate="+date,
 						type:"POST",
-						data:{id:sessionStorage.id,number:sessionStorage.mobile,comment:$("#comments").val()},
+						data:{id:sessionStorage.id,number:sessionStorage.mobile,comment:fncomment},
 						success:function(response){
 							console.log(response);
 							if(response){
@@ -683,14 +697,15 @@ if(isset($_SESSION['admin_email_id']))
 			});
 			
 			$("#noInsterest").click(function(){
-				if($("#comments").val() == ''){
+				if($("#comments").val() == ''  && $("#std_comments").find(":selected").val()==''){
 					alert("Enter comments first!");
 				}
 				else{
+					var fncomment=$("#std_comments").find(":selected").val()+' '+$("#comments").val();
 					$.ajax({
 						url:"smsActions.php?notInterested=submit",
 						type:"POST",
-						data:{id:sessionStorage.id,comment:$("#comments").val()},
+						data:{id:sessionStorage.id,comment:fncomment},
 						success:function(response){
 							console.log(response);
 							if(response){
@@ -706,14 +721,15 @@ if(isset($_SESSION['admin_email_id']))
 			});
 			
 			$("#callBack").click(function(){
-				if($("#comments").val() == ''){
+				if($("#comments").val() == '' && $("#std_comments").find(":selected").val()==''){
 					alert("Enter comments first!");
 				}
 				else{
+					var fncomment=$("#std_comments").find(":selected").val()+' '+$("#comments").val();
 					$.ajax({
 						url:"smsActions.php?callBack=submit",
 						type:"POST",
-						data:{id:sessionStorage.id,comment:$("#comments").val()},
+						data:{id:sessionStorage.id,comment:fncomment},
 						success:function(response){
 							console.log(response);
 							if(response){
@@ -729,10 +745,11 @@ if(isset($_SESSION['admin_email_id']))
 			});
 			
 			$("#general").click(function(){ 
+			       var fncomment=$("#std_comments").find(":selected").val()+' '+$("#comments").val();
 					$.ajax({
 						url:"smsActions.php?general=submit",
 						type:"POST",
-						data:{id:sessionStorage.id,number:sessionStorage.mobile,comment:$("#comments").val()},
+						data:{id:sessionStorage.id,number:sessionStorage.mobile,comment:fncomment},
 						success:function(response){
 							console.log(response);
 							if(response){
