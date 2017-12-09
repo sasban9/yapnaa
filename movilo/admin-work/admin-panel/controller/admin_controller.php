@@ -1511,7 +1511,7 @@ class admin	{
 		return $result;
 	}
 	
-	function updateAMC($admin_id,$start,$expire,$custID,$comments,$closedBy,$phone1,$phone2)
+	function updateAMC($admin_id,$start,$expire,$custID,$comments,$closedBy,$phone1,$phone2,$cust_name,$cust_email)
 	{
 		$google_feedback_link="https://goo.gl/forms/D1HvGtyi68EVl11l2";
 		$table		=	'zerob_consol1';
@@ -1525,6 +1525,9 @@ class admin	{
 							'last_call_comment'	    => $comments,
 							'action_taken_by'	    => $admin_name,
 							'action_taken_by_id'    => $ar_id,
+							'CUSTOMER_NAME'         => $cust_name,
+							'PHONE1'                => $phone1,
+							'email'                 => $cust_email,
 							'status'			    =>	"7"
 						);
 		
