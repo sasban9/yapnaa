@@ -14,7 +14,7 @@ if(isset($_SESSION['admin_email_id']))
 	if(isset($_POST['editAMCSubmit'])){
 		//print_r($_POST);die;
 		
-		$get_amc_list = $control->updateAMC($_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['custID'],$_POST['comments'],$_POST['closedBy'],$_POST['phone1'],$_POST['phone2']);
+		$get_amc_list = $control->updateAMC($_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['custID'],$_POST['comments'],$_POST['closedBy'],$_POST['phone1'],$_POST['phone2'],$_POST['cust_name'],$_POST['cust_email']);
 		if($get_amc_list){
 			$_POST = array();
 			echo "<script>alert('AMC Updated successfully');</script>";
@@ -26,7 +26,7 @@ if(isset($_SESSION['admin_email_id']))
 	}
 	
 	if(isset($_POST['search']) || !empty($_POST['search'])){
-		//echo "<pre>";print_r($_POST);
+		
 		$search = $_POST['search'];
 		$action_taken_by = $_POST['action_taken_by'];
 		$filter = $_POST['filter'];
@@ -69,7 +69,7 @@ if(isset($_SESSION['admin_email_id']))
 	// Get Sub Categories List
 	
 	// echo  '<pre>';
-	// print_r($get_amc_list);
+	
 	
 	$std_comments = $control->get_standard_comments(); 
 	
@@ -343,9 +343,9 @@ if(isset($_SESSION['admin_email_id']))
 							?></td> 
 							<td><?php echo empty($get_amc_list[$i]['last_call_comment'])?$get_amc_list[$i]['last_sms_sent']:$get_amc_list[$i]['last_call_comment']; ?></td>
 							<td><?php //if(!($datediff <= 15)){ ?>  
-							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button>
+							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button>
 							
-							<button type="button"  style="margin-right:2px; width:38px" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
+							<button type="button"  style="margin-right:2px; width:38px" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
 							 
 						</tr>
 					<?php $j++; } ?>
@@ -501,15 +501,31 @@ if(isset($_SESSION['admin_email_id']))
 				</div>
 				<div class="col-lg-1" hidden> 
 					<input type="text"   class="maincls form-control" id="custID"  name="custID" />
-					<input type="text"   class="maincls form-control" id="phone1"  name="phone1" />
+					
 					<input type="text"   class="maincls form-control" id="phone2"  name="phone2" />
 
 				</div>
+				
 			</div>
+			 
 		<div class="row" style="margin-top:5%;margin-bottom:5%;">
 			<label>Deal closed by?</label>
 			<input type="radio" name="closedBy" value="Yapnaa" checked>Yapnaa
 			<input type="radio" name="closedBy" value="Others" >3rd Party
+		</div>
+		<div class="row" style="margin-top:5%;margin-bottom:5%;">
+				<div class="col-lg-3" > 
+				    <label>Name</label>
+					<input type="text"   class="maincls form-control" id="cust_name"  name="cust_name" />
+				</div>
+				<div class="col-lg-3" > 
+				    <label>Phone Number</label>
+					<input type="text"   class="maincls form-control" id="phone1"  name="phone1" />
+				</div>
+				<div class="col-lg-3" > 
+				    <label>Customer Email Id</label>
+					<input type="text"   class="maincls form-control" id="cust_email"  name="cust_email" />
+				</div>
 		</div>
 		<div class="row"  style="margin-top:2%;">
 			<i class="fa fa-comments" style="margin-right:1%;"></i><label>Customers Comments:</label></br>
@@ -614,6 +630,7 @@ if(isset($_SESSION['admin_email_id']))
 			$(".actionBox,editAMC").click(function(){
 				sessionStorage.id = $(this).attr('data-id');
 				sessionStorage.name = $(this).attr('data-name');
+				sessionStorage.email = $(this).attr('data-email');
 				sessionStorage.mobile = $(this).attr('data-mobile');
 				sessionStorage.mobile2 = $(this).attr('data-mobile2');
 				sessionStorage.expiry = $(this).attr('data-expiry');
@@ -622,6 +639,8 @@ if(isset($_SESSION['admin_email_id']))
 				$("#custID,.custID").val(sessionStorage.id);
 				$("#phone1").val(sessionStorage.mobile);
 				$("#phone2").val(sessionStorage.mobile2);
+				$("#cust_name").val(sessionStorage.name);
+				$("#cust_email").val(sessionStorage.email);
 				
 				var now = new Date(sessionStorage.expiry);
 				var day = ("0" + now.getDate()).slice(-2);
