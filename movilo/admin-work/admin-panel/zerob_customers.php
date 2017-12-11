@@ -489,14 +489,14 @@ if(isset($_SESSION['admin_email_id']))
 					<label>New AMC date</label>
 				</div>
 				<div class="col-lg-3"> 
-					<input type="date"  class="maincls form-control" id="newAMCStart"  name="newAMCStart" required/>
+					<input type="date"  class="maincls form-control" id="newAMCStart"  name="newAMCStart" />
 				</div>
 				<div class="col-lg-1"> 
 					<label>to</label>
 				</div>
 			
 				<div class="col-lg-3"> 
-					<input type="date"  class="maincls form-control" id="newAMCEnd"  name="newAMCEnd" required/>
+					<input type="date"  class="maincls form-control" id="newAMCEnd"  name="newAMCEnd" />
 
 				</div>
 				<div class="col-lg-1" hidden> 

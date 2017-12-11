@@ -1517,6 +1517,8 @@ class admin	{
 		$table		=	'zerob_consol1';
 		$admin_name		= $_SESSION['admin_name'];
 		$ar_id  	        = $_SESSION['ar_id'];
+		if($expire !=NULL && $start !=NULL )
+		{
 		$set_array	=	array(
 							'amc_updated_by'		=> $admin_id,
 							'CONTRACT_TO'		    => $expire,
@@ -1530,7 +1532,22 @@ class admin	{
 							'email'                 => $cust_email,
 							'status'			    =>	"7"
 						);
-		
+		}
+		else
+		{
+	  $set_array	=	array(
+						'amc_updated_by'		=> $admin_id,
+						
+						'CONTRACT_BY'		    => $closedBy,
+						'last_call_comment'	    => $comments,
+						'action_taken_by'	    => $admin_name,
+						'action_taken_by_id'    => $ar_id,
+						'CUSTOMER_NAME'         => $cust_name,
+						'PHONE1'                => $phone1,
+						'email'                 => $cust_email,
+						'status'			    =>	"7"
+					);	
+		}
 		$condition 	=	"id='".$custID."'";				
 		$update_zerob_result		=	$this->model->update($table,$set_array,$condition);
 		
