@@ -47,11 +47,12 @@ class admin	{
 							'user_status'                   =>1
 							);
 			$result		=	$this->model->insert($table,$arr_input);
-			$message    =   "Dear Customer,\n\nYour credentials is as below.Please download the Yapnaa App and login with the credentials.\n\nUsername: ".$user_mobile."\nPassword: ".$user_pin.".Link:-\n\n https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en";
+			$message    =   "<p>Dear Customer,</p><p>Please download the Yapnaa App and login with the following credentials.</p><p>Username: ".$user_mobile."</p><p>Password: ".$user_pin.".</p><p>Link:-\n\n <a href='https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en'>Yapnaa</a></p>";
+			$sm_message    =   "Dear Customer,\n\nPlease download the Yapnaa App and login with the following credentials.\n\nUsername: ".$user_mobile."\nPassword: ".$user_pin.".\n\nLink:-\nhttps://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en";
 			$subject    =   "Welcome to Yapnaa";
 			$to         =   $user_email;
 			$this->send_email($message,$subject,$to);
-			$this->send_sms_to_new_user($user_mobile,$message);
+			$this->send_sms_to_new_user($user_mobile,$sm_message);
 			return $result;
 			
 		
@@ -59,7 +60,21 @@ class admin	{
 			return $result='';
 		}
 	}
-	
+	function send_yapnaa_capability(){
+		$table		=	'users';
+		$fields		=	'*';
+		$condition 	=	"CURDATE()=date(user_created_date)+3";				
+		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
+		$message    =   "<p>Dear Customer,</p><p>Now maintaining your home appliances is easy.</p><p>Read More</p><p>Link:-\n\n <a href='http://yapnaa.com/yapnaa_capability.php'>Yapnaa</a></p>";
+			$sm_message    =   "Dear Customer,\n\nNow maintaining your home appliances is easy.\n\nRead More\n\nLink:-\nhttp://yapnaa.com/yapnaa_capability.php";
+			$subject    =   "Yapnaa Capabilites";
+		foreach($result as $row){
+			$user_mobile         =   $row['user_phone'];
+			$to                  =   $row['user_email_id'];
+			$this->send_email($message,$subject,$to);
+			$this->send_sms_to_new_user($user_mobile,$sm_message);
+			}
+	}
 	function AMCExpiry_7_Days(){
 		$sql =	"SELECT * FROM  `zerob_consol1` WHERE DATE(  `CONTRACT_TO` ) = DATE_ADD( CURDATE( ) , INTERVAL 7 DAY ) ";
 		$result		=	$this->model->data_query($sql);	
@@ -201,13 +216,9 @@ class admin	{
 											   <table class="one-column" border="0" cellpadding="40" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
 												  <tr>
 													 <td align="" style="padding-bottom:2%; padding-top:2%;">
-														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b>Dear '.$name.',</b></p>
-														<br>
-														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Warm welcome from yapnna team.</p>
-														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">AMC for your ZeroB Water Filter expires on '.$expiry_date.', Please contact yapnaa to renew your AMC and continue to enjoy service benefits.</p>
-														<br>
-														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">
-														</p>
+														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b>Dear '.$name.',</b></p>														
+														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Warm welcome from Yapnaa team.</p>
+														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">AMC on your Zero B water filter expires on '.$expiry_date.', kindly contact Yapnaa to renew your contract and continue to enjoy and avail the service benefits under AMC.</p>
 														<br>
 														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b style="font-family:cursive">Sincerely,</b></p>
 														<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b style="font-family:cursive">Sriram M.</b></p>
@@ -314,13 +325,13 @@ class admin	{
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;"> &nbsp; </td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Global Pvt. Ltd.</b></font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Networks Pvt. Ltd.</b></font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After sales companion</font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
@@ -627,13 +638,13 @@ class admin	{
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;"> &nbsp; </td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Global Pvt. Ltd.</b></font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Networks Pvt. Ltd.</b></font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After sales companion</font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
@@ -939,13 +950,13 @@ class admin	{
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;"> &nbsp; </td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Global Pvt. Ltd.</b></font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Networks Pvt. Ltd.</b></font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After sales companion</font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
@@ -1251,13 +1262,13 @@ class admin	{
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;"> &nbsp; </td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Global Pvt. Ltd.</b></font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Networks Pvt. Ltd.</b></font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
 														   </tr>
 														   <tr>
-															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After sales companion</font></td>
+															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
 														   </tr>
 														   <tr>
 															  <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
@@ -1576,16 +1587,19 @@ class admin	{
 				$username=$result1[0]['user_name'];
 				if($username !=NULL)
 				{
-				$condition_msg="Hi $username,\n\nGreeting from yapnaa!\n\n";
+				$condition_msg="<p>Hi $username,</p><p>Greetings from Yapnaa!</p>";
+				$condition_msg1="Hi $username,\nGreetings from Yapnaa!\n";
 				}
 				else
 				{
-				$condition_msg="Greeting from yapnaa!,\n\n";	
+				$condition_msg="<p>Greetings from Yapnaa!</p>";	
+				$condition_msg1="Greetings from Yapnaa!\n";	
 				}
-				$message = "<pre>".$condition_msg."Thank you for signing AMC. Kindly share your feedback on our services in the link below :-\n\n".$google_feedback_link.'</pre>';
+				$message = $condition_msg."<p>Thank you for signing up AMC, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
+				$message1 = $condition_msg1."Thank you for signing up AMC, kindly share your feedback on our services in the following link :-\n".$google_feedback_link."";
 				$subject = "AMC for your ZeroB Water Filter has been updated";
 				
-				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message,$subject);
+				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message1,$subject);
 				//print_r($not_status);die;
 				$to=$result1[0]['user_email_id'];
 				$this->send_email($message,$subject,$to);
@@ -1614,16 +1628,19 @@ class admin	{
 				$username=$result1[0]['user_name'];
 				if($username !=NULL)
 				{
-				$condition_msg="Hi $username,\n\nGreeting from yapnaa!\n\n";
+				$condition_msg="<p>Hi $username,</p><p>Greetings from Yapnaa!</p>";
+				$condition_msg1="Hi $username,\nGreetings from Yapnaa!\n";
 				}
 				else
 				{
-				$condition_msg="Greeting from yapnaa!,\n\n";	
+				$condition_msg="<p>Greetings from Yapnaa!</p>";	
+				$condition_msg="Greetings from Yapnaa!\n";	
 				}
-				$message = "<pre>".$condition_msg."Thank you for signing AMC. Kindly share your feedback on our services in the link below :-\n\n".$google_feedback_link.'</pre>';
+				$message = $condition_msg."<p>Thank you for signing up AMC, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
+				$message1 = $condition_msg1."Thank you for signing up AMC, kindly share your feedback on our services in the following link :-\n".$google_feedback_link."";
 				$subject	=	"AMC for your ZeroB Water Filter has been updated";
 				
-				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message,$subject);
+				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message1,$subject);
 				$to=$result1[0]['user_email_id'];
 				$this->send_email($message,$subject,$to);
 				return 1;
@@ -4617,7 +4634,7 @@ class admin	{
                                                       <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
                                                    </tr>
                                                    <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your after sales companion</font></td>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
                                                    </tr>
                                                    <tr>
                                                       <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
