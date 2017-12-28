@@ -351,16 +351,31 @@ class model {
 		return $ret;
 	}
 	
+	function get_particular_user_product_list($table,$fields,$condition)
+	{	
+	       $sql = "SELECT * FROM $table  AS up JOIN brand_products AS bp ON bp.product_id = up.up_product_id JOIN brands AS b ON b.brand_id = bp.product_brand_id JOIN product_category_list AS pcl ON pcl.p_category_id = bp.product_name where $condition ";
+			
+				 
+		// echo $sql;exit;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+			//print_r($ret);exit;
+		return $ret;
+	}
+	
 	
 	
 	
 	
 	// Get User product List
-	function get_particular_user_product_list($table,$fields,$condition)
+	function get_particular_user_product_details($table,$fields,$condition)
 	{	
 			$sql = "SELECT * 
 				FROM $table  as   bp  join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name where $condition ";
-				 
+				
 		// echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();

@@ -2734,11 +2734,13 @@ class admin	{
 	// Get User product List
 	function get_particular_user_product_list($id)
 	{
+		
 		$table		=	'users_products';
 		$fields		=	'*';
-		$condition 	=	"up_user_id='".$id."'";		
+		$condition 	=	"up.up_user_id='".$id."'";		
 		$result	=	$this->model->get_particular_user_product_list($table,$fields,$condition);
 		return $result;
+		//print_r($result);
 	}
 	
 	
@@ -2750,7 +2752,7 @@ class admin	{
 		$table		=	'brand_products';
 		$fields		=	'*';
 		$condition 	=	"product_id='".$id."'";		
-		$result	=	$this->model->get_particular_user_product_list($table,$fields,$condition);
+		$result	=	$this->model->get_particular_user_product_details($table,$fields,$condition);
 		return $result;
 	}
 	
@@ -3075,7 +3077,12 @@ class admin	{
 	
 	function srm_request_take_action()
 	{
-		
+		/* $myfile = fopen("/var/www/html/apiparam.txt", "a") or die("Unable to open file!");
+		$txt = "\r\n" . date('d-m-Y H:i') . ":  " . $this->uri->segment(3) . "/" . $this->uri->segment(4);
+		$txt.= "\r\n" . json_encode($_POST); //$new_url.'  -  '.json_encode($_POST)." ".json_encode($_FILES);
+		$txt.= "\r\n" . json_encode($_FILES); //$new_url.'  -  '.json_encode($_POST)." ".json_encode($_FILES);
+		fwrite($myfile, $txt);
+		fclose($myfile); */
 		$srm_id						=	$_POST['srm_id'];
 		$srm_take_action_E_name		=	$_POST['mvq_admin_name'];
 		$srm_take_action_E_phone_no	=	$_POST['mvq_admin_phone_no'];
@@ -3114,6 +3121,8 @@ class admin	{
 			$result			=	$this->model->get_Details_condition($table_user,$fields,$condition);
 			$device_type	=	$result[0]['user_login_device']; 
 			$user_gcm_id	=	$result[0]['user_gcm_id']; 
+			$user_email_id	=	$result[0]['user_email_id']; 
+			$user_name   	=	$result[0]['user_name']; 
 			// $user_gcm_id	=	'APA91bEwS52Uqd5w1KlVl4-bJZzuH2RsrB5S4_csK5ufbhgBcKZhf3z3Y8Gd6vKbgTiWSSl6bLhG4llZmlkBet_iXtJH2PBtowSPeQueNR8rk63ASxHzIGqn0bJS98uLG2QfvGHarVT9'; 
 			// echo'<pre>';print_r($result);exit;
 			
@@ -3178,14 +3187,27 @@ class admin	{
 						$message = array("msg" => $pushMessage);	
 						$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
 						// echo'<pre>';print_r($message);exit;  
+						
 						}
+					$google_feedback_link  ="https://goo.gl/forms/D1HvGtyi68EVl11l2";
+					 $message = "<p>Thank you for taking service from Yapnaa, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
+					 $to=$user_email_id;
+					 $subject="Yapnaa";
+					$this->send_email($message,$subject,$to);	
+					
 					return $result;
 				}
 				
 				if($device_type=='IOS'){ 
+				    $google_feedback_link  ="https://goo.gl/forms/D1HvGtyi68EVl11l2";
+					$message = "<p>Thank you for taking service from Yapnaa, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
+					$to=$user_email_id;
+					$subject="Yapnaa";
+					$this->send_email($message,$subject,$to);
+					
 					return $result;
 				}	
-
+              
 			
 			}elseif($srm_status==5){
 			
@@ -3223,11 +3245,22 @@ class admin	{
 						$message = array("msg" => $pushMessage);	
 						$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
 						// echo'<pre>';print_r($message);exit;  
+						
 						}
+					$google_feedback_link  ="https://goo.gl/forms/D1HvGtyi68EVl11l2";
+					$message = "<p>Thank you for taking service from Yapnaa, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
+					$to=$user_email_id;
+					$subject="Yapnaa";
+					$this->send_email($message,$subject,$to);	
 					return $result;
 				}
 				
 				if($device_type=='IOS'){ 
+				    $google_feedback_link  ="https://goo.gl/forms/D1HvGtyi68EVl11l2";
+					$message = "<p>Thank you for taking service from Yapnaa, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
+					$to=$user_email_id;
+					$subject="Yapnaa";
+					$this->send_email($message,$subject,$to);
 					return $result;
 				}	
 
@@ -3816,6 +3849,7 @@ class admin	{
 					'srm_questions' 			=> trim($que, ","),
 					'srm_answers' 				=> trim($ans, ","),
 					// 'srm_user_notes'			=> $user_srm_ans_notes,
+					'srm_user_generated_date'   => $srm_c_date,
 					'srm_product_id'			=> $p_id,
 					'srm_c_date' 				=> $srm_c_date
 				); 
