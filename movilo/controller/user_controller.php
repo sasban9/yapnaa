@@ -1598,7 +1598,7 @@ function checkout_user_login(){
 				$ext = substr($filename, strrpos($filename, '.') + 1);
 				$now = new DateTime();
 				$times = $now->getTimestamp();
-				$target = "/var/www/html/movilo/digilocker_images/"; 
+				$target = $_SERVER['DOCUMENT_ROOT']."/movilo/digilocker_images/"; 
 				//Determine the path to which we want to save this file
 				$newname = $target.$times.'-'.$filename;
 				$newname1 = $times.'-'.$filename;

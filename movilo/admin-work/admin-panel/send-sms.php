@@ -94,7 +94,8 @@ if(isset($_SESSION['admin_email_id']))
 		</div>	  
 	<div class="row" style="margin: 20px;">
 		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
-			<p id="p1">Thank you for your time. Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/2kkl44e today.</p>
+			<!--p id="p1">Thank you for your time. Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/2kkl44e today.</p-->
+			<p id="p1">Thank you for your time. Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/YapnaaForAndroid today.</p>
 			<input type="button" style="margin-right:30%;" value="Use template" class="btn btn-info pull-right template"  id="1"/>
 		</div>
 		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
@@ -102,7 +103,8 @@ if(isset($_SESSION['admin_email_id']))
 			<input type="button"  style="margin-right:30%;" value="Use template" class="btn btn-info pull-right template"   id="2"/>
 		</div>
 		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
-			<p id="p3">Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/2kkl44e today.</p>
+			<!--p id="p3">Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/2kkl44e today.</p-->
+			<p id="p3">Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/YapnaaForAndroid today.</p>
 			<br>
 			<input type="button" style="margin-right:30%;"  value="Use template" class="btn btn-info pull-right template"   id="3"/>
 		</div>
