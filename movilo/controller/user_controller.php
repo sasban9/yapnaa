@@ -545,11 +545,10 @@ function checkout_user_login(){
                                              <td align="" style="padding-bottom:2%; padding-top:2%;">
                                                 <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b>Dear Customer,</b></p>
 												<br>
-                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Warm welcome from yapnna team.</p>
-                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Thank you for choosing Yapnna as your after sales provide.</p>
-                                                <br>
-												<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">You can now connect to brands. schedule service, monitor warranty, store bills and get
-                                                   reminded before for warranty expiry.
+                                                <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">Warm welcome from yapnna team. Thank you for choosing Yapnaa as your after sales companion</p>
+                                                
+                                               
+												<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;">You can now connect to respective brands, schedule services, monitor warranty, store bills and get reminded on warranty expiry in advance.
                                                 </p>
 												<br>
                                                 <p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b style="font-family:cursive">Sincerely,</b></p>
@@ -1543,6 +1542,7 @@ function checkout_user_login(){
         $dl_document				   	 = 	$this->file_upload();
         $dl_doc_type					 = 	$_POST['dl_doc_type'];
         $dl_product_id				  	 = 	$_POST['dl_product_id'];
+        $dl_doc_name				  	 = 	$_POST['dl_doc_name'];
         $dl_updated_time				 = 	 date('Y-m-d h:i:s');
        
 		/*print_r($_FILES);
@@ -1572,6 +1572,7 @@ function checkout_user_login(){
 								'dl_document'				=> $dl_document,
 								'dl_doc_type' 				=> $dl_doc_type,
 								'dl_product_id' 			=> $dl_product_id,
+								'dl_doc_name' 			    => $dl_doc_name,
 								'dl_updated_time'			=> $dl_updated_time
 							);
 			
@@ -2934,7 +2935,7 @@ function checkout_user_login(){
                                                       <tr>
                                                          <td>  <img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
                                                          <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> www.yapnna.com</b></p>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> www.yapnaa.com</b></p>
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -2944,7 +2945,7 @@ function checkout_user_login(){
                                                       <tr>
                                                          <td><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
                                                          <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> help@yapnna.com</b></p>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> help@yapnaa.com</b></p>
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -3012,7 +3013,7 @@ function checkout_user_login(){
                                                       <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
                                                    </tr>
                                                    <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After sales companion</font></td>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
                                                    </tr>
                                                    <tr>
                                                       <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
