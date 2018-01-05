@@ -1,49 +1,60 @@
-
-
-<section class="header">
-			<header id="fixed-main-menu" class="clearfix">
-				<div class="container">
-					<nav class="navbar navbar-default" role="navigation" style="background: #ffffff;">
-						<!-- Brand and toggle get grouped for better mobile display -->
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-							<a class="responsive-navbar-brand" href="index.html"><img alt="Logo" src="images/yapnaa-logo1.png"></a>
-						</div>
-						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse" id="main-menu">
-						 
-							<ul class="nav navbar-nav navbar-left">
-								<li><a href="/#whatwedo">WHAT WE DO</a></li>
-								<li><a href="/#services">SERVICES</a></li>
-								<li><a href="/#works">HOW WE DO</a></li>
-							</ul>
-							
-							<a class="site-logo" href="index.html"><img class="logo-size" src="images/yapnaa-logo1.png" alt="yapnaa-logo"></a>
-							
-							<ul class="nav navbar-nav navbar-right">
-								<li><a href="/#team">TEAM</a></li>
-								<li><a href="/blogs">BLOGS</a></li>
-								<!-- <li><a href="#clients">CLIENTS</a></li>-->
-								
-								<!-- <li><a href="#blog">BLOG</a></li>-->
-								<li><a href="/#contact">CONTACT</a></li>
-							</ul>
-							
-						</div><!-- /.navbar-collapse -->
-					</nav>
-				</div>
-			</header>
-		</section>
-
-
-
-
-
-
-
-		
+         <header id="header" class="header-narrow header-semi-transparent header-transparent-sticky-deactive custom-header-style" data-plugin-options="{'stickyEnabled': false, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 1, 'stickySetTop': '1'}">
+            <div class="header-body">
+               <div class="header-container container">
+                  <div class="header-row">
+                     <div class="header-column">
+                        <div class="header-logo">
+                           <a href="index.html">
+                           <img alt="Yapnaa" height="95" width="95" class="img-responsive desktop" src="img/yapnaa-logo.svg">
+                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" src="img/yapnaa-logo.svg">
+                           </a>
+                        </div>
+                     </div>
+                     <div class="header-column">
+                        <div class="header-row">
+                           <div class="header-nav header-nav-stripe" style="    margin-right: -38px;">
+                              <button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main">
+                              <i class="fa fa-bars"></i>
+                              </button>
+                              <ul class="header-social-icons social-icons hidden-xs">
+                                 <button type="button" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
+                                    " class="btn btn-3d btn-primary btn-lg mr-xs mb-sm">Login</button>
+                              </ul>
+                              <div class="header-nav-main header-nav-main-square header-nav-main-effect-1 header-nav-main-sub-effect-1 collapse">
+                                 <nav>
+                                    <ul class="nav nav-pills" id="mainNav">
+                                       <li class="dropdown">
+                                          <a  href="index.html">
+                                          Home
+                                          </a>
+                                       </li>
+                                       <li class="">
+                                          <a href="about-us.html">
+                                          About Yapnaa
+                                          </a>
+                                       </li>
+                                       <li class="dropdown dropdown-mega">
+                                          <a  href="#">
+                                          Careers
+                                          </a>
+                                       </li>
+                                       <li class="dropdown ">
+                                          <a href="#">
+                                          Blogs
+                                          </a>
+                                       </li>
+                                       <li class="dropdown">
+                                          <a href="#">
+                                          Contact
+                                          </a>
+                                       </li>
+                                    </ul>
+                                 </nav>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </header>
