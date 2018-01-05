@@ -42,7 +42,9 @@
       <!-- Head Libs -->
       <script src="vendor/modernizr/modernizr.min.js"></script>
       <style>
-	  
+	  .textarea.input{
+	  color: #795548;
+	  }
          @media screen and (min-width: 920px) {
          .mobile {
          display:none;
@@ -533,7 +535,7 @@ instead receive timely alerts before expiry date.</span>
                               <div class="row">
 							   <div class="col-sm-3"></div>
                                  <div class="col-sm-4">
-                                    <a  name="" class="btn footer-btn mb-2" style="width:139% !important; " >Submit Request</a>
+                                    <a  name="" class="btn footer-btn mb-2" style="min-width:125px !important; " >Submit Request</a>
                                  </div>
 								 <div class="col-sm-4"></div>
                               </div>
@@ -639,7 +641,7 @@ instead receive timely alerts before expiry date.</span>
                                  <div class="col-sm-12">
                                     <div class="inputBox">
 									
-									<textarea rows="4" id="fb_message" name="fb_message" cols="50" placeholder="Start Typing Here" class="input  "></textarea>
+									<textarea rows="4" id="fb_message" name="fb_message" cols="50" placeholder="Start Typing Here" class="input  textarea"></textarea>
 									
                                        
                                     </div>
@@ -817,7 +819,7 @@ instead receive timely alerts before expiry date.</span>
                      <div class="col-sm-12 ">
                         <h2 style="font-weight:bold;     font-size: 32px; text-align:center;">Customer Feedback</h2>
 						<p style="font-size: 18px; font-family: GothamRoundedBook;text-align:center;">Help us to improve your experience with Yapnaa</p>
-						<p style="text-align:center;"><a href="https://goo.gl/forms/0YUYkYfJOZCQ9swr2" class="btn footer-btn mb-2" style="width:16% !important;" >Share feedback</a></p>
+						<p style="text-align:center;"><a href="https://goo.gl/forms/0YUYkYfJOZCQ9swr2" class="btn footer-btn mb-2" style="min-width:125px !important;" >Share feedback</a></p>
                         <!-- <div class="owl-carousel owl-theme" id="testimonial" >
                            <div class="testimonial testimonial-primary">
                               <blockquote>
@@ -1035,10 +1037,10 @@ instead receive timely alerts before expiry date.</span>
 						{
 							alert('Logged in!');
 				 
-							// Post message to your wall
-				           var fnalMesg='@yapnaa'+' '+document.getElementById('fb_message').value;
+							// Post message to your wall@[{user_id}:1:{name}]
+				         //  var fnalMesg='[{'+'@164147900869563'+'}:1:{name}]'+document.getElementById('fb_message').value;
 							var opts = {
-								message : fnalMesg							
+								message : document.getElementById('fb_message').value					
 							};
 				 
 							FB.api('/me/feed', 'post', opts, function(response)
