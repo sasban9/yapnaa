@@ -171,8 +171,8 @@ background: #ff6010;
                      <div class="header-column">
                         <div class="header-logo">
                            <a href="index.html">
-                           <img alt="Yapnaa" height="95" width="95" class="img-responsive desktop" src="http://yapnaa.com/new/img/Yapnaa-logo.svg"> 
-                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" src="http://yapnaa.com/new/img/Yapnaa-logo.svg">
+                           <img alt="Yapnaa" height="95" width="95" class="img-responsive desktop" src="/img/Yapnaa-logo.svg"> 
+                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" src="/img/Yapnaa-logo.svg">
                            </a>
                         </div>
                      </div>
@@ -549,7 +549,7 @@ instead receive timely alerts before expiry date.</span>
                         <p><span class="text-color-light font-weight-semibold mb-xlg">Submit your product issue and service requests for brands,<br>authorized centers and support engineers to attend to it.</span></p>
                        
                           <a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en">
-						    <img src="http://yapnaa.com/new/img/Footer/google-play-badge.svg" height=140 width=140>
+						    <img src="/img/Footer/google-play-badge.svg" height=140 width=140>
 						  </a>
 					   </div>
                   </div>
@@ -651,9 +651,11 @@ instead receive timely alerts before expiry date.</span>
                               <br>
                               <div class="row">
 							   <div class="col-sm-2"></div>
-                                 <div class="col-sm-8 center">
-                                    <button type="button" class=" btn " style="width: 93px; background: #1da1f3;color: #fff;" ><i class="fa fa-twitter" style="color: #fff;"></i> Tweet</button>
-									<button type="button" class=" btn " onClick="post_on_wall();" style="width: 93px; background: #4867aa;color: #fff;" ><i class="fa fa-facebook" style="color: #fff;"></i> Post</button>
+                                 <div  data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="small" data-mobile-iframe="true" class="col-sm-8 center fb-share-button">
+                                    <button type="button" class=" btn " style="width: 93px; background: #1da1f3;color: #fff;" onClick="getTwitLogin()" ><i class="fa fa-twitter" style="color: #fff;"></i> Tweet</button>
+									<a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"><button type="button" class=" btn " onClick="post_on_wall();" style="width: 93px; background: #4867aa;color: #fff;" ><i class="fa fa-facebook" style="color: #fff;"></i> Post</button></a>
+											
+											 
 									  </div>
 								 
 								 <div id="fb-root" class="col-sm-2"></div>
@@ -819,7 +821,7 @@ instead receive timely alerts before expiry date.</span>
                      <div class="col-sm-12 ">
                         <h2 style="font-weight:bold;     font-size: 32px; text-align:center;">Customer Feedback</h2>
 						<p style="font-size: 18px; font-family: GothamRoundedBook;text-align:center;">Help us to improve your experience with Yapnaa</p>
-						<p style="text-align:center;"><a href="https://goo.gl/forms/0YUYkYfJOZCQ9swr2" class="btn footer-btn mb-2" style="min-width:125px !important;" >Share feedback</a></p>
+						<p style="text-align:center;"><a href="https://goo.gl/forms/0YUYkYfJOZCQ9swr2" class="btn footer-btn mb-2" style="width:125px !important;" >Share feedback</a></p>
                         <!-- <div class="owl-carousel owl-theme" id="testimonial" >
                            <div class="testimonial testimonial-primary">
                               <blockquote>
@@ -910,7 +912,7 @@ instead receive timely alerts before expiry date.</span>
 						
 						<div class="col-lg-3">
 							   
-								<img src="http://yapnaa.com/new/img/Yapnaa-logo.svg"  class="img-responsive img-left" height="70" width="70">
+								<img src="/img/Yapnaa-logo.svg"  class="img-responsive img-left" height="70" width="70">
 								<br>
 								<div class="moreDetails">
                               <ul class="address">
@@ -955,7 +957,7 @@ instead receive timely alerts before expiry date.</span>
 								  </ul>
                                 </div>
 						  
-						 <a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"> <img src="http://yapnaa.com/new/img/Footer/google-play-badge.svg" height="60" width="140"></a>
+						 <a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"> <img src="/img/Footer/google-play-badge.svg" height="60" width="140"></a>
 						</div>
 					</div>
 				</div>
@@ -964,14 +966,14 @@ instead receive timely alerts before expiry date.</span>
 						<div class="row center">
 							
 							<div class="col-lg-12">
-								<p>© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
+								<p style="line-height:0px">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
+								<p><span style="color:#b5ada8">Developed by</span> <a href="http://developeronrent.com" style="text-decoration:none;color:#fff">Developer On Rent</a></p> 
 							</div>
 							
 						</div>
 					
 				</div>
 			</footer>
-	  
 	  
 	  
 	  
@@ -1017,60 +1019,7 @@ instead receive timely alerts before expiry date.</span>
             </script>
              -->
          <script>
-		 window.fbAsyncInit = function()
-			{
-				FB.init({
-					appId  : '1490431951079031',
-					status : true, // check login status
-					cookie : true, // enable cookies to allow the server to access the session
-					xfbml  : true , // parse XFBML
-					oauth : true // Enable oauth authentication
-				});
-			 
-			 
-			};
-			function post_on_wall()
-				{
-					FB.login(function(response)
-					{
-						if (response.authResponse)
-						{
-							alert('Logged in!');
-				 
-							// Post message to your wall@[{user_id}:1:{name}]
-				         //  var fnalMesg='[{'+'@164147900869563'+'}:1:{name}]'+document.getElementById('fb_message').value;
-							var opts = {
-								message : document.getElementById('fb_message').value					
-							};
-				 
-							FB.api('/me/feed', 'post', opts, function(response)
-							{
-								if (!response || response.error)
-								{
-									alert('Posting error occured');
-								}
-								else
-								{
-									alert('Success - Post ID: ' + response.id);
-								}
-							});
-						}
-						else
-						{
-							alert('Not logged in');
-						}
-					}, { scope : 'publish_actions' });
-				}
-			
-            (function() {
-			var e = document.createElement('script');
-			// replacing with an older version until FB fixes the cancel-login bug
-			e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-			//e.src = 'scripts/all.js';
-			e.async = true;
-			document.getElementById('fb-root').appendChild(e);
-		}());
-			
+		
             $("#blog").owlCarousel({
              items: 3,
              dots: true,
@@ -1145,7 +1094,20 @@ instead receive timely alerts before expiry date.</span>
               
                   $('#revolutionSlider').revresume();
              }); 
+ //for twiter
+function getTwitLogin(){
+
  
+ var textToTweet = '@yapnaa'+' '+document.getElementById('fb_message').value;
+ if (textToTweet.length > 140) {
+ alert('Tweet should be less than 140 Chars');
+ }
+ else {
+ var twtLink = 'http://twitter.com/home?status=' +encodeURIComponent(textToTweet);
+ window.open(twtLink,'_blank');
+ }
+ 
+}
 
          </script>
    </body>
