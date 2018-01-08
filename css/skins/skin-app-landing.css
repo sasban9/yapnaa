@@ -2900,7 +2900,7 @@ html[dir="rtl"] #header .tip.skin:before {
 }
 
 #header .header-btn-collapse-nav {
-	background: #f4645a;
+	background: #fff;
 }
 
 @media (min-width: 992px) {
