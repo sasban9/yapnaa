@@ -5038,7 +5038,7 @@ html.boxed .main {
 }
 
 i {
-    font-size : 12px;
+    font-size : 24px !important;
     padding-right: 15px;
     color: #ff6010;
 }
