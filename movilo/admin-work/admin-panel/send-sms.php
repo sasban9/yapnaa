@@ -73,7 +73,10 @@ if(isset($_SESSION['admin_email_id']))
 
 <body>
     <div id="wrapper">
-       <?php include "header.php";?>
+       <?php 
+	  
+       
+	   include "header.php";?>
         </div>
               
 		<div class="row wrapper border-bottom white-bg page-heading">

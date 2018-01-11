@@ -371,7 +371,7 @@ class admin	{
 				$subject	=	"AMC Expiry for your ZeroB Water Filter";
 				// Mail it
 				mail($row['email'], $subject, $message,$headers);
-			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/2kkl44e and renew your AMC';
+			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/YapnaaForAndroid and renew your AMC';
 			$user_numbers	=	array();
 			if(isset($row['PHONE1']) && !empty($row['PHONE1'])){
 				$user_numbers[]	=	$row['PHONE1'];
@@ -684,7 +684,7 @@ class admin	{
 				$subject	=	"AMC Expiry for your ZeroB Water Filter";
 				// Mail it
 				mail($row['email'], $subject, $message,$headers);
-			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/2kkl44e and renew your AMC';
+			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/YapnaaForAndroid and renew your AMC';
 			$user_numbers	=	array();
 			if(isset($row['PHONE1']) && !empty($row['PHONE1'])){
 				$user_numbers[]	=	$row['PHONE1'];
@@ -996,7 +996,7 @@ class admin	{
 				$subject	=	"AMC Expiry for your ZeroB Water Filter";
 				// Mail it
 				mail($row['email'], $subject, $message,$headers);
-			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/2kkl44e and renew your AMC';
+			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/YapnaaForAndroid and renew your AMC';
 			$user_numbers	=	array();
 			if(isset($row['PHONE1']) && !empty($row['PHONE1'])){
 				$user_numbers[]	=	$row['PHONE1'];
@@ -1308,7 +1308,7 @@ class admin	{
 				$subject	=	"AMC Expiry for your ZeroB Water Filter";
 				// Mail it
 				mail($row['email'], $subject, $message,$headers);
-			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/2kkl44e and renew your AMC';
+			$sms_message	=	'AMC for your ZeroB Water Filter expires on '.$expiry_date.', Dowload Yapnaa App from http://bit.ly/YapnaaForAndroid and renew your AMC';
 			$user_numbers	=	array();
 			if(isset($row['PHONE1']) && !empty($row['PHONE1'])){
 				$user_numbers[]	=	$row['PHONE1'];
@@ -1648,7 +1648,7 @@ class admin	{
 		}
 		else{
 			$number = array($phone1);
-			$message = 'AMC for your ZeroB Water Filter has been updated. Download the Yapnaa app http://bit.ly/2kkl44e to maintain services, AMC and bills for your electronic products.';
+			$message = 'AMC for your ZeroB Water Filter has been updated. Download the Yapnaa app http://bit.ly/YapnaaForAndroid to maintain services, AMC and bills for your electronic products.';
 			$get_amc_list = $this->send_bulk_sms($number,$message);
 			return 1;
 		}
@@ -1876,7 +1876,7 @@ class admin	{
 	function zerob_appointment_expiry_sms($id,$apptDate,$number,$comment){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
-		$message	=	"AMC for your ZeroB product is expiring on ​".$apptDate.". Register with Yapnaa and renew your AMC. http://bit.ly/2kkl44e";
+		$message	=	"AMC for your ZeroB product is expiring on ​".$apptDate.". Register with Yapnaa and renew your AMC. http://bit.ly/YapnaaForAndroid";
 		$user_number = array($number);
 		$admin_name		= $_SESSION['admin_name'];
 		 $ar_id  	        = $_SESSION['ar_id'];

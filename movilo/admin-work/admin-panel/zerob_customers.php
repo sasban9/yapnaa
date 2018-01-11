@@ -195,6 +195,7 @@ if(isset($_SESSION['admin_email_id']))
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
+				<!--form action="send-sms.php" method="POST"-->
 				<form action="send-sms.php" method="POST">
                     <table class="table table-striped table-bordered table-hover dataTables-example" >
 					<thead>
@@ -230,7 +231,7 @@ if(isset($_SESSION['admin_email_id']))
 							//echo "Days".$datediff;
 					?>
 						<tr>
-							<td><input type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
+							<td><input id="individual_sms" type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
 							<td <?php //echo "status".$get_amc_list[$i]['status'];
 									/*if($get_amc_list[$i]['users'] != null || !empty($get_amc_list[$i]['users'])){
 											echo 'style="background-color:orange;color:white;font-style:bold;"><i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>Yapnaa Registered';
@@ -353,7 +354,7 @@ if(isset($_SESSION['admin_email_id']))
 				</table>  
 					
 					<div class="row">
-						<button type="submit" class="btn btn-success" name="sendSMSSubmit">
+						<button type="submit" class="btn btn-success" id="sendSMSSubmit" name="sendSMSSubmit">
 							<i class="fa fa-envelope"></i> Send SMS for Selected
 						</button>
 						<button type="button" class="btn btn-success" name="sendAllSubmit" id="sendAllSubmit">
@@ -602,6 +603,7 @@ if(isset($_SESSION['admin_email_id']))
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+		
 			/*$("#submit").click(function(){
 				if$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate
 			});*/
@@ -623,7 +625,22 @@ if(isset($_SESSION['admin_email_id']))
 				}
 				
 			});
+			$("#sendSMSSubmit").click(function(){
+				
+				var row = [];
+                $.each($("input[name='sms[]']:checked"), function() {
+					row.push($(this).val());
+				});
+				
+			
+				var energy = row.join();
+				
+				localStorage.setItem('numbers',energy);
+				
+				location.href = "send-sms.php";
+			}); 
 			$("#sendAllSubmit").click(function(){
+				
 				localStorage.setItem('numbers','<?php echo implode(",",array_values($numbers));?>');
 				location.href = "send-sms.php";
 			});
