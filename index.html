@@ -42,8 +42,15 @@
       <!-- Head Libs -->
       <script src="vendor/modernizr/modernizr.min.js"></script>
       <style>
+	  
 	  .textarea.input{
 	  color: #795548;
+	  }
+	  .unclickable{
+	  display:none
+	  }
+	  .unclickable .unclickableMask {
+	  display:none
 	  }
          @media screen and (min-width: 920px) {
          .mobile {
@@ -214,6 +221,12 @@ background: #ff6010;
                                           <a href="contact-us.html">
                                           Contact
                                           </a>
+
+
+										  <li class="dropdown mobile">
+                                          <a href="login.html">
+                                         Login
+                                          </a>
                                        </li>
                                     </ul>
                                  </nav>
@@ -237,22 +250,38 @@ background: #ff6010;
                            data-bgrepeat="no-repeat" 
 						   data-start="100"
                            class="rev-slidebg">
-                        <div class="tp-caption "
+                        <div class="tp-caption desktop"
 						
                            data-x="17"
                            data-y="280"
                            data-start="100"
 						   
                            >
-                           <h1 class="text-color-light" style="line-height:50px;"> Reach out to Brands<br>for any grievance</h1>
+                           <h1 class="text-color-light " style="line-height:50px;"> Reach out to Brandsfor any <br> grievance for any grievance</h1>
+						   
+						  
+						   
+						   
                         </div>
+                        
+
+						
                         <div class="tp-caption bottom-label"
                            data-x="15"
-                           data-y="360"
+                           data-y="390"
                            data-start="100"
 						   
-                           ><span class="text-color-light font-weight-semibold mb-xlg"><br><br>Escalate your problem and share grievances  directly with
-<br> senior management of a brand for quick response.  </span>
+                           ><span  class="text-color-light font-weight-semibold mb-xlg">Escalate your problem  and share grievances   </span>
+                        </div>
+						
+						
+                      <div class="tp-caption bottom-label"
+                           data-x="15"
+                           data-y="420"
+                           data-start="100"
+						   
+                           ><span  class="text-color-light font-weight-semibold mb-xlg">directly with
+senior management of a brand for quick response.  </span>
                         </div>
                    
                      </li>
@@ -371,7 +400,7 @@ instead receive timely alerts before expiry date.</span>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            
-                           <form id="searchForm" action="page-search-results.html" method="get" novalidate="novalidate">
+                           <form id="searchForm" action="#" method="get" novalidate="novalidate">
                               <div class="input-group">
                                  <input type="text" style="
                                     height: 48px;
@@ -382,7 +411,7 @@ instead receive timely alerts before expiry date.</span>
                                     border-bottom-left-radius: 15px;
                                     " class="form-control" name="q" id="q" placeholder="Search brands, service center,customer care..." required="" aria-required="true">
                                  <span class="input-group-btn">
-                                 <button class="btn btn-default" style="
+                                 <button class="btn btn-default " style="
                                     height: 48px;
                                     border-top: 2px solid #fc7f2b;
                                     border-right: 2px solid #fc7f2b;
@@ -409,9 +438,49 @@ instead receive timely alerts before expiry date.</span>
             </div>
             <section id="how-it-work" class="section background-color-light m-none">
                <div class="container">
-                  <div class="row" style="    margin-bottom: 3%;">
+			   <div class="row center group-mb" style="margin-bottom: 3%;">
                      <div class="col-sm-12">
+                       
+	
+                           
+                           <form id="searchForm1" action="#" method="get" novalidate="novalidate">
+                              <div class="input-group" >
+                                 <input type="text" style="
+								    width:255px;
+                                    height: 39px;
+                                    border-top: 2px solid #fc7f2b;
+                                    border-left: 2px solid #fc7f2b;
+                                    border-bottom: 2px solid #fc7f2b;
+                                    border-top-left-radius: 15px;
+                                    border-bottom-left-radius: 15px;
+                                    " class="form-control mobi" name="q" id="q" placeholder="Search brands, service center, customer care..." required="" aria-required="true">
+                                 <span class="input-group-btn">
+                                 <button class="btn btn-default mobi1" style="
+                                    height: 39px;
+                                    border-top: 2px solid #fc7f2b;
+                                    border-right: 2px solid #fc7f2b;
+                                    border-bottom: 2px solid #fc7f2b;
+                                    border-left: none;
+                                    border-top-right-radius: 15px;
+                                    border-bottom-right-radius: 15px;
+									position: relative;
+									margin: 0px 113px 29px -2px;
+                                    " type="submit"><i style="color: #fc7f2b;
+                                    font-size: 27px;" class="fa fa-search"></i></button>
+                                 </span>
+                              </div>
+                           </form>
+						   
+						
+						 
+                     </div>
+                  </div>
+                  <div class="row" style="    margin-bottom: 3%;">
+                     <div class="col-sm-12 desktop">
                         <h2 style="font-weight:bold; font-size:32px;">How Yapnaa helps you?</h2>
+                     </div>
+					 <div class="col-xs-12 mobile">
+                        <h2 style="font-weight:bold; font-size:27px;text-align:center" >How Yapnaa helps you?</h2>
                      </div>
                   </div>
                   <div class="row" >
@@ -545,8 +614,11 @@ instead receive timely alerts before expiry date.</span>
 						 <div class="col-sm-1 "></div>
                      </div>
                      <div class="col-sm-6 " style="    margin-top: 7%;">
-                        <h2 style="font-weight:bold;     font-size: 32px;">Raise a service request</h2>
-                        <p><span class="text-color-light font-weight-semibold mb-xlg">Submit your product issue and service requests for brands,<br>authorized centers and support engineers to attend to it.</span></p>
+                        <h2 class="desktop" style="font-weight:bold;     font-size: 32px;">Raise a service request</h2>
+                        <h2 class="mobile" style="font-weight:bold;     font-size: 28;">Raise a service request</h2>
+                        <p><span class="text-color-light font-weight-semibold mb-xlg desktop">Submit your product issue and service requests for brands,<br>authorized centers and support engineers to attend to it.</span>
+						<span class="text-color-light font-weight-semibold mb-xlg mobile" >Submit your product issue and service requests for brands, authorized centers and support engineers to attend to it.</span>
+						</p>
                        
                           <a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en">
 						    <img src="/img/Footer/google-play-badge.svg" height=140 width=140>
@@ -559,8 +631,10 @@ instead receive timely alerts before expiry date.</span>
                <div class="container">
                   <div class="row">
                      <div class="col-sm-12">
-                        <p class="cta-text"> Don't just take word for it; read other's views and how they are getting
- </p><p class="cta-text">quick solutions from brands directly.</p>
+                        <p class="cta-text desktop"> Don't just take word for it; read other's views and how they are getting
+ </p><p class="cta-text desktop">quick solutions from brands directly.</p>
+                        <p class="cta-text mobile" style="font-size:20px;text-align:left;line-height:30px"> Don't just take word for it; read other's views and how they are getting
+ quick solutions from brands directly.</p>
                         <div class="owl-carousel owl-theme" id="blog" style="    margin-top: 6%;">
                            <div class="formBox" style="padding: 9%;border-radius: 14px;">
                               <h4> Yapnaa as a platform enables to connect better with brands and delivers a proactive service.</h4>
@@ -613,8 +687,10 @@ instead receive timely alerts before expiry date.</span>
 				  
 				  
 				   <div class="col-sm-6 " style="    margin-top: 7%;     margin-bottom: 8%;">
-                        <h2 style="font-weight:bold;     font-size: 32px;">Direct Escalation to Brands</h2>
-                        <p><span class="text-color-light font-weight-semibold mb-xlg">Share your grievance, issue and problem with management<br>of brand directly. Know status of your issues and get quick solution.</span></p>
+                        <h2 class="desktop"style="font-weight:bold;     font-size: 32px;">Direct Escalation to Brands</h2>
+                        <h2 class="mobile"style="font-weight:bold;     font-size: 27px;">Direct Escalation to Brands</h2>
+                        <p><span class="text-color-light font-weight-semibold mb-xlg desktop">Share your grievance, issue and problem with management<br>of brand directly. Know status of your issues and get quick solution.</span>
+						<span class="text-color-light font-weight-semibold mb-xlg mobile">Share your grievance, issue and problem with management <br>of brand directly. Know status of your issues and get quick solution.</span></p>
                        
 					   </div>
 				  
@@ -652,8 +728,8 @@ instead receive timely alerts before expiry date.</span>
                               <div class="row">
 							   <div class="col-sm-2"></div>
                                  <div  data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="small" data-mobile-iframe="true" class="col-sm-8 center fb-share-button">
-                                    <button type="button" class=" btn " style="width: 93px; background: #1da1f3;color: #fff;" onClick="getTwitLogin()" ><i class="fa fa-twitter" style="color: #fff;"></i> Tweet</button>
-									<a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"><button type="button" class=" btn " onClick="post_on_wall();" style="width: 93px; background: #4867aa;color: #fff;" ><i class="fa fa-facebook" style="color: #fff;"></i> Post</button></a>
+                                    <button type="button" class=" btn " style="min-width: 93px; background: #1da1f3;color: #fff;" onClick="getTwitLogin()" ><i class="fa fa-twitter" style="color: #fff;"></i> Tweet</button>
+									<a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"><button type="button" class=" btn " onClick="post_on_wall();" style="min-width: 93px; background: #4867aa;color: #fff;" ><i class="fa fa-facebook" style="color: #fff;"></i> Post</button></a>
 											
 											 
 									  </div>
@@ -675,7 +751,65 @@ instead receive timely alerts before expiry date.</span>
                      <h2 class="section-title">Without Yapnaa</h2>
                      <!--<p class="section-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>-->
                   </div>
-                  <div class="row txt" id="kk">
+				  
+				  
+				  <!-- for Mobile -->
+				  
+				  
+				  <div class="row mobile">
+				   <div class="col-xs-12"><p class="text-color-light font-weight-100 mb-xlg">&nbsp;</p></div>
+				   <div class="col-xs-6">
+				  <img src="img/icon-1.svg" class="img-responsive img-center" height="50" width="50">
+				                <p style="line-height:0px">&nbsp;</p>
+								<p class="text-color-light font-weight-100 mb-xlg">Your device <br/> has an issue</p>
+				  
+				  </div>
+				   <div class="col-xs-6">
+				  <img src="img/icon-2.svg" class="img-responsive img-center" height="50" width="50">
+				                <p style="line-height:0px">&nbsp;</p>
+								<p class="text-color-light font-weight-100 mb-xlg">Search contacts
+<br>of service center</p>
+				  
+				  </div>
+				  
+				  
+				  
+				  
+				  <div class="col-xs-6">
+				  <img src="img/icon-3.svg" class="img-responsive img-center" height="50" width="50">
+				                <p style="line-height:0px">&nbsp;</p>
+								<p class="text-color-light font-weight-100 mb-xlg">Wait for a longtime
+<br>to get connected</p>
+				  
+				  </div>
+				  
+				  <div class="col-xs-6">
+				  <img src="img/icon-4.svg" class="img-responsive img-center" height="50" width="50">
+				                <p style="line-height:0px">&nbsp;</p>
+								<p class="text-color-light font-weight-100 mb-xlg">Hoggle with <br>customer care</p>
+				  
+				  </div>
+				  
+				  
+				  <div class="col-xs-12">
+				  <img src="img/icon-5.svg" height="50" width="50">
+				                <p style="line-height:0px">&nbsp;</p>
+								<p class="text-color-light font-weight-100 mb-xlg">Response satisfactory&nbsp;or&nbsp;<br>unsatisfactory</p>
+				  
+				  </div>
+				  
+				  
+				  
+				  
+				  
+				  </div>
+				  
+				  
+				  
+				  <!-- for Desktop -->
+				  
+				  
+                  <div class="row txt desktop" id="kk" >
 				   <div class="col-md-1">
 					 </div>
 				    <!--<div class="col-sm-1"></div>-->
@@ -758,9 +892,44 @@ instead receive timely alerts before expiry date.</span>
 					  <div class="row smg">
                      <div class="section-header">
                         <h3 class="section-title" id="sect">With Yapnaa</h3>
+						
                        <!-- <p class="section-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>-->
                      </div>
-                     <div class="row txt" id="ll">
+					 
+					 <!-- fror mobile-->
+					 <div class="row mobile">
+					 <div class="col-xs-12"><p class="text-color-light font-weight-100 mb-xlg">&nbsp;</p></div>
+				   <div class="col-xs-12">
+				  <img src="img/icon-1.svg" class="img-responsive img-center" height="50" width="50">
+				                  <p style="line-height:0px">&nbsp;</p>
+								  <p class="text-color-light font-weight-100 mb-xlg services-text">Your device <br>has an issue
+				  
+				  </div>
+				   <div class="col-xs-12">
+				  <img src="img/icon-6.svg" class="img-responsive img-center" height="50" width="50">
+				                <p style="line-height:0px">&nbsp;</p>
+								<p class="text-color-light font-weight-100 mb-xlg">Raise a<br>service request on Yapnaa
+                            
+                           </p>
+				  
+				  </div>
+				  
+				  
+				  
+				  
+				  <div class="col-xs-12">
+				  <img src="img/icon-7.svg" class="img-responsive img-center" height="50" width="50">
+				                 <p style="line-height:0px">&nbsp;</p>
+								 <p class="text-color-light font-weight-100 mb-xlg" style="line-height:0px">Connect to brands quickly and get</p>
+                              <p class="text-color-light font-weight-100 mb-xlg" style="line-height:0px">
+							  your product serviced in time 
+                           </p>
+				  
+				  </div>
+				  
+				  </div>
+				  <!-- desktop-->
+                     <div class="row txt desktop" id="ll">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-2 service-options">
                            <img src="img/icon-1.svg" height="50" width="50">
@@ -819,7 +988,8 @@ instead receive timely alerts before expiry date.</span>
                <div class="container">
                   <div class="row">
                      <div class="col-sm-12 ">
-                        <h2 style="font-weight:bold;     font-size: 32px; text-align:center;">Customer Feedback</h2>
+                        <h2 class="desktop" style="font-weight:bold;     font-size: 32px; text-align:center;">Customer Feedback</h2>
+                        <h2 class="mobile" style="font-weight:bold;     font-size: 27px; text-align:center;">Customer Feedback</h2>
 						<p style="font-size: 18px; font-family: GothamRoundedBook;text-align:center;">Help us to improve your experience with Yapnaa</p>
 						<p style="text-align:center;"><a href="https://goo.gl/forms/0YUYkYfJOZCQ9swr2" class="btn footer-btn mb-2" style="width:125px !important;" >Share feedback</a></p>
                         <!-- <div class="owl-carousel owl-theme" id="testimonial" >
@@ -961,17 +1131,27 @@ instead receive timely alerts before expiry date.</span>
 						</div>
 					</div>
 				</div>
-				<div class="footer-copyright">
+				<div class="footer-copyright " >
+				
 					
-						<div class="row center">
+						<div class="row center" style="line-height:0px">
 							
 							<div class="col-lg-12">
-								<p style="line-height:0px">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
-								<p><span style="color:#b5ada8">Developed by</span> <a href="http://developeronrent.com" style="text-decoration:none;color:#fff">Developer On Rent</a></p> 
+							    <p class="mobile"style="line-height:0px">&nbsp;</p>
+								<p class="desktop" style="line-height:0px">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
+								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
 							</div>
 							
 						</div>
-					
+					<div class="row center" style="line-height:0px">
+							
+							<div class="col-lg-12" style="line-height:0px">
+								
+								<p style="line-height:0px">Developed by <a href="http://developeronrent.com" style="text-decoration:none;color:#fff">Developer On Rent</a></p> 
+								<p class="mobile">&nbsp;</p> 
+							</div>
+							
+						</div>
 				</div>
 			</footer>
 	  
@@ -1019,7 +1199,10 @@ instead receive timely alerts before expiry date.</span>
             </script>
              -->
          <script>
-		
+		if (window.matchMedia('(max-width: 600px)').matches)
+			{
+			$('#how-it-work h4').css({'text-align':'center'}).css({'margin-top':'23px'});
+			}
             $("#blog").owlCarousel({
              items: 3,
              dots: true,

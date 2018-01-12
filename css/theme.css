@@ -3,6 +3,71 @@ Name: 			theme.css
 Written by: 	Okler Themes - (http://www.okler.net)
 Theme Version:	5.7.2
 */
+ /* hide mobile version by default */
+  #searchForm1 {
+    display: none;
+  }
+  /* when screen is less than 600px wide
+     show mobile version and hide desktop */
+	 
+	 
+	 
+	 
+	  @media (max-width: 600px) {
+		  
+		    .desktop{
+			  
+			  display:none;
+			  
+		  }
+	  }
+	  
+	  @media (min-width: 600px) {
+		  
+		  .mobile{
+			  
+			  display:none;
+			  
+		  }
+		  
+	  }
+	  
+	  
+	 
+	 
+	 
+	 
+	 
+  @media (max-width: 600px) {
+     #searchForm1 {
+	  margin-left: 12px;	 
+      display: block;
+    }
+	button.mobi1 {
+		
+	    margin: 0px 24px 29px -2px !important;
+	}
+	#revolutionSlider_forcefullwidth{
+		    border:none;
+	}
+     #searchForm {
+      display: none;
+    }
+ 
+	
+  }
+@media only screen and (max-width: 768px) {
+	#searchForm{
+		display:none;
+	}
+	#searchForm1 {
+      display: block;
+    }
+	.mobi{
+		width: 100% !important;
+		 margin: 0px 24px 29px -2px !important;
+	}
+}
 html {
 	direction: ltr;
 	overflow-x: hidden;
@@ -3887,6 +3952,7 @@ html.dark .text-muted {
 	font-size: 14px !important;
     padding-bottom: 1%;
 	    font-family: GothamRoundedLight;
+		
 }
 
 #footer.light .phone,
