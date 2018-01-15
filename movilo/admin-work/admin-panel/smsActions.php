@@ -47,7 +47,7 @@ if(isset($_SESSION['admin_email_id'])){
 		$number = array($_REQUEST['number']);
 		$id = array($_REQUEST['id']);
 		$comment =	$_REQUEST['comment'];
-		$message = 'Thank you for your time. Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/2kkl44e today.';
+		$message = 'Thank you for your time. Now maintaining your home appliances is easy. Download the Yapnaa app http://bit.ly/YapnaaForAndroid';
 		$get_amc_list = $control->send_user_sms($number,$message,$id,$comment);
 		echo 1;
 		exit;
