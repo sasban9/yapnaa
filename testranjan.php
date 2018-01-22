@@ -34,7 +34,9 @@ function insertIntoDatabase($name,$facebookId) {
     //include 'includes/database.php';
     // Sanitize inputs
 	 $sql1 = "select * from users where user_social_id='$facebookId'";
-   if((mysqli_query(connection(), $sql1))==NULL){
+	 $data=mysqli_query(connection(), $sql1);
+	 //print_r($data['num_rows']);
+   if( $data->num_rows==0){
     //Insert fields into database
     $sql = "INSERT INTO users (user_name,user_social_id) VALUES ('$name','$facebookId')";
   (mysqli_query(connection(), $sql));
