@@ -14,11 +14,28 @@
 ::-webkit-input-placeholder {
 font-size: 14px;
 }
+ @media (max-width: 768px) {
+		  
+		    .desktop{
+			  
+			  display:none !important;
+			  
+		  }
+		  .mobile img{
+		  padding-left: 41px;
+		 }
+	  } 
+	   
 @media (min-width: 768px){
 
-.lead {
-    font-size: 17px !important; 
-}
+			.lead {
+				font-size: 17px !important; 
+			}
+      .mobile{
+			  
+			  display:none !important;
+			  
+		  }
 }
 
 
@@ -90,45 +107,85 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
  <div class="row" style="margin-right:18px !important;">
 				<div class="col-sm-4"></div>
 					 <div class="col-sm-6">
-					 <div class="asd" style="margin-bottom: 37px;">
+					 <div class="asd desktop" style="margin-bottom: 37px;">
 					  <a href="index.html">
-						 <img alt="Yapnaa" height="95" width="95" class="img-responsive img-center" src="img/Yapnaa-logo.svg">
+						 <img alt="Yapnaa" height="95" width="95" class="img-responsive img-center desktop" src="img/Yapnaa-logo.svg">
+						 </a>
+					 </div>
+					  <div class="asd mobile" style="margin-bottom: 37px;">
+					  <a href="index.html">
+						 <img alt="Yapnaa" height="95" width="95" class="img-responsive img-center mobile" src="img/Yapnaa-logo.svg">
 						 </a>
 					 </div>
 					 <div class="col-sm-2"></div>
 				 </div>
 </div>
-		   <div class="form">
-			 <form action="" method="post" role="form" class="contactForm">
-                <div class="form-group">
-				<div class="row">
+           <!-- desktop-->
+		   <div class="form desktop">
+			 <form action="" method="post" role="form" class="contactForm desktop">
+                <div class="form-group desktop">
+				<div class="row desktop">
 				
-					 <div class="col-sm-8">
-						<div class="inputBox " style="width: 256px;margin-bottom:15px;">
-						   <input type="text" name="" placeholder="Email" class="input">
+					 <div class="col-sm-8 desktop">
+						<div class="inputBox desktop" style="width: 256px;margin-bottom:15px;">
+						   <input type="text" name="" placeholder="Email" class="input desktop">
 						</div>
 					 </div>
 				 </div>
-				 <div class="row">
+				 <div class="row desktop">
 				
-					 <div class="col-sm-8">
-						<div class="inputBox ss" style="width: 256px;">
-						   <input type="text" name="" placeholder="Password" class="input">
+					 <div class="col-sm-8 desktop">
+						<div class="inputBox ss desktop" style="width: 256px;">
+						   <input type="text" name="" placeholder="Password" class="input desktop">
 						</div>
 					 </div>
 				 </div>
        
-                <div class="row">
-				<div class="col-sm-2"></div>
-					 <div class="col-sm-8">
-						<div class="inputBox dd">
-						   <input type="submit" name="" class="button" value="Get Started" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
+                <div class="row desktop">
+				<div class="col-sm-2 desktop"></div>
+					 <div class="col-sm-8 desktop">
+						<div class="inputBox dd desktop">
+						   <input type="submit" name="" class="button desktop" value="Get Started" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
 						</div>
 					 </div>
 				 </div>
 				</div>
 				
 		  </div>
+		  <!--mobile-->
+		  <div class="form mobile">
+			 <form action="" method="post" role="form" class="contactForm mobile">
+                <div class="form-group mobile">
+				<div class="row mobile">
+				
+					 <div class="col-sm-8 mobile">
+						<div class="inputBox mobile" style="width: 256px;margin-bottom:15px;">
+						   <input type="text" name="" placeholder="Email" class="input mobile">
+						</div>
+					 </div>
+				 </div>
+				 <div class="row mobile">
+				
+					 <div class="col-sm-8 mobile">
+						<div class="inputBox ss mobile" style="width: 256px;">
+						   <input type="text" name="" placeholder="Password" class="input mobile">
+						</div>
+					 </div>
+				 </div>
+       
+                <div class="row mobile">
+				<div class="col-sm-2 mobile"></div>
+					 <div class="col-sm-8 mobile">
+						<div class="inputBox dd mobile">
+						   <input type="submit" name="" class="button mobile" value="Get Started" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
+						</div>
+					 </div>
+				 </div>
+				</div>
+				
+		  </div>
+		  
+		  
 		  <div class="row ee">
 				<div class="col-sm-2"></div>
 					 <div class="col-sm-8">
@@ -144,7 +201,7 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 					 
 					 </div>
 					  <div class="as">
-					 <a href="https://www.facebook.com/yapnaa/" style="margin-left: -32px; " onclick="fbLogin"> <img alt="Yapnaa" height="200" width="250"  style="margin-bottom:4px;" class="img-responsive img-center" src="img/facebookAsset 7.svg"></a>
+					 <a href="#" scope="public_profile,email" style="margin-left: -32px; " onclick="Login()"> <img alt="Yapnaa" height="200" width="250"  style="margin-bottom:4px;" class="img-responsive img-center" src="img/facebookAsset 7.svg"></a>
 					  <a  href="" id="google-login-button" class="google-login-button" style="text-align:center;margin-left: -32px;"><img  alt="Yapnaa" height="200" width="250" class="img-responsive img-center" src="img/googleAsset 8.svg"></a>
 					 </div>
 					 </div>
@@ -201,8 +258,10 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
  </div>
  <div class="col-sm-2"></div>
  </div>
- 
+ <div id="fb-root"></div>
 </body>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="//connect.facebook.net/en_US/all.js#xfbml=1&appId=1490431951079031" id="facebook-jssdk"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};HandleGoogleApiLibrary()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
@@ -255,54 +314,146 @@ function(error) {
 );
 
 
-window.fbAsyncInit = function() {
-// FB JavaScript SDK configuration and setup
-FB.init({
- appId      : '1490431951079031', // FB App ID
- cookie     : true,  // enable cookies to allow the server to access the session
- xfbml      : true,  // parse social plugins on this page
- version    : 'v2.8' // use graph api version 2.8
-});
-
-// Check whether the user already logged in
-FB.getLoginStatus(function(response) {
-if (response.status === 'connected') {
-//display user data
-getFbUserData();
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        testAPI();
+    } else if (response.status === 'not_authorized') {
+        // The person is logged into Facebook, but not your app.
+        document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+    } else {
+        // The person is not logged into Facebook, so we're not sure if
+        // they are logged into this app or not.
+        document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+    }
 }
-});
+
+// This function is called when someone finishes with the Login
+// Button.  See the onlogin handler attached to it in the sample
+// code below.
+function checkLoginState() {
+    FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+    });
+}
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: '1490431951079031',
+        cookie: true, // enable cookies to allow the server to access 
+        // the session
+        xfbml: true, // parse social plugins on this page
+        version: 'v2.2' // use version 2.2
+    });
+
+    // Now that we've initialized the JavaScript SDK, we call 
+    // FB.getLoginStatus().  This function gets the state of the
+    // person visiting this page and can return one of three states to
+    // the callback you provide.  They can be:
+    //
+    // 1. Logged into your app ('connected')
+    // 2. Logged into Facebook, but not your app ('not_authorized')
+    // 3. Not logged into Facebook and can't tell if they are logged into
+    //    your app or not.
+    //
+    // These three cases are handled in the callback function.
+
+    FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+    });
+
 };
 
-// Load the JavaScript SDK asynchronously
-(function(d, s, id) {
-var js, fjs = d.getElementsByTagName(s)[0];
-if (d.getElementById(id)) return;
-js = d.createElement(s); js.id = id;
-js.src = "//connect.facebook.net/en_US/sdk.js";
-fjs.parentNode.insertBefore(js, fjs);
+// Load the SDK asynchronously
+(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id))
+        return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-// Facebook login with JavaScript SDK
-function fbLogin() {
-FB.login(function (response) {
-if (response.authResponse) {
-// Get and display the user profile data
-getFbUserData();
-} else {
-document.getElementById('status').innerHTML = 'User cancelled login or did not fully authorize.';
-}
-}, {scope: 'email'});
+// Here we run a very simple test of the Graph API after login is
+// successful.  See statusChangeCallback() for when this call is made.
+function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function (response) {
+        console.log(JSON.stringify(response));
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML =
+                'Thanks for logging in, ' + response.name + '!';
+    });
 }
 
-// Fetch the user profile data from facebook
-function getFbUserData(){
-FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'},
-function (response) {
-document.getElementById('fbLink').setAttribute("onclick","fbLogout()");
-document.getElementById('fbLink').innerHTML = 'Logout from Facebook';
-document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.first_name + '!';
-document.getElementById('userData').innerHTML = '<p><b>FB ID:</b> '+response.id+'</p><p><b>Name:</b> '+response.first_name+' '+response.last_name+'</p><p><b>Email:</b> '+response.email+'</p><p><b>Gender:</b> '+response.gender+'</p><p><b>Locale:</b> '+response.locale+'</p><p><b>Picture:</b> <img src="'+response.picture.data.url+'"/></p><p><b>FB Profile:</b> <a target="_blank" href="'+response.link+'">click to view profile</a></p>';
-});
+function Login()
+{
+    FB.login(function(response) {
+       if (response.authResponse) 
+       {
+	  // alert(response);
+            getUserInfo();
+        } else 
+        {
+         console.log('User cancelled login or did not fully authorize.');
+        }
+     },{scope: 'email,user_photos,user_videos'});
+}
+
+function Logout()
+{
+    FB.logout(function(){document.location.reload();});
+}
+
+function getPhoto()
+{
+    FB.api('/me/picture?type=normal', function(response) {
+        var str="<br/><b>Pic</b> : <img src='"+response.data.url+"'/>";
+        document.getElementById("status").innerHTML+=str;
+    });
+}
+
+function getUserInfo() {
+//alert('here');
+    FB.api('/me', function(response) {
+	//console.log(response);
+    //var str="<b>Name</b> : "+response.name+"<br>";
+   // str +="<b>Link: </b>"+response.link+"<br>";
+  //  str +="<b>Username:</b> "+response.username+"<br>";
+ //   str +="<b>id: </b>"+response.id+"<br>";
+  //  str +="<b>Email:</b> "+response.email+"<br>";
+  //  str +="<b>Age range:</b> "+response.age_range+"<br>";
+  //  str +="<b>First Name:</b> "+response.first_name+"<br>";
+   // str +="<b>Last Name:</b> "+response.last_name+"<br>";
+
+
+       // document.getElementById("status").innerHTML=str;
+        var username_fb = 'name=' +response.name+'&id='+response.id;
+		//alert(response.name);
+    //alert(username_fb);
+        $.ajax({
+            url: "testranjan.php", //This is the page where you will handle your SQL insert
+            type: "get",
+            data: username_fb, //The data your sending to some-page.php
+			beforeSend: function(){console.log(username_fb);},
+            success: function(){
+                console.log("AJAX request was successfull");
+            },
+            error:function(xhr,status,response){
+			
+                console.log("AJAX request was a failure"+xhr.status);
+            }
+        });
+    });
 }
 </script>
 
