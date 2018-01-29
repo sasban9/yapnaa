@@ -441,16 +441,20 @@ function getUserInfo() {
 		//alert(response.name);
     //alert(username_fb);
         $.ajax({
-            url: "testranjan.php", //This is the page where you will handle your SQL insert
+            url: "facebooklogin.php", //This is the page where you will handle your SQL insert
             type: "get",
             data: username_fb, //The data your sending to some-page.php
 			beforeSend: function(){console.log(username_fb);},
             success: function(){
-                console.log("AJAX request was successfull");
+			   alert('Successfully logged in !');
+			   sessionStorage.facebookUser = response.name;
+			   
+			    window.location.assign("index.html");
+                //console.log("AJAX request was successfull");
             },
             error:function(xhr,status,response){
-			
-                console.log("AJAX request was a failure"+xhr.status);
+			    alert('Failed to logged in !');
+               // console.log("AJAX request was a failure"+xhr.status);
             }
         });
     });
