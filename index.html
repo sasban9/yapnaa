@@ -1404,12 +1404,13 @@ $( document ).ready(function() {
 		
 $('.header-social-icons').html('<p style='+'font-style'+':'+'normal;'+
     'font-family'+':'+'GothamRoundedBook;'+
-    'font-size'+':'+'16px;'+'color'+':'+'#2a27e2;'+'padding'+':'+'3px;'+'>'+sessionStorage.facebookUser+'</p>');
+    'font-size'+':'+'16px;'+'color'+':'+'#fc7f2b;'+'padding'+':'+'3px;'+'>'+sessionStorage.facebookUser+'</p>');
 	}
+$('.header-social-icons p').attr("title",'Logout');	
 	$('.header-social-icons p').click(function(){
 	confirm("Are you sure to logout?")? window.location.assign("index.html") : false;
 	
-	// window.location.assign("index.html");
+	 
 	 
 	 sessionStorage.clear();
 	//sessionStorage.facebookUserId.destroySession();
