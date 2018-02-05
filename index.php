@@ -1,3 +1,8 @@
+<?php
+session_start();
+$user_name	= $_SESSION['user_name'];
+?>
+
 <!DOCTYPE html>
 <html>
    <head>
@@ -6,7 +11,6 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <title>Yapnaa</title>
 	 <link rel="shortcut icon" href="../images/yapnaa-fav.png" type="image/x-icon">
-      <meta name="keywords" content="HTML5 Template" />
       <meta name="description" content="Yapnaa - Your After Sales Companion">
       <meta name="author" content="okler.net">
       <!-- Favicon -->
@@ -199,7 +203,7 @@ background: #ff6010;
                   <div class="header-row">
                      <div class="header-column">
                         <div class="header-logo">
-                           <a href="index.html">
+                           <a href="index.php">
                            <img alt="Yapnaa" height="95" width="95" class="img-responsive desktop" src="/img/Yapnaa-logo.svg"> 
                            <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" style="margin-top:-1px"  src="/img/Yapnaa-logo.svg">
                            </a>
@@ -214,25 +218,29 @@ background: #ff6010;
                               <i class="fa fa-bars"></i>
                               </button>
                               <ul class="header-social-icons social-icons hidden-xs">
-							  <a href="login.html" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
+							  <?php if(!empty($user_name)){?>
+							  <p style="font-style:normal;font-family:GothamRoundedBook; font-size:16px;color:#fc7f2b;padding:3px;" title='Logout'><?php echo ucfirst($user_name);?></p>
+							  <?php }else{?>
+							  <a href="login.php" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
                                     " class="btn btn-3d btn-primary btn-lg mr-xs mb-sm " >
                                 LOGIN</a>
+							  <?php }?>
                               </ul>
                               <div class="header-nav-main header-nav-main-square header-nav-main-effect-1 header-nav-main-sub-effect-1 collapse">
                                  <nav>
                                     <ul class="nav nav-pills" id="mainNav">
                                        <li class="dropdown">
-                                          <a  href="index.html">
+                                          <a  href="index.php">
                                           Home
                                           </a>
                                        </li>
                                        <li class="">
-                                          <a href="about-us.html">
+                                          <a href="about-us.php">
                                           About Yapnaa
                                           </a>
                                        </li>
                                        <li class="dropdown dropdown-mega">
-                                          <a  href="careers.html">
+                                          <a  href="careers.php">
                                           Careers
                                           </a>
                                        </li>
@@ -242,13 +250,13 @@ background: #ff6010;
                                           </a>
                                        </li>
                                        <li class="dropdown">
-                                          <a href="contact-us.html">
+                                          <a href="contact-us.php">
                                           Contact
                                           </a>
 
 
-										  <li class="dropdown mobile">
-                                          <a href="login.html"  class="mobile">
+										  <li class="dropdown mobile ">
+                                          <a href="login.php"  class="mobile">
                                          Login
                                           </a>
                                        </li>
@@ -317,8 +325,8 @@ senior management of a brand for quick response.  </span>
 						<!-- mobile-->
 						<div class="tp-caption mobile"
 						
-                           data-x="12"
-                           data-y="250"
+                           data-x="1"
+                           data-y="340"
                            data-start="100"
 						   
                            >
@@ -340,12 +348,12 @@ senior management of a brand for quick response.  </span>
 						   <!--mobile-->
                         <div class="tp-caption mobile"
                            data-x="12"
-                           data-y="250"
+                           data-y="340"
                            data-start="100" 
 						  
                          >
 						 
-                           <p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">Preserve Bills and</p><p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">Warranty on Cloud</p>
+                           <p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">Preserve Bills and</p><p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">Warranty on Cloud</p>
                         </div>
                        
                         <!-- desktop-->
@@ -402,7 +410,7 @@ instead receive timely alerts before expiry date.</span>
 						  
                          >
 						 
-                           <p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">Get Warranty Alerts </p><p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">of your product </p><p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">on time</p>
+                           <p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">Get Warranty Alerts </p><p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">of your product </p><p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">on time</p>
                         </div>
                        
                       
@@ -440,7 +448,7 @@ instead receive timely alerts before expiry date.</span>
 						  
                          >
 						 
-                           <p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">Request Branded</p><p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">Service of any</p><p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">durable on single</p><p class="text-color-light mobile" style="line-height:10px; font-size:22px;text-align:left;padding-left:13px">tap</p>
+                           <p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">Request Branded</p><p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">Service of any</p><p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">durable on </p><p class="text-color-light mobile" style="line-height:10px; font-size:20px;text-align:left;padding-left:13px">single tap</p>
                         </div>
                     
                       
@@ -567,7 +575,7 @@ instead receive timely alerts before expiry date.</span>
                            </div>
                            <div class="col-sm-6">
                               <h4>Connect to Brands</h4>
-                              <p>Register your appliances in Yapnaa. This helps to organize and track the products to connect easily with brands. <a href="login.html" style="text-decoration:none;color:#fc7f2b">Read More</a></p>
+                              <p>Register your appliances in Yapnaa. This helps to organize and track the products to connect easily with brands. <a href="login.php" style="text-decoration:none;color:#fc7f2b">Read More</a></p>
                            </div>
                           <div class="col-sm-3"></div>
                         </div>
@@ -579,7 +587,7 @@ instead receive timely alerts before expiry date.</span>
                            </div>
                            <div class="col-sm-6">
                               <h4>Single Tap Support</h4>
-                              <p>Simplified access to all details of products and services. Yapnaa provides the flexibility to manage the key aspects of service interactions with brands. <a href="readmore.html" style="text-decoration:none;color:#fc7f2b">Read More</a>
+                              <p>Simplified access to all details of products and services. Yapnaa provides the flexibility to manage the key aspects of service interactions with brands. <a href="readmore.php" style="text-decoration:none;color:#fc7f2b">Read More</a>
  </p>
                            </div>
 						    <div class="col-sm-3"></div>
@@ -596,7 +604,7 @@ instead receive timely alerts before expiry date.</span>
                            </div>
                            <div class="col-sm-6">
                               <h4>Get Warranty Alert</h4>
-                              <p>Optimizing end-to-end service fulfillment and execution to deliver superior customer service and increase product uptime. <a href="login.html" style="text-decoration:none;color:#fc7f2b">Read More</a></p>
+                              <p>Optimizing end-to-end service fulfillment and execution to deliver superior customer service and increase product uptime. <a href="login.php" style="text-decoration:none;color:#fc7f2b">Read More</a></p>
                            </div>
                           <div class="col-sm-3"></div>
                         </div>
@@ -691,7 +699,7 @@ instead receive timely alerts before expiry date.</span>
                      </div>
                      <div class="col-sm-6 " style="    margin-top: 7%;">
                         <h2 class="desktop" style="font-weight:bold;     font-size: 32px;">Raise a service request</h2>
-                        <h2 class="mobile" style="font-weight:bold;     font-size: 28;">Raise a service request</h2>
+                        <h2 class="mobile" style="font-weight:bold;     font-size: 28px;     margin-top: 19%;">Raise a service request</h2>
                         <p><span class="text-color-light font-weight-semibold mb-xlg desktop">Submit your product issue and service requests for brands,<br>authorized centers and support engineers to attend to it.</span>
 						<span class="text-color-light font-weight-semibold mb-xlg mobile" >Submit your product issue and service requests for brands, authorized centers and support engineers to attend to it.</span>
 						</p>
@@ -709,30 +717,31 @@ instead receive timely alerts before expiry date.</span>
                      <div class="col-sm-12">
                         <p class="cta-text desktop"> Don't just take word for it; read other's views and how they are getting
  </p><p class="cta-text desktop">quick solutions from brands directly.</p>
-                        <p class="cta-text mobile" style="font-size:20px;text-align:left;line-height:30px"> Don't just take word for it; read other's views and how they are getting
+                        <p class="cta-text mobile" style="   margin-bottom: 17%;font-size:20px;text-align:left;line-height:30px"> Don't just take word for it; read other's views and how they are getting
  quick solutions from brands directly.</p>
                         <div class="owl-carousel owl-theme" id="blog" style="    margin-top: 6%;">
                            <div class="formBox" style="padding: 9%;border-radius: 14px;">
                               <!-- <h4> Yapnaa as a platform enables to connect better with brands and delivers a proactive service.</h4> -->
-							              <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
+							            <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
           
                               
                            </div>
                            <div class="formBox" style="padding: 9%;border-radius: 14px;">
                               <!-- <h4>Yapnaa streamlines all customer support and service processes providing greater value.</h4> -->
-                             <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
+                            <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                            </div>
                            <div class="formBox" style="padding: 9%;border-radius: 14px;">
                               <!-- <h4> Yapnaa offers us the flexibility and control to manage various aspects of product monitoring.</h4> -->
-                           <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
+                         <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                            </div>
                            <div class="formBox" style="padding: 9%;border-radius: 14px;">
                               <!-- <h4>My full-service portal for product registrations, warranty management and service support.</h4> -->
-                             <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
+                           <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			
                            </div>
                            <!--div class="formBox" style="padding: 9%;border-radius: 14px;">
                               <h4> Dont just take word for it; read what your neighbours</h4>
@@ -757,7 +766,7 @@ instead receive timely alerts before expiry date.</span>
 			
 			
 			
-				<div style=" padding: 6%; background: #fff;"></div>
+				<div class="desktop" style=" padding: 6%; background: #fff;"></div>
 			
 			
 			
@@ -768,7 +777,7 @@ instead receive timely alerts before expiry date.</span>
                   <div class="row about-container">
 				  
 				  
-				   <div class="col-sm-6 " style="    margin-top: 7%;     margin-bottom: 8%;">
+				   <div class="col-sm-6 " style="    margin-top: 7%;     margin-bottom: 14%;">
                         <h2 class="desktop"style="font-weight:bold;     font-size: 32px;">Direct Escalation to Brands</h2>
                         <h2 class="mobile"style="font-weight:bold;     font-size: 27px;">Direct Escalation to Brands</h2>
                         <p><span class="text-color-light font-weight-semibold mb-xlg desktop">Share your grievance, issue and problem with management<br>of brand directly. Know status of your issues and get quick solution.</span>
@@ -1168,9 +1177,9 @@ instead receive timely alerts before expiry date.</span>
 								<br>
 								<div class="moreDetails">
                               <ul class="address">
-                                   <li><i class="fa fa-map-marker" style="color:#ff6010"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
-                                 <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010"></i><span>info@yapnaa.com</span></a></li>
-                                 <li><i class="fa fa-phone" style="color:#ff6010"></i><span>+91 - 9845286419</span></li>
+                                   <li><i class="fa fa-map-marker" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
+                                 <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>info@yapnaa.com</span></a></li>
+                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 - 9845286419</span></li>
                               </ul>
                            </div>
 							
@@ -1181,10 +1190,10 @@ instead receive timely alerts before expiry date.</span>
 							<div class="moreDetails">
 						   <ul class="list list-icons list-icons-sm">
 						   
-										<li> <a href="readmore.html" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
-										<li> <a href="about-us.html#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
-										<li> <a href="for-partners.html" style="font-size:16px;" target="_blank">For Partners</a></li>
-										<li> <a href="contact-us.html" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li> <a href="readmore.php" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
+										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
+										<li> <a href="for-partners.php" style="font-size:16px;" target="_blank">For Partners</a></li>
+										<li> <a href="contact-us.php" style="font-size:16px;" target="_blank">Contact us</a></li>
 									</ul>
 						   
                              
@@ -1220,7 +1229,7 @@ instead receive timely alerts before expiry date.</span>
 							
 							<div class="col-lg-12 desktop">
 							    
-								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
+								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
 								<p class="desktop" style="line-height:0px;">&nbsp;</p>
 							</div>
 							
@@ -1244,7 +1253,7 @@ instead receive timely alerts before expiry date.</span>
 							<div class="col-lg-12 mobile">
 							    <p class="mobile"style="line-height:0px">&nbsp;</p>
 								
-								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
+								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
 							</div>
 							
 						</div>
@@ -1397,6 +1406,7 @@ function getTwitLogin(){
  }
  
 }
+
 $( document ).ready(function() {
 	$('.header-social-icons').css('cursor','pointer');
 	
@@ -1408,14 +1418,13 @@ $('.header-social-icons').html('<p style='+'font-style'+':'+'normal;'+
 	}
 $('.header-social-icons p').attr("title",'Logout');	
 	$('.header-social-icons p').click(function(){
-	confirm("Are you sure to logout?")? window.location.assign("index.html") : false;
-	
+	confirm("Are you sure to logout?")?window.location.assign("index.php"):false;
 	 
-	 
+	 <?php unset($_SESSION["user_name"]);session_destroy();?>
 	 sessionStorage.clear();
 	//sessionStorage.facebookUserId.destroySession();
    });
 });
-         </script>
+      </script>
    </body>
 </html>

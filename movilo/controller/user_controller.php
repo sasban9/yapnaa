@@ -2,13 +2,13 @@
 
 if(isset($_POST['value']))
 {
-	require_once('../model/model.php');
+	require_once(__DIR__.'/'.'../model/model.php');
 	$obj_model	=new model;
-	require_once('../config/tab_config.php');
+	require_once(__DIR__.'/'.'../config/tab_config.php');
 }else{
-	require_once('model/model.php');
+	require_once(__DIR__.'/'.'../model/model.php');
 	$obj_model	=new model;
-	require_once('config/tab_config.php');
+	require_once(__DIR__.'/'.'../config/tab_config.php');
 }
 
 
@@ -17,13 +17,204 @@ class users
 {
     function __construct()
     {
+		//parent::__construct();
         global $obj_model;
         global $tb;
         $this->model =& $obj_model;
     }
-    
-    
-    
+   function n_yapnaa_send_mail(){
+	   $name=$_POST['name'];
+	   $email=$_POST['email'];
+	   $subject1=$_POST['subject'];
+	   $message1=$_POST['message'];
+	  $to = "info@yapnaa.com";
+$subject = "$subject1";
+
+$message = "
+<html>
+<head>
+<title>HTML email</title>
+</head>
+<body>
+<p>This email contains HTML Tags!</p>
+<table>
+<tr>
+<p>$message1</p>
+</tr>
+</table>
+</body>
+</html>
+";
+
+// Always set content-type when sending HTML email
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+// More headers
+$headers .= 'From: '.$email. "\r\n";
+
+	   if(mail($to, $subject, $message,$headers)){
+		   echo '<script>alert("Message sent successfully !")</script>';	
+		    echo '<script>window.location.assign("contact-us.php")</script>';
+	   }else{
+		   echo '<script>alert("Error ! message could not sent")</script>';	
+		    echo '<script>window.location.assign("contact-us.php")</script>';
+	   }
+   }
+  function n_sms_send_withotp($user_mobile,$user_reg_verification_otp){
+	       $ch = curl_init();
+			// $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1nimbus&password=demo123&sender=ARPITA&sendto=".urlencode($resend_otp_phone_no)."&message=".urlencode("Use OTP:".$user_reg_verification_otp ."for reset your password.\n.");
+			 $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_mobile)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
+			//echo $url;exit;	
+				
+			curl_setopt( $ch,CURLOPT_URL, $url );
+			curl_setopt( $ch,CURLOPT_POST, false ); 
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+			$result = curl_exec($ch );
+			curl_close( $ch );
+			return true;
+  }	  
+  function  n_yapnaa_otp_verification(){
+	      $reg_otp                       = $_POST['d_otp'];
+	      $table_log_in                  = 'users';
+		  $fields_log_in   				 = 	'*';
+          $condition_log_in				 = 	'user_reg_verification_otp    = '.$reg_otp;
+          $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+	      if($arr_log_in !=NULL){
+			
+			$user_last_login 			= 	date('Y-m-d h:i:s');
+            $set_array     = array(
+                'user_last_login' 			=> $user_last_login,
+                'user_reg_verification_otp' => 0,
+                'user_status' 				=> 1
+            );
+            $condition     = 'user_reg_verification_otp = ' . "'" . $reg_otp . "'";
+            $arr_log_in    = $this->model->update($table_log_in, $set_array, $condition);
+			$_SESSION['user_name']		=  $arr_log_in[0]['user_name'];
+			echo '<script>alert("Successfully Logged in !")</script>';	
+		    echo '<script>window.location.assign("index.php")</script>';
+		  }else{
+			 echo '<script>alert("Error ! wrong OTP")</script>';	 
+			 echo '<script>window.location.assign("login.php")</script>'; 
+		  }
+	  
+  }
+   function  n_yapnaa_resendotp_verification($user_mobile){
+	   $table_log_in                 ='users';
+	   $user_reg_verification_otp    = rand(1000,9999);
+	   
+	   $set_array = array(
+                
+				'user_reg_verification_otp' =>$user_reg_verification_otp 
+            );
+	   $condition     = 'user_phone = '.$user_mobile;	
+	   $arr_log_in    = $this->model->update($table_log_in, $set_array, $condition);
+		$ch = curl_init();
+			// $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1nimbus&password=demo123&sender=ARPITA&sendto=".urlencode($resend_otp_phone_no)."&message=".urlencode("Use OTP:".$user_reg_verification_otp ."for reset your password.\n.");
+			 $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_mobile)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
+			//echo $url;exit;	
+				
+			curl_setopt( $ch,CURLOPT_URL, $url );
+			curl_setopt( $ch,CURLOPT_POST, false ); 
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+			$result = curl_exec($ch );
+			curl_close( $ch );
+		echo '<script>window.location.assign("otp_verification.php")</script>';
+   }
+  function  n_yapnaa_forgot_password(){
+	      $d_mobile                      = $_POST['d_mobile'];
+		  $user_reg_verification_otp    = rand(1000,9999);
+	      $table_log_in                  = 'users';
+		  $fields_log_in   				 = 	'*';
+          $condition_log_in				 = 	'user_phone    = '.$d_mobile;
+          $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		  session_start();
+		  $_SESSION['user_mobile']		=  $d_mobile;
+		  
+	      if($arr_log_in !=NULL){			
+		    echo '<script>window.location.assign("forgotpass_verification.php")</script>';
+		  }else{
+			 echo '<script>alert("Error ! The mobile number is not registered")</script>';	 
+			 echo '<script>window.location.assign("login.php")</script>'; 
+		  }
+	  
+  }
+  function  n_yapnaa_forgot_password_save($user_mobile,$pwd){
+	      //echo $pwd;exit;
+	      $d_mobile                      = $user_mobile;
+		  $table_log_in                  = 'users';
+		  $pwd= md5($pwd);
+		  $user_reg_verification_otp    = rand(1000,9999);
+	       $set_array = array(
+                'user_pin' 			        => $pwd,
+				'user_reg_verification_otp' =>$user_reg_verification_otp
+            );
+	      $condition     = 'user_phone = '.$d_mobile;	
+	      $arr_log_in    = $this->model->update($table_log_in, $set_array, $condition);
+		  $this->n_sms_send_withotp($d_mobile,$user_reg_verification_otp);
+	      if($arr_log_in !=NULL){			
+		    echo '<script>window.location.assign("otp_verification.php")</script>';
+		  }else{
+			 echo '<script>window.location.assign("login.php")</script>'; 
+		  }
+	  
+  }
+    //new yapnaa login website
+	function n_yapnaa_signup(){	
+         session_start();	
+		$mob= $_POST['d_mobile'];
+		$pwd= md5($_POST['d_password']);
+        $user_reg_verification_otp    = rand(1000,9999);		
+		$fields_reg = array(
+                'user_phone' 				=> $mob,
+                'user_pin' 			        => $pwd,
+                'user_created_date'         =>date('Y-m-d h:i:s'),
+				//'user_status'               =>1,
+				'user_modified_date'        =>date('Y-m-d h:i:s'),
+				//'user_last_login'           =>date('Y-m-d h:i:s'),
+                //'launch_created_date' 		=> date('Y-m-d h:i:s'),
+				'user_reg_verification_otp' =>$user_reg_verification_otp 
+            );
+            
+            // print_r($fields_reg);exit;
+			
+            $table_log_in = 'users';
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
+		  
+		   $_SESSION['user_mobile']		=  $mob;
+	        $ch = curl_init();
+			// $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1nimbus&password=demo123&sender=ARPITA&sendto=".urlencode($resend_otp_phone_no)."&message=".urlencode("Use OTP:".$user_reg_verification_otp ."for reset your password.\n.");
+			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($mob)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
+				
+				
+			curl_setopt( $ch,CURLOPT_URL, $url );
+			curl_setopt( $ch,CURLOPT_POST, false ); 
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+			$result = curl_exec($ch );
+			curl_close( $ch );
+		echo '<script>window.location.assign("otp_verification.php")</script>';
+	}
+	function n_yapnaa_login(){
+		session_start();
+		$mob= $_POST['d_mobile'];
+		$pwd= md5($_POST['d_password']);
+		$fields_user='*';
+		$table_user='users';
+		$condition_user='user_phone ='.$mob.' AND user_pin="'.$pwd.'"';
+		$arr_result_test = $this->model->get_Details_condition($table_user, $fields_user, $condition_user);
+		if($arr_result_test !=NULL){
+		$_SESSION['user_name']		=  $arr_result_test[0]['user_name'];
+		echo '<script>alert("Successfully Logged in !")</script>';
+		echo '<script>window.location.assign("index.php")</script>';
+		 //print_r($arr_result_test);
+		}else{
+		echo '<script>alert("Error ! Please provide correct credentials")</script>';	
+		echo '<script>window.location.assign("login.php")</script>';	
+		}
+	}
     
 	// user registartion
     function user_app_launch()

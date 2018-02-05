@@ -42,7 +42,7 @@
       <!-- Head Libs -->
       <script src="vendor/modernizr/modernizr.min.js"></script>
       <style>
-	  @media (max-width: 768px) {
+	   @media (max-width: 768px) {
 		  
 		    .desktop{
 			  
@@ -174,23 +174,15 @@ background: #ff6010;
 	color:#fff;
 
 }
-.about-title{
-font-size:18px;
-line-height:25px;
+.list.list-icons{
+	padding: 12px !important;
 }
-.ab{
-line-height:40px;
-}
-.list li
-{
-margin-bottom:5px;
-}
-i{
-
+.thec{
+padding: 10px !important;
 }
       </style>
    </head>
-   <body style="background-color:white; !important;">
+   <body>
       <body data-spy="scroll" data-target=".header-nav-main nav" data-offset="65">
          <header id="header" class="header-narrow custom-header-style" data-plugin-options="{'stickyEnabled': false, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 1, 'stickySetTop': '1'}">
             <div class="header-body">
@@ -198,20 +190,20 @@ i{
                   <div class="header-row">
                      <div class="header-column">
                         <div class="header-logo">
-                           <a href="index.html">
+                           <a href="index.php">
                            <img alt="Yapnaa" height="95" width="95" class="img-responsive desktop" src="/img/Yapnaa-logo.svg">
-                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" src="/img/Yapnaa-logo.svg">
+                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" style="margin-top:-1px"  src="/img/Yapnaa-logo.svg">
                            </a>
                         </div>
                      </div>
-                      <div class="header-column">
+                    <div class="header-column">
                         <div class="header-row">
                            <div class="header-nav header-nav-stripe" style="    margin-right: -38px;">
                               <button class="btn header-btn-collapse-nav" style="background-color: Transparent;background-repeat:no-repeat;border: none; cursor:pointer;overflow: hidden;outline:none;margin-right:10px;margin-top:-1px" data-toggle="collapse" data-target=".header-nav-main">
                               <i class="fa fa-bars"></i>
                               </button>
                               <ul class="header-social-icons social-icons hidden-xs">
-							  <a href="login.html" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
+							  <a href="login.php" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
                                     " class="btn btn-3d btn-primary btn-lg mr-xs mb-sm " >
                                 LOGIN</a>
                               </ul>
@@ -219,17 +211,17 @@ i{
                                  <nav>
                                     <ul class="nav nav-pills" id="mainNav">
                                        <li class="dropdown">
-                                          <a  href="index.html">
+                                          <a  href="index.php">
                                           Home
                                           </a>
                                        </li>
                                        <li class="">
-                                          <a href="about-us.html">
+                                          <a href="about-us.php">
                                           About Yapnaa
                                           </a>
                                        </li>
                                        <li class="dropdown dropdown-mega">
-                                          <a  href="careers.html">
+                                          <a  href="careers.php">
                                           Careers
                                           </a>
                                        </li>
@@ -239,13 +231,13 @@ i{
                                           </a>
                                        </li>
                                        <li class="dropdown">
-                                          <a href="contact-us.html">
+                                          <a href="contact-us.php">
                                           Contact
                                           </a>
 
 
 										  <li class="dropdown mobile">
-                                          <a href="login.html"  class="mobile">
+                                          <a href="login.php"  class="mobile">
                                          Login
                                           </a>
                                        </li>
@@ -269,136 +261,155 @@ i{
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12" style="justify-content:center">
-								<h1>For Partners</h1>
+							<div class="col-md-12">
+								<h1>Careers</h1>
 							</div>
 						</div>
 					</div>
 				</section>
-				<section style="min-height:550px;">
-				 <div class="container " style="    margin-top: 2%;">
-		<div class="row ">
-			<div class="col-md-8 ">
-			<img src="/img/part.jpg" class="img-responsive" alt="partner" style=" margin: 0 auto;">
-			</div>
-			<div class="col-md-4 ">
-				<ul class="list list-icons">
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i> Connect with Unregistered Customers 
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Build awareness about benefits of authorized service
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Build awareness about benefits of authorized service
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Trap duplicate spares
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Monitor warranty cycle of product
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i> Promote AMC, tap your own market
-
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Gather more accurate service data
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Cut down iteration on service request
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Reduce cost of servicing
-
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Cut down on social media outburst
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i> Reduce cost of servicing
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Cut down on social media outburst
-
-
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Retain your customer
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px;"></i>Increase upselling of products
-
-</li>
-
-
-
-
-
-										
-									</ul>	
-		  
-				  
-			</div>
-			
-			</div>
-			<!-- section about -->
-		<div class="container">
-					<div class="row mt-xlg">
-					<div class="col-sm-2"></div>
-						<div class="col-md-8" style="text-align:center;">
+				 <div class="container">
+					<div class="row">
+						<div class="col-md-12">
 							
-							<p class="lead ab" style="text-align:center; margin-top:5px;">Is your market fading away due to unorganized service?<br>
-Do your customers reach out to you on social media?<br>
-And you want to bring unregistered customers under your coverage</p>
+							<p class="lead" style="text-align:left">
+								We are looking to scale up our operations in sales and accelerate development of technology road-map. People with passion to create something new and have hunger for learning are welcome to be part of the team.</p>
+
+
+								<p class="lead" style="text-align:left;">If you find it exciting to be part of startup and willing to grow with company then you could get in touch with us at <a href="mailto:info@yapnaa.com" style="decoration:none">info@yapnaa.com</a></p> 
+
+
+								<!--p class="lead" style="text-align:left;">Yapnaa directly connects consumers with brands enabling easier access to products, knowledge and services enabling product companies to reach, engage, support and service all these smarter consumers.</p--> 
+
+							</p>
+
+							<hr class="tall">
 						</div>
-						<div class="col-sm-2"></div>
+					</div>
+					
+				</div>
+				    <div class="row">
+					<div class="col-sm-1"></div>
+						<div class="col-md-8">
+							<div class="toggle toggle-primary mt-lg" data-plugin-toggle>
+								<section class="toggle">
+									<label>Technical Support Representative</label>
+									<div class="toggle-content">
+										<p class="thec"><strong>Location:</strong> Bangalore - <strong>Department:</strong> Engineering</p>
+										<ul class="list list-icons">
+										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> Hands on experience and willingness to work on multiple areas,
+
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Web development, android and ios app experience, PhP, nodeJS, automation technologies, scripting with strong debugging skills,
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Functional - should be able to work independently, translate business requirement to technical specification, understand aspects of product management and would have co-worked with marketing teams,
+</li>
+<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Our road-map involves AI development. You should have inclination to tinker with new technologies to come up with ideas and demonstrable prototype,
+
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Candidate with 3-8 years are ideal for this role however people with more experience with exceptional drive and attitude can also be considered.
+
+
+</li></ul>
+										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
+									</div>
+								</section>
+								
+								<section class="toggle">
+									<label>Customer Care Specialist</label>
+									<div class="toggle-content">
+										<p class="thec"><strong>Location:</strong> Bangalore  - <strong>Department:</strong> BBA/BBM/MBA</p>
+										<ul class="list list-icons">
+										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> We are a start - up and need young & energetic, preferably 3 - 6 years minimum work experience in customer services & customer management,
+
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Process welcome calls & mails to new customers, to keep in touch with existing clients on phone & attend to problems if any,
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Preparing weekly & monthly MIS reports and maintains sales records and customer details,
+
+</li>
+<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Responsible for managing revenue generation and enhancement initiative in CRM related to Cross selling via Appointment generation, partner co-ordination, innovation in self-closures and up-selling,
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Strong analytics aptitude and practitioner level in digital marketing,
+
+</li>
+<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Good English communication skills & computer usage knowledge in MS office.
+
+</li>
+</ul>
+										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
+									</div>
+								</section>
+								<section class="toggle">
+									<label>Business Sales Executive</label>
+									<div class="toggle-content">
+										<p class="thec"><strong>Location:</strong> Bangalore  - <strong>Department:</strong> MBA</p>
+										<ul class="list list-icons">
+										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> We need young & energetic management graduates in our journey to success, both freshers and experienced welcome to join our team,
+
+
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Work includes telecalling and on field customer visits,
+
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Brand marketing and services sales primary responsibility,
+
+</li>
+<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Responsible for revenue generation,
+
+</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Preparing weekly & monthly MIS reports and maintain sales records and customer details,
+
+</li>
+<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Good English communication skills & computer usage knowledge in MS office.
+
+
+</li>
+</ul>
+                                        <p class="thec"># of positions available: 5</p>
+										<p class="thec">Remuneration:Negotiable and skill based along with performance based incentives.</p>
+										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
+									</div>
+								</section>
+								<section class="toggle">
+									<label>Internship:</label>
+									<div class="toggle-content">
+										<p class="thec"><strong>Location:</strong> Bangalore  - <strong>Department:</strong> BBA/BBM/MBA</p>
+										<ul class="list list-icons">
+										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> Manage day-to- day field visits to existing customers
+										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Do telecalling
+										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Handle marketing and sales
+										</li>
+										</ul>
+										<p class="thec"># of Internships available: 3</p>
+										<p class="thec"><strong>Skill(s) required:</strong> MS-Office and English Proficiency (Spoken)</p>
+										<p class="thec"><strong>Who can apply?</strong></p>
+										<ul class="list list-icons">
+										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> are preferably available for duration of 2 - 3 months
+										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>are from Bangalore
+										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>have relevant skills and interests
+										</li>
+										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>have already graduated or are currently in any year of study
+										</li>
+										</ul>
+										<p class="thec"><strong>Perks:</strong></p>
+										<ul class="list list-icons">
+										
+										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Stipend, Certificate, and Flexible work hours.
+										</li>
+										</ul>
+										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
+									</div>
+								</section>
+								
+								
+								
+							</div>
+						</div>
 					
 					</div>
-<hr class="solid tall">
 					
 				</div>
 				
-			<div class="col-md-6 " style="margin-bottom:80px;">
-			
-			
-			
-			
-			
-						<p id="about" class="about-title" style="text-align:center; font-weight:550; font-size:21px; color:#1d2127;"><span>Join Yapnaa!</span></p>
-						<div style="margin-left: 6%;">
-                        <p class="list-item-title "><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Delight your consumers with hassle free “After Sales” experience</p>  
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Enhance service reach of your owned brand </p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Save your customers from spurious services</p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Weed out duplicate spares to maintain brand image </p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Gather accurate service data to retain customers</p>  
-                  </div>  </div> 
-				  <div class="col-md-6 ">
-				  
-						<p id="about" class="about-title" style="text-align:center; font-weight:550; font-size:21px; color:#1d2127"><span>Consumers drift away from brand due to </span></p>
-						<div style="margin-left: 13%;">
-                        <p class="list-item-title " ><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> No proactive engagement by seller </p>  
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Frustrating customer care experience </p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Escalating service bills </p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Unaware of warranty extension or AMC program </p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Experience with untrusted technicians  </p>    
-						<p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Guidance by technician, service providers, local service man   </p>  
-                  </div></div>
-				  
-				  <img src="img/yp.jpg" class="img-responsive" alt="partner" style=" margin: 0 auto; margin-top: 24%;">
-				  <div class="row" style="margin-top:2% margin-bottom:100px;">
-				  <p id="about" class="about-title" style="text-align:center; color:#1d2127; margin-top:50px; font-weight:550; font-size:21px;"><span>Yapnaa connects customers to  brands </span></p>
-           <div class="col-md-6 " style="    margin-top: 2%;">
-						
-						<div style="margin-left:6%;">
-                        <p class="list-item-title "><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> App distribution, product registration, content aggregation</p>  
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Yapnaa promotion through brand and own marketing campaign   </p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Service request on single tap. Call centers get de-burdened </p> 
-                        
-                  </div>
-				  </div>
-
 				
-				
-				  <div class="col-md-6 " style="    margin-top: 2%;">
-						
-						<div style="margin-left:6%; margin-bottom:50px;">
-                        <p class="list-item-title "><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> App distribution, product registration, content aggregation</p>  
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Yapnaa promotion through brand and own marketing campaign   </p> 
-                        <p class="list-item-title"><span class="item-tick"><i class="fa fa-check" aria-hidden="true" style="color:#ff6010; font-size:14px;"></i></span> Service request on single tap. Call centers get de-burdened </p> 
-                        
-                  </div>
-				  </div>
-
-				
-				</div>
-			</div>	
             
            
             
@@ -423,9 +434,9 @@ And you want to bring unregistered customers under your coverage</p>
 								<br>
 								<div class="moreDetails">
                               <ul class="address">
-                                   <li><i class="fa fa-map-marker" style="color:#ff6010"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
-                                 <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010"></i><span>info@yapnaa.com</span></a></li>
-                                 <li><i class="fa fa-phone" style="color:#ff6010"></i><span>+91 - 9845286419</span></li>
+                                   <li><i class="fa fa-map-marker" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
+                                 <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>info@yapnaa.com</span></a></li>
+                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 - 9845286419</span></li>
                               </ul>
                            </div>
 							
@@ -436,10 +447,10 @@ And you want to bring unregistered customers under your coverage</p>
 							<div class="moreDetails">
 						   <ul class="list list-icons list-icons-sm">
 						   
-										<li> <a href="readmore.html" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
-										<li> <a href="about-us.html#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
-										<li> <a href="for-partners.html" style="font-size:16px;" target="_blank">For Partners</a></li>
-										<li> <a href="contact-us.html" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li> <a href="readmore.php" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
+										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
+										<li> <a href="for-partners.php" style="font-size:16px;" target="_blank">For Partners</a></li>
+										<li> <a href="contact-us.php" style="font-size:16px;" target="_blank">Contact us</a></li>
 									</ul>
 						   
                              
@@ -475,7 +486,7 @@ And you want to bring unregistered customers under your coverage</p>
 							
 							<div class="col-lg-12 desktop">
 							    
-								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
+								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
 								<p class="desktop" style="line-height:0px;">&nbsp;</p>
 							</div>
 							
@@ -499,7 +510,7 @@ And you want to bring unregistered customers under your coverage</p>
 							<div class="col-lg-12 mobile">
 							    <p class="mobile"style="line-height:0px">&nbsp;</p>
 								
-								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
+								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
 							</div>
 							
 						</div>
