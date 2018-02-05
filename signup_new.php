@@ -1,6 +1,6 @@
 <?php 
-error_reporting(E_ALL);
-ini_set("display_errors","On");
+/* error_reporting(E_ALL);
+ini_set("display_errors","On"); */
 
 require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 
@@ -270,31 +270,10 @@ padding-right: 0% !important;
 	
 		  
 		  
-		  <!--div class="row ee">
-				<div class="col-sm-2"></div>
-					 <div class="col-sm-8">
-					 <div class="as">
-						 <a href="#" style="color:#63686d">Forgot Password?</a>
-					 </div>
-				 </div>
-</div-->
-<!--div class="row">
-				<div class="col-sm-2"></div>
-					 <div class="col-md-10 col-sm-8">
-					 <div class="as">
-					 
-					 </div>
-					  <div class="as">
-					 <a href="#" scope="public_profile,email" style="margin-left: -32px; " onclick="Login()"> <img alt="Yapnaa" height="200" width="250"  style="margin-bottom:4px;" class="img-responsive img-center" src="img/facebookAsset 7.svg"></a>
-					  <a  href="" id="google-login-button" class="google-login-button" style="text-align:center;margin-left: -32px;"><img  alt="Yapnaa" height="200" width="250" class="img-responsive img-center" src="img/googleAsset 8.svg"></a>
-					 </div>
-					 </div>
-					 
-					 
-					 </div-->
+		  
 					 <div class="row">
 					 
-				<!--<div class="col-sm-1"></div>-->
+				
 					 <div class="col-sm-12">
 					 <div class="as">
 					<h5><b>Already Have an Account?<a href="login.php"><span style="color:#ff6010"> Login</span></b></a></h5>
@@ -323,11 +302,7 @@ padding-right: 0% !important;
 	
 	</div>
 	
- <!-- <div class="row">
- <div class="col-sm-6"></div>
- <div class="col-sm-3"><p style="color:#fcfffe;margin-left:-188px;;margin-top:7px;font-family: 'GothamRoundedLight'"  ><i class="fa fa-phone" aria-hidden="true"> +91-9845286419</i></p></div>
- <div class="col-sm-3"><p style="color:#fcfffe;margin-left: -77px;margin-top:7px;font-family: 'GothamRoundedLight'"><i class="fa fa-envelope" aria-hidden="true"> info@yapnaa.com</i></p></div>
- </div> -->
+ 
  <div class="row jj" >
  <p class="lead" style=" color:white; font-family: 'GothamRoundedLight', sans-serif;">Your  <strong style="margin-bottom:20px; color:white;font-size: 24px;" >After Sales Companion</strong></p>
  <p class="sales lead" style="color:white; font-family: 'GothamRoundedLight', sans-serif;" >
