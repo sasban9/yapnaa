@@ -326,7 +326,7 @@ senior management of a brand for quick response.  </span>
 						<div class="tp-caption mobile"
 						
                            data-x="1"
-                           data-y="340"
+                           data-y="240"
                            data-start="100"
 						   
                            >
@@ -348,7 +348,7 @@ senior management of a brand for quick response.  </span>
 						   <!--mobile-->
                         <div class="tp-caption mobile"
                            data-x="12"
-                           data-y="340"
+                           data-y="240"
                            data-start="100" 
 						  
                          >
