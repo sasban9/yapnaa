@@ -2,13 +2,15 @@
 class model {
 
 	function __Construct()
-	{	if(isset($_POST['value']))
+	{
+		//parent::__construct();
+		if(isset($_POST['value']))
 		{
-			$url_config	=	'../config/config.php';
+			$url_config	=	'config/config.php';
 		}else{
 			$url_config	=	'config/config.php';
 		}
-			require_once($url_config);
+			require_once(__DIR__.'/../'.$url_config);
 	}
 	
 	

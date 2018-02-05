@@ -4,7 +4,7 @@
       <!-- Basic -->
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <title>Yapnaa</title>
+      <title>Yapnaa</title>
 	 <link rel="shortcut icon" href="../images/yapnaa-fav.png" type="image/x-icon">
       <meta name="keywords" content="HTML5 Template" />
       <meta name="description" content="Yapnaa - Responsive HTML5 Template">
@@ -42,7 +42,7 @@
       <!-- Head Libs -->
       <script src="vendor/modernizr/modernizr.min.js"></script>
       <style>
-	  @media (max-width: 768px) {
+	   @media (max-width: 768px) {
 		  
 		    .desktop{
 			  
@@ -65,15 +65,6 @@
 		 
 		  
 	  }
-	  .thumb-info-social-icons a {
-	         padding-left: 6px !important;
-			 padding-top: 2px !important;
-	  }
-	  @media (min-width: 768px){
-		
-		.lead {
-			font-size: 18px !important;
-		}}
          @media screen and (min-width: 920px) {
          .mobile {
          display:none;
@@ -193,9 +184,9 @@ background: #ff6010;
                   <div class="header-row">
                      <div class="header-column">
                         <div class="header-logo">
-                           <a href="index.html">
+                           <a href="index.php">
                            <img alt="Yapnaa" height="95" width="95" class="img-responsive desktop" src="/img/Yapnaa-logo.svg">
-                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" src="/img/Yapnaa-logo.svg">
+                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" style="margin-top:-1px" src="/img/Yapnaa-logo.svg">
                            </a>
                         </div>
                      </div>
@@ -206,7 +197,7 @@ background: #ff6010;
                               <i class="fa fa-bars"></i>
                               </button>
                               <ul class="header-social-icons social-icons hidden-xs">
-							  <a href="login.html" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
+							  <a href="login.php" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
                                     " class="btn btn-3d btn-primary btn-lg mr-xs mb-sm " >
                                 LOGIN</a>
                               </ul>
@@ -214,17 +205,17 @@ background: #ff6010;
                                  <nav>
                                     <ul class="nav nav-pills" id="mainNav">
                                        <li class="dropdown">
-                                          <a  href="index.html">
+                                          <a  href="index.php">
                                           Home
                                           </a>
                                        </li>
                                        <li class="">
-                                          <a href="about-us.html">
+                                          <a href="about-us.php">
                                           About Yapnaa
                                           </a>
                                        </li>
                                        <li class="dropdown dropdown-mega">
-                                          <a  href="careers.html">
+                                          <a  href="careers.php">
                                           Careers
                                           </a>
                                        </li>
@@ -234,13 +225,13 @@ background: #ff6010;
                                           </a>
                                        </li>
                                        <li class="dropdown">
-                                          <a href="contact-us.html">
+                                          <a href="contact-us.php">
                                           Contact
                                           </a>
 
 
 										  <li class="dropdown mobile">
-                                          <a href="login.html"  class="mobile">
+                                          <a href="login.php"  class="mobile">
                                          Login
                                           </a>
                                        </li>
@@ -264,148 +255,64 @@ background: #ff6010;
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
-								<h1>About Yapnaa</h1>
+							<div class="col-md-12" style="justify-content:center">
+								<h1>Single tap support</h1>
 							</div>
 						</div>
 					</div>
 				</section>
-				    <div class="container">
+				  <div class="container">
 					<div class="row">
-						<div class="col-md-12">
-							
-							<p class="lead" style="text-align:left">
-								Today’s empowered customers want a simple, fast, and personalized service available across different channels from anywhere, at any time, from their mobile device.</p>
+						<div class="col-md-12" style="justify-content:center; margin:auto;">
+				 
+							<p class="lead" style="font-family:'Roboto', sans-serif; font-size: 18px;">
+								Simplified access to all details of products and services. Yapnaa provides the flexibility to manage the key aspects of service interactions with brands.</p>
+
+<p class="lead" style="margin-bottom:50px;font-size: 18px">Consumers can now maximize value and minimize hassle by gaining easy access to related information, advice, raise request and support from the brands, all from the app. It helps in optimizing customer engagement with brands.
+.</p>
 
 
-								<p class="lead" style="text-align:left;">Most customer service companies fail to address the unique challenges and opportunities in satisfying the needs for durable goods customers when it comes to after-sales. It was to solve this problem that Yapnaa, a platform for connected, social, and mobile consumers to manage all the products they own, was born.</p> 
+								<p class="lead" style="font-weight:bold; color:#1d2127; font-size:30px;">How the App works?</p> 
 
 
-								<p class="lead" style="text-align:left;">Yapnaa directly connects consumers with brands enabling easier access to products, knowledge and services enabling product companies to reach, engage, support and service all these smarter consumers.</p> 
+								<p class="lead" style="font-family:'Roboto', sans-serif; justify-content:center;font-size: 18px"><span style="font-weight:500;
+							   ;font-family:'Roboto', sans-serif;justify-content:center; color:#1d2127;">1.	Customer Onboarding:</span> New customers can use simple signup using their email to gain access to key customer support and service resources.</span></p> 
+                               
+							   <p class="lead" style="justify-content:center;font-size: 18px;">
+							   <span style="font-weight:500;
+							   ;font-family:'Roboto', sans-serif;justify-content:center; color:#1d2127;">
+							   
+							   2.	Product Registration:</span> Customers can register products with specific product information and serial number.
+							   
+							   </p>
+							   <p class="lead" style="justify-content:center;font-size: 18px"><span style="font-weight:500;font-family:'Roboto', sans-serif; color:#1d2127;">
+							   3.	My Products:</span> All registered products including the ones added by the customers can be accessed online at any time to track warranties and initiate any support or service requests.
+							   </p> 
+							   <p class="lead" style="justify-content:center;font-size: 18px">
+							   <span style="font-weight:500;font-family:'Roboto', sans-serif; color:#1d2127;">
+							   4.	Buy Service Plans:</span> Customers can buy Service Plans for additional protection and activate plans purchased using other channels. All service plan entitlements are tracked along with standard warranty to show all service options to the customer throughout the product lifecycle.
+</p>
+ <p class="lead" style="justify-content:center;font-size: 18px "><span style="font-weight:500;font-family:'Roboto', sans-serif; color:#1d2127;">
+ 5.	Initiate Support Request:</span> When Customers need assistance, they can initiate a support request online or via a mobile device. Customer support requests from the portal are routed to support agents at your contact center, and all communications can be tracked.
+ 
+ </p>
+ <p class="lead" style="justify-content:center;font-size: 18px"><span style="font-weight:500;font-family:'Roboto', sans-serif; color:#1d2127;">
+ 6.	Schedule Services:</span> Yapnaa mobile app allows customers to schedule inspections, maintenance, and service with the company’s authorized service network. The app keeps track of all service events and provides timely reminders and notifications to ensure product uptime and 
 
+ </p>
+							   
 							</p>
 
 							<hr class="tall">
 						</div>
+						
 					</div>
 					
 				</div>
-				<div class="container" id="yapnaa_team">
-					<div class="row mt-xlg">
-						<div class="col-md-12">
-							<h2 style="text-align:center">The <strong> Team</strong> Behind</h2>
-							<p class="lead" style="text-align:center">People behind taking this vision across consumer eco-systems thus ensuring<br>
-							it is easy, fast and economical on a single platform. </p>
-						</div>
 					
-					</div>
-					<div class="row mt-xlg mb-xlg">
-						<div class="col-md-3 col-sm-6 col-xs-12">
-							<span class="thumb-info thumb-info-hide-wrapper-bg">
-								<span class="thumb-info-wrapper">
-									<a href="https://www.linkedin.com/in/vineet-srivastava-0217703">
-										<img src="img/team/Vineet-Srivatsava.png" class="img-responsive" alt="">
-										<br><br><br><br>
-										<span class="thumb-info-title" >
-											<span class="thumb-info-inner">Vineet Srivastava</span>
-											<span class="thumb-info-type" style="background-color:#ff6010">CEO & Co-founder</span>
-										</span>
-										
-									</a>
-								</span>
-								<span class="thumb-info-caption">
-								
-									<span class="thumb-info-caption-text">20 years of global technology experience in various roles
-across business and delivery in consumer industry.
-Have successfully built business in solution & services
-space for technology startup at inception stage.
-
-IIT, Roorkee 1994
-
-
-
-</span>
-									<span class="thumb-info-social-icons">
-										
-										<a href="https://www.linkedin.com/in/vineet-srivastava-0217703"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
-									</span>
-								</span>
-							</span>
-						</div>
-						<div class="col-md-3 col-sm-6 col-xs-12">
-							<span class="thumb-info thumb-info-hide-wrapper-bg">
-								<span class="thumb-info-wrapper">
-									<a href="https://www.linkedin.com/in/mohansundaram/">
-										<img src="img/team/Mohan-Sundaram.png" class="img-responsive" alt="">
-										<br><br><br><br>
-										<span class="thumb-info-title">
-											<span class="thumb-info-inner">MOHAN SUNDARAM</span>
-											<span class="thumb-info-type" style="background-color:#ff6010">DIRECTOR & Co-founder</span>
-										</span>
-									</a>
-								</span>
-								<span class="thumb-info-caption">
-									<span class="thumb-info-caption-text">32 years in corporate sector, VC and startups.
-Technology entrepreneur, successfully built new business
-groups for large global corporations. Been part of and
-founded startups.
-
-Mentor, NSRCEL, IIM Bangalore
-
-IIM Ahmedabad, 1984</span>
-									<span class="thumb-info-social-icons">
-										<a href="https://www.linkedin.com/in/mohansundaram/"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
-									</span>
-								</span>
-							</span>
-						</div>
-						<div class="col-md-3 col-sm-6 col-xs-12">
-							<span class="thumb-info thumb-info-hide-wrapper-bg">
-								<span class="thumb-info-wrapper">
-									<a href="https://www.linkedin.com/company/yapnaa">
-										<img src="img/team/Raghu.png" class="img-responsive" alt="">
-										<br><br><br><br>
-										<span class="thumb-info-title">
-											<span class="thumb-info-inner">Raghu</span>
-											<span class="thumb-info-type" style="background-color:#ff6010">Advisory Board</span>
-										</span>
-									</a>
-								</span>
-								<span class="thumb-info-caption">
-									<span class="thumb-info-caption-text">40 years of experience in automobile and automobile component manufacturing industries, retired as the MD of I.F.B. Industries Pvt. Ltd. in 2001.<br><br><br></span>
-
-
-									<span class="thumb-info-social-icons">
-										<a href="https://www.linkedin.com/company/yapnaa"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
-									</span>
-								</span>
-							</span>
-						</div>
-						<div class="col-md-3 col-sm-6 col-xs-12">
-							<span class="thumb-info thumb-info-hide-wrapper-bg">
-								<span class="thumb-info-wrapper">
-									<a href="https://www.linkedin.com/company/yapnaa">
-										<img src="img/team/Sriram.png" class="img-responsive" alt="">
-										<br><br><br><br>
-										<span class="thumb-info-title">
-											<span class="thumb-info-inner">Sriram MAHALINGAM</span>
-											<span class="thumb-info-type" style="background-color:#ff6010">Head - Sales and Operation's</span>
-										</span>
-									</a>
-								</span>
-								<span class="thumb-info-caption">
-									<span class="thumb-info-caption-text">Business Management & Sales Operations professional with over two decades of experience in Corporate Sales and Sales Consulting.<br><br><br></span>
-									<span class="thumb-info-social-icons">
-										
-										
-										<a href="https://www.linkedin.com/company/yapnaa"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
-									</span>
-								</span>
-							</span>
-						</div>
-					</div>
 				</div>
-				</div>
+				
+				
             
            
             
@@ -420,7 +327,7 @@ IIM Ahmedabad, 1984</span>
 	  
 	  
 	  
-	  <footer id="footer" class="light">
+	   <footer id="footer" class="light">
 				<div class="container">
 					<div class="row">
 						
@@ -430,9 +337,9 @@ IIM Ahmedabad, 1984</span>
 								<br>
 								<div class="moreDetails">
                               <ul class="address">
-                                   <li><i class="fa fa-map-marker" style="color:#ff6010"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
-                                 <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010"></i><span>info@yapnaa.com</span></a></li>
-                                 <li><i class="fa fa-phone" style="color:#ff6010"></i><span>+91 - 9845286419</span></li>
+                                   <li><i class="fa fa-map-marker" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
+                                 <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>info@yapnaa.com</span></a></li>
+                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 - 9845286419</span></li>
                               </ul>
                            </div>
 							
@@ -443,10 +350,10 @@ IIM Ahmedabad, 1984</span>
 							<div class="moreDetails">
 						   <ul class="list list-icons list-icons-sm">
 						   
-										<li> <a href="readmore.html" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
-										<li> <a href="about-us.html#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
-										<li> <a href="for-partners.html" style="font-size:16px;" target="_blank">For Partners</a></li>
-										<li> <a href="contact-us.html" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li> <a href="readmore.php" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
+										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
+										<li> <a href="for-partners.php" style="font-size:16px;" target="_blank">For Partners</a></li>
+										<li> <a href="contact-us.php" style="font-size:16px;" target="_blank">Contact us</a></li>
 									</ul>
 						   
                              
@@ -482,7 +389,7 @@ IIM Ahmedabad, 1984</span>
 							
 							<div class="col-lg-12 desktop">
 							    
-								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
+								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
 								<p class="desktop" style="line-height:0px;">&nbsp;</p>
 							</div>
 							
@@ -506,7 +413,7 @@ IIM Ahmedabad, 1984</span>
 							<div class="col-lg-12 mobile">
 							    <p class="mobile"style="line-height:0px">&nbsp;</p>
 								
-								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
+								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
 							</div>
 							
 						</div>

@@ -1,21 +1,47 @@
+<?php 
+/* error_reporting(E_ALL);
+ini_set("display_errors","On"); */
 
+require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
+
+	 $obj_search = new users;
+	if(isset($_POST['d_mobile']) || !empty($_POST['d_mobile'])){
+		 $obj_search->n_yapnaa_login($_POST['d_mobile'],$_POST['d_password']);
+	}
+	?>
+<!DOCTYPE html>
 <html style="overflow-x: hidden;">
-<head>
-
+   <head>
+      <!-- Basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <title>Yapnaa</title>
+	 <link rel="shortcut icon" href="../images/yapnaa-fav.png" type="image/x-icon">
+      <meta name="description" content="Yapnaa - Your After Sales Companion">
+      <meta name="author" content="okler.net">
+      <!-- Favicon -->
+      <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+      <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+      <!-- Mobile Metas -->
+      <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+     
   <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
-<title>Yapnaa</title>
-	 <link rel="shortcut icon" href="../images/yapnaa-fav.png" type="image/x-icon">
-		<!-- Short cut favicon Icon Link-->
-       	<link rel="shortcut icon" href="images/yapnaa-fav.png" type="image/x-icon">
+
 		
 </head>
+
 <style>
 ::-webkit-input-placeholder {
 font-size: 14px;
 }
  @media (max-width: 768px) {
-		  
+	        .body-css{
+				 background-position:center center;background-color: #777;
+			}
+		   .bg-box{
+			  display:none !important;
+		  }
 		    .desktop{
 			  
 			  display:none !important;
@@ -27,7 +53,9 @@ font-size: 14px;
 	  } 
 	   
 @media (min-width: 768px){
-
+            .body-css{
+				background-image: url('img/Background.jpg'); background-position:center center;
+			}
 			.lead {
 				font-size: 17px !important; 
 			}
@@ -78,12 +106,75 @@ font-size: 14px;
 .as{
 	margin-bottom:13px;
 }
-.jj
+
+
+
+
+@media screen and (min-width: 980px) {
+   .jj
 {
 	position:absolute;
 	margin-top:250px;
 	
 }
+
+.btn-c{
+	
+	margin-left: -32px;
+	
+}
+
+.bg-box{
+	
+	background-color: #ff6010ba;
+    margin-top: 30px;
+    height: 567px;
+    padding-top: 10px;
+    min-width: 34%;
+	
+	
+}
+
+.lead{
+	
+	padding-left:46px;
+	
+}
+}
+
+
+
+
+@media screen and (max-width: 980px) {
+   .jj
+{
+	position:absolute;
+	margin-top:50px;
+	
+}
+
+
+.bg-box{
+	
+    background-color: #ff6010ba;
+    margin-top: 30px;
+    height: 284px;
+    padding-top: 2%;
+    margin-bottom: 6%;
+    min-width: 34%
+	
+	
+}
+
+
+.lead{
+	
+padding-left: 3%;
+padding-right: 0% !important;
+	
+}
+}
+
 
 .focus .inputText{
 	transform: translateY(-30px);
@@ -98,7 +189,7 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 }
 
 </style>
-<body style="background-image: url('img/Background.jpg'); background-position:center center;">
+<body class="body-css">
 <div class="row col-md-12" style="margin-left:5px; margin-right:5px;" >
 <div class="col-sm-2"></div>
  <div class="col-md-4" style="background-color: #f5f5f5db;margin-top: 29px;text-align:center; padding:0px 10px 0px 0px; height:567px; padding-top:15px; ">
@@ -108,12 +199,12 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 				<div class="col-sm-4"></div>
 					 <div class="col-sm-6">
 					 <div class="asd desktop" style="margin-bottom: 37px;">
-					  <a href="index.html">
+					  <a href="index.php">
 						 <img alt="Yapnaa" height="95" width="95" class="img-responsive img-center desktop" src="img/Yapnaa-logo.svg">
 						 </a>
 					 </div>
 					  <div class="asd mobile" style="margin-bottom: 37px;">
-					  <a href="index.html">
+					  <a href="index.php">
 						 <img alt="Yapnaa" height="95" width="95" class="img-responsive img-center mobile" src="img/Yapnaa-logo.svg">
 						 </a>
 					 </div>
@@ -122,13 +213,13 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 </div>
            <!-- desktop-->
 		   <div class="form desktop">
-			 <form action="" method="post" role="form" class="contactForm desktop">
+			 <form  method="post" role="form" class="contactForm desktop">
                 <div class="form-group desktop">
 				<div class="row desktop">
 				
 					 <div class="col-sm-8 desktop">
 						<div class="inputBox desktop" style="width: 256px;margin-bottom:15px;">
-						   <input type="text" name="" placeholder="Email" class="input desktop">
+						   <input type="text" id="d_mobile" name="d_mobile" placeholder="Mobile" class="input desktop" required>
 						</div>
 					 </div>
 				 </div>
@@ -136,7 +227,7 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 				
 					 <div class="col-sm-8 desktop">
 						<div class="inputBox ss desktop" style="width: 256px;">
-						   <input type="text" name="" placeholder="Password" class="input desktop">
+						   <input type="password" id="d_password" name="d_password" placeholder="Password" class="input desktop" required>
 						</div>
 					 </div>
 				 </div>
@@ -145,7 +236,7 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 				<div class="col-sm-2 desktop"></div>
 					 <div class="col-sm-8 desktop">
 						<div class="inputBox dd desktop">
-						   <input type="submit" name="" class="button desktop" value="Get Started" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
+						   <input type="submit" name="" class="button desktop" value="Login" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
 						</div>
 					 </div>
 				 </div>
@@ -159,16 +250,16 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 				<div class="row mobile">
 				
 					 <div class="col-sm-8 mobile">
-						<div class="inputBox mobile" style="width: 256px;margin-bottom:15px;">
-						   <input type="text" name="" placeholder="Email" class="input mobile">
+						<div class="inputBox mobile" style="margin-bottom:15px;">
+						   <input type="text" name="m_mobile" placeholder="Mobile" class="input mobile" >
 						</div>
 					 </div>
 				 </div>
 				 <div class="row mobile">
 				
 					 <div class="col-sm-8 mobile">
-						<div class="inputBox ss mobile" style="width: 256px;">
-						   <input type="text" name="" placeholder="Password" class="input mobile">
+						<div class="inputBox ss mobile" style="">
+						   <input type="text" name="m_password" placeholder="Password" class="input mobile" >
 						</div>
 					 </div>
 				 </div>
@@ -190,7 +281,7 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 				<div class="col-sm-2"></div>
 					 <div class="col-sm-8">
 					 <div class="as">
-						 <a href="#" style="color:#63686d">Forgot Password?</a>
+						 <a href="forgotpassword.php" style="color:#63686d">Forgot Password?</a>
 					 </div>
 				 </div>
 </div>
@@ -201,8 +292,8 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 					 
 					 </div>
 					  <div class="as">
-					 <a href="#" scope="public_profile,email" style="margin-left: -32px; " onclick="Login()"> <img alt="Yapnaa" height="200" width="250"  style="margin-bottom:4px;" class="img-responsive img-center" src="img/facebookAsset 7.svg"></a>
-					  <a  href="" id="google-login-button" class="google-login-button" style="text-align:center;margin-left: -32px;"><img  alt="Yapnaa" height="200" width="250" class="img-responsive img-center" src="img/googleAsset 8.svg"></a>
+					 <a href="#" scope="public_profile,email" class="btn-c" onclick="Login()"> <img alt="Yapnaa" height="200" width="250"  style="margin-bottom:4px;" class="img-responsive img-center" src="img/facebookAsset 7.svg"></a>
+					  <a  href="" id="google-login-button" class="google-login-button btn-c" style="text-align:center;"><img  alt="Yapnaa" height="200" width="250" class="img-responsive img-center" src="img/googleAsset 8.svg"></a>
 					 </div>
 					 </div>
 					 
@@ -213,7 +304,7 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 				<!--<div class="col-sm-1"></div>-->
 					 <div class="col-sm-12">
 					 <div class="as">
-					<h5><b>New Here?<a href="#"><span style="color:#ff6010"> Create an Account</span></b></a></h5>
+					<h5><b>New Here?<a href="signup_new.php"><span style="color:#ff6010"> Create an Account</span></b></a></h5>
 					
 					 
 					 
@@ -228,18 +319,25 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
  
  
  </div>
- <div class="col-md-4 " style="background-color:#ff6010ba;
-	margin-top: 30px; 
-	height:567px; 
-	padding-top:10px;min-width: 34%;">
- <div class="row">
+ <div class="col-md-4  bg-box" >
+	
+	
+	
+	<div class="row" style="    margin-top: 3%;">
+	
+	<div class="col-xs-6"><p style="color:#fcfffe;font-family: 'GothamRoundedLight'"  ><i class="fa fa-phone" aria-hidden="true"> +91-9845286419</i></p></div>
+	<div class="col-xs-6"><p style="color:#fcfffe;font-family: 'GothamRoundedLight'"><i class="fa fa-envelope" aria-hidden="true"> info@yapnaa.com</i></p></div>
+	
+	</div>
+	
+ <!-- <div class="row">
  <div class="col-sm-6"></div>
  <div class="col-sm-3"><p style="color:#fcfffe;margin-left:-188px;;margin-top:7px;font-family: 'GothamRoundedLight'"  ><i class="fa fa-phone" aria-hidden="true"> +91-9845286419</i></p></div>
  <div class="col-sm-3"><p style="color:#fcfffe;margin-left: -77px;margin-top:7px;font-family: 'GothamRoundedLight'"><i class="fa fa-envelope" aria-hidden="true"> info@yapnaa.com</i></p></div>
- </div>
+ </div> -->
  <div class="row jj" >
- <p class="lead" style="padding-left:46px; color:white; font-family: 'GothamRoundedLight', sans-serif;">Your  <strong style="margin-bottom:20px; color:white;font-size: 24px;" >After Sales Companion</strong></p>
- <p class="sales lead" style="padding-left:46px; color:white; font-family: 'GothamRoundedLight', sans-serif;" >
+ <p class="lead" style=" color:white; font-family: 'GothamRoundedLight', sans-serif;">Your  <strong style="margin-bottom:20px; color:white;font-size: 24px;" >After Sales Companion</strong></p>
+ <p class="sales lead" style="color:white; font-family: 'GothamRoundedLight', sans-serif;" >
  Yapnaa offers simple and intuitive mobile<br>
  
  interface to manage branded durables and<br>
@@ -449,7 +547,7 @@ function getUserInfo() {
 			   alert('Successfully logged in !');
 			   sessionStorage.facebookUser = response.name;
 			   
-			    window.location.assign("index.html");
+			    window.location.assign("index.php");
                 //console.log("AJAX request was successfull");
             },
             error:function(xhr,status,response){
