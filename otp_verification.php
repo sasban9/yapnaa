@@ -1,7 +1,7 @@
 <?php 
  session_start();
-/* error_reporting(E_ALL);
-ini_set("display_errors","On"); */
+//error_reporting(E_ALL);
+//ini_set("display_errors","On");
 $user_mobile=$_SESSION['user_mobile'];
 require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 
@@ -36,6 +36,8 @@ require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 <style>
 ::-webkit-input-placeholder {
 font-size: 14px;
+text-align:center;
+//padding-left:11px;
 }
  @media (max-width: 768px) {
 		    .body-css{
@@ -86,6 +88,7 @@ font-size: 14px;
 	margin-bottom:20px;
 }
 .inputBox .input{
+	
 	position: relative;
 	width: 100%;
 	
@@ -127,10 +130,10 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 	
 	
 	    background-color: #f5f5f5db;
-    margin-top: 133px;
-    text-align: center;
+     margin-top: 30px;
+     text-align: center;
     padding: 0px 10px 0px 0px;
-    height: 369px;
+    height: 500px;
     padding-top: 15px;
 }
 
@@ -156,7 +159,7 @@ input.button {
  <div class="col-md-4 bg-box" >
  <div class="col-sm-2"></div>
  <div class="col-sm-8">
- <div class="row" style="margin-right:18px !important;">
+ <div class="row" style="margin-right:18px !important;padding-top:88px">
 				<div class="col-sm-4"></div>
 					 <div class="col-sm-6">
 					 <div class="asd desktop" style="margin-bottom: 37px;">
@@ -179,7 +182,7 @@ input.button {
 				<div class="row ">
 				
 					 <div class="col-sm-8 ">
-						<div class="inputBox " style="margin-bottom:15px;">
+						<div class="inputBox " style="margin-bottom:48px;">
 						   <input type="text" name="d_otp" placeholder="Enter Opt Verification" class="input ">
 						</div>
 					 </div>
