@@ -1,8 +1,8 @@
 <?php 
 session_start();
 $user_mobile=$_SESSION['user_mobile'];
-error_reporting(E_ALL);
-ini_set("display_errors","On");
+/* error_reporting(E_ALL);
+ini_set("display_errors","On"); */
 
 require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 
