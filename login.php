@@ -212,69 +212,39 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 				 </div>
 </div>
            <!-- desktop-->
-		   <div class="form desktop">
-			 <form  method="post" role="form" class="contactForm desktop">
-                <div class="form-group desktop">
-				<div class="row desktop">
+		   <div class="form ">
+			 <form  method="post" role="form" class="contactForm ">
+                <div class="form-group ">
+				<div class="row ">
 				
-					 <div class="col-sm-8 desktop">
-						<div class="inputBox desktop" style="width: 256px;margin-bottom:15px;">
-						   <input type="text" id="d_mobile" name="d_mobile" placeholder="Mobile" class="input desktop" required>
+					 <div class="col-sm-8 ">
+						<div class="inputBox " style="width: 256px;margin-bottom:15px;">
+						   <input type="text" id="d_mobile" name="d_mobile" placeholder="Mobile" class="input " required>
 						</div>
 					 </div>
 				 </div>
-				 <div class="row desktop">
+				 <div class="row ">
 				
-					 <div class="col-sm-8 desktop">
-						<div class="inputBox ss desktop" style="width: 256px;">
-						   <input type="password" id="d_password" name="d_password" placeholder="Password" class="input desktop" required>
+					 <div class="col-sm-8 ">
+						<div class="inputBox ss " style="width: 256px;">
+						   <input type="password" id="d_password" name="d_password" placeholder="Password" class="input " required>
 						</div>
 					 </div>
 				 </div>
        
-                <div class="row desktop">
-				<div class="col-sm-2 desktop"></div>
-					 <div class="col-sm-8 desktop">
-						<div class="inputBox dd desktop">
-						   <input type="submit" name="" class="button desktop" value="Login" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
+                <div class="row ">
+				<div class="col-sm-2 "></div>
+					 <div class="col-sm-8 ">
+						<div class="inputBox dd ">
+						   <input type="submit" name="" class="button " value="Login" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
 						</div>
 					 </div>
 				 </div>
 				</div>
 				
 		  </div>
-		  <!--mobile-->
-		  <div class="form mobile">
-			 <form action="" method="post" role="form" class="contactForm mobile">
-                <div class="form-group mobile">
-				<div class="row mobile">
-				
-					 <div class="col-sm-8 mobile">
-						<div class="inputBox mobile" style="margin-bottom:15px;">
-						   <input type="text" name="m_mobile" placeholder="Mobile" class="input mobile" >
-						</div>
-					 </div>
-				 </div>
-				 <div class="row mobile">
-				
-					 <div class="col-sm-8 mobile">
-						<div class="inputBox ss mobile" style="">
-						   <input type="text" name="m_password" placeholder="Password" class="input mobile" >
-						</div>
-					 </div>
-				 </div>
-       
-                <div class="row mobile">
-				<div class="col-sm-2 mobile"></div>
-					 <div class="col-sm-8 mobile">
-						<div class="inputBox dd mobile">
-						   <input type="submit" name="" class="button mobile" value="Get Started" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
-						</div>
-					 </div>
-				 </div>
-				</div>
-				
-		  </div>
+		  
+		  
 		  
 		  
 		  <div class="row ee">
