@@ -385,7 +385,7 @@ IIM Ahmedabad, 1984</span>
 							<span class="thumb-info thumb-info-hide-wrapper-bg">
 								<span class="thumb-info-wrapper">
 									<a href="https://www.linkedin.com/company/yapnaa">
-										<img src="img/team/Sriram.png" class="img-responsive" alt="">
+										<img src="img/team/Sriram-M (1).jpg" class="img-responsive" alt="">
 										<br><br><br><br>
 										<span class="thumb-info-title">
 											<span class="thumb-info-inner">Sriram MAHALINGAM</span>
