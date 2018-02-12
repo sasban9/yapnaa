@@ -232,10 +232,11 @@ if(isset($_SESSION['admin_email_id']))
 					<thead>
 					<tr>
 							<th>S.No</th>
+							<th>Name</th>
 							<th>Email </th>
 							<th>Phone No</th>
 							<th>City</th>
-							<th>Pincode</th>
+							
 							<th>Address</th>
 							<th>Action</th>
 						
@@ -247,10 +248,11 @@ if(isset($_SESSION['admin_email_id']))
 					<?php for($i=0;$i<count($get_user_list);$i++){ ?>
 						<tr>
 							<td><?php echo  $j; ?></td>
+							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_name']; ?></a></td>
 							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_email_id']; ?></a></td>
 							<td><a href="user-details.php?id=<?php echo $get_user_list[$i]['user_id']; ?>"><?php echo $get_user_list[$i]['user_phone']; ?></td>
 							<td><?php echo $get_user_list[$i]['user_city']; ?></a></td>
-							<td><?php echo $get_user_list[$i]['user_area_pincode']; ?></td>
+							
 							<td><?php echo $get_user_list[$i]['user_address']; ?></td>
 							
 							<td>
