@@ -432,7 +432,7 @@ IIM Ahmedabad, 1984</span>
                               <ul class="address">
                                    <li><i class="fa fa-map-marker" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
                                  <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>info@yapnaa.com</span></a></li>
-                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 - 9845286419</span></li>
+                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 63600 98824</span></li>
                               </ul>
                            </div>
 							
@@ -456,8 +456,9 @@ IIM Ahmedabad, 1984</span>
 							
 								<h4 class="footer-h2" style="margin-top: 5.5%; margin-bottom:16%">Subscribe Newsletter</h4>
 								<div class="moreDetails">
-								<input type="text" Placeholder="Email ID" class="form-control input-rounded" id="inputRounded" >
-							<button type="button" class="btn footer-btn mb-2">Submit</button>
+								<input type="text" Placeholder="Name" class="form-control input-rounded news-name" id="inputRounded" style="    margin-bottom: 2%;" >
+								<input type="email" Placeholder="Email ID" class="form-control input-rounded news-email" id="inputRounded" >
+							<button type="button" class="btn footer-btn mb-2 news-latter">Submit</button>
 						</div>
 						</div>
 						<div class="col-lg-2">
@@ -555,6 +556,32 @@ IIM Ahmedabad, 1984</span>
          <script src="js/custom.js"></script>
          <!-- Theme Initialization Files -->
          <script src="js/theme.init.js"></script>
+		 <script>
+		 $('.news-latter').click(function(){
+				var name=$('.news-name').val();
+				var email=$('.news-email').val();
+				if(!email || !name){
+					alert('please provide name and email id');
+					return false;
+				}
+				  $.ajax({
+						url: "new_customer_engagment.php?news_later=submit", //This is the page where you will handle your SQL insert
+						type:"POST",
+						data:{name:name,email:email},
+						success:function(response){
+							console.log(response);
+							if(response){
+								alert("Thank you for subscribing Newsletter.");
+								location.reload();
+							}
+						},
+						error:function(error){
+							alert(JSON.stringify(error));
+						}
+					}); 
+				
+			});
+		 </script>
          <!-- Google Analytics: Change UA-XXXXX-X to be your site's ID. Go to http://www.google.com/analytics/ for more information.
             <script>
             	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

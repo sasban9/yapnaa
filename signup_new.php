@@ -1,6 +1,6 @@
 <?php 
-/* error_reporting(E_ALL);
-ini_set("display_errors","On"); */
+error_reporting(E_ALL);
+ini_set("display_errors","On");
 
 require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 
@@ -260,7 +260,7 @@ padding-right: 0% !important;
 				<div class="col-sm-2 "></div>
 					 <div class="col-sm-8 ">
 						<div class="inputBox dd ">
-						   <input type="submit" name="" class="button " value="submit" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
+						   <input type="submit" name="" class="button " value="Submit" style="border-radius:25px; background-color:#ff6010; width:150px; height:30px; color:white;border:none">
 						</div>
 					 </div>
 				 </div>
@@ -297,7 +297,7 @@ padding-right: 0% !important;
 	
 	<div class="row" style="    margin-top: 3%;">
 	
-	<div class="col-xs-6"><p style="color:#fcfffe;font-family: 'GothamRoundedLight'"  ><i class="fa fa-phone" aria-hidden="true"> +91-9845286419</i></p></div>
+	<div class="col-xs-6"><p style="color:#fcfffe;font-family: 'GothamRoundedLight'"  ><i class="fa fa-phone" aria-hidden="true">+91 63600 98824</i></p></div>
 	<div class="col-xs-6"><p style="color:#fcfffe;font-family: 'GothamRoundedLight'"><i class="fa fa-envelope" aria-hidden="true"> info@yapnaa.com</i></p></div>
 	
 	</div>
