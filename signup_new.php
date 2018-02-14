@@ -1,6 +1,4 @@
 <?php 
-
-
 require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 
 	 $obj_search = new users;
