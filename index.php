@@ -1,6 +1,18 @@
 <?php
 session_start();
 $user_name	= $_SESSION['user_name'];
+require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
+$obj_user = new users;
+	
+		 $brandcategory=$obj_user->brand_category_list();
+		 $brands_list=$obj_user->n_brand_list();
+		// print_r($brands_list);
+if(isset($_POST['search_query']) && !empty($_POST['search_query'])){
+	
+	 $brands_list=$obj_user->search_result($_POST['search_query']);
+     
+}
+	
 ?>
 
 <!DOCTYPE html>
@@ -192,6 +204,9 @@ background: #ff6010;
   background-color: white;
   border-color: white;
   color: black;
+}
+.inputBox .input {
+	color:#000;
 }
       </style>
    </head>
@@ -484,7 +499,7 @@ instead receive timely alerts before expiry date.</span>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            
-                           <form id="searchForm" action="#" method="get" novalidate="novalidate">
+                           <form id="searchForm" action="#" method="post" novalidate="novalidate">
                               <div class="input-group">
                                  <input type="text" style="
                                     height: 48px;
@@ -493,7 +508,7 @@ instead receive timely alerts before expiry date.</span>
                                     border-bottom: 2px solid #fc7f2b;
                                     border-top-left-radius: 15px;
                                     border-bottom-left-radius: 15px;
-                                    " class="form-control" name="q" id="q" placeholder="Search brands, service center,customer care..." required="" aria-required="true">
+                                    " class="form-control" name="search_query" id="search_query" placeholder="Search brands, service center,customer care..." required="" aria-required="true">
                                  <span class="input-group-btn">
                                  <button class="btn btn-default " style="
                                     height: 48px;
@@ -527,7 +542,7 @@ instead receive timely alerts before expiry date.</span>
                        
 	
                            
-                           <form id="searchForm1" action="#" method="get" novalidate="novalidate">
+                           <form id="searchForm1" action="#" method="post" novalidate="novalidate">
                               <div class="input-group " style="margin-top: -21px;" >
                                  <input type="text" style="
 								    width:255px;
@@ -537,7 +552,7 @@ instead receive timely alerts before expiry date.</span>
                                     border-bottom: 2px solid #fc7f2b;
                                     border-top-left-radius: 15px;
                                     border-bottom-left-radius: 15px;
-                                    " class="form-control mobi " name="q" id="q" placeholder="Search brands, service center, customer care..." required="" aria-required="true">
+                                    " class="form-control mobi " name="search_query" id="search_query" placeholder="Search brands, service center, customer care..." required="" aria-required="true">
                                  <span class="input-group-btn">
                                  <button class="btn btn-default mobi1 " style="
                                     height: 39px;
@@ -636,26 +651,27 @@ instead receive timely alerts before expiry date.</span>
 						  <div class="col-sm-1 "></div>
 						<div class="col-sm-10 ">
 						<div class="formBox">
-                           <form>
+                           <form method="post">
                               <div class="row">
                                  <div class="col-sm-6">
                                     <div class="inputBox">
-                                       <select class="input  ">
-                                          <option value="volvo">Product Type</option>
-                                          <option value="saab">TV</option>
-                                          <option value="mercedes">Microwave</option>
-                                          <option value="audi">Water Filter</option>
+                                       <select class="input" id="brand_type" name="brand_type" required>
+									    <option value="" disabled selected>Select product type</option>
+									     <?php foreach($brandcategory as $brand){?>
+                                          <option value="<?php echo $brand['p_category_id']; ?>"><?php echo $brand['p_category_name']; ?></option>
+										 <?php }?>
+                                          
                                        </select>
                                     </div>
                                  </div>
                                  <div class="col-sm-6">
                                     <div class="inputBox">
-                                       <select class="input  ">
-                                          <option value="volvo">Product Brand</option>
-                                          <option value="saab">Samsung</option>
-                                          <option value="mercedes">LG
-										</option>
-                                          <option value="audi">Livpure</option>
+                                       <select class="input" id="brand_name" name="brand_name" required>
+									    <option value="" disabled selected>Select brand name</option>
+									   <?php foreach($brands_list as $brandname){?>
+                                          <option value="<?php echo $brandname['brand_id'];?>"><?php echo $brandname['brand_name'];?></option>
+										   <?php }?>
+                                         
                                        </select>
                                     </div>
                                  </div>
@@ -663,24 +679,28 @@ instead receive timely alerts before expiry date.</span>
                               <div class="row">
                                  <div class="col-sm-12">
                                     <div class="inputBox">
-                                       <select class="input  ">
+                                       <!--select class="input  ">
                                           <option value="volvo">Issue Type</option>
                                           <option value="saab">Service</option>
                                           <option value="mercedes">AMC</option>
                                           <option value="audi">Product</option>
-                                       </select>
+                                       </select-->
+									   <textarea class="input" name="issue_type" id="issue_type" maxlength="250" required>
+									   Enter issue type.....
+									   </textarea>
+									   <input type="text" id="yp_user" value="<?php echo $user_name;?>" hidden>
                                     </div>
                                  </div>
                               </div>
                               <div class="row">
                                  <div class="col-sm-6">
                                     <div class="inputBox ">
-                                       <input type="text" name="" placeholder="Name" class="input">
+                                       <input type="text" id="ser_name" name="ser_name" placeholder="Name" class="input" required>
                                     </div>
                                  </div>
                                  <div class="col-sm-6">
                                     <div class="inputBox">
-                                       <input type="text" name=""  placeholder="Number" class="input">
+                                       <input type="text" id="ser_phone" name="ser_phone"  placeholder="Phone Number" class="input" required>
                                     </div>
                                  </div>
                               </div>
@@ -688,7 +708,7 @@ instead receive timely alerts before expiry date.</span>
                               <div class="row">
 							   <div class="col-sm-3"></div>
                                  <div class="col-sm-4">
-                                    <a  name="" class="btn footer-btn mb-2" style="min-width:125px !important; " >Submit Request</a>
+                                    <input type="submit"  id="service_req" name="" class="btn footer-btn mb-2" style="min-width:125px !important; " value="Submit Request" >
                                  </div>
 								 <div class="col-sm-4"></div>
                               </div>
@@ -802,7 +822,7 @@ instead receive timely alerts before expiry date.</span>
 						  <div class="col-sm-1 "></div>
 						<div class="col-sm-10 ">
 						<div class="formBox">
-                           <form>
+                           <form id="socialMedia" method="POST">
                             
                               <div class="row">
                                  <div class="col-sm-12">
@@ -1179,7 +1199,7 @@ instead receive timely alerts before expiry date.</span>
                               <ul class="address">
                                    <li><i class="fa fa-map-marker" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
                                  <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>info@yapnaa.com</span></a></li>
-                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 - 9845286419</span></li>
+                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 63600 98824</span></li>
                               </ul>
                            </div>
 							
@@ -1203,8 +1223,9 @@ instead receive timely alerts before expiry date.</span>
 							
 								<h4 class="footer-h2" style="margin-top: 5.5%; margin-bottom:16%">Subscribe Newsletter</h4>
 								<div class="moreDetails">
-								<input type="text" Placeholder="Email ID" class="form-control input-rounded" id="inputRounded" >
-							<button type="button" class="btn footer-btn mb-2">Submit</button>
+								<input type="text" Placeholder="Name" class="form-control input-rounded news-name" id="inputRounded" style="    margin-bottom: 2%;" >
+								<input type="email" Placeholder="Email ID" class="form-control input-rounded news-email" id="inputRounded" >
+							<button type="button" class="btn footer-btn mb-2 news-latter">Submit</button>
 						</div>
 						</div>
 						<div class="col-lg-2">
@@ -1385,6 +1406,30 @@ instead receive timely alerts before expiry date.</span>
                  }
              }
             });
+			$('.news-latter').click(function(){
+				var name=$('.news-name').val();
+				var email=$('.news-email').val();
+				if(!email || !name){
+					alert('please provide name and email id');
+					return false;
+				}
+				  $.ajax({
+						url: "new_customer_engagment.php?news_later=submit", //This is the page where you will handle your SQL insert
+						type:"POST",
+						data:{name:name,email:email},
+						success:function(response){
+							console.log(response);
+							if(response){
+								alert("Thank you for subscribing Newsletter.");
+								location.reload();
+							}
+						},
+						error:function(error){
+							alert(JSON.stringify(error));
+						}
+					}); 
+				
+			});
   $( "#revolutionSlider" ).mouseover(function() {
                    $('#revolutionSlider').revpause();
               }); 
@@ -1394,7 +1439,35 @@ instead receive timely alerts before expiry date.</span>
              }); 
  //for twiter
 function getTwitLogin(){
-
+var fbuser =sessionStorage.facebookUser;
+var fb_message   =$("#fb_message").val();
+var uType='twit';
+if((fbuser) )
+	{
+		var socialuser=fbuser;
+	}
+   else if($("#yp_user").val().length !=0){
+		
+		var socialuser=$("#yp_user").val();
+	}
+	else{
+		var socialuser='';
+	}
+ $.ajax({
+		url: "new_customer_engagment.php?socialmediatweet=submit", //This is the page where you will handle your SQL insert
+		type:"POST",
+		data:{user:socialuser,msg:fb_message,userType:uType},
+		success:function(response){
+			console.log(response);
+			if(response){
+				//alert("Service request raised successfully.");
+				location.reload();
+			}
+		},
+		error:function(error){
+			alert(JSON.stringify(error));
+		}
+	}); 
  
  var textToTweet = '@yapnaa'+' '+document.getElementById('fb_message').value;
  if (textToTweet.length > 140) {
@@ -1407,7 +1480,7 @@ function getTwitLogin(){
  
 }
 
-$( document ).ready(function() {
+//$( document ).ready(function() {
 	$('.header-social-icons').css('cursor','pointer');
 	
 	if(sessionStorage.facebookUser !=undefined){
@@ -1424,7 +1497,81 @@ $('.header-social-icons p').attr("title",'Logout');
 	 sessionStorage.clear();
 	//sessionStorage.facebookUserId.destroySession();
    });
+//});
+$( "#service_req" ).click(function() {
+	//alert($("#yp_user").val().length);
+	
+	var brandType=$("#brand_type").find(":selected").val();
+	var fbuser =sessionStorage.facebookUser;
+	//alert(fbuser);//var yp_user =$("#yp_user").val();
+	if((fbuser) )
+	{
+		var socialuser=fbuser;
+	}
+   else if($("#yp_user").val().length !=0){
+		
+		var socialuser=$("#yp_user").val();
+	}
+	else{
+		var socialuser='';
+	}
+	
+	var brandName=$("#brand_name").find(":selected").val();
+	var issueType=$("#issue_type").val();
+	var serName=$("#ser_name").val();
+	var serPhone=$("#ser_phone").val();
+	if(!serName || !serPhone ){
+		alert('Please fill all the fields');
+		return false;
+	}
+	//alert(brandType+''+socialuser+''+brandName+''+issueType+''+serName+''+serPhone);
+   $.ajax({
+		url: "new_customer_engagment.php?service_req=submit", //This is the page where you will handle your SQL insert
+		type:"POST",
+		data:{user:socialuser,custName:serName,brandInfo:brandType,brand:brandName,issue:issueType,custPhone:serPhone},
+		success:function(response){
+			console.log(response);
+			if(response){
+				alert("Service request raised successfully.");
+				location.reload();
+			}
+		},
+		error:function(error){
+			alert(JSON.stringify(error));
+		}
+	}); 
 });
+function post_on_wall(){
+var fbuser =sessionStorage.facebookUser;
+var fb_message   =$("#fb_message").val();
+var uType='facebook';
+if((fbuser) )
+	{
+		var socialuser=fbuser;
+	}
+   else if($("#yp_user").val().length !=0){
+		
+		var socialuser=$("#yp_user").val();
+	}
+	else{
+		var socialuser='';
+	}
+    $.ajax({
+		url: "new_customer_engagment.php?socialmediaface=submit", //This is the page where you will handle your SQL insert
+		type:"POST",
+		data:{user:socialuser,msg:fb_message,userType:uType},
+		success:function(response){
+			console.log(response);
+			if(response){
+				//alert("Service request raised successfully.");
+				location.reload();
+			}
+		},
+		error:function(error){
+			alert(JSON.stringify(error));
+		}
+	}); 
+}
       </script>
    </body>
 </html>

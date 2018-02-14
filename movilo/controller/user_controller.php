@@ -15,19 +15,38 @@ if(isset($_POST['value']))
 
 class users
 {
+	
     function __construct()
     {
 		//parent::__construct();
         global $obj_model;
         global $tb;
         $this->model =& $obj_model;
+		
     }
+  function	news_later_subscribe($name,$email){
+		  $fields_reg = array(
+					'name' 				=> $name,
+					'emailid' 			=> $email,
+					'datetime'         =>date('Y-m-d h:i:s')
+				);
+		$table_log_in = 'news_later';
+		  $condition_log_in				 = 	'name= '.$reg_otp.' and emailid='.$email;
+		  $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, '*', $condition_log_in);
+          if($arr_log_in ==NULL)
+		  {
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
+			return true;
+		  }else{
+			  return false;
+		  }
+	}
    function n_yapnaa_send_mail(){
 	   $name=$_POST['name'];
 	   $email=$_POST['email'];
 	   $subject1=$_POST['subject'];
 	   $message1=$_POST['message'];
-	  $to = "info@yapnaa.com";
+	  $to = "ranjan.jjbyte@gmail.com";
 $subject = "$subject1";
 
 $message = "
@@ -215,7 +234,63 @@ $headers .= 'From: '.$email. "\r\n";
 		echo '<script>window.location.assign("login.php")</script>';	
 		}
 	}
-    
+    //save service request
+	function save_request_raise($user,$cust_name,$brand_info,$brand,$issue,$cust_phone){
+		$fields_reg = array(
+                'loggedin_user' 				=> $user,
+                'customer_name' 			    => $cust_name,
+                'customer_phone'                =>$cust_phone,
+				'product_type'                  =>$brand_info,
+				'brand_name'                    =>$brand,
+				'issue_type'                    =>$issue,
+				'datetime'                      =>date('Y-m-d h:i:s')
+				
+            );
+            
+            // print_r($fields_reg);exit;
+			
+            $table_log_in = 'service_request_raise';
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
+			if($arr_result){
+				return 1;
+			  }
+			  else{
+				return 0;
+			}
+	}
+    //save social media post
+    function social_media_post($user,$msg,$userType){
+     $fields_reg = array(
+                'customer_name' 				=> $user,
+                'social_message' 			    => $msg,
+                'type'                           =>$userType,				
+				'date'                          =>date('Y-m-d h:i:s')
+				
+            );
+            
+            // print_r($fields_reg);exit;
+			
+            $table_log_in = 'direct_escalation_brand';
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
+			if($arr_result){
+				return 1;
+			  }
+			  else{
+				return 0;
+			}
+        
+}
+   //search result
+   public function search_result($search_query){
+		$fields_user='*';
+		$table_user='brands';
+		$condition_user='brand_name like "%'.$search_query.'%"';
+		$arr_result11 = $this->model->get_Details_condition($table_user, $fields_user, $condition_user);
+		 
+			header("Location:yapnaa_search.php?vals=" . urlencode(serialize($arr_result11)));
+
+      }
+
 	// user registartion
     function user_app_launch()
     {
@@ -1475,8 +1550,24 @@ function checkout_user_login(){
 			return $arr_log_in=2;
 		}
     }
-	
-
+	//index.php
+    function brand_category_list()
+    {
+		$table_log_in    				 = 	'product_category_list';
+        $fields_log_in   				 = 	'*';
+        $condition_log_in				 = 	'1';
+		$cat_array                       = 	$this->model->get_Details_condition($table_log_in, $fields_log_in,$condition_log_in);
+		return $cat_array;
+	}
+	//index.php
+	function n_brand_list()
+    {
+		$table_log_in    				 = 	'brands';
+        $fields_log_in   				 = 	'*';
+        $condition_log_in				 = 	'1';
+		$brand_array                     = 	$this->model->get_Details_condition($table_log_in, $fields_log_in,$condition_log_in);
+		return $brand_array;
+	}
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
 	
@@ -3240,7 +3331,7 @@ function checkout_user_login(){
 		$headers 				= 'MIME-Version: 1.0'. "\r\n";
 		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
 		$headers 			.= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
-		$to                  = "sriramm@moviloglobal.com"; 
+		$to                  = "ranjan.jjbyte@gmail"; 
 		//echo $subject;die;
 		
 		// Mail it

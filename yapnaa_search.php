@@ -1,10 +1,31 @@
+<?php 
+
+$Values= unserialize(urldecode($_GET['vals']));
+//print_r($Values);exit;
+require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
+$obj_user = new users;
+$brandcategory=$obj_user->brand_category_list();
+if(isset($_POST['search_query']) && !empty($_POST['search_query'])){
+	
+	 $brands_list=$obj_user->search_result($_POST['search_query']);
+     
+}
+  
+  
+/* $search_res=$obj_user->search_result1($b);
+foreach($search_res as $a){
+	  print_r($a);
+  } */
+?>
+
+
 <!DOCTYPE html>
 <html>
    <head>
       <!-- Basic -->
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>Yapnaa</title>
+     <title>Yapnaa</title>
 	 <link rel="shortcut icon" href="../images/yapnaa-fav.png" type="image/x-icon">
       <meta name="keywords" content="HTML5 Template" />
       <meta name="description" content="Yapnaa - Responsive HTML5 Template">
@@ -28,7 +49,7 @@
       <link rel="stylesheet" href="css/theme.css">
       <link rel="stylesheet" href="css/theme-elements.css">
       <link rel="stylesheet" href="css/theme-blog.css">
-      <link rel="stylesheet" href="css/theme-shop.css">
+      <!--link rel="stylesheet" href="css/theme-shop.css"-->
       <!-- Current Page CSS -->
       <link rel="stylesheet" href="vendor/rs-plugin/css/settings.css">
       <link rel="stylesheet" href="vendor/rs-plugin/css/layers.css">
@@ -42,8 +63,15 @@
       <!-- Head Libs -->
       <script src="vendor/modernizr/modernizr.min.js"></script>
       <style>
+	  @media (max-width: 600px){
+			#searchForm {
+				 display: block; 
+			}
+	  }
 	   @media (max-width: 768px) {
 		  
+
+			
 		    .desktop{
 			  
 			  display:none !important;
@@ -65,6 +93,15 @@
 		 
 		  
 	  }
+	  .thumb-info-social-icons a {
+	         padding-left: 6px !important;
+			 padding-top: 2px !important;
+	  }
+	  @media (min-width: 768px){
+		
+		.lead {
+			font-size: 18px !important;
+		}}
          @media screen and (min-width: 920px) {
          .mobile {
          display:none;
@@ -174,12 +211,38 @@ background: #ff6010;
 	color:#fff;
 
 }
-.list.list-icons{
-	padding: 12px !important;
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    background-color: #fff;	  
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }
-.thec{
-padding: 10px !important;
+.fa-rotate-90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
 }
+.container1 {
+				    padding-right: 0px !important;
+					padding-left: 0px !important;
+			}
       </style>
    </head>
    <body>
@@ -192,11 +255,11 @@ padding: 10px !important;
                         <div class="header-logo">
                            <a href="index.php">
                            <img alt="Yapnaa" height="95" width="95" class="img-responsive desktop" src="/img/Yapnaa-logo.svg">
-                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" style="margin-top:-1px"  src="/img/Yapnaa-logo.svg">
+                           <img alt="Yapnaa" height="40" width="40" class="img-responsive mobile" style="margin-top:-1px" src="/img/Yapnaa-logo.svg">
                            </a>
                         </div>
                      </div>
-                    <div class="header-column">
+                      <div class="header-column">
                         <div class="header-row">
                            <div class="header-nav header-nav-stripe" style="    margin-right: -38px;">
                               <button class="btn header-btn-collapse-nav" style="background-color: Transparent;background-repeat:no-repeat;border: none; cursor:pointer;overflow: hidden;outline:none;margin-right:10px;margin-top:-1px" data-toggle="collapse" data-target=".header-nav-main">
@@ -261,155 +324,112 @@ padding: 10px !important;
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
-								<h1>Careers</h1>
+							<div class="col-md-6">
+							  <form id="searchForm" action="#" method="post" novalidate="novalidate">
+								<div class="input-group">
+                                 <input type="text" style="
+                                    height: 48px;
+                                    border-top: 2px solid #fc7f2b;
+                                    border-left: 2px solid #fc7f2b;
+                                    border-bottom: 2px solid #fc7f2b;
+                                    border-top-left-radius: 15px;
+                                    border-bottom-left-radius: 15px;
+                                    " class="form-control" name="search_query" id="search_query" placeholder="Search brands, service center,customer care..." required="" aria-required="true">
+                                 <span class="input-group-btn">
+                                 <button class="btn btn-default " style="
+                                    height: 48px;
+                                    border-top: 2px solid #fc7f2b;
+                                    border-right: 2px solid #fc7f2b;
+                                    border-bottom: 2px solid #fc7f2b;
+                                    border-left: none;
+                                    border-top-right-radius: 15px;
+                                    border-bottom-right-radius: 15px;
+									position: relative;
+									margin: 0px -6px 29px -2px;
+                                    " type="submit"><i style="color: #fc7f2b;
+                                    font-size: 27px;" class="fa fa-search"></i></button>
+                                 </span>
+                              </div>
+							  </form>
 							</div>
+							<div class="col-md-6">
+								<div >
+								<h3 style="color:#fff" hidden>Search result for</h3>
+								</div>
+								</div>
 						</div>
 					</div>
 				</section>
-				 <div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							
-							<p class="lead" style="text-align:left">
-								We are looking to scale up our operations in sales and accelerate development of technology road-map. People with passion to create something new and have hunger for learning are welcome to be part of the team.</p>
-
-
-								<p class="lead" style="text-align:left;">If you find it exciting to be part of startup and willing to grow with company then you could get in touch with us at <a href="mailto:info@yapnaa.com" style="decoration:none">info@yapnaa.com</a></p> 
-
-
-								<!--p class="lead" style="text-align:left;">Yapnaa directly connects consumers with brands enabling easier access to products, knowledge and services enabling product companies to reach, engage, support and service all these smarter consumers.</p--> 
-
-							</p>
-
-							<hr class="tall">
-						</div>
-					</div>
-					
+				    
 				</div>
-				    <div class="row">
-					<div class="col-sm-1"></div>
-						<div class="col-md-8">
-							<div class="toggle toggle-primary mt-lg" data-plugin-toggle>
-								<section class="toggle">
-									<label>Technical Support Representative</label>
-									<div class="toggle-content">
-										<p class="thec"><strong>Location:</strong> Bangalore - <strong>Department:</strong> Engineering</p>
-										<ul class="list list-icons">
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> Hands on experience and willingness to work on multiple areas,
-
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Web development, android and ios app experience, PhP, nodeJS, automation technologies, scripting with strong debugging skills,
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Functional - should be able to work independently, translate business requirement to technical specification, understand aspects of product management and would have co-worked with marketing teams,
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Our road-map involves AI development. You should have inclination to tinker with new technologies to come up with ideas and demonstrable prototype,
-
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Candidate with 3-8 years are ideal for this role however people with more experience with exceptional drive and attitude can also be considered.
-
-
-</li></ul>
-										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
-									</div>
-								</section>
-								
-								<section class="toggle">
-									<label>Customer Care Specialist</label>
-									<div class="toggle-content">
-										<p class="thec"><strong>Location:</strong> Bangalore  - <strong>Department:</strong> BBA/BBM/MBA</p>
-										<ul class="list list-icons">
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> We are a start - up and need young & energetic, preferably 3 - 6 years minimum work experience in customer services & customer management,
-
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Process welcome calls & mails to new customers, to keep in touch with existing clients on phone & attend to problems if any,
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Preparing weekly & monthly MIS reports and maintains sales records and customer details,
-
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Responsible for managing revenue generation and enhancement initiative in CRM related to Cross selling via Appointment generation, partner co-ordination, innovation in self-closures and up-selling,
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Strong analytics aptitude and practitioner level in digital marketing,
-
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Good English communication skills & computer usage knowledge in MS office.
-
-</li>
-</ul>
-										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
-									</div>
-								</section>
-								<section class="toggle">
-									<label>Business Sales Executive</label>
-									<div class="toggle-content">
-										<p class="thec"><strong>Location:</strong> Bangalore  - <strong>Department:</strong> MBA</p>
-										<ul class="list list-icons">
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> We need young & energetic management graduates in our journey to success, both freshers and experienced welcome to join our team,
-
-
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Work includes telecalling and on field customer visits,
-
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Brand marketing and services sales primary responsibility,
-
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Responsible for revenue generation,
-
-</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Preparing weekly & monthly MIS reports and maintain sales records and customer details,
-
-</li>
-<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Good English communication skills & computer usage knowledge in MS office.
-
-
-</li>
-</ul>
-                                        <p class="thec"># of positions available: 5</p>
-										<p class="thec">Remuneration:Negotiable and skill based along with performance based incentives.</p>
-										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
-									</div>
-								</section>
-								<section class="toggle">
-									<label>Internship:</label>
-									<div class="toggle-content">
-										<p class="thec"><strong>Location:</strong> Bangalore  - <strong>Department:</strong> BBA/BBM/MBA</p>
-										<ul class="list list-icons">
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> Manage day-to- day field visits to existing customers
-										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Do telecalling
-										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Handle marketing and sales
-										</li>
-										</ul>
-										<p class="thec"># of Internships available: 3</p>
-										<p class="thec"><strong>Skill(s) required:</strong> MS-Office and English Proficiency (Spoken)</p>
-										<p class="thec"><strong>Who can apply?</strong></p>
-										<ul class="list list-icons">
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i> are preferably available for duration of 2 - 3 months
-										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>are from Bangalore
-										</li><li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>have relevant skills and interests
-										</li>
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>have already graduated or are currently in any year of study
-										</li>
-										</ul>
-										<p class="thec"><strong>Perks:</strong></p>
-										<ul class="list list-icons">
-										
-										<li><i class="fa fa-check" style="color:#ff6010; font-size:14px !important;"></i>Stipend, Certificate, and Flexible work hours.
-										</li>
-										</ul>
-										<p class="thec"><a class="btn btn-primary mb-xl" href="mailto:info@yapnaa.com" style="decoration:none">Apply Now</a></p>
-									</div>
-								</section>
-								
-								
-								
-							</div>
-						</div>
-					
-					</div>
-					
+            
+           
+           <div class="col-md-12"> 
+			<div class="container">
+		<div class="row">
+		  <div class="col-sm-3">
+			<!--div class="sidebar-nav">
+			  <div class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <span class="visible-xs navbar-brand">Sidebar menu</span>
 				</div>
-				
-	   <footer id="footer" class="light">
+				<!--div class="navbar-collapse collapse sidebar-navbar-collapse">
+				  <ul class="nav navbar-nav" >
+				   <li  ><a  href="#" ><h4>Filter Out Your search</h2></a></li>
+				   <?php foreach($brandcategory as $brand){?>
+					<li ><a href="#" ><?php echo $brand['p_category_name']; ?></a></li>
+				   <?php }?>
+					
+				  </ul>
+				</div--><!--/.nav-collapse -->
+			 <!-- </div>-->
+			</div>
+		  </div>
+  <div class="col-sm-9">
+   <div class="container " style="padding-right:0px;padding-left:0px;">
+   <?php foreach ($Values as $key=>$value){?>
+	<div class="row" style="padding:10px">
+	
+		<div class="col-sm-5" style="background-color:#fff;padding: 10px;">	<div class=" col-sm-5 moreDetails">
+				  <ul class="address">
+					  <li><i class="fa fa-tag fa-rotate-90" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span><h4><b><?php echo $value['brand_name']; ?></b></h4></span></li>
+					  <li><a href="<?php echo $value['brand_url']; ?>" style="decoration:none" target="_blank"><i class="fa fa-globe" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span><?php echo $value['brand_url']; ?></span></a></li>
+					<?php if($value['customer_email_id']){?> <li><a href="mailto:<?php echo $value['customer_email_id']; ?>" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span ><?php echo $value['customer_email_id']; ?></span></a></li><?php }?>
+					 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span><?php echo $value['customer_care_phone1'].','.$value['customer_care_phone2']; ?></span></li>			 
+					
+				  </ul>
+				 
+             </div>
+			 <div class=" col-sm-3 moreDetails"></div>
+			<div class=" col-sm-1">
+			  <span><img  height="50" width="130" style="/*margin-top: 9px;margin-left: 132px;*/"src="movilo/brand-icon/<?php echo $value['brand_icon']; ?>"/></span>
+			 </div>
+		</div>
+		 
+	
+	</div>
+	<?php }?>
+   </div>
+  </div>
+</div>
+</div>
+</div>			
+			
+			
+			
+			
+            
+	  
+	  
+	  
+	  
+	  <footer id="footer" class="light">
 				<div class="container">
 					<div class="row">
 						
@@ -545,7 +565,11 @@ padding: 10px !important;
          <script src="js/custom.js"></script>
          <!-- Theme Initialization Files -->
          <script src="js/theme.init.js"></script>
-		  <script>
+		 <script>
+		  $('ul li').click(function(){
+    $('li').removeClass("active");
+    $(this).addClass("active");
+});
 		 $('.news-latter').click(function(){
 				var name=$('.news-name').val();
 				var email=$('.news-email').val();
@@ -570,7 +594,8 @@ padding: 10px !important;
 					}); 
 				
 			});
-		 </script> 
+		 </script>
+		 
          <!-- Google Analytics: Change UA-XXXXX-X to be your site's ID. Go to http://www.google.com/analytics/ for more information.
             <script>
             	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
