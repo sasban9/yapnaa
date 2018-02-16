@@ -52,10 +52,10 @@ $subject = "$subject1";
 $message = "
 <html>
 <head>
-<title>HTML email</title>
+<title>Yapnaa</title>
 </head>
-<body>
-<p>This email contains HTML Tags!</p>
+<body> 
+
 <table>
 <tr>
 <p>$message1</p>
