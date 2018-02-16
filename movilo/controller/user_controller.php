@@ -46,7 +46,7 @@ class users
 	   $email=$_POST['email'];
 	   $subject1=$_POST['subject'];
 	   $message1=$_POST['message'];
-	   $aditional_msg='Name:'. $name.'<br>Email:'.$email;
+	   $aditional_msg='Name:'.$name.'Email:'.$email;
 	  $to = "info@yapnaa.com";
 $subject = "$subject1";
 
