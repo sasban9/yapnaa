@@ -46,7 +46,6 @@ class users
 	   $email=$_POST['email'];
 	   $subject1=$_POST['subject'];
 	   $message1=$_POST['message'];
-	   $aditional_msg='Name:'.$name.'Email:'.$email;
 	  $to = "info@yapnaa.com";
 $subject = "$subject1";
 
@@ -55,12 +54,11 @@ $message = "
 <head>
 <title>Yapnaa</title>
 </head>
-<body> 
+<body>
 
 <table>
 <tr>
 <p>$message1</p>
-<p>$aditional_msg</p>
 </tr>
 </table>
 </body>
@@ -72,7 +70,7 @@ $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 // More headers
-$headers .= 'From: yapnaa.com\r\n";
+$headers .= 'From: yapnaa.com'. "\r\n";
 
 	   if(mail($to, $subject, $message,$headers)){
 		   echo '<script>alert("Message sent successfully !")</script>';	
