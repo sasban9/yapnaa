@@ -22,6 +22,14 @@ foreach($search_res as $a){
 <!DOCTYPE html>
 <html>
    <head>
+   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-88944414-1');
+</script>
       <!-- Basic -->
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">

@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    	<!-- Meta Data -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-88944414-1');
+		</script>
+	<!-- Meta Data -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">

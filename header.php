@@ -1,4 +1,12 @@
          <header id="header" class="header-narrow header-semi-transparent header-transparent-sticky-deactive custom-header-style" data-plugin-options="{'stickyEnabled': false, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 1, 'stickySetTop': '1'}">
+		      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-88944414-1');
+</script>
             <div class="header-body">
                <div class="header-container container">
                   <div class="header-row">
