@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html>
    <head>
-   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-88944414-1');
-</script>
       <!-- Basic -->
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -320,22 +312,8 @@ background: #ff6010;
 					
 				</div>
 				
-				
-            
-           
-            
-			
-			
-			
-			
-			
-			
-            
 	  
-	  
-	  
-	  
-<footer id="footer" class="light">
+  <footer id="footer" class="light">
 				<div class="container">
 					<div class="row">
 						
@@ -359,9 +337,11 @@ background: #ff6010;
 						   <ul class="list list-icons list-icons-sm">
 						   
 										<li> <a href="readmore.php" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
-										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;font-size:1.2em !important;" target="_blank">About Team</a></li>
-										<li> <a href="for-partners.php" style="font-size:16px;font-size:1.2em !important;" target="_blank">For Partners</a></li>
-										<li> <a href="contact-us.php" style="font-size:16px;font-size:1.2em !important;" target="_blank">Contact us</a></li>
+										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
+										<li> <a href="for-partners.php" style="font-size:16px;" target="_blank">For Partners</a></li>
+										<li> <a href="contact-us.php" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li><a href="terms-condition.php" style="font-size:16px;" target="_blank">Terms of Use</a></li>
+										<li> <a href="privacy-policy.php" style="font-size:16px;" target="_blank">Privacy Policy</a></li>
 									</ul>
 						   
                              

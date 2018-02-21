@@ -18,14 +18,14 @@ if(isset($_POST['search_query']) && !empty($_POST['search_query'])){
 <!DOCTYPE html>
 <html>
    <head>
-   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 
-  gtag('config', 'UA-88944414-1');
-</script>
+	  gtag('config', 'UA-88944414-1');
+	</script>
       <!-- Basic -->
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -659,7 +659,7 @@ instead receive timely alerts before expiry date.</span>
 						  <div class="col-sm-1 "></div>
 						<div class="col-sm-10 ">
 						<div class="formBox">
-                           <form method="post">
+                           <form method="post" id="ser_request">
                               <div class="row">
                                  <div class="col-sm-6">
                                     <div class="inputBox">
@@ -716,7 +716,7 @@ instead receive timely alerts before expiry date.</span>
                               <div class="row">
 							   <div class="col-sm-3"></div>
                                  <div class="col-sm-4">
-                                    <input type="submit"  id="service_req" name="" class="btn footer-btn mb-2" style="min-width:125px !important; " value="Submit Request" >
+                                    <input type="button"  id="service_req" name="" class="btn footer-btn mb-2" style="min-width:125px !important; " value="Submit Request" >
                                  </div>
 								 <div class="col-sm-4"></div>
                               </div>
@@ -1195,7 +1195,7 @@ instead receive timely alerts before expiry date.</span>
 	  
 	  
 	  
-	  <footer id="footer" class="light">
+	   <footer id="footer" class="light">
 				<div class="container">
 					<div class="row">
 						
@@ -1222,6 +1222,8 @@ instead receive timely alerts before expiry date.</span>
 										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
 										<li> <a href="for-partners.php" style="font-size:16px;" target="_blank">For Partners</a></li>
 										<li> <a href="contact-us.php" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li><a href="terms-condition.php" style="font-size:16px;" target="_blank">Terms of Use</a></li>
+										<li> <a href="privacy-policy.php" style="font-size:16px;" target="_blank">Privacy Policy</a></li>
 									</ul>
 						   
                              
@@ -1532,22 +1534,25 @@ $( "#service_req" ).click(function() {
 		alert('Please fill all the fields');
 		return false;
 	}
+	
 	//alert(brandType+''+socialuser+''+brandName+''+issueType+''+serName+''+serPhone);
    $.ajax({
-		url: "new_customer_engagment.php?service_req=submit", //This is the page where you will handle your SQL insert
+		url: "new_customer_engagment.php?service_req1=submit", //This is the page where you will handle your SQL insert
 		type:"POST",
 		data:{user:socialuser,custName:serName,brandInfo:brandType,brand:brandName,issue:issueType,custPhone:serPhone},
 		success:function(response){
 			console.log(response);
 			if(response){
+				
 				alert("Service request raised successfully.");
-				location.reload();
+				$('#ser_request').trigger("reset");
 			}
 		},
 		error:function(error){
 			alert(JSON.stringify(error));
 		}
 	}); 
+	
 });
 function post_on_wall(){
 var fbuser =sessionStorage.facebookUser;
