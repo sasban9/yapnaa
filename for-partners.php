@@ -421,7 +421,7 @@ And you want to bring unregistered customers under your coverage</p>
 	  
 	  
 	  
-	  <footer id="footer" class="light">
+	   <footer id="footer" class="light">
 				<div class="container">
 					<div class="row">
 						
@@ -445,9 +445,11 @@ And you want to bring unregistered customers under your coverage</p>
 						   <ul class="list list-icons list-icons-sm">
 						   
 										<li> <a href="readmore.php" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
-										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;font-size:1.2em !important;" target="_blank">About Team</a></li>
-										<li> <a href="for-partners.php" style="font-size:16px;font-size:1.2em !important;" target="_blank">For Partners</a></li>
-										<li> <a href="contact-us.php" style="font-size:16px;font-size:1.2em !important;" target="_blank">Contact us</a></li>
+										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
+										<li> <a href="for-partners.php" style="font-size:16px;" target="_blank">For Partners</a></li>
+										<li> <a href="contact-us.php" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li><a href="terms-condition.php" style="font-size:16px;" target="_blank">Terms of Use</a></li>
+										<li> <a href="privacy-policy.php" style="font-size:16px;" target="_blank">Privacy Policy</a></li>
 									</ul>
 						   
                              

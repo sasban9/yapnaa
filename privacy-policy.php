@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
+   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88944414-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -277,59 +277,119 @@ justified-content:center;
 					<div class="row">
 						<div class="col-md-12" style="justify-content:center; margin:auto;">
 				 <ul class="list list-icons">
-										<li style="font-size:18px;"> This policy sets out how Yapnaa.com or Movilo Networks collects, uses and discloses your personal information. If you disclose personal information to third parties this policy will not apply and you will be subject to the privacy policy of that third party. By accessing or using Yapnaa.com services, you agree to the use and disclosure of your personal information in the manner described in this policy. Words defined in the Yapnaa.com Terms and Conditions of Use shall have the same meaning in this Privacy Policy.
+										<li style="font-size:18px;"><p>At, Movilo Networks Private Limited, a Company incorporated under the Companies Act 2013, having its registered office at # 6, First Floor, 21st Main Road, Near BDA complex, Banashankari 2nd Stage, Bangalore - 560070, India (Hereinafter referred to as “Company”, “we”, “our” or “us”), your privacy is of great importance to us. We understand that you entrust us with certain Personal Information (as defined below) to help us provide various services. In exchange for your trust, you expect and deserve our commitment to treat your information with respect and in accordance with the terms of this privacy policy (“Privacy Policy”).</p>
 
 </li>
-<li style="font-size:18px;">What Personal Information Is Collected: Yapnaa.com collects personal information that it considers necessary for delivering the service through its platform, or its related bodies corporate to provide the range of services they offer. Personal information collected by Yapnaa.com may include:
+<li style="font-size:18px;"><p>In this Privacy Policy (“Policy”), we describe the information that we collect about you when you use and access www.yapnaa.com (the “Website”); the “Movilo Networks” technology platform accessible through desktops, mobile phones, smart phones and tablets (the “Application”) which offers an online marketplace connecting Registered Users (defined below) with “Service Providers” (defined below) and offering various Services as may be introduced by the Company from time to time (hereinafter “Website” and “Application” collectively referred to as “Yapnaa”) and how we use and disclose that information. The words “you” or “your” as used herein refer to all individuals and/or entities who have registered on the Yapnaa.com (Hereinafter “Registered Users”) accessing or using the Website, Application and Services offered therein for any reason.</p>
 </li>
-<li style="font-size:18px;">1. Your name, address and contact details. .
+<li style="font-size:18px;"><p>If you have any questions or comments about the Privacy Policy, please contact us at info@Yapnaa.com. This Policy is incorporated into and is subject to the Company’s Terms of Use with Registered Users, which can be accessed at www.yapnaa.com / terms (Hereinafter “Terms”). Your use of the Yapnaa and/or Services offered thereunder and any personal information you provide on therein remains subject to the terms of the Privacy Policy and Terms.</p>
 </li>
-<li style="font-size:18px;">2. User ID's and passwords 
+<li style="font-size:18px;"><p>BY ACCESSING OR USING THE WEBSITE, APPLICATION AND /OR SERVICES PROVIDED THEREIN, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD AND AGREE TO BE BOUND BY THIS PRIVACY POLICY AND OUR TERMS. IF YOU DO NOT AGREE TO THE TERMS OR PRIVACY POLICY DO NOT USE THE SERVICES</p>
 </li>
-<li style="font-size:18px;">3. The services provided to you
+<li style="font-size:18px;"><h6>1. YOUR PRIVACY - OUR COMMITMENT</h6>
+<p>We recognize the importance of your personal privacy. Please read the following policy to understand how your Personal Information will be treated as you make full use of the Services offered through the Website and/or Application. Except as disclosed in this Privacy Policy or as otherwise authorized by you, we will not share your Personal Information with third parties for their marketing purposes. Your trust and confidence are our highest priority.</p>
 </li>
-<li style="font-size:18px;">4. Records of communications with Yapnaa.com including records using Communications Services, and 
+<li style="font-size:18px;"><h6>2. DEFINITIONS</h6>
+<p>As used in the Terms, the following terms shall have the meaning set forth below:</p>
 </li>
-<li style="font-size:18px;">5. Other information required to complete providing of the service through the platform. How Is Personal Information Collected: Yapnaa.com collects personal information in a number of ways, including:
+<li style="font-size:18px; margin-left:30px;"><p>i. Effective Date means the Date on which You accept the Terms and Privacy Policy by starting to use the Services offered on the Software.</p>
 </li>
-<li style="font-size:18px; margin-left:30px;">a. Directly from you when you provide information directly to Yapnaa.com in person, by phone or in writing (whether electronic or otherwise)
+<li style="font-size:18px; margin-left:30px;"><p>ii. Registered User means any user who can legally enter into an Agreement with the Company and who has either registered directly through the website, by downloading the Application, by sending product photographs via phone or through email to use the Services offered on the Software.</p>
 </li>
-<li style="font-size:18px; margin-left:30px;">b. Directly from you when you communicate with Yapnaa.com or any other person using Yapnaa.com Services
+<li style="font-size:18px; margin-left:30px;"><p>iii. Registered User Information means information regarding Registered Users such as personal information which includes their name, legal status, address, email address, mobile number, and non-personal information such as make of their mobile, information/documents pertaining to the product in respect of which they wish to avail Services etc.;</p>
 </li>
-<li style="font-size:18px; margin-left:30px;">c. From third parties such as: Yapnaa.com related companies, vendors/merchants listed on Yapnaa.com; operators of linked or served web sites, applications and advertising on the Yapnaa.com network;
+<li style="font-size:18px; margin-left:30px;"><p>iv. Services mean and includes services provided by Service Providers who are connected with the Registered Users through the Yapnaa.com and offer services pertaining to products, such as repair of products, insurance, warranty confirmation and extension and such other services as Company may offer from time to time</p>
 </li>
-<li style="font-size:18px; margin-left:30px;">d. From organisations identified or described under the heading "How is personal information disclosed" How Is Personal Information Used: Your personal Information may be used for the following purposes:
+<li style="font-size:18px; margin-left:30px;"><p>v. Service Provider means and includes manufacturer's, third party service providers, registered with the Software who offer Services to Registered Users. The Yapnaa.com serves as a platform for connecting Registered Users with Service Providers who are independent professionals and are not employed by the Company or any of its affiliates.</p>
 </li>
-<li style="font-size:18px; margin-left:30px;">e. To provide the services requested by you
+<li style="font-size:18px; margin-left:30px;"><p>vi. Service Provider Information means information pertaining to the name, address, qualification, experience, specialization, fees of the Service Provider, etc.</p>
 </li>
-<li style="font-size:18px;">6. To manage those services including, customer/user service and billing;
+<li style="font-size:18px; margin-left:30px;"><p>vii. All other capitalized terms shall have the meaning ascribed to them in the Other Terms.</p>
 </li>
-<li style="font-size:18px;">7. To research, develop and improve Yapnaa.com services;
+<li style="font-size:18px;"><h6>3. INFORMATION WE COLLECT</h6><br>
+<p>I. Information Provided to Us:</p>
+<p>We receive and store Personal Information (i.e. includes information that whether on its own or in combination with other information may be used to readily identify or contact you such as: name, address, email address, phone number etc.) and Non- Personal information provided by you when you set up an account upon registration (Account) and use the Website and/or Application, which for the purposes of this Privacy Policy, may include, but are not limited to:</p>
 </li>
-<li style="font-size:18px;">7.  To research, develop and improve Yapnaa.com services;
-</li><li style="font-size:18px;">8. To conduct surveys to determine use and satisfaction with Yapnaa.com services;
-</li><li style="font-size:18px;">9. To generate statistics in relation to Yapnaa.com;
-</li><li style="font-size:18px;">10. To promote and market special offers and other services to you. The Users may opt-out from receiving any email by Unsubscribing through clicking on the appropriate link; 
-</li>
-<li style="font-size:18px;"><p style="font-size:18px">11. For purposes connected with the operation of Yapnaa.com; How Is Personal Information Disclosed Yapnaa.com may disclose personal information to individuals and organisations other than Yapnaa.com or Movilo Networks. The organisations to which we may disclose personal information include individual(s)/companies/associations/legal entity associated with Yapnaa.com directly/indirectly for rendering services listed on the platform.</p>
+<li style="font-size:18px; margin-left:30px;"><p>i.	first and last name</p></li>
+<li style="font-size:18px; margin-left:30px;"><p>ii. a home or other physical address</p></li>
+<li style="font-size:18px; margin-left:30px;"><p>iii.	an email address or other contact information including mobile/landline numbers, whether at work or at home</p></li>
+<li style="font-size:18px; margin-left:30px;"><p>iv. other personal information;</p></li>
+<li style="font-size:18px; margin-left:30px;"><p>v.	demographic information (e.g., gender, age, political preference, education, race or ethnic origin, and other information relevant to user surveys and/or offers ) and (vi) information regarding your use of the Services available through the Website and/or Software including information such as information/documents pertaining to the products such as the photographs, invoices, warranty period, manufacturer information, services you require, issues with the product etc., the details that you post in your Account, reviews, or feedback, and any comments regarding the Software or Service Provider or discussions you post in any blog, chat room, or other correspondence on the Website or Application</p></li>
+<li style="font-size:18px; margin-left:30px;"><p>vi. payment information such as credit card information, from you. You always have the option to not provide information by choosing not to use a particular service or feature. Importantly, we only collect Personal Information about you that we consider necessary for achieving this purpose and communicating with you about the Services being offered.</p></li>
 
-<p style="font-size:18px"><span style="font-weight:300; color:#1d2127">Change In Business Structure & Disclosure:</span> We and our affiliates will share / sell some or all of your personal information with another business entity should we (or our assets) plan to merge with, or be acquired by that business entity, or re-organization, merger, amalgamation, restructuring of business. Should such a transaction occur that other business entity (or the new combined entity) will be required to follow this privacy policy with respect to your personal information.</p>
-
-
- <p style="font-size:18px"><span style="font-weight:300; color:#1d2127; font-size:18px;">When Users Not Interested To Provide Information:</span> If you choose not to provide personal information when requested, Yapnaa.com may not be able to provide you with the full range of Yapnaa.com services. Anonymous information: When you visit a website or use an application on Yapnaa.com, Yapnaa.com or MoviloGlobal records anonymous information such as IP address, time, date, referring URL, pages accessed and documents downloaded type of browser and operating system. Cookies may be used by Yapnaa.com to help Yapnaa.com provide you with the full range of services it offers, remember your preferences, measure and analyse usage of Yapnaa.com and for security. You may adjust your Internet browser to disable cookies.</p>
-
- <p style="font-size:18px">If your cookies are disabled Yapnaa.com may not be able to provide you with the full range of Yapnaa.com services. Cookies may collect and store your personal informational but not sensitive personal data or information as described in the Terms & Conditions of Use. This policy applies to personal information collected via cookies. Yapnaa.com may include links to third party web sites, and applications and advertising served to Yapnaa.com and its users by third parties. Companies who use Yapnaa.com platform to advertise may collect personal Information through the use of cookies and otherwise. Yapnaa.com is not responsible for Linked Sites and advertisers and recommends you read the privacy policy of Linked Sites and advertisers before disclosing your personal information to them or through their application/website.</p>
- 
-<p style="font-size:18px"><span style="font-weight:300; color:#1d2127"> Amendment to the Privacy Policies:</span> This policy may change over time. All changes will be published on this website/application. The users are required to visit the website/application from time to time to keep themselves abreast with the latest changes to the Privacy Policies of the Website/application and the company. About security and personal Information: Yapnaa.com takes reasonable steps to protect personal information collected from misuse, loss, unauthorised access, modifications or disclosure. We view protection of Your privacy as a very important principle.</p>
-
- <p style="font-size:18px">We understand clearly that You and Your Personal Information is one of Our most important assets. We store and process Your Information including any sensitive financial information collected (as defined under the Information Technology Act, 2000), if any, on computers that may be protected by physical as well as reasonable technological security measures and procedures in accordance with Information Technology Act 2000 and Rules there under. If You object to Your Information being transferred or used in this way, you may prefer not using the website.</p>
- 
-<p style="font-size:18px"> <span style="font-weight:300; color:#1d2127">Information Sharing With Law Enforcement Agencies:</span> We may disclose personal information if required to do so by law or in the good faith belief that such disclosure is reasonably necessary to respond to court notices, orders, directions or other legal process. We may disclose personal information to law enforcement offices, third party rights owners, or others in the good faith belief that such disclosure is reasonably necessary to enforce our Terms & Conditions or Privacy Policy; respond to claims that an advertisement, posting or other content violates the rights of a third party; or protect the rights, property or personal safety of our users or the general public.</p>
- 
-<p style="font-size:18px"> <span style="font-weight:300; color:#1d2127">Contact Details Of The Company:</span> If you have a grievance, problem, complaint, want to change your personal information or just wish to enquire about privacy please contact us at <a href="#">info@Yapnaa.com</a></p>
+<li style="font-size:18px;"><p><b>By continuing to use our Website and/or Software you are deemed to have read the Privacy Policy and understood the purpose for which your Personal or Non-Personal Information is being collected and how the same shall be used and granting your express consent to such purpose and use. If, at a later date, you wish to withdraw this consent, please send us an email at info@yapnaa.com
+Information Collected Automatically:</b> When you use the Website and/or Application, we automatically receive and record information on our server logs from your browser or mobile, including but not limited to your hardware model, operating system version, unique device identifiers, and mobile network information including phone number, location, URL that you just came from (whether this URL is on our Website or not), which URL you next go to (whether this URL is on our Website or not), your computer browser information, IP address and cookie information. We treat this data as Non-Personal Information, except where we are required to do otherwise under applicable law.
+</p>
 </li>
+<li style="font-size:18px;"><p><b>Data Collection Devices:</b>We use data collection devices such as cookies on certain pages of the Website and Application to help analyze our web page flow, measure promotional effectiveness, and promote trust and safety. Cookies are small files placed on the hard drive of your computer that assist us in providing the Services. We offer certain features that are only available through the use of a cookie. We also use cookies to allow you to enter your password less frequently during a session. Cookies can also help us provide information that is targeted to your interests. Most cookies are session cookies, meaning that they are automatically deleted from your hard drive at the end of a session. You are always free to decline our cookies if your browser permits, although in that case you may not be able to use certain features on the Website and you may be required to reenter your password more frequently during a session. Additionally you may encounter cookies or other similar devices on certain pages of the Website that are placed by third parties. For example, if you view a web page created by a user, there may be a cookie placed within that web page. We do not control the use of cookies by third parties.
+</p>
+</li>
+<li style="font-size:18px;"><h6>4. USE OF INFORMATION COLLECTED</h6>
+<p>Personal Information about Registered Users is an integral part of our business. We neither rent nor sell your Personal Information to anyone. We may share your Personal Information only as described in this Privacy Policy and related documents.</p>
+</li>
+<li style="font-size:18px; margin-left:30px;"><p><b>Use of Personal Information:</b></p>
+</li>
+<li style="font-size:18px; margin-left:30px;"><p>We will use and store Personal Information to deliver Services to you, including registering you for our Services, verifying your identity and authority to use our Services, and to otherwise enable you to use our Website, Software and our Services; to maintain, and improve our Services, including, for example, to facilitate payments, provide Services you request (and send related information), develop new features, provide customer support to Registered Users, develop safety features, authenticate users, and send updates and administrative messages, to market the Service and for the internal operational and administrative purposes of the Service, to process billing and payment, including sharing with third party payment gateways in connection with Website, Software and Services. If you send us personal correspondence, such as emails or letters, or if other users or third parties send us correspondence about your activities or postings on the Website or Software we may collect such information into a file specific to you. You agree that we may use Personal Information about you to improve our marketing and promotional efforts, to analyze Website and Software usage, improve the Website and Software content and Service offerings, and customize the Website and Software content, layout, and Services. These uses improve the Website and Software and better tailor it to meet your needs, so as to provide you with a smooth, efficient, safe and customized experience while using the Website and/or Software. You agree that we may use your Personal Information in the file we maintain about you, and other information we obtain from your current and past activities to: resolve disputes; troubleshoot problems; help promote safe trading; measure consumer interest in the Services provided by us; inform you about online and offline offers, services, and updates; customize your experience; detect and protect us against error, fraud and other criminal activity; enforce our Terms of Use; and as otherwise described to you at the time of collection.</p>
+</li>
+<li style="font-size:18px; margin-left:30px;"><p><b>Aggregate Information:</b>We will also use Personal Information and non-personally identifiable information and other information (including information from online and offline third party sources) to create aggregated data for analytical and other purposes.
+We use this information to do internal research on your demographics, interests, and behavior to better understand, protect and serve You. This information is compiled and analyzed on an aggregated basis. Unless otherwise stated in this Privacy Policy, We only use this data in aggregate form. Non-personally identifiable information: We may freely use Non Personally Identifiable Information in connection with the Services offered through the Website and Application, including to administer the Services being offered thereunder, to understand how well the Service is working, to market the Services and other products and services, to develop aggregate, statistical information on usage of the Service and to generally improve the Service.</p>
 
+</li>
+<li style="font-size:18px; margin-left:30px;"><p><b>Email/SMS Communications:</b>If you create an account and provide your email address and telephone number, we will send you administrative and promotional emails and text messages. If you wish to opt out of promotional emails and text messages, you may do so by following the unsubscribe instructions in the email, opt out instructions in the text message or by editing your account settings. All Users receive administrative emails and text messages. From time to time, we may reveal general statistical information about our Website and Software through emails and messages.</p>
+</li>
+<li style="font-size:18px;"><h6>5. OUR DISCLOSURE OF YOUR INFORMATION</h6>
+<p>We may also use your Personal Information to deliver information to you that, in some cases, are targeted to your interests, such as new services, rewards and promotions. The following are some circumstances under which and people to whom we would share your Information with from time-to-time:</p></li>
+<li style="font-size:18px; margin-left:30px;"><p>Disclosure of Personal Information:</p></li>
+<li style="font-size:18px;margin-left:30px;"><p><b>Registered Users:</b>We do not disclose your personal information such as email address, telephone number and mailing address to any third party for marketing purposes. Except as otherwise provided under this Privacy Policy, we will disclose your Personal Information to third parties only in the following limited circumstances:</p>
+</li>
+<li style="font-size:18px;margin-left:60px;"><p>i. if you use the Service through the Website and/or Application, we may disclose your Information to the Service Providers who have listed their Services on the Website and Software to respond to the service requests submitted by you on the Website and /or Application. For instance, we may share details of your Company name, Your name, phone number, address, details of the request, specifications, time lines, etc, and certain contact information (depending upon your location and applicable laws) to facilitate the Services, including promoting and marketing the Services of the Service Provider;</p>
+</li>
+<li style="font-size:18px;margin-left:60px;"><p>ii. to trusted partners who work on behalf of or with us under confidentiality agreements. These entities may use your Personal Information for performing services, administering promotions, analyzing data and usage of the Service through the Website and Application, processing credit card payments, operating the Service or providing support and maintenance services for the same or providing customer service.</p>
+</li>
+<li style="font-size:18px;margin-left:60px;"><p>iii. when we have your consent to otherwise share the information.</p>
+</li>
+<li style="font-size:18px;margin-left:30px;"><p><b>Non-Personally Identifiable Information:</b>We may disclose other Non-Personally Identifiable Information to third party advertisers and advertising agencies, partners, and other parties in order for us and such third parties to analyze (a) the performance of, to operate and improve the Services offered through the Website and Application, (b) the behavior of Registered Users and to target offers to Registered Users depending upon their requirements and (c) the behavior and ratings of Service Providers. We may also disclose, use or publish this information for promoting the Services offered under the Website and/or Application. These third parties are subject to confidentiality agreements with us and other legal restrictions that prohibit their use of the information we provide them for any other purpose except to facilitate the specific outsourced operation, unless you have explicitly agreed or given your prior permission to them for additional uses.</p>
+</li>
+<li style="font-size:18px;margin-left:30px;"><p><b>Network Operators:</b>Use of the Service provided through the Website and Application may involve use of the services of third party telecommunications carriers and service providers (such as the services of the carrier that provides cell phone service to you). Such carriers and service providers are not our contractors, and any information that a carrier collects in connection with your use of the Service provided through the Website and/or Application is not Personal Information and is not subject to this Privacy Policy. We are not responsible for the acts or omissions of telecommunications carriers or service providers.</p>
+</li>
+<li style="font-size:18px;margin-left:30px;"><p><b>Additional Disclosures:</b>Notwithstanding anything to the contrary in this Privacy Policy, We reserve the right to use or disclose Personal Information and any other information we collect in connection with the Service offered through the Website and/or Application (a) to any successor to our business, including as a result of any merger, acquisition, asset sale or similar transaction, (b) to any corporate affiliate of ours whose privacy practices are substantially similar to ours, (c) to any law enforcement, judicial authority, governmental or regulatory authority, to the extent required by law or legal process, or (d) if in our reasonable discretion, such use or disclosure is necessary to enforce or protect our legal rights or to protect third parties.</p>
+</li>
+<li style="font-size:18px;"><p><h6>6. Communications with Us or Through the Service:</h6>
+<p>Any communication or material you transmit to us by email or otherwise, including any data, questions, comments, suggestions, or the like is, and will be treated as, non-confidential and nonproprietary. Except to the extent expressly covered by this policy, anything you transmit or post may be used by us for any purpose, including but not limited to, reproduction, disclosure, transmission, publication, broadcast and posting. Furthermore, you expressly agree that we are free to use any ideas, concepts, know how, or techniques contained in any communication you send to us without compensation and for any purpose whatsoever, including but not limited to, developing, manufacturing and marketing products and services using such information.
+You should be aware that Personal Information which you voluntarily include and transmit online in a publicly accessible blog, chat room, social media platform or otherwise online, or that you share in an open forum such as an in person panel or survey, may be viewed and used by others without any restrictions. We are unable to control such uses of your Personal Information, and by using such services you assume the risk that the Personal Information provided by you may be viewed and used by third parties for any number of purposes.
+</p></li>
 
+<li style="font-size:18px;"><p><h6>7. ACCESS OR CHANGE YOUR PERSONAL INFORMATION</h6>
+<p>You may review, correct, update or change your Account information at any time. To protect your privacy and security, we will verify your identity before granting access or making changes to your Personal Information. Your user ID and password are required in order to access your Account.</p></li>
+<li style="font-size:18px;"><p><h6>8. OTHER WEBSITES</h6>
+<p>Our Website may contain links to other websites. Please note that when you click on one of these links, you are entering another website over which we have no control and will bear no responsibility. Often these websites require you to enter your Personal Information. We encourage you to read the privacy statements on all such websites as their policies may differ from ours. You agree that we shall not be liable for any breach of your privacy of Personal Information or loss incurred by your use of these websites. We are not responsible for the privacy policies and/or practices on other sites. This Privacy Policy only governs information collected by us.</p></li>
+<li style="font-size:18px;"><p><h6>9. ACCOUNT DELETION</h6>
+<p>Should you ever decide to delete your Account, you may do so by clicking on the delete account link on your account settings page or by simply deleting the Application. If you terminate your Account, your profile, including your check-in history and any promotional offers you received, will be removed from the Website/Application and deleted from our servers. Because of the way we maintain our Website and/or Application, such deletion may not be immediate, and residual copies of your profile information or posts may remain on backup media for up to ninety (90) days.
+Even after you remove information from your Account or profile, copies of that information may remain viewable elsewhere, to the extent it has been shared with others, it was otherwise distributed pursuant to your privacy settings, or it was copied or stored by other users. Removed and deleted information may remain on backup media for up to ninety (90) days prior to being deleted from our servers.
+</p></li>
+<li style="font-size:18px;"><p><h6>10. AMENDMENTS TO THE PRIVACY POLICY</h6>
+<p>We may amend this Privacy Policy from time to time. Use of information we collect now is subject to the Privacy Policy in effect at the time such information is used. If we decide to change our Privacy Policy, we will post those changes on this page so that you are always aware of what information we collect, how we use it, and under what circumstances we disclose it. Any changes to our Privacy Policy will be communicated through our Website(s) at least ten (10) days in advance of implementation. Users are bound by any changes to the Privacy Policy when they continue to use the Website(s) and/or Application after such changes have been first posted.
+</p></li>
+<li style="font-size:18px;"><p><h6>11. CONTACTING US</h6>
+<p>If you have any questions about this Privacy Policy or the privacy practices of this Website or Application you can contact us at info@yapnaa.com. We will make every effort to resolve your concerns.
+</p></li>
+<li style="font-size:18px;"><p><h6>12. ACCOUNT INFORMATION</h6>
+<p>You may correct your account information at any time by logging into your Account. If you wish to cancel your Account, please email us at info@yapnaa.com. Please note that in some cases we may retain certain information about you as required by law, or for legitimate business purposes to the extent permitted by law. For instance, if you have a standing credit or debt on your account, or if we believe you have committed fraud or violated our Terms, we may seek to resolve the issue before deleting your information.
+</p></li>
+<li style="font-size:18px;"><p><h6>13. SECURITY OF PERSONAL INFORMATION</h6>
+<p>We take reasonable security measures and procedures, and as specified by applicable law, to maintain appropriate physical, technical and administrative security to help prevent loss, misuse, or unauthorized access, disclosure or modification of Personal Information. While we take these reasonable efforts to safeguard your personal information, you acknowledge and agree that no system or transmission of data over the Internet or any other public network can be guaranteed to be 100% secure. You should take steps to protect against unauthorized access to your password, phone, and computer by, among other things, signing off after using a shared computer, choosing a robust password that nobody else knows or can easily guess, and keeping your log-in and password private. We are not responsible for the unauthorized use of your information or for any lost, stolen, compromised passwords, or for any activity on your Account via unauthorized password activity.
+</p></li>
+<li style="font-size:18px;"><p><h6>14. GRIEVANCE OFFICER</h6>
+<p>In accordance with Information Technology Act 2008 and rules made there under, in case of grievances you can contact:
+
+Movilo Networks Private Limited, # 6, First Floor, 21st Main Road, Near BDA complex, Banashankari 2nd Stage, Bangalore – 560070, 
+Email: - info@yapnaa.com
+
+</p></li>
+<li style="font-size:18px;">
+<p>In the event you wish to make a complaint regarding any violation of the provisions of the Privacy Policy, you may send a written complaint to the Grievance Officer, who shall redress the complaint within one (1) month. This Privacy Policy was last updated on January, 2018.</p></li>
+<li style="font-size:18px;"><p><b>COPYRIGHT © MOVILO NETWORKS PRIVATE LIMITED, 2018. ALL RIGHTS RESERVED</b></p>
+</li>
 </ul>
 							
 
@@ -357,7 +417,7 @@ justified-content:center;
 	  
 	  
 	  
-	  <footer id="footer" class="light">
+	   <footer id="footer" class="light">
 				<div class="container">
 					<div class="row">
 						
@@ -369,7 +429,7 @@ justified-content:center;
                               <ul class="address">
                                    <li><i class="fa fa-map-marker" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
                                  <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>info@yapnaa.com</span></a></li>
-                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 - 9845286419</span></li>
+                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 63600 98824</span></li>
                               </ul>
                            </div>
 							
@@ -380,10 +440,13 @@ justified-content:center;
 							<div class="moreDetails">
 						   <ul class="list list-icons list-icons-sm">
 						   
-										<li> <a href="readmore.html" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
-										<li> <a href="about-us.html#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
-										<li> <a href="for-partners.html" style="font-size:16px;" target="_blank">For Partners</a></li>
-										<li> <a href="contact-us.html" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li> <a href="readmore.php" style="text-decoration:none;font-size:16px;" target="_blank">Why us?</a></li>
+										<li> <a href="about-us.php#yapnaa_team" style="font-size:16px;" target="_blank">About Team</a></li>
+										<li> <a href="for-partners.php" style="font-size:16px;" target="_blank">For Partners</a></li>
+										<li> <a href="contact-us.php" style="font-size:16px;" target="_blank">Contact us</a></li>
+										<li><a href="terms-condition.php" style="font-size:16px;" target="_blank">Terms of Use</a></li>
+										<li> <a href="privacy-policy.php" style="font-size:16px;" target="_blank">Privacy Policy</a></li>
+										
 									</ul>
 						   
                              
@@ -393,8 +456,9 @@ justified-content:center;
 							
 								<h4 class="footer-h2" style="margin-top: 5.5%; margin-bottom:16%">Subscribe Newsletter</h4>
 								<div class="moreDetails">
-								<input type="text" Placeholder="Email ID" class="form-control input-rounded" id="inputRounded" >
-							<button type="button" class="btn footer-btn mb-2">Submit</button>
+								<input type="text" Placeholder="Name" class="form-control input-rounded news-name" id="inputRounded" style="    margin-bottom: 2%;" >
+								<input type="email" Placeholder="Email ID" class="form-control input-rounded news-email" id="inputRounded" >
+							<button type="button" class="btn footer-btn mb-2 news-latter">Submit</button>
 						</div>
 						</div>
 						<div class="col-lg-2">
@@ -419,7 +483,7 @@ justified-content:center;
 							
 							<div class="col-lg-12 desktop">
 							    
-								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
+								<p class="desktop" style="line-height:0px;">© Copyright 2018. All Rights Reserved.<a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p>
 								<p class="desktop" style="line-height:0px;">&nbsp;</p>
 							</div>
 							
@@ -443,7 +507,7 @@ justified-content:center;
 							<div class="col-lg-12 mobile">
 							    <p class="mobile"style="line-height:0px">&nbsp;</p>
 								
-								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.html" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
+								<p class="mobile" style="line-height:0px">© Copyright 2018. All Rights Reserved.<p class="mobile"><a href="privacy-policy.php" style="text-decoration:none;color:#fc7f2b"> Movilo Networks Pvt. Ltd</a></p></p>
 							</div>
 							
 						</div>
@@ -492,6 +556,32 @@ justified-content:center;
          <script src="js/custom.js"></script>
          <!-- Theme Initialization Files -->
          <script src="js/theme.init.js"></script>
+		 <script>
+		 $('.news-latter').click(function(){
+				var name=$('.news-name').val();
+				var email=$('.news-email').val();
+				if(!email || !name){
+					alert('please provide name and email id');
+					return false;
+				}
+				  $.ajax({
+						url: "new_customer_engagment.php?news_later=submit", //This is the page where you will handle your SQL insert
+						type:"POST",
+						data:{name:name,email:email},
+						success:function(response){
+							console.log(response);
+							if(response){
+								alert("Thank you for subscribing Newsletter.");
+								location.reload();
+							}
+						},
+						error:function(error){
+							alert(JSON.stringify(error));
+						}
+					}); 
+				
+			});
+		 </script>
          <!-- Google Analytics: Change UA-XXXXX-X to be your site's ID. Go to http://www.google.com/analytics/ for more information.
             <script>
             	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
