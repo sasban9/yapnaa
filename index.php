@@ -1537,7 +1537,7 @@ $( "#service_req" ).click(function() {
 	
 	//alert(brandType+''+socialuser+''+brandName+''+issueType+''+serName+''+serPhone);
    $.ajax({
-		url: "new_customer_engagment.php?service_req1=submit", //This is the page where you will handle your SQL insert
+		url: "new_customer_engagment.php?service_req=submit", //This is the page where you will handle your SQL insert
 		type:"POST",
 		data:{user:socialuser,custName:serName,brandInfo:brandType,brand:brandName,issue:issueType,custPhone:serPhone},
 		success:function(response){
