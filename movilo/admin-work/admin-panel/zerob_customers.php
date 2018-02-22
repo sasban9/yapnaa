@@ -62,13 +62,7 @@ if(isset($_SESSION['admin_email_id']))
 			$control->download_zerob_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
 		}
 	}
-	/*else{
-		$get_amc_list = $control->get_zerob_list("");
-	}*/
 	
-	// Get Sub Categories List
-	
-	// echo  '<pre>';
 	
 	
 	$std_comments = $control->get_standard_comments(); 

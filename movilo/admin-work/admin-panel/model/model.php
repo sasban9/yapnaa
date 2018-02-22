@@ -202,7 +202,7 @@ class model {
 	function get_Details_condition($table,$fields,$condition)
 	{
 		$sql = "SELECT $fields FROM $table where $condition";
-		// echo $sql;exit;
+		//echo $sql;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){
@@ -558,14 +558,83 @@ class model {
 		
 		//echo 	$fromDate."==".$toDate."<br>"	 ;
 		//echo $sql;die;
+		$qry	=	connection()->query($sql);		
+		$ret=array();
+		//echo '<pre>';print_r(mysqli_fetch_assoc($qry));die;
+		while($row=mysqli_fetch_assoc($qry)){
+			$user_phone=$row['PHONE1'];
+			  $qry1	=	connection()->query("SELECT distinct yq.questions,um.qst_id,um.answer FROM user_question_aws_mapping um left join yapnaa_questions yq on um.qst_id=yq.id  where um.user_phone=$user_phone "); 
+			  while($row1=mysqli_fetch_assoc($qry1)){
+			  $ret1[]=$row1;
+			  }
+			   $row['qust_map']=$ret1;
+				$ret[]=$row;
+			}
+			//echo '<pre>';print_r($ret);exit;
+		return $ret;
+	}
+	// Get brand Customer List
+	function get_brand_cust_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table )
+	{	
+	//echo $action_taken_by;die;
+	//echo $amc_fromDate;
+	
+			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
+		
+		$columns = "id,CUSTOMERID,CUSTOMER_NAME,CUSTOMER_ADDRESS1,CUSTOMER_ADDRESS2,CUSTOMER_ADDRESS3,CUSTOMER_AREA,CUSTOMER_PINCODE,PHONE1,PHONE2,CUSTOMER_CONTACT_NOS1,CUSTOMER_CONTACT_NOS2,email,PRODUCT,PRODUCT_SLNO,INSTALLATION_DATE,IW,IC,CONTRACT_FROM,CONTRACT_TO,CONTRACT_TYPE,CONTRACT_BY,tag,amc_updated_by,last_called,last_call_comment,last_sms_sent,status";
+		
+		$condition = "";
+		if($filter>0){
+			$condition = " and status = $filter";
+		}
+		if($action_taken_by != null){
+			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
+		}
+		if($fromDate != null){
+			$condition = " and last_called >= '$fromDate'";
+		}
+		if($toDate != null){
+			$condition = " and last_called <= '$toDate'";
+		}
+		if($fromDate != null && $toDate != null){
+			$condition = " and (last_called between '$fromDate' and '$toDate')";
+		}
+		if($amc_fromDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
+		}
+		if($amc_toDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <= '$amc_toDate'";
+		}
+		if($amc_fromDate != null && $amc_toDate != null){
+			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
+		}
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
+		
+		
+		if($filter == 7){
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			$sql = "SELECT ".$columns." ,  user_phone FROM $table zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
+		}
+		
+		//echo 	$fromDate."==".$toDate."<br>"	 ;
+		//echo $sql;die;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		//print_r(mysqli_fetch_assoc($qry));die;
 		while($row=mysqli_fetch_assoc($qry)){
 			   
+			$user_phone=$row['PHONE1'];
+			  $qry1	=	connection()->query("SELECT distinct yq.questions,um.qst_id,um.answer FROM user_question_aws_mapping um left join yapnaa_questions yq on um.qst_id=yq.id  where um.user_phone=$user_phone "); 
+			  while($row1=mysqli_fetch_assoc($qry1)){
+			  $ret1[]=$row1;
+			  }
+			   $row['qust_map']=$ret1;
 				$ret[]=$row;
 			}
-			//print_r($ret);exit;
+			//echo '<pre>';print_r($ret);exit;
 		return $ret;
 	}
 	function download_zerob_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
@@ -608,6 +677,61 @@ class model {
 			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
 			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
+		}
+		
+		//echo 	$fromDate."==".$toDate."<br>"	 ;
+		//echo $sql;die;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		//print_r(mysqli_fetch_assoc($qry));die;
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+			
+		return $ret;
+	}
+	function download_brand_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table )
+	{	
+	//echo $amc_fromDate;
+	
+			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
+		
+		$columns = "id ,CUSTOMERID,CUSTOMER_NAME,CUSTOMER_ADDRESS1,CUSTOMER_ADDRESS2,CUSTOMER_ADDRESS3,CUSTOMER_AREA,CUSTOMER_PINCODE,PHONE1,PHONE2,CUSTOMER_CONTACT_NOS1,CUSTOMER_CONTACT_NOS2,email,PRODUCT,PRODUCT_SLNO,INSTALLATION_DATE,IW,IC,CONTRACT_FROM,CONTRACT_TO,CONTRACT_TYPE,CONTRACT_BY,tag,amc_updated_by,last_called,last_call_comment,last_sms_sent,status";
+		
+		$condition = "";
+		if($filter>0){
+			$condition = " and status = $filter";
+		}
+		if($action_taken_by != null){
+			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
+		}
+		if($fromDate != null){
+			$condition = " and last_called >= '$fromDate'";
+		}
+		if($toDate != null){
+			$condition = " and last_called <= '$toDate'";
+		}
+		if($fromDate != null && $toDate != null){
+			$condition = " and (last_called between '$fromDate' and '$toDate')";
+		}
+		if($amc_fromDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
+		}
+		if($amc_toDate != null){
+			$condition = " and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <= '$amc_toDate'";
+		}
+		if($amc_fromDate != null && $amc_toDate != null){
+			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
+		}
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by."order by last_called desc";
+		
+		
+		if($filter == 7){
+			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
+			
+			$sql = "SELECT ".$columns." ,  user_phone FROM $table zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
 			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}
