@@ -32,7 +32,7 @@ if(isset($_SESSION['admin_email_id']))
                             <span class="clear"> <!--span class="block m-t-xs"> <strong class="font-bold"><?php echo $admin_email_id;?></strong>
                              </span--> <span class="font-bold" style="margin-left:31px"><?php echo ucfirst($admin_name);?> <b class="caret"></b></span> </span> </a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
-								<li><a  data-toggle="modal" data-target="#myModal">Change Passowrd</a></li>
+								<li><a  data-toggle="modal" data-target="#myModal">Change Password</a></li>
 								<li class="divider"></li>
 								<li><a href="../logout.php">Logout</a></li>
 							</ul>
@@ -46,7 +46,10 @@ if(isset($_SESSION['admin_email_id']))
                         <a href="users.php"><i class="fa fa-user"></i> User List</a>
                     </li>
 					<li>
-                        <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                    </li>
+					<li>
+                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i> Search Livpure Data</a>
                     </li>
 					<li>
                         <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>
@@ -105,7 +108,10 @@ if(isset($_SESSION['admin_email_id']))
                         <a href="users.php"><i class="fa fa-user"></i> User List</a>
                     </li>
 					<li>
-                       <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                       <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                    </li>
+					<li>
+                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i> Search Livpure Data</a>
                     </li>
 					<li>
                         <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>
@@ -162,16 +168,21 @@ if(isset($_SESSION['admin_email_id']))
                     </li>
 				
 					<li>
-                        <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i> Search ZeroB Data</a>
                     </li>
-					
+					<li>
+                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i> Search Livpure Data</a>
+                    </li>
 					
 						<?php
 						break;
 						case 4:?>
 						<li>
-                       <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                       <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i> Search ZeroB Data</a>
 						</li>
+						<li>
+                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i> Search Livpure Data</a>
+                    </li>
 					 <?php
 					break;
 					case 5:?>
@@ -181,7 +192,10 @@ if(isset($_SESSION['admin_email_id']))
                         <a href="users.php"><i class="fa fa-user"></i> User List</a>
                     </li>
 					<li>
-                        <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i> Search ZeroB Data</a>
+                    </li>
+					<li>
+                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i> Search Livpure Data</a>
                     </li>
 					<li>
                         <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>

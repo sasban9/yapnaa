@@ -12,6 +12,67 @@ class admin	{
 		$this->model=& $obj_model;
 
 	}
+	
+	function user_question_select(){
+		
+		$table		=	'yapnaa_questions';	
+		$fields		=	'*';
+		$condition 	=	"1";				
+		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
+		$quest_arr	=	array();
+		foreach($result as $ques){
+			
+			$qust_id=	$ques['id'];
+			$result		=	$this->model->data_query("SELECT y.* FROM yapnaa_answers y LEFT JOIN yap_mapping m ON y.id = m.answer_id WHERE m.question_id =$qust_id");
+			$ques["answers"]	=	$result;
+			$quest_arr[]	=	$ques;
+		}
+		
+		//echo '<pre>'.print_r($result);die;
+		return $quest_arr;
+	}
+ function insertStatus($userQst,$answer,$number,$brandId,$brandName){
+	date_default_timezone_set('Asia/Kolkata');
+	//$table		=	'user_question_aws_mapping';
+	    $table		=	'user_question_aws_mapping';        
+		$fields		=	'*';
+		$condition 	=	"user_phone=".$number." and qst_id=".$userQst." and brand_name=".$brandName." and brand_id=".$brandId;				
+		$check_duplicate =	$this->model->get_Details_condition($table,$fields,$condition);	
+        if($check_duplicate ==NULL)
+		{			
+		$arr_input	=	array(
+							'qst_id'				        =>	$userQst,							
+							'user_phone'			        =>	$number,
+							'answer'				        =>	$answer,
+							'brand_name'				    =>	$brandName,
+							'brand_id'                      =>  $brandId,
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			$result		=	$this->model->insert($table,$arr_input);
+		}
+		else{
+			$set_array	=	array(
+							'answer'				        =>	$answer,							
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			$result	=	$this->model->update($table,$set_array,$condition);
+		}
+			return $result;
+	} 
+	function user_answer_select(){
+		$user_answer= array();
+		$table		=	'yapnaa_questions';	
+		$fields		=	'*';
+		$condition 	=	"1";				
+		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
+		foreach($result as $ques){
+		$qust_id=	$ques['id'];
+		$result		=	$this->model->data_query("SELECT y.* FROM yapnaa_answers y LEFT JOIN yap_mapping m ON y.id = m.answer_id WHERE m.question_id =$qust_id");
+         array_push($user_answer,$result);
+		}
+		//echo '<pre>';print_r($user_answer);die;
+		return $user_answer;
+	}
 	function add_user(){
 		date_default_timezone_set('Asia/Kolkata');
 		$user_name						=	$_POST['user_name'];
@@ -19,11 +80,7 @@ class admin	{
 		$user_pin					    =	rand(100, 9999);;
 		$user_mobile					=	$_POST['user_mobile'];
 		$user_created_date		        =	date("l jS \of F Y h:i:s A");
-		$table							=	'users';
-		
-	
-		
-		
+		$table							=	'users';		
 		$fields		=	'*';
 		$condition 	=	"user_phone='".$user_mobile."'";				
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
@@ -1524,6 +1581,7 @@ class admin	{
 	
 	function updateAMC($admin_id,$start,$expire,$custID,$comments,$closedBy,$phone1,$phone2,$cust_name,$cust_email)
 	{
+		//echo '<script>alert('$_GET['customer_type']')</script>';
 		$google_feedback_link="https://goo.gl/forms/D1HvGtyi68EVl11l2";
 		$table		=	'zerob_consol1';
 		$admin_name		= $_SESSION['admin_name'];
@@ -1764,7 +1822,7 @@ class admin	{
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		return $result;
 	}
-	function updateStatus($id,$comment,$status){
+	function updateStatus($id,$comment,$status,$custType){
 		date_default_timezone_set('Asia/Kolkata');
 		$admin_name		= $_SESSION['admin_name'];
 		$ar_id  	        = $_SESSION['ar_id'];
@@ -1784,8 +1842,13 @@ class admin	{
 						'action_taken_by'=>$admin_name,
 						'action_taken_by_id'=>$ar_id
 					);
-					
+		if($custType==2)
+		{			
 		$table		=	'zerob_consol1';
+		}
+		else{
+		$table		=	'livpure';	
+		}
 		$condition 	=	"id='".$id."'";	
 	    $fields		=	'*';
 				
@@ -1818,7 +1881,7 @@ class admin	{
 			return 0;
 		}*/
 	}
-	function zerob_appointment_sms($id,$apptDate,$number,$comment){ 
+	function zerob_appointment_sms($id,$apptDate,$number,$comment,$custType){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
 		$message	=	"Thanks for confirming your appointment​ for AMC​ of ZeroB Water filter. We look forward to seeing you on ​".$apptDate;
@@ -1839,8 +1902,13 @@ class admin	{
 						'action_taken_by'=>$admin_name,
 						'action_taken_by_id'=>$ar_id
 					);
-					
+		if($custType==2)
+		{			
 		$table		=	'zerob_consol1';
+		}
+		else{
+		$table		=	'livpure';
+		}
 		$condition 	=	"id='".$id."'";	
 		$fields		=	'*';
 				
@@ -1873,7 +1941,7 @@ class admin	{
 			return 0;
 		}*/
 	}
-	function zerob_appointment_expiry_sms($id,$apptDate,$number,$comment){ 
+	function zerob_appointment_expiry_sms($id,$apptDate,$number,$comment,$custType){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
 		$message	=	"AMC for your ZeroB product is expiring on ​".$apptDate.". Register with Yapnaa and renew your AMC. http://bit.ly/YapnaaForAndroid";
@@ -1897,8 +1965,13 @@ class admin	{
 						'action_taken_by'=>$admin_name,
 						'action_taken_by_id'=>$ar_id 
 					);
-					
+		if($custType==2)
+		{			
 		$table		=	'zerob_consol1';
+		}
+		else{
+		$table		=	'livpure';	
+		}
 		$condition 	=	"id='".$id."'";	
         $fields		=	'*';
 		
@@ -1932,7 +2005,7 @@ class admin	{
 		}*/
 	}
 	
-	function send_user_sms($user_numbers,$message,$id,$comment=""){ 
+	function send_user_sms($user_numbers,$message,$id,$comment="",$custType){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
 		$admin_name		= $_SESSION['admin_name'];
@@ -1972,8 +2045,12 @@ class admin	{
 								'action_taken_by'=>$admin_name,
 								'action_taken_by_id'=> $ar_id 
 							);
-								
+							if($custType==2){	
 							$table		=	'zerob_consol1';
+							}
+							else{
+							$table		=	'livpure';	
+							}
 							$condition 	=	"id='".$id[$i]."'";	
                             $fields		=	'*';							
 							$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
@@ -2924,7 +3001,10 @@ class admin	{
 		return $result;
 	}
 	
-	
+	function my_test()
+	{
+		echo "here";
+	}
 	
 	
 	function srm_request_mvq_convert()
@@ -3896,6 +3976,23 @@ class admin	{
 		return $arr_log_in;
 		// print_r($arr_log_in );
 
+    }// SEARCH Customer
+	function get_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
+    {
+		$arr_log_in=array();
+		if($_GET['customer_type']==1){
+			$table='livpure';
+		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		}
+		if($_GET['customer_type']==2){
+			$table='zerob_consol1';
+		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		}
+		return $arr_log_in;
+		// print_r($arr_log_in );
+
     }
 	// SEARCH Customer
 	
@@ -3908,6 +4005,30 @@ class admin	{
 		$amc_fromDate     = $_POST['amc_fromDate'];
 		$amc_toDate       = $_POST['amc_toDate'];
 		$arr_log_in       				 = 	$this->model->download_zerob_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		$this->download_csv_results($arr_log_in,"yapnaa.csv");
+		
+		exit;
+
+    } 
+	// SEARCH Customer
+	
+	 function download_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
+    {
+		$tag          = $_POST['tag'];
+		$filter           = $_POST['filter'];
+	  $fromDate           = $_POST['fromDate'];
+		$toDate           = $_POST['toDate'];
+		$amc_fromDate     = $_POST['amc_fromDate'];
+		$amc_toDate       = $_POST['amc_toDate'];
+		$arr_log_in=array();
+		if($_GET['customer_type']==1){
+			$table='livpure';
+		$arr_log_in       				 = 	$this->model->download_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		}
+		if($_GET['customer_type']==2){
+			$table='zerob_consol1';
+		$arr_log_in       				 = 	$this->model->download_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		}
 		$this->download_csv_results($arr_log_in,"yapnaa.csv");
 		
 		exit;
