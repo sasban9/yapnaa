@@ -831,16 +831,16 @@ if(isset($_SESSION['admin_email_id']))
 				 <label>Under AMC<span id="service_amc"  style="padding-left:175px"></span></label>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Satisfied with timelines<span id="service_st"  style="padding-left:95px"></span></label>
+				<label>Satisfied with timelines<span id="service_st"  style="padding-left:101px"></span></label>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Satisfied with workmanship<span id="service_sw"  style="padding-left:67px"></span></label>
+				<label>Satisfied with workmanship<span id="service_sw"  style="padding-left:73px"></span></label>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Likely to buy next product<span id="service_buy"  style="padding-left:79px"></span></label>
+				<label>Likely to buy next product<span id="service_buy"  style="padding-left:83px"></span></label>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Refers product<span id="service_pd"  style="padding-left:154px"></span></label>
+				<label>Refers product<span id="service_pd"  style="padding-left:153px"></span></label>
 				</div>
 				<div class="row" style="margin-left: 3px;">
 				<label>Share knowledge<span id="service_kwd"  style="padding-left:139px"></span></label>
@@ -890,7 +890,7 @@ if(isset($_SESSION['admin_email_id']))
 						<label>Upgrade enquiry <span id="upgrd"  style="padding-left:131px"></span></label>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<label>Escalation<span id="escl"  style="padding-left:176px"></span></label>
+						<label>Escalation<span id="escl"  style="padding-left:173px"></span></label>
 					</div>
 				</div>
 			</div>	
