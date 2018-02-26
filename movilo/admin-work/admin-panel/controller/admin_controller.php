@@ -1881,6 +1881,42 @@ class admin	{
 			return 0;
 		}*/
 	}
+	function update_amc_dates($id,$amcExpDate,$amcServiceDate,$custType,$ls_ser_date){
+		date_default_timezone_set('Asia/Kolkata');
+		$set_array = array(
+						
+						'CONTRACT_TO'=>$amcExpDate,
+						'next_service_date'=>$amcServiceDate,
+						'last_service_date'=>$ls_ser_date
+						
+					);
+		if($custType==2)
+		{			
+		$table		=	'zerob_consol1';
+		}
+		else{
+		$table		=	'livpure';	
+		}
+		$condition 	=	"id='".$id."'";	
+	    $fields		=	'*';
+				
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);				
+		if($result1 !=NULL)
+		{
+		$result	=	$this->model->update($table,$set_array,$condition);
+		}
+		
+			if($result){
+				return 1;
+			 }
+			 else{
+				return 0;
+			}
+		/*}
+		else{
+			return 0;
+		}*/
+	}
 	function zerob_appointment_sms($id,$apptDate,$number,$comment,$custType){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");

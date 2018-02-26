@@ -20,6 +20,19 @@ if(isset($_SESSION['admin_email_id'])){
 		echo 1;
 		exit;
 	}
+	if(isset($_REQUEST['amcDateSave'])){
+		$id = $_REQUEST['id'];
+		$amcExpDate = $_REQUEST['amcExpDate'];
+		$amcServiceDate = $_REQUEST['amcServiceDate'];
+		$ls_ser_date = $_REQUEST['ls_ser_date'];
+		
+		$custType = $_REQUEST['custType'];
+		
+		//echo $my_date."--".$number;
+		$update_amc = $control->update_amc_dates($id,$amcExpDate,$amcServiceDate,$custType,$ls_ser_date);
+		echo 1;
+		exit;
+	}
 	if(isset($_REQUEST['expiryDate'])){
 		$custType = $_REQUEST['custType'];
 		$date = $_REQUEST['expiryDate'];

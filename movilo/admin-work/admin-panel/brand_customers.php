@@ -88,7 +88,9 @@ if(isset($_SESSION['admin_email_id']))
     padding: 0;
     margin: 0;
 }
-
+.table-striped{
+	font-size:13px;
+}
 </style>
 <!DOCTYPE html>
 <html>
@@ -131,7 +133,7 @@ if(isset($_SESSION['admin_email_id']))
 							$customer='Livpure';
 							break;
 							case 2:
-							$customer='ZeroB';
+							$customer='Zero B';
 							break;
 						}
 				}else{
@@ -339,8 +341,8 @@ if(isset($_SESSION['admin_email_id']))
 									
 							</td>
 							<td><?php echo $get_amc_list[$i]['PHONE1']; ?></a>
-								<?php if($ar_id==1 || $ar_id==2){?>
-							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
+								<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
+							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-next-service-data="<?php echo $get_amc_list[$i]['next_service_date']; ?>" data-last-service-data="<?php echo $get_amc_list[$i]['last_service_date']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
 							data-user-qm="<?php echo $qust_map; ?>"
 							
 							
@@ -458,7 +460,7 @@ if(isset($_SESSION['admin_email_id']))
 						<?php       
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo $answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" ><?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
@@ -491,7 +493,7 @@ if(isset($_SESSION['admin_email_id']))
 							for($j=0;$j<count($answers);$j++){  ?>
 							
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo $answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
@@ -519,13 +521,13 @@ if(isset($_SESSION['admin_email_id']))
 						<?php       
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-5"> 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo $answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
 								</div> 
 						<?php	} ?>
 						</div>
 					<?php }}}?>	
 				</div>
-				<div class="col-lg-4" style="padding-left: 29px;border-right: 1px solid #e5e5e5;"> 
+				<div class="col-lg-4" style="padding-left: 29px;border-right: 1px solid #e5e5e5;height:650px"> 
 				<?php //echo '<pre>';print_r($question);?>
 				<h4><?php for($i=0;$i<count($question);$i++){
 					if( $question[$i]["group_level"]=='LOYALTY AND RETENTION INDEX'){
@@ -553,7 +555,7 @@ if(isset($_SESSION['admin_email_id']))
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo $answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
@@ -577,12 +579,12 @@ if(isset($_SESSION['admin_email_id']))
 						?>
 						
                  
-					<br><label data-qid="<?php echo $question[$i]['id'];?>"><?php echo ($k++).". ".$question[$i]['questions'];?></label><br>
+					<br><br><label data-qid="<?php echo $question[$i]['id'];?>"><?php echo ($k++).". ".$question[$i]['questions'];?></label><br>
 						<div class="row"> 
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-3"> 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo $answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
@@ -610,10 +612,16 @@ if(isset($_SESSION['admin_email_id']))
 					<label>AMC Expiry Msg</label><br>
 					<input type="date"  class="maincls form-control" id="amcExp"  name="amcexp"/>
 				</div>
-				<div class="col-lg-2"> 
+				
+				<div class="col-lg-4"> 
+				<div class="row">
 					<button type="button" class="btn btn-success" id="expirySMS" style="    margin-top: 16px;">
 								<i class="fa fa-calendar" style="margin-right:3%;"></i>Send Reminder &nbsp;</button>
+					<button type="button" id="callBack" class="btn btn-info" data-toggle="modal" data-target="#myAction" style="    margin-top: 16px;">
+							<i class="fa fa-mail-reply" style="margin-right:3%;"></i>Call customer back, later</button>	
+                  						
 				</div>
+			  </div>
 			</div>
 			<div class="line line-dashed line-lg pull-in"></div>
         
@@ -649,10 +657,9 @@ if(isset($_SESSION['admin_email_id']))
         </div>
         <div class="modal-footer" style="margin-bottom:8% !important;">
 			<button type="button" id="cust_reply" name="cust_reply" class="btn btn-info" data-toggle="modal" data-target="#customer_reply">
-							Save Customer reply</button>
+							Save </button>
 			
-			<button type="button" id="callBack" class="btn btn-info" data-toggle="modal" data-target="#myAction">
-							<i class="fa fa-mail-reply" style="margin-right:3%;"></i>Call customer back, later</button>
+			
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -762,18 +769,19 @@ if(isset($_SESSION['admin_email_id']))
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title" id="modal-title">Do something!</h4>
         </div-->
-        <div class="modal-body"  >
+        <div class="modal-body" style="padding: 20px 30px 0px 30px;" >
 		<div class="row" style="padding-bottom:10px;border-bottom: 1px solid #e5e5e5;">
 		    <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="row">
+			<form method="post" id="form_amcDateSub">
 				<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;"> 
 				<h4>CUSTOMER DETAILS</h4>
 				<div class="row" style="margin-left: 3px;">
 				
 					
 						<label>Name</label>
-						<span class="maincls form-control" id="cust_name1"  name="cust_name1" style="border:none;"></span>
+						<span class="maincls form-control" id="cust_name1"  name="cust_name1" style="border:none;padding-left: 0px;"></span>
 						
 					
 				 </div>
@@ -781,21 +789,21 @@ if(isset($_SESSION['admin_email_id']))
 				
 					
 						<label>Customer ID</label>
-						<span class="maincls form-control" id="cust_id"  name="cust_id" style="border:none;"></span>
+						<span class="maincls form-control" id="cust_id"  name="cust_id" style="border:none;padding-left: 0px;"></span>
 						
 					
 				 </div>	
                <div class="row" style="margin-left: 3px;">
 					
 				    <label><b>Customer Email Id</b></label>
-					<span class="maincls form-control" id="cust_email1"  name="cust_email1" style="border:none;"></span>
+					<span class="maincls form-control" id="cust_email1"  name="cust_email1" style="border:none;padding-left: 0px;"></span>
 					
 				
 		       </div>				 
 				<div class="row" style="margin-left: 3px;">
 					
 				    <label>Phone Number</label>
-					<span  class="maincls form-control" id="phone11"  name="phone11" style="border:none;"></span>
+					<span  class="maincls form-control" id="phone11"  name="phone11" style="border:none;padding-left: 0px;"></span>
 					
 
 				</div>
@@ -803,119 +811,107 @@ if(isset($_SESSION['admin_email_id']))
 			   <div class="row" style="margin-left: 3px;">
 					
 				    <label>Customer Address</label>
-					<span class="maincls form-control" id="cust_address"  name="cust_address" style="border:none;"></span>
+					<span class="maincls form-control" id="cust_address"  name="cust_address" style="border:none;padding-left: 0px;"></span>
 					
 				
 		       </div>
 			   <div class="row" style="margin-left: 3px;margin-top: 19px;">
 					
 				    <label>Satisfaction Lavel</label>
-					<span class="maincls form-control" id=""  name="" style="border:none;"></span>
+					<span class="maincls form-control" id=""  name="" style="border:none;padding-left: 0px;"></span>
 					
 				
 		       </div>
 			   <div class="row" style="margin-left: 3px;">
 					
 				    <label>Loyality Index</label>
-					<span class="maincls form-control" id=""  name="" style="border:none;"></span>
+					<span class="maincls form-control" id=""  name="" style="border:none;padding-left: 0px;"></span>
 					
 				
 		       </div>
 				</div>
-				<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;"> 
+				<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;height:448px;"> 
 				<h4>CUSTOMER SENTIMENT DATA</h4>
-				<div class="row" style="margin-left: 3px;">
-				  <label>Service by Brand<span id="service_bb"  style="padding-left:140px"></span></label>
+				<div class="row" style="margin-left: 3px;margin-top: 21px;">
+				  <span>1. Service by Brand<span id="service_bb"  style="padding-left:140px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				 <label>Under AMC<span id="service_amc"  style="padding-left:175px"></span></label>
+				 <span>2. Under AMC<span id="service_amc"  style="padding-left: 172px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Satisfied with timelines<span id="service_st"  style="padding-left:101px"></span></label>
+				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:102px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Satisfied with workmanship<span id="service_sw"  style="padding-left:73px"></span></label>
+				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:74px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Likely to buy next product<span id="service_buy"  style="padding-left:83px"></span></label>
+				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:84px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Refers product<span id="service_pd"  style="padding-left:153px"></span></label>
+				<span>6. Refers product<span id="service_pd"  style="padding-left:151px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<label>Share knowledge<span id="service_kwd"  style="padding-left:139px"></span></label>
-				</div>
-				
+				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:136px;line-height: 43px;"></span></span>
 				</div>
 				
-				<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;"> 
-				<h4>CUSTOMER ENGAGEMENT DATA</h4>
+				</div>
+				
+				<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;height:448px;"> 
+				<h4>CUSTOMER ENGAGEMENT DATA</h4><br>
 				<div class="row" style="margin-left: 3px;">
-				  <label>AMC Signed.Next Service Date</label>
-				  <span id="next_ser_dt" class="maincls form-control" style="border:none;"></span>
+				  <span>1. AMC Signed.Next Service Date<span id="next_ser_dt" style="padding-left:57px"></span></span><br>
+				  
+				  <input type="date" class="form-control"  id="next_service_date" name="next_service_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <label>AMC Not Signed.AMC Expiry Date</label>
-				  <span id="ex_dt" class="maincls form-control" style="border:none;"></span>
+				  <span>2. AMC Not Signed.AMC Expiry Date<span id="ex_dt" style="padding-left:37px" ></span></span><br>
+				  
+				  <input type="date" class="form-control"  id="expiry_date" name="expiry_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <label>Paid Service.Last Service Date</label>
-				  <span id="last_ser_dt" class="maincls form-control" style="border:none;"></span>
+				  <span>3. Paid Service.Last Service Date <span id="last_ser_dt" style="padding-left: 54px;"></span></span><br>
+				  
+				 <input type="date" class="form-control"  id="ls_ser_date" name="ls_ser_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <label>Not Interested Due to-</label>
+				  <span>4. Not Interested Due to-</span> 
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>Poor service<span id="poor_sr"  style="padding-left:154px"></span></span>
+				  <span>a) Poor service<span id="poor_sr"  style="padding-left:162px;line-height: 29px;"></span></span> 
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>Cost reasons<span id="cust_res"  style="padding-left:154px"></span></span>
+				  <span>b) Cost reasons<span id="cust_res"  style="padding-left:158px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>Not convenient<span id="not_conv"  style="padding-left:154px"></span></span>
+				  <span>c) Not convenient<span id="not_conv"  style="padding-left:145px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>Bad experience<span id="bad_exp"  style="padding-left:154px"></span></span>
+				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:143px;line-height: 29px;"></span></span>
 				</div>
 				</div>
 				<div class="col-lg-3" >
 					<h4>CONVERSION OPPORTUNITY</h4>
 					<div class="row" style="margin-left: 3px;">
-						<label>Service request received<span id="service_rec"  style="padding-left:84px"></span></label>
+						<span>1. Service request received<span id="service_rec"  style="padding-left:111px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<label>AMC enquiry received<span id="amc_enquery"  style="padding-left:101px"></span></label>
+						<span>2. AMC enquiry received<span id="amc_enquery"  style="padding-left:126px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<label>Upgrade enquiry <span id="upgrd"  style="padding-left:131px"></span></label>
+						<span>3. Upgrade enquiry <span id="upgrd"  style="padding-left:152px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<label>Escalation<span id="escl"  style="padding-left:173px"></span></label>
+						<span>4. Escalation<span id="escl"  style="padding-left:197px;line-height: 43px;"></span></span>
 					</div>
 				</div>
-			</div>	
-			<!--div class="row">
-			<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;"> 
 			</div>
-			<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;"> 
-			</div>
-			<div class="col-lg-5"> 
-			<h4>CONVERSION OPPORTUNITY</h4>
-			<div class="row" style="margin-left: 3px;">
-				<label>Service request received<span id="service_rec"  style="padding-left:214px"></span></label>
-			</div>
-			<div class="row" style="margin-left: 3px;">
-				<label>AMC enquiry received<span id="amc_enquery"  style="padding-left:214px"></span></label>
-			</div>
-			<div class="row" style="margin-left: 3px;">
-				<label>Upgrade enquiry <span id="upgrd"  style="padding-left:214px"></span></label>
-			</div>
-			<div class="row" style="margin-left: 3px;">
-				<label>Escalation<span id="escl"  style="padding-left:214px"></span></label>
-			</div>
-			</div>
-			</div-->
-         
+        </div>
+		 <div class="modal-footer">
+			
+			<input type="button" id="amcDateSub" name="amcDateSub" class="btn btn-info pull left" data-toggle="modal" value="Save">
+							
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</form>
         </div>
       </div>
       
@@ -1015,6 +1011,27 @@ if(isset($_SESSION['admin_email_id']))
 				localStorage.setItem('numbers','<?php echo implode(",",array_values($numbers));?>');
 				location.href = "send-sms.php";
 			});
+			$("#amcDateSub").click(function(){
+				confirm('Are you sure want change the AMC Date?') ? $('#form_amcDateSub').submit() : false;
+				var custType= <?php echo $_GET['customer_type'];?>;
+				var id                  =	sessionStorage.id;
+				var amcExpDate           =	$('#expiry_date').val();
+				var amcServiceDate       =	$('#next_service_date').val();
+				var ls_ser_date          =	$('#ls_ser_date').val();
+			
+				$.ajax({
+							url:"smsActions.php?amcDateSave=submit",
+							type:"POST",
+							data:{id:id,amcExpDate:amcExpDate,amcServiceDate:amcServiceDate,custType:custType,ls_ser_date:ls_ser_date},
+							success:function(response){
+								alert('You have updated successfully');
+								location.reload();
+							},
+							error:function(error){
+								alert(JSON.stringify(error));
+							}
+						});
+			});
 			$("#cust_reply").click(function(){
 				var custType= <?php echo $_GET['customer_type'];?>;
 					 $("input:radio[class=chk]:checked").each(function () {
@@ -1087,7 +1104,7 @@ if(isset($_SESSION['admin_email_id']))
 							$("#modal-title").html("Customer Name: "+sessionStorage.name+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+"Brand Name: "+'<?php echo $customer;?>');
 							<?php break;
 							case 2:?>
-							$("#modal-title").html("Customer Name: "+sessionStorage.name+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+"Brand Name: "+'<?php echo $customer;?>');
+							$("#modal-title").html("Customer Name: "+sessionStorage.name+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+"Brand Name: "+'<?php echo $customer;?>');
 							<?php 
 							
 							break;
@@ -1106,176 +1123,69 @@ if(isset($_SESSION['admin_email_id']))
 				sessionStorage.amcFrom = $(this).attr('data-contract');
 				sessionStorage.address = $(this).attr('data-address');
 				sessionStorage.customerid = $(this).attr('data-customerid');
-				//alert(sessionStorage.address);
-				
-				var jsonData = JSON.parse($(this).attr('data-user-qm'));
-				
-				for (var qq in jsonData.qst) {
-					for (i = 0; i < 4; i++) { 
-						if(jsonData.qst[qq][i].answer=='Yes'){
-							$("#service_bb img:last-child").remove();
-							$('#service_bb').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#service_bb img:last-child").remove();
-							$('#service_bb').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						}
-					}
-					if(jsonData.qst[qq][0].answer){	
-					if(jsonData.qst[qq][0].answer!=''){
-							//$("#last_ser_dt").last().remove();
-							if($('#last_ser_dt').html()==''){
-							$('#last_ser_dt').prepend(jsonData.qst[qq][0].answer);
-							}
-						   
-						}
-						else{
-							$("#last_ser_dt").last().remove();
-							$('#last_ser_dt').prepend(jsonData.qst[qq][0].answer);
-						}
-					}
-						if(jsonData.qst[qq][1].answer){	
-						if(jsonData.qst[qq][1].answer=='Yes'){
-								$("#service_amc img:last-child").remove();
-								//$("#ex_dt").last().remove();
-								$('#service_amc').prepend('<img height="20" width="30" src="images/correct.svg" />');
-								if($('#ex_dt').html()==''){
-								$('#ex_dt').prepend(sessionStorage.expiry);
-								}
-							}
-							else{
-								$("#service_amc img:last-child").remove();
-								$('#service_amc').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-							}
-						}
-						if(jsonData.qst[qq][2].answer){
-						if(jsonData.qst[qq][2].answer=='Yes'){
-							$("#service_st img:last-child").remove();
-							$('#service_st').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#service_st img:last-child").remove();
-							$('#service_st').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						}
-						}
-						if(jsonData.qst[qq][3].answer){
-						if(jsonData.qst[qq][3].answer=='Yes'){
-							$("#service_sw img:last-child").remove();
-							$('#service_sw').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#service_sw img:last-child").remove();
-							$('#service_sw').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						}
-						}
-						if(jsonData.qst[qq][15].answer){
-						if(jsonData.qst[qq][15].answer=='Yes'){
-							$("#service_buy img:last-child").remove();
-							$('#service_buy').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#service_buy img:last-child").remove();
-							$('#service_buy').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						}
-						}
-						if(jsonData.qst[qq][11].answer){
-						if(jsonData.qst[qq][11].answer=='Yes'){
-							$("#service_pd img:last-child").remove();
-							$('#service_pd').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#service_pd img:last-child").remove();
-							$('#service_pd').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						} 
-						}
-						
-						if(jsonData.qst[qq][19].answer){
-						if(jsonData.qst[qq][19].answer=='Yes'){
-							$("#service_rec img:last-child").remove();
-							$('#service_rec').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#service_rec img:last-child").remove();
-							$('#service_rec').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						} 
-						}
-						if(jsonData.qst[qq][20].answer){
-						if(jsonData.qst[qq][20].answer=='Yes'){
-							$("#amc_enquery img:last-child").remove();
-							$('#amc_enquery').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#amc_enquery img:last-child").remove();
-							$('#amc_enquery').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						} 
-						}
-						if(jsonData.qst[qq][21].answer){
-						if(jsonData.qst[qq][21].answer=='Yes'){
-							$("#upgrd img:last-child").remove();
-							$('#upgrd').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#upgrd img:last-child").remove();
-							$('#upgrd').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						} 
-						}
-						if(jsonData.qst[qq][22].answer){
-						if(jsonData.qst[qq][22].answer=='Yes'){
-							$("#escl img:last-child").remove();
-							$('#escl').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#escl img:last-child").remove();
-							$('#escl').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						} 
-						}
-						if(jsonData.qst[qq][12].answer){
-						if(jsonData.qst[qq][12].answer=='Yes'){
-							$("#service_kwd img:last-child").remove();
-							$('#service_kwd').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   
-						}
-						else{
-							$("#service_kwd img:last-child").remove();
-							$('#service_kwd').prepend('<img height="20" width="30" src="images/wrong.svg" />');
-						} 
-						}
-						for (i = 0; i < 22; i++) { 
-					    if(jsonData.qst[qq][i].answer=='Negative product experience'){
-							$("#bad_exp img:last-child").remove();
-							$('#bad_exp').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						    break;
-						}
-						
-						if(jsonData.qst[qq][i].answer=='Poor service experience'){
-							$("#poor_sr img:last-child").remove();
-							$('#poor_sr').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						    break;
-						}
-						
-						if(jsonData.qst[qq][i].answer=='Service not required'){
-							$("#not_conv img:last-child").remove();
-							$('#not_conv').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						    break;
-						}
-						if(jsonData.qst[qq][i].answer=='Will call when service needed'){
-							$("#cust_res img:last-child").remove();
-							$('#cust_res').prepend('<img height="20" width="30" src="images/correct.svg" />');
-						   break;
-						}
-						}
-						
+				sessionStorage.nextServiceDate = $(this).attr('data-next-service-data');
+				sessionStorage.lastServiceDate = $(this).attr('data-last-service-data');
+				if($('#service_amc').html()==''){
+				$('#service_amc').prepend('<img height="20" width="30" src="images/circle.svg" />');
 				}
-                
+				if($('#service_bb').html()==''){
+				$('#service_bb').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#ex_dt').html()==''){
+				$('#ex_dt').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				/* if($('#last_ser_dt').html()==''){
+				$('#last_ser_dt').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				} */
+				if($('#next_ser_dt').html()==''){
+				$('#next_ser_dt').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#next_ser_dt').html()==''){
+				$('#next_ser_dt').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#service_st').html()==''){
+				$('#service_st').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#service_sw').html()==''){
+				$('#service_sw').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#service_buy').html()==''){
+				$('#service_buy').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#service_pd').html()==''){
+				$('#service_pd').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#service_rec').html()==''){
+				$('#service_rec').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#amc_enquery').html()==''){
+				$('#amc_enquery').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#upgrd').html()==''){
+				$('#upgrd').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#escl').html()==''){
+				$('#escl').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#service_kwd').html()==''){
+				$('#service_kwd').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#bad_exp').html()==''){
+				$('#bad_exp').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				 if($('#poor_sr').html()==''){
+				$('#poor_sr').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				 }
+				 if($('#not_conv').html()==''){
+				$('#not_conv').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				 }
+			    if($('#cust_res').html()==''){
+				$('#cust_res').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#bad_exp').html()==''){
+				$('#bad_exp').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}				
+				
 				
 				$("#phone11").html(sessionStorage.mobile);
 				$("#phone21").html(sessionStorage.mobile2);
@@ -1283,6 +1193,214 @@ if(isset($_SESSION['admin_email_id']))
 				$("#cust_email1").html(sessionStorage.email);
 				$("#cust_address").html(sessionStorage.address);
 				$("#cust_id").html(sessionStorage.customerid);
+				if(sessionStorage.nextServiceDate){
+				$("#next_service_date").val(sessionStorage.nextServiceDate);
+				}
+				if(sessionStorage.lastServiceDate){
+				$("#ls_ser_date").val(sessionStorage.lastServiceDate);
+				}
+				if(sessionStorage.expiry){
+				$("#expiry_date").val(sessionStorage.expiry);
+				}
+				//alert(sessionStorage.nextServiceDate);
+				
+				var jsonData = JSON.parse($(this).attr('data-user-qm'));
+				
+				for (var qq in jsonData.qst) {
+					for (i = 0; i < 4; i++) { 
+					if(jsonData.qst[qq][i].answer !=''){	 
+						if(jsonData.qst[qq][i].answer=='Yes'){
+							$("#service_bb img:last-child").remove();
+							$('#service_bb').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						
+						else{
+							$("#service_bb img:last-child").remove();
+							$('#service_bb').prepend('<img height="20" width="30" src="images/no.svg" />');
+						}
+					}
+					}
+					/* if(jsonData.qst[qq][0].answer){	
+					if(jsonData.qst[qq][0].answer !=''){
+							//$("#last_ser_dt").last().remove();
+							$("#last_ser_dt").last().remove();
+							$('#last_ser_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
+							
+						   
+						}
+						
+					} */
+						if(jsonData.qst[qq][1].answer){	
+						if(jsonData.qst[qq][1].answer=='Yes'){
+								$("#service_amc img:last-child").remove();
+								$("#ex_dt img:last-child").remove();
+								//$("#ex_dt").last().remove();
+								$('#service_amc').prepend('<img height="20" width="30" src="images/yes.svg" />');
+								
+								$('#ex_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
+								
+							}
+							else if(jsonData.qst[qq][1].answer=='No'){
+							$("#service_amc img:last-child").remove();
+							$('#service_amc').prepend('<img height="20" width="30" src="images/no.svg" />');
+						    }
+							else{
+								$("#next_ser_dt img:last-child").remove();
+								$("#service_amc img:last-child").remove();
+								$('#service_amc').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
+								$('#next_ser_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
+							}
+						}
+						if(jsonData.qst[qq][2].answer){
+						if(jsonData.qst[qq][2].answer=='Yes'){
+							$("#service_st img:last-child").remove();
+							$('#service_st').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else if(jsonData.qst[qq][2].answer=='No'){
+							$("#service_st img:last-child").remove();
+							$('#service_st').prepend('<img height="20" width="30" src="images/no.svg" />');
+						    }
+						else{
+							$("#service_st img:last-child").remove();
+							$('#service_st').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
+						}
+						}
+						if(jsonData.qst[qq][3].answer){
+						if(jsonData.qst[qq][3].answer=='Yes'){
+							$("#service_sw img:last-child").remove();
+							$('#service_sw').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else if(jsonData.qst[qq][3].answer=='No'){
+							$("#service_sw img:last-child").remove();
+							$('#service_sw').prepend('<img height="20" width="30" src="images/no.svg" />');
+						    }
+						else{
+							$("#service_sw img:last-child").remove();
+							$('#service_sw').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
+						}
+						}
+						if(jsonData.qst[qq][15].answer){
+						if(jsonData.qst[qq][15].answer=='Yes'){
+							$("#service_buy img:last-child").remove();
+							$('#service_buy').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else if(jsonData.qst[qq][15].answer=='No'){
+							$("#service_buy img:last-child").remove();
+							$('#service_buy').prepend('<img height="20" width="30" src="images/no.svg" />');
+						    }
+						else{
+							$("#service_buy img:last-child").remove();
+							$('#service_buy').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
+						}
+						}
+						if(jsonData.qst[qq][11].answer){
+						if(jsonData.qst[qq][11].answer=='Yes'){
+							$("#service_pd img:last-child").remove();
+							$('#service_pd').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else if(jsonData.qst[qq][11].answer=='No'){
+							$("#service_pd img:last-child").remove();
+							$('#service_pd').prepend('<img height="20" width="30" src="images/no.svg" />');
+						    }
+						else{
+							$("#service_pd img:last-child").remove();
+							$('#service_pd').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
+						} 
+						}
+						
+						if(jsonData.qst[qq][19].answer){
+						if(jsonData.qst[qq][19].answer=='Yes'){
+							$("#service_rec img:last-child").remove();
+							$('#service_rec').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else{
+							$("#service_rec img:last-child").remove();
+							$('#service_rec').prepend('<img height="20" width="30" src="images/no.svg" />');
+						} 
+						}
+						if(jsonData.qst[qq][20].answer){
+						if(jsonData.qst[qq][20].answer=='Yes'){
+							$("#amc_enquery img:last-child").remove();
+							$('#amc_enquery').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else{
+							$("#amc_enquery img:last-child").remove();
+							$('#amc_enquery').prepend('<img height="20" width="30" src="images/no.svg" />');
+						} 
+						}
+						if(jsonData.qst[qq][21].answer){
+						if(jsonData.qst[qq][21].answer=='Yes'){
+							$("#upgrd img:last-child").remove();
+							$('#upgrd').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else{
+							$("#upgrd img:last-child").remove();
+							$('#upgrd').prepend('<img height="20" width="30" src="images/no.svg" />');
+						} 
+						}
+						if(jsonData.qst[qq][22].answer){
+						if(jsonData.qst[qq][22].answer=='Yes'){
+							$("#escl img:last-child").remove();
+							$('#escl').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else{
+							$("#escl img:last-child").remove();
+							$('#escl').prepend('<img height="20" width="30" src="images/no.svg" />');
+						} 
+						}
+						if(jsonData.qst[qq][12].answer){
+						if(jsonData.qst[qq][12].answer=='Yes'){
+							$("#service_kwd img:last-child").remove();
+							$('#service_kwd').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else if(jsonData.qst[qq][12].answer=='No'){ 
+							$("#service_kwd img:last-child").remove();
+							$('#service_kwd').prepend('<img height="20" width="30" src="images/no.svg" />');
+						    }
+						else{
+							$("#service_kwd img:last-child").remove();
+							$('#service_kwd').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
+						} 
+						}
+						for (i = 0; i < 22; i++) { 
+					    if(jsonData.qst[qq][i].answer=='Negative product experience'){
+							$("#bad_exp img:last-child").remove();
+							$('#bad_exp').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						    break;
+						}
+						
+						if(jsonData.qst[qq][i].answer=='Poor service experience'){
+							$("#poor_sr img:last-child").remove();
+							$('#poor_sr').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						    break;
+						}
+						
+						if(jsonData.qst[qq][i].answer=='Service not required'){
+							$("#not_conv img:last-child").remove();
+							$('#not_conv').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						    break;
+						}
+						if(jsonData.qst[qq][i].answer=='Will call when service needed'){
+							$("#cust_res img:last-child").remove();
+							$('#cust_res').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   break;
+						}
+						}
+						
+				}
+                
+				
+				
 				
 			
 			
