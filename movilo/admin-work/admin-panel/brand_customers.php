@@ -839,19 +839,19 @@ if(isset($_SESSION['admin_email_id']))
 				 <span>2. Under AMC<span id="service_amc"  style="padding-left: 172px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:102px;line-height: 43px;"></span></span>
+				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:109px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:74px;line-height: 43px;"></span></span>
+				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:82px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:84px;line-height: 43px;"></span></span>
+				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:91px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>6. Refers product<span id="service_pd"  style="padding-left:151px;line-height: 43px;"></span></span>
+				<span>6. Refers product<span id="service_pd"  style="padding-left:153px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:136px;line-height: 43px;"></span></span>
+				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:137px;line-height: 43px;"></span></span>
 				</div>
 				
 				</div>
@@ -864,7 +864,7 @@ if(isset($_SESSION['admin_email_id']))
 				  <input type="date" class="form-control"  id="next_service_date" name="next_service_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>2. AMC Not Signed.AMC Expiry Date<span id="ex_dt" style="padding-left:37px" ></span></span><br>
+				  <span>2. AMC Not Signed.AMC Expiry Date<span id="ex_dt" style="padding-left:39px" ></span></span><br>
 				  
 				  <input type="date" class="form-control"  id="expiry_date" name="expiry_date" style="width: 160px;height: 33px;" >
 				</div>
@@ -877,16 +877,16 @@ if(isset($_SESSION['admin_email_id']))
 				  <span>4. Not Interested Due to-</span> 
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>a) Poor service<span id="poor_sr"  style="padding-left:162px;line-height: 29px;"></span></span> 
+				  <span>a) Poor service<span id="poor_sr"  style="padding-left:165px;line-height: 29px;"></span></span> 
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>b) Cost reasons<span id="cust_res"  style="padding-left:158px;line-height: 29px;"></span></span>
+				  <span>b) Cost reasons<span id="cust_res"  style="padding-left:161px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>c) Not convenient<span id="not_conv"  style="padding-left:145px;line-height: 29px;"></span></span>
+				  <span>c) Not convenient<span id="not_conv"  style="padding-left:151px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:143px;line-height: 29px;"></span></span>
+				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:147px;line-height: 29px;"></span></span>
 				</div>
 				</div>
 				<div class="col-lg-3" >
@@ -898,10 +898,10 @@ if(isset($_SESSION['admin_email_id']))
 						<span>2. AMC enquiry received<span id="amc_enquery"  style="padding-left:126px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>3. Upgrade enquiry <span id="upgrd"  style="padding-left:152px;line-height: 43px;"></span></span>
+						<span>3. Upgrade enquiry <span id="upgrd"  style="padding-left:153px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>4. Escalation<span id="escl"  style="padding-left:197px;line-height: 43px;"></span></span>
+						<span>4. Escalation<span id="escl"  style="padding-left:192px;line-height: 43px;"></span></span>
 					</div>
 				</div>
 			</div>
