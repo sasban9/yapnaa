@@ -545,7 +545,7 @@ class model {
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		}
-		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
 		
 		
 		if($filter == 7){
@@ -608,7 +608,7 @@ class model {
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		}
-		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc"; 
 		
 		
 		if($filter == 7){
