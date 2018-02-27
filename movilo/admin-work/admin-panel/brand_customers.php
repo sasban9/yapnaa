@@ -11,6 +11,7 @@ if(isset($_SESSION['admin_email_id']))
 	$control	=	new admin();
 	$question = $control->user_question_select();
 	$answer = $control->user_answer_select();
+	
 	//echo '<pre>'.print_r($q_a);exit;
 	
 	if(isset($_POST['editAMCSubmit'])){
@@ -70,7 +71,7 @@ if(isset($_SESSION['admin_email_id']))
 	
 	// Get Sub Categories List
 	
-	// echo  '<pre>';
+	//echo '<pre>';print_r($get_amc_list[0]['qust_map']); exit;
 	
 	
 	$std_comments = $control->get_standard_comments(); 
@@ -254,6 +255,7 @@ if(isset($_SESSION['admin_email_id']))
 						$qust_map['qst'] = array_column($get_amc_list,"qust_map");
 						$qust_map = json_encode( $qust_map ); //convert array to a JSON string
 						$qust_map = htmlspecialchars( $qust_map, ENT_QUOTES );
+						
 					for($i=0;$i<count($get_amc_list);$i++){ 
 								
 							date_default_timezone_set('Asia/Kolkata');
@@ -265,6 +267,8 @@ if(isset($_SESSION['admin_email_id']))
 							
 							//echo "<br>".$date1."--".$date2."--".$diff."<br>";
 							$datediff= (int)round(($date2 - $date1)/3600/24,0);
+							$qust_map1= $get_amc_list[$i]['qust_map'];
+							//echo '<pre>';print_r($qust_map);
 							//echo "Days".$datediff;
 					?>
 						<tr>
@@ -447,24 +451,38 @@ if(isset($_SESSION['admin_email_id']))
 				}}
 					 ?></label></br>
 				<?php 
+				   
 					for($i=0;$i<count($question);$i++){
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='SERVICE SATISFACTION LEVEL'){
 					       if( $question[$i]["group_id"]=='Service by brand'){
+							  foreach($qust_map1 as $qm){
+								  if($qm['qst_id']==$question[$i]['id']){
+									  $ans=$qm['answer'];
+									  break;
+								  }
+							  }
+							   
 						?>
 						
                  
 					<br><label data-qid="<?php echo $question[$i]['id'];?>"><?php echo ($i+1).". ".$question[$i]['questions'];?></label><br>
 					
 						<div class="row"> 
-						<?php       
+						<?php   
+                            					
 							for($j=0;$j<count($answers);$j++){?>
-								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" ><?php echo ' '.$answers[$j]["answer_type"];?>
+								<div class="col-lg-4" >
+                                   <?php ?>								
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>  >
+									
+									
+									
+									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
-					<?php }}}?>
+					 <?php }}}?>
 					
 					</br><label style="color:blue"><?php for($i=0;$i<count($question);$i++){
 					if( $question[$i]["group_id"]=='Source of service not known'){
@@ -481,7 +499,12 @@ if(isset($_SESSION['admin_email_id']))
 							
 					       if( $question[$i]["group_id"]=='Source of service not known'){
 							  // $k=$i++;
-							  
+							 foreach($qust_map1 as $qm){
+								  if($qm['qst_id']==$question[$i]['id']){
+									  $ans=$qm['answer'];
+									  break;
+								  }
+							  } 
 							
 						?>
 						
@@ -493,7 +516,9 @@ if(isset($_SESSION['admin_email_id']))
 							for($j=0;$j<count($answers);$j++){  ?>
 							
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?> 
+									>
+									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
@@ -511,6 +536,12 @@ if(isset($_SESSION['admin_email_id']))
 						if( $question[$i]["group_level"]=='SERVICE SATISFACTION LEVEL'){
 							
 					       if( $question[$i]["group_id"]=='Not interested'){
+							foreach($qust_map1 as $qm){
+								  if($qm['qst_id']==$question[$i]['id']){
+									  $ans=$qm['answer'];
+									  break;
+								  }
+							  }     
 							 
 						?>
 						
@@ -521,7 +552,11 @@ if(isset($_SESSION['admin_email_id']))
 						<?php       
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-5"> 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"
+									<?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>
+									>
+									
+									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div> 
 						<?php	} ?>
 						</div>
@@ -546,7 +581,12 @@ if(isset($_SESSION['admin_email_id']))
 					for($i=0;$i<count($question);$i++){
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='LOYALTY AND RETENTION INDEX'){
-					
+					     foreach($qust_map1 as $qm){
+								  if($qm['qst_id']==$question[$i]['id']){
+									  $ans=$qm['answer'];
+									  break;
+								  }
+							  } 
 						?>
 						
                  
@@ -555,7 +595,9 @@ if(isset($_SESSION['admin_email_id']))
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>>
+									
+									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
@@ -575,7 +617,12 @@ if(isset($_SESSION['admin_email_id']))
 					for($i=0;$i<count($question);$i++){
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='CONVERSION OPPORTUNITY'){
-					
+					    foreach($qust_map1 as $qm){
+								  if($qm['qst_id']==$question[$i]['id']){
+									  $ans=$qm['answer'];
+									  break;
+								  }
+							  } 
 						?>
 						
                  
@@ -584,7 +631,10 @@ if(isset($_SESSION['admin_email_id']))
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-3"> 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"><?php echo ' '.$answers[$j]["answer_type"];?>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>>
+									
+									
+									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
 						</div>
@@ -859,22 +909,22 @@ if(isset($_SESSION['admin_email_id']))
 				<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;height:448px;"> 
 				<h4>CUSTOMER ENGAGEMENT DATA</h4><br>
 				<div class="row" style="margin-left: 3px;">
-				  <span>1. AMC Signed.Next Service Date<span id="next_ser_dt" style="padding-left:57px"></span></span><br>
-				  
+				  <span>1. AMC Signed<span id="next_ser_dt" style="padding-left:166px"></span></span><br><br>
+				  <span>a) Next Service Date</span><br>
 				  <input type="date" class="form-control"  id="next_service_date" name="next_service_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>2. AMC Not Signed.AMC Expiry Date<span id="ex_dt" style="padding-left:39px" ></span></span><br>
+				  <span>b) Expiry Date</span><br>
 				  
 				  <input type="date" class="form-control"  id="expiry_date" name="expiry_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>3. Paid Service.Last Service Date <span id="last_ser_dt" style="padding-left: 54px;"></span></span><br>
+				  <span>2. Paid Service.Last Service Date <span id="last_ser_dt" style="padding-left: 54px;"></span></span><br>
 				  
 				 <input type="date" class="form-control"  id="ls_ser_date" name="ls_ser_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>4. Not Interested Due to-</span> 
+				  <span>3. Not Interested Due to-</span> 
 				</div>
 				<div class="row" style="margin-left: 3px;">
 				  <span>a) Poor service<span id="poor_sr"  style="padding-left:165px;line-height: 29px;"></span></span> 
@@ -1042,7 +1092,7 @@ if(isset($_SESSION['admin_email_id']))
 					    var mob=	sessionStorage.mobile;
 						
 						var brandId=1;
-						var brandName=(custType==2)?'ZeroB':'Livpure';  
+						var brandName=(custType==2)?'Zero B':'Livpure';  
 						$.ajax({
 							url:"smsActions.php?custResponse=submit",
 							type:"POST",
@@ -1134,9 +1184,9 @@ if(isset($_SESSION['admin_email_id']))
 				if($('#ex_dt').html()==''){
 				$('#ex_dt').prepend('<img height="20" width="30" src="images/circle.svg" />');
 				}
-				/* if($('#last_ser_dt').html()==''){
+				 if($('#last_ser_dt').html()==''){
 				$('#last_ser_dt').prepend('<img height="20" width="30" src="images/circle.svg" />');
-				} */
+				} 
 				if($('#next_ser_dt').html()==''){
 				$('#next_ser_dt').prepend('<img height="20" width="30" src="images/circle.svg" />');
 				}
@@ -1205,116 +1255,235 @@ if(isset($_SESSION['admin_email_id']))
 				//alert(sessionStorage.nextServiceDate);
 				
 				var jsonData = JSON.parse($(this).attr('data-user-qm'));
+				var questionId= $('.chk:checked').attr('data-qid');
+				var answer= $('.chk:checked').val();
+				for (i = 1; i < 5; i++) { 
 				
-				for (var qq in jsonData.qst) {
-					for (i = 0; i < 4; i++) { 
-					if(jsonData.qst[qq][i].answer !=''){	 
-						if(jsonData.qst[qq][i].answer=='Yes'){
+				if($('input[name='+i+']:checked').attr("value")=='Yes' || $('input[name='+i+']:checked').attr("value")=='Less than 6 months' || $('input[name='+i+']:checked').attr("value")=='Less than 1 year'){
+					
 							$("#service_bb img:last-child").remove();
 							$('#service_bb').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						   
+						   break;
 						}
 						
 						else{
 							$("#service_bb img:last-child").remove();
 							$('#service_bb').prepend('<img height="20" width="30" src="images/no.svg" />');
-						}
-					}
-					}
-					/* if(jsonData.qst[qq][0].answer){	
-					if(jsonData.qst[qq][0].answer !=''){
-							//$("#last_ser_dt").last().remove();
-							$("#last_ser_dt").last().remove();
-							$('#last_ser_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
 							
+						}
+				}
+				if($('input[name='+1+']:checked').attr("value")){	
+				      
+					  $("#last_ser_dt img:last-child").remove();
+					switch($('input[name='+1+']:checked').attr("value")){
+							//$("#last_ser_dt").last().remove();
+						case 'Not sure':	
+							$('#last_ser_dt').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
 						   
+						break;
+						case 'Less than 6 months':
+						
+							
+							$('#last_ser_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
+					   break;
+						case 'Less than 1 year':
+					
+						 
+							$('#last_ser_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						break;	
 						}
 						
-					} */
-						if(jsonData.qst[qq][1].answer){	
-						if(jsonData.qst[qq][1].answer=='Yes'){
-								$("#service_amc img:last-child").remove();
-								$("#ex_dt img:last-child").remove();
-								//$("#ex_dt").last().remove();
-								$('#service_amc').prepend('<img height="20" width="30" src="images/yes.svg" />');
-								
-								$('#ex_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
-								
-							}
-							else if(jsonData.qst[qq][1].answer=='No'){
-							$("#service_amc img:last-child").remove();
+					}
+					if($('input[name='+2+']:checked').attr("value")){	
+				     
+					  $("#next_ser_dt img:last-child").remove();
+					  $("#service_amc img:last-child").remove();
+					switch($('input[name='+2+']:checked').attr("value")){
+							//$("#last_ser_dt").last().remove();
+						case 'Not sure':	
+							$('#next_ser_dt').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
+							$('#service_amc').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
+						   
+						break;
+						case 'Yes':
+						
+							
+						$('#next_ser_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						$('#service_amc').prepend('<img height="20" width="30" src="images/yes.svg" />');
+					   break;
+						case 'No':
+					  
+						 
+							$('#next_ser_dt').prepend('<img height="20" width="30" src="images/no.svg" />');
 							$('#service_amc').prepend('<img height="20" width="30" src="images/no.svg" />');
-						    }
-							else{
-								$("#next_ser_dt img:last-child").remove();
-								$("#service_amc img:last-child").remove();
-								$('#service_amc').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
-								$('#next_ser_dt').prepend('<img height="20" width="30" src="images/yes.svg" />');
-							}
-						}
-						if(jsonData.qst[qq][2].answer){
-						if(jsonData.qst[qq][2].answer=='Yes'){
-							$("#service_st img:last-child").remove();
-							$('#service_st').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						   
-						}
-						else if(jsonData.qst[qq][2].answer=='No'){
-							$("#service_st img:last-child").remove();
-							$('#service_st').prepend('<img height="20" width="30" src="images/no.svg" />');
-						    }
-						else{
-							$("#service_st img:last-child").remove();
-							$('#service_st').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
-						}
-						}
-						if(jsonData.qst[qq][3].answer){
-						if(jsonData.qst[qq][3].answer=='Yes'){
-							$("#service_sw img:last-child").remove();
-							$('#service_sw').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						   
-						}
-						else if(jsonData.qst[qq][3].answer=='No'){
-							$("#service_sw img:last-child").remove();
-							$('#service_sw').prepend('<img height="20" width="30" src="images/no.svg" />');
-						    }
-						else{
-							$("#service_sw img:last-child").remove();
-							$('#service_sw').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
-						}
-						}
-						if(jsonData.qst[qq][15].answer){
-						if(jsonData.qst[qq][15].answer=='Yes'){
-							$("#service_buy img:last-child").remove();
-							$('#service_buy').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						   
-						}
-						else if(jsonData.qst[qq][15].answer=='No'){
-							$("#service_buy img:last-child").remove();
-							$('#service_buy').prepend('<img height="20" width="30" src="images/no.svg" />');
-						    }
-						else{
-							$("#service_buy img:last-child").remove();
-							$('#service_buy').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
-						}
-						}
-						if(jsonData.qst[qq][11].answer){
-						if(jsonData.qst[qq][11].answer=='Yes'){
-							$("#service_pd img:last-child").remove();
-							$('#service_pd').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						   
-						}
-						else if(jsonData.qst[qq][11].answer=='No'){
-							$("#service_pd img:last-child").remove();
-							$('#service_pd').prepend('<img height="20" width="30" src="images/no.svg" />');
-						    }
-						else{
-							$("#service_pd img:last-child").remove();
-							$('#service_pd').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
-						} 
+						break;	
 						}
 						
-						if(jsonData.qst[qq][19].answer){
-						if(jsonData.qst[qq][19].answer=='Yes'){
+					}
+					if($('input[name='+3+']:checked').attr("value")){	
+				     
+					  $("#service_st img:last-child").remove();
+					 
+					switch($('input[name='+3+']:checked').attr("value")){
+							//$("#last_ser_dt").last().remove();
+						case 'Not sure':	
+							$('#service_st').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
+												
+						   
+						break;
+						case 'Yes':
+						
+							
+						$('#service_st').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						
+					   break;
+						case 'No':
+					  
+						 
+							$('#service_st').prepend('<img height="20" width="30" src="images/no.svg" />');
+							
+						break;	
+						}
+						
+					}
+					if($('input[name='+4+']:checked').attr("value")){	
+				     
+					  $("#service_sw img:last-child").remove();
+					 
+					switch($('input[name='+4+']:checked').attr("value")){
+							//$("#last_ser_dt").last().remove();
+						case 'Not sure':	
+							$('#service_sw').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
+												
+						   
+						break;
+						case 'Yes':
+						
+							
+						$('#service_sw').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						
+					   break;
+						case 'No':
+					  
+						 
+							$('#service_sw').prepend('<img height="20" width="30" src="images/no.svg" />');
+							
+						break;	
+						}
+						
+					}
+					if($('input[name='+16+']:checked').attr("value")){	
+				     
+					  $("#service_buy img:last-child").remove();
+					 
+					switch($('input[name='+16+']:checked').attr("value")){
+							//$("#last_ser_dt").last().remove();
+						case 'Not sure':	
+							$('#service_buy').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
+												
+						   
+						break;
+						case 'Yes':
+						
+							
+						$('#service_buy').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						
+					   break;
+						case 'No':
+					  
+						 
+							$('#service_buy').prepend('<img height="20" width="30" src="images/no.svg" />');
+							
+						break;	
+						} 
+						
+					}
+					if($('input[name='+12+']:checked').attr("value")){	
+				     
+					  $("#service_pd img:last-child").remove();
+					 
+					switch($('input[name='+12+']:checked').attr("value")){ 
+							//$("#last_ser_dt").last().remove();
+						case 'Sometimes':	
+							$('#service_pd').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
+												
+						   
+						break;
+						case 'Yes':
+						
+							
+						$('#service_pd').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						
+					   break;
+						case 'No':
+					  
+						 
+							$('#service_pd').prepend('<img height="20" width="30" src="images/no.svg" />');
+							
+						break;	
+						} 
+						
+					}
+					if($('input[name='+13+']:checked').attr("value")){	
+				     
+					  $("#service_kwd img:last-child").remove();
+					 
+					switch($('input[name='+13+']:checked').attr("value")){ 
+							//$("#last_ser_dt").last().remove();
+						case 'Sometimes':	
+							$('#service_kwd').prepend('<img height="20" width="30" src="images/not_sure.svg" />');					
+												
+						   
+						break;
+						case 'Yes':
+						
+							
+						$('#service_kwd').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						
+					   break;
+						case 'No':
+					  
+						 
+							$('#service_kwd').prepend('<img height="20" width="30" src="images/no.svg" />');
+							
+						break;	
+						} 
+						 
+					}
+					if($('input[name='+8+']:checked').attr("value")){     
+					 
+					 
+					switch($('input[name='+8+']:checked').attr("value")){ 
+							//$("#last_ser_dt").last().remove();
+						case 'Negative product experience':	
+						   $("#bad_exp img:last-child").remove();
+						   $('#bad_exp').prepend('<img height="20" width="30" src="images/yes.svg" />');	
+												
+						   
+						break;
+						case 'Poor service experience':
+						
+						$("#poor_sr img:last-child").remove();	
+						$('#poor_sr').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						
+					   break;
+						case 'Service not required':
+					  
+						   $("#not_conv img:last-child").remove();
+							$('#not_conv').prepend('<img height="20" width="30" src="images/yes.svg" />');
+							
+						break;	
+					   case 'Will call when service needed':
+					  
+						   $("#cust_res img:last-child").remove();
+							$('#cust_res').prepend('<img height="20" width="30" src="images/yes.svg" />');
+							
+						break;	  
+						} 
+						 
+					}
+					if($('input[name='+17+']:checked').attr("value")){
+						if($('input[name='+17+']:checked').attr("value")=='Yes'){
 							$("#service_rec img:last-child").remove();
 							$('#service_rec').prepend('<img height="20" width="30" src="images/yes.svg" />');
 						   
@@ -1324,8 +1493,9 @@ if(isset($_SESSION['admin_email_id']))
 							$('#service_rec').prepend('<img height="20" width="30" src="images/no.svg" />');
 						} 
 						}
-						if(jsonData.qst[qq][20].answer){
-						if(jsonData.qst[qq][20].answer=='Yes'){
+						
+						if($('input[name='+18+']:checked').attr("value") ||  $('input[name='+19+']:checked').attr("value")){
+						if($('input[name='+18+']:checked').attr("value")=='Yes' || $('input[name='+19+']:checked').attr("value")=='Yes'){ 
 							$("#amc_enquery img:last-child").remove();
 							$('#amc_enquery').prepend('<img height="20" width="30" src="images/yes.svg" />');
 						   
@@ -1335,8 +1505,8 @@ if(isset($_SESSION['admin_email_id']))
 							$('#amc_enquery').prepend('<img height="20" width="30" src="images/no.svg" />');
 						} 
 						}
-						if(jsonData.qst[qq][21].answer){
-						if(jsonData.qst[qq][21].answer=='Yes'){
+						if($('input[name='+20+']:checked').attr("value") || $('input[name='+21+']:checked').attr("value")){
+						if($('input[name='+20+']:checked').attr("value")=='Yes' || $('input[name='+21+']:checked').attr("value")=='Yes'){
 							$("#upgrd img:last-child").remove();
 							$('#upgrd').prepend('<img height="20" width="30" src="images/yes.svg" />');
 						   
@@ -1346,8 +1516,8 @@ if(isset($_SESSION['admin_email_id']))
 							$('#upgrd').prepend('<img height="20" width="30" src="images/no.svg" />');
 						} 
 						}
-						if(jsonData.qst[qq][22].answer){
-						if(jsonData.qst[qq][22].answer=='Yes'){
+						if($('input[name='+23+']:checked').attr("value")){  
+						if($('input[name='+23+']:checked').attr("value")=='Yes'){
 							$("#escl img:last-child").remove();
 							$('#escl').prepend('<img height="20" width="30" src="images/yes.svg" />');
 						   
@@ -1357,47 +1527,9 @@ if(isset($_SESSION['admin_email_id']))
 							$('#escl').prepend('<img height="20" width="30" src="images/no.svg" />');
 						} 
 						}
-						if(jsonData.qst[qq][12].answer){
-						if(jsonData.qst[qq][12].answer=='Yes'){
-							$("#service_kwd img:last-child").remove();
-							$('#service_kwd').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						   
-						}
-						else if(jsonData.qst[qq][12].answer=='No'){ 
-							$("#service_kwd img:last-child").remove();
-							$('#service_kwd').prepend('<img height="20" width="30" src="images/no.svg" />');
-						    }
-						else{
-							$("#service_kwd img:last-child").remove();
-							$('#service_kwd').prepend('<img height="20" width="30" src="images/not_sure.svg" />');
-						} 
-						}
-						for (i = 0; i < 22; i++) { 
-					    if(jsonData.qst[qq][i].answer=='Negative product experience'){
-							$("#bad_exp img:last-child").remove();
-							$('#bad_exp').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						    break;
-						}
 						
-						if(jsonData.qst[qq][i].answer=='Poor service experience'){
-							$("#poor_sr img:last-child").remove();
-							$('#poor_sr').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						    break;
-						}
 						
-						if(jsonData.qst[qq][i].answer=='Service not required'){
-							$("#not_conv img:last-child").remove();
-							$('#not_conv').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						    break;
-						}
-						if(jsonData.qst[qq][i].answer=='Will call when service needed'){
-							$("#cust_res img:last-child").remove();
-							$('#cust_res').prepend('<img height="20" width="30" src="images/yes.svg" />');
-						   break;
-						}
-						}
-						
-				}
+				
                 
 				
 				
