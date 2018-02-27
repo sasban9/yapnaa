@@ -33,14 +33,21 @@ class admin	{
 	}
  function insertStatus($userQst,$answer,$number,$brandId,$brandName){
 	date_default_timezone_set('Asia/Kolkata');
-	//$table		=	'user_question_aws_mapping';
-	    $table		=	'user_question_aws_mapping';        
-		$fields		=	'*';
-		$condition 	=	"user_phone=".$number." and qst_id=".$userQst." and brand_name=".$brandName." and brand_id=".$brandId;				
-		$check_duplicate =	$this->model->get_Details_condition($table,$fields,$condition);	
-        if($check_duplicate ==NULL)
-		{			
-		$arr_input	=	array(
+	   $table		=	'user_question_aws_mapping';
+	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
+	   $check_duplicate		=	$this->model->data_query($sql);
+	   
+        if($check_duplicate !=NULL)
+		{
+           $condition="user_phone=$number and qst_id=$userQst";			
+		   $set_array	=	array(
+							'answer'				        =>	$answer,							
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			$result	=	$this->model->update($table,$set_array,$condition);
+		}
+		else{
+			$arr_input	=	array(
 							'qst_id'				        =>	$userQst,							
 							'user_phone'			        =>	$number,
 							'answer'				        =>	$answer,
@@ -49,13 +56,7 @@ class admin	{
 							'date'                          =>date('Y-m-d h:i:s')
 							);
 			$result		=	$this->model->insert($table,$arr_input);
-		}
-		else{
-			$set_array	=	array(
-							'answer'				        =>	$answer,							
-							'date'                          =>date('Y-m-d h:i:s')
-							);
-			$result	=	$this->model->update($table,$set_array,$condition);
+			
 		}
 			return $result;
 	} 
