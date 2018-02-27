@@ -3331,7 +3331,8 @@ function checkout_user_login(){
 		$headers 				= 'MIME-Version: 1.0'. "\r\n";
 		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
 		$headers 			.= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
-		$to                  = "ranjan.jjbyte@gmail"; 
+		//$to                  = "ranjan.jjbyte@gmail"; 
+		$to                  = "sriramm@moviloglobal.com"; 
 		//echo $subject;die;
 		
 		// Mail it

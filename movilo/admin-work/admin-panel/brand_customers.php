@@ -214,7 +214,7 @@ if(isset($_SESSION['admin_email_id']))
 				</div>
 				<?php if($ar_id==1 || $ar_id==2){?>
 				<div class="col-sm-2"  style="margin-left: -86px;margin-top: 23px;">
-					<input type="submit" id="da_downl" name="da_downl"  class="btn btn-info" value="Download">
+					<input type="submit" id="da_downl" name="da_downl"  class="btn btn-info" value="Export">
 				</div>
 				<?php }?>
 				<div class="col-lg-2">
