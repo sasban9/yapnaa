@@ -463,7 +463,7 @@ if(isset($_SESSION['admin_email_id']))
         </div>
         <div class="modal-body">
 
-		   <div class="row" style="padding-bottom:10px;border-bottom: 1px solid #e5e5e5;">
+		  		   <div class="row" style="padding-bottom:10px;border-bottom: 1px solid #e5e5e5;">
 				<div class="col-lg-5" style="border-right: 1px solid #e5e5e5;"> 
 				
 				<h4><?php for($i=0;$i<count($question);$i++){
@@ -610,6 +610,7 @@ if(isset($_SESSION['admin_email_id']))
 					for($i=0;$i<count($question);$i++){
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='LOYALTY AND RETENTION INDEX'){
+							if( $question[$i]["group_id"]=='Ownership Experience'){
 					     foreach($qust_map1 as $qm){
 								  if($qm['qst_id']==$question[$i]['id']){
 									  $ans=$qm['answer'];
@@ -630,7 +631,7 @@ if(isset($_SESSION['admin_email_id']))
 								</div>
 						<?php	} ?>
 						</div>
-					<?php }}?>
+							<?php }}}?>
 				</div>
 				<div class="col-lg-3" style="padding-left: 29px;"> 
 				<?php //echo '<pre>';print_r($question);?>
@@ -646,6 +647,7 @@ if(isset($_SESSION['admin_email_id']))
 					for($i=0;$i<count($question);$i++){
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='CONVERSION OPPORTUNITY'){
+							if( $question[$i]["group_id"]=='Conversion opportunity'){
 					    foreach($qust_map1 as $qm){
 								  if($qm['qst_id']==$question[$i]['id']){
 									  $ans=$qm['answer'];
@@ -667,9 +669,9 @@ if(isset($_SESSION['admin_email_id']))
 								</div>
 						<?php	} ?>
 						</div>
-					<?php }}?>
+							<?php }}}?>
 				</div>
-		   </div><br>
+		   </div><br> 
 		   
           <div class="row">
 				<div class="col-lg-2"> 
