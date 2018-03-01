@@ -163,8 +163,8 @@ if(isset($_SESSION['admin_email_id']))
 		
 		   <div class="row">
 		   <div class="col-lg-3">
-		   <input type="radio" id="newFilter" class="nFilter" name="newFilterCheck" value="New Filter" checked /> New Filter
-			<input type="radio" id="oldFilter" class="nFilter" name="newFilterCheck" value="Old Filter" /> Old Filter
+		   <input type="radio" id="newFilter" class="nFilter" name="newFilterCheck" value="New Filter" checked /> New Dashboard
+			<input type="radio" id="oldFilter" class="nFilter" name="newFilterCheck" value="Old Filter" /> Old Dashboard
 			
 				
 			</div>	 
