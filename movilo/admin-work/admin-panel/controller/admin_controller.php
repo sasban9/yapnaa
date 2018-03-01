@@ -31,7 +31,7 @@ class admin	{
 		//echo '<pre>'.print_r($result);die;
 		return $quest_arr;
 	}
- function insertStatus($userQst,$answer,$number,$brandId,$brandName){
+ function insertStatus($userQst,$answer,$number,$brandId,$brandName){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
 	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
@@ -39,12 +39,70 @@ class admin	{
 	   
         if($check_duplicate !=NULL)
 		{
+			
            $condition="user_phone=$number and qst_id=$userQst";			
 		   $set_array	=	array(
 							'answer'				        =>	$answer,							
 							'date'                          =>date('Y-m-d h:i:s')
 							);
 			$result	=	$this->model->update($table,$set_array,$condition);
+			
+				/* $to="ranjan.jjbyte@gmail.com"; 
+					$text="test";
+					$subject="Service request received";
+					$this->send_email($text,$subject,$to); */
+				/* if($result){
+					if ($userQst=17 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new Service request";
+					$subject="Service request received";
+					$this->send_email($text,$subject,$to); 
+					break;
+					}
+					 if ($userQst=18 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new AMC enquiry";
+					$subject="AMC enquiry received";
+					$this->send_email($text,$subject,$to);	
+					break;
+					}
+					if ($userQst=19 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new AMC enquiry";
+					$subject="AMC enquiry received";
+					$this->send_email($text,$subject,$to);	
+					break;
+					}
+					if ($userQst=20 && $answer='Yes')
+					{
+                    $to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new Upgrade enquiry";
+					$subject="Upgrade enquiry";
+					$this->send_email($text,$subject,$to);
+					break;
+					}
+					 if ($userQst=20 && $answer='Yes')
+					{
+                    $to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new Upgrade enquiry";
+					$subject="Upgrade enquiry";
+					$this->send_email($text,$subject,$to);
+					break;
+					}
+					 if ($userQst=23 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com";  
+					$text="Hi,You have got a Escalation";
+					$subject="Escalation";
+					$this->send_email($text,$subject,$to);	
+					break;
+				    }  
+				} */
+				
+			
 		}
 		else{
 			$arr_input	=	array(
@@ -56,6 +114,57 @@ class admin	{
 							'date'                          =>date('Y-m-d h:i:s')
 							);
 			$result		=	$this->model->insert($table,$arr_input);
+			 
+				/* if($result){
+					if ($userQst=17 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new Service request";
+					$subject="Service request received";
+					$this->send_email($text,$subject,$to); 
+					break;
+					}
+					 if ($userQst=18 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new AMC enquiry";
+					$subject="AMC enquiry received";
+					$this->send_email($text,$subject,$to);	
+					break;
+					}
+					 if ($userQst=19 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new AMC enquiry";
+					$subject="AMC enquiry received";
+					$this->send_email($text,$subject,$to);	
+					break;
+					}
+				    if ($userQst=20 && $answer='Yes')
+					{
+                    $to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new Upgrade enquiry";
+					$subject="Upgrade enquiry";
+					$this->send_email($text,$subject,$to);
+					break;
+					}
+					if ($userQst=20 && $answer='Yes')
+					{
+                    $to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a new Upgrade enquiry";
+					$subject="Upgrade enquiry";
+					$this->send_email($text,$subject,$to);
+					break;
+					}
+					 if ($userQst=23 && $answer='Yes')
+					{
+					$to="ranjan.jjbyte@gmail.com"; 
+					$text="Hi,You have got a Escalation";
+					$subject="Escalation";
+					$this->send_email($text,$subject,$to);	
+					break;
+				    }  
+				} */ 
 			
 		}
 			return $result;
@@ -4014,18 +4123,18 @@ class admin	{
 		// print_r($arr_log_in );
 
     }// SEARCH Customer
-	function get_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
+	function get_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand)
     {
 		$arr_log_in=array();
 		if($_GET['customer_type']==1){
 			$table='livpure';
 		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand);
 		}
 		if($_GET['customer_type']==2){
 			$table='zerob_consol1';
 		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand);
 		}
 		return $arr_log_in;
 		// print_r($arr_log_in );
