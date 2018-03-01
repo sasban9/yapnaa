@@ -485,8 +485,9 @@ if(isset($_SESSION['admin_email_id']))
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='SERVICE SATISFACTION LEVEL'){
 					       if( $question[$i]["group_id"]=='Service by brand'){
-							  foreach($qust_map1 as $qm){
+							 foreach($qust_map1 as $qm){
 								  if($qm['qst_id']==$question[$i]['id']){
+									  $qss=$qm['qst_id'];
 									  $ans=$qm['answer'];
 									  break;
 								  }
@@ -503,10 +504,14 @@ if(isset($_SESSION['admin_email_id']))
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-4" >
                                    <?php ?>								
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>  >
-									
-									
-									
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"
+									<?php 
+									if($qss==$question[$i]['id']){									
+									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
+									} ?>
+
+
+									> 
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
 						<?php	} ?>
@@ -530,6 +535,7 @@ if(isset($_SESSION['admin_email_id']))
 							  // $k=$i++;
 							 foreach($qust_map1 as $qm){
 								  if($qm['qst_id']==$question[$i]['id']){
+									  $qss=$qm['qst_id'];
 									  $ans=$qm['answer'];
 									  break;
 								  }
@@ -545,7 +551,10 @@ if(isset($_SESSION['admin_email_id']))
 							for($j=0;$j<count($answers);$j++){  ?>
 							
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?> 
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" 
+									<?php if($qss==$question[$i]['id']){									
+									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
+									}?> 
 									>
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
@@ -567,6 +576,7 @@ if(isset($_SESSION['admin_email_id']))
 					       if( $question[$i]["group_id"]=='Not interested'){
 							foreach($qust_map1 as $qm){
 								  if($qm['qst_id']==$question[$i]['id']){
+									  $qss=$qm['qst_id'];
 									  $ans=$qm['answer'];
 									  break;
 								  }
@@ -582,7 +592,9 @@ if(isset($_SESSION['admin_email_id']))
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-5"> 
 									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"
-									<?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>
+									<?php if($qss==$question[$i]['id']){									
+									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
+									}?>
 									>
 									
 									<?php echo ' '.$answers[$j]["answer_type"];?>
@@ -613,6 +625,7 @@ if(isset($_SESSION['admin_email_id']))
 							
 					     foreach($qust_map1 as $qm){
 								  if($qm['qst_id']==$question[$i]['id']){
+									  $qss=$qm['qst_id'];
 									  $ans=$qm['answer'];
 									  break;
 								  }
@@ -625,7 +638,9 @@ if(isset($_SESSION['admin_email_id']))
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php if($qss==$question[$i]['id']){									
+									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
+									}?>>
 									
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
@@ -650,6 +665,7 @@ if(isset($_SESSION['admin_email_id']))
 							
 					    foreach($qust_map1 as $qm){
 								  if($qm['qst_id']==$question[$i]['id']){
+									  $qss=$qm['qst_id'];
 									  $ans=$qm['answer'];
 									  break;
 								  }
@@ -662,7 +678,9 @@ if(isset($_SESSION['admin_email_id']))
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-3"> 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php echo ($ans==$answers[$j]["answer_type"])?'checked':'';?>>
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php  if($qss==$question[$i]['id']){									
+									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
+									}?>>
 									
 									
 									<?php echo ' '.$answers[$j]["answer_type"];?>
