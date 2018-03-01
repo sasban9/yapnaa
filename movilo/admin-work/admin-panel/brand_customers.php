@@ -920,19 +920,19 @@ if(isset($_SESSION['admin_email_id']))
 				 <span>2. Under AMC<span id="service_amc"  style="padding-left: 172px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:102px;line-height: 43px;"></span></span>
+				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:109px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:74px;line-height: 43px;"></span></span>
+				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:83px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:85px;line-height: 43px;"></span></span>
+				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:92px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>6. Refers product<span id="service_pd"  style="padding-left:153px;line-height: 43px;"></span></span>
+				<span>6. Refers product<span id="service_pd"  style="padding-left:154px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:137px;line-height: 43px;"></span></span>
+				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:138px;line-height: 43px;"></span></span>
 				</div>
 				
 				</div>
@@ -964,10 +964,10 @@ if(isset($_SESSION['admin_email_id']))
 				  <span>b) Cost reasons<span id="cust_res"  style="padding-left:161px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>c) Not convenient<span id="not_conv"  style="padding-left:149px;line-height: 29px;"></span></span>
+				  <span>c) Not convenient<span id="not_conv"  style="padding-left:151px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:146px;line-height: 29px;"></span></span>
+				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:147px;line-height: 29px;"></span></span>
 				</div>
 				</div>
 				<div class="col-lg-3" >
@@ -979,10 +979,10 @@ if(isset($_SESSION['admin_email_id']))
 						<span>2. AMC enquiry received<span id="amc_enquery"  style="padding-left:126px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>3. Upgrade enquiry <span id="upgrd"  style="padding-left:153px;line-height: 43px;"></span></span>
+						<span>3. Upgrade enquiry <span id="upgrd"  style="padding-left:154px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>4. Escalation<span id="escl"  style="padding-left:198px;line-height: 43px;"></span></span>
+						<span>4. Escalation<span id="escl"  style="padding-left:194px;line-height: 43px;"></span></span>
 					</div>
 				</div>
 			</div>
