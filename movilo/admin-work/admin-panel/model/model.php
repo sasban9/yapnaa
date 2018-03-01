@@ -574,7 +574,7 @@ class model {
 		return $ret;
 	}
 	// Get brand Customer List
-	function get_brand_cust_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table )
+	function get_brand_cust_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand )
 	{	
 	//echo $action_taken_by;die;
 	//echo $amc_fromDate;
@@ -583,7 +583,8 @@ class model {
 		
 		$columns = "id,last_service_date,next_service_date,CUSTOMERID,CUSTOMER_NAME,CUSTOMER_ADDRESS1,CUSTOMER_ADDRESS2,CUSTOMER_ADDRESS3,CUSTOMER_AREA,CUSTOMER_PINCODE,PHONE1,PHONE2,CUSTOMER_CONTACT_NOS1,CUSTOMER_CONTACT_NOS2,email,PRODUCT,PRODUCT_SLNO,INSTALLATION_DATE,IW,IC,CONTRACT_FROM,CONTRACT_TO,CONTRACT_TYPE,CONTRACT_BY,tag,amc_updated_by,last_called,last_call_comment,last_sms_sent,status";
 		
-		$condition = "";
+		$condition = ""; 
+		
 		if($filter>0){
 			$condition = " and status = $filter";
 		}
@@ -591,15 +592,35 @@ class model {
 			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
 		}
 		if($fromDate != null){
+			if($filterByBrand==0)
+			{
 			$condition = " and last_called >= '$fromDate'";
+			}
+			else{
+              $condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date>='$fromDate')";
+			}
 		}
 		if($toDate != null){
+			
+			if($filterByBrand==0)
+			{
 			$condition = " and last_called <= '$toDate'";
+			}
+			else{
+	          $condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date<='$toDate')"; 
+			  }
 		}
 		if($fromDate != null && $toDate != null){
+			if($filterByBrand==0)
+			{
 			$condition = " and (last_called between '$fromDate' and '$toDate')";
+			}
+			else{
+			
+			$condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date between '$fromDate' and '$toDate')";
+			}
 		}
-		if($amc_fromDate != null){
+		 if($amc_fromDate != null){
 			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
 		}
 		if($amc_toDate != null){
@@ -607,7 +628,7 @@ class model {
 		}
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
-		}
+		} 
 		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc"; 
 		
 		
@@ -618,7 +639,20 @@ class model {
 			
 			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}
-		
+		switch($filterByBrand){
+			case 0:
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
+			break;
+			case 1:
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes') ";
+			break;
+			case 2:
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='No')"; 
+			break;
+			case 3:
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1  and (answer='Less than 6 months' or answer='Less than 1 year')) or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')  or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes') or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5  and answer='Yes')) and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='No') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='No') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=16  and answer='No')and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='No') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=13  and answer='No')"; 
+			break;
+		}  
 		//echo 	$fromDate."==".$toDate."<br>"	 ;
 		//echo $sql;die;
 		$qry	=	connection()->query($sql);

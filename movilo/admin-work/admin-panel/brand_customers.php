@@ -33,6 +33,7 @@ if(isset($_SESSION['admin_email_id']))
 		$search = $_POST['search'];
 		$action_taken_by = $_POST['action_taken_by'];
 		$filter = $_POST['filter'];
+		$filterByBrand = $_POST['filterByBrand'];
 		if(isset($_POST['fromDate']) && !empty($_POST['fromDate'])){ //echo "<br>in from";
 			$fromDate = date_format(date_create($_POST['fromDate']),"Y-m-d H:i:s");
 		}
@@ -60,9 +61,10 @@ if(isset($_SESSION['admin_email_id']))
 		
 		//echo $fromDate."--".$toDate;die;
 		//echo $date1;exit;
-		$get_amc_list = $control->get_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+		$get_amc_list = $control->get_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand);
+		
 		if(isset($_POST['da_downl']) || !empty($_POST['da_downl'])){
-			$control->download_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate);
+			$control->download_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand);
 		}
 	}
 	/*else{
@@ -152,12 +154,23 @@ if(isset($_SESSION['admin_email_id']))
                     </ol>
                 </div>
                 <div class="col-lg-2">
-
+                 
                 </div>
             </div>
            
 
 		<div class="wrapper wrapper-content animated fadeInRight">
+		
+		   <div class="row">
+		   <div class="col-lg-3">
+		   <input type="radio" id="newFilter" class="nFilter" name="newFilterCheck" value="New Filter" checked /> New Filter
+			<input type="radio" id="oldFilter" class="nFilter" name="newFilterCheck" value="Old Filter" /> Old Filter
+			
+				
+			</div>	 
+			</div><br>
+		   <div class="row"> </div><br>                
+               
 			<div class="row">
 				<form id="form" method="POST" enctype="multipart/form-data">
 				
@@ -165,7 +178,19 @@ if(isset($_SESSION['admin_email_id']))
 					<label>Search Keyword</label>
 					<input type="text" id="searchBox" class="maincls form-control" value="<?php echo($_POST['search']==0)?$_POST['search']:"";?>"  maxlength="60" name="search" placeholder="Enter name, number or area">
 				</div>
-                <div class="col-lg-2">
+				<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
+				 <div class="col-lg-2 new" >
+					<label>Filter By</label>
+					<select id="filterByBrand" class="form-control" name="filterByBrand">
+						<option value="0"<?php echo($_POST['filterByBrand']==0)?"selected":"";?>>Filter</option>
+						<option value="1" <?php echo($_POST['filterByBrand']==1)?"selected":"";?>>Highly Engaged Customer</option>
+						<option value="2"<?php echo($_POST['filterByBrand']==2)?"selected":"";?> >AMC And Upgrade Opportunity</option>
+						<option value="3" <?php echo($_POST['filterByBrand']==3)?"selected":"";?>>Disinterested Customer</option>
+						
+					</select>
+				</div>
+				<?php }?>
+                <div class="col-lg-2 old" style="display:none">
 					<label>Filter By</label>
 					<select id="filterBy" class="form-control" name="filter">
 						<option value="0"<?php echo($_POST['filter']==0)?"selected":"";?>>Filter</option>
@@ -191,23 +216,27 @@ if(isset($_SESSION['admin_email_id']))
 					</select>
 				</div>
 					<?php }?>
+			   
+					
 			</div>
 			</br>
 			<div class="row">
-			<div class="col-lg-2">
+             <div class="col-lg-2 old" style="display:none;">
 					<label>AMC From</label>
 					<input type="date" class="form-control"  id="amc_fromDate" name="amc_fromDate" >
 				</div>
-				<div class="col-lg-2">
+				<div class="col-lg-2 old"  style="display:none;">
 					<label>AMC To</label>
 					<input type="date" class="form-control"  id="amc_toDate" name="amc_toDate" >
 				</div>
-					<div class="col-lg-2">
-					<label>Last Call From</label>
+					<div class="col-lg-2 "  > 
+					<label class="new">Updated From</label>
+					<label class="old" style="display:none">Last Call From</label>
 					<input type="date" class="form-control" id="fromDate" name="fromDate" value="<?php echo(isset($_POST['fromDate']))?$_POST['fromDate']:"";?>">
 				</div>
-				<div class="col-lg-2">
-					<label>Last Call To</label>
+				<div class="col-lg-2"  >
+					<label class="new">Updated To</label>
+					<label class="old" style="display:none">Last Call To</label>
 					<input type="date" class="form-control"  id="toDate" name="toDate" value="<?php echo(isset($_POST['toDate']))?$_POST['toDate']:"";?>">
 				</div>
 				<div class="col-lg-2"  style="margin-top: 23px;">
@@ -820,8 +849,10 @@ if(isset($_SESSION['admin_email_id']))
           <h4 class="modal-title" id="modal-title">Do something!</h4>
         </div-->
         <div class="modal-body" style="padding: 20px 30px 0px 30px;" >
-		<div class="row" style="padding-bottom:10px;border-bottom: 1px solid #e5e5e5;">
+		<div class="row"  style="padding-bottom:10px;border-bottom: 1px solid #e5e5e5;">
+		
 		    <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title" id="modal-title1"></h4>
 			</div>
 			<div class="row">
 			<form method="post" id="form_amcDateSub">
@@ -889,13 +920,13 @@ if(isset($_SESSION['admin_email_id']))
 				 <span>2. Under AMC<span id="service_amc"  style="padding-left: 172px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:109px;line-height: 43px;"></span></span>
+				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:102px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:82px;line-height: 43px;"></span></span>
+				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:74px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:91px;line-height: 43px;"></span></span>
+				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:85px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
 				<span>6. Refers product<span id="service_pd"  style="padding-left:153px;line-height: 43px;"></span></span>
@@ -909,7 +940,7 @@ if(isset($_SESSION['admin_email_id']))
 				<div class="col-lg-3" style="border-right: 1px solid #e5e5e5;height:448px;"> 
 				<h4>CUSTOMER ENGAGEMENT DATA</h4><br>
 				<div class="row" style="margin-left: 3px;">
-				  <span>1. AMC Signed<span id="next_ser_dt" style="padding-left:166px"></span></span><br><br>
+				  <span>1. AMC Signed<span id="next_ser_dt" style="padding-left:166px"></span></span><br>
 				  <span>a) Next Service Date</span><br>
 				  <input type="date" class="form-control"  id="next_service_date" name="next_service_date" style="width: 160px;height: 33px;" >
 				</div>
@@ -919,12 +950,12 @@ if(isset($_SESSION['admin_email_id']))
 				  <input type="date" class="form-control"  id="expiry_date" name="expiry_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>2. Paid Service.Last Service Date <span id="last_ser_dt" style="padding-left: 54px;"></span></span><br>
+				  <br><span>2. Paid Service.Last Service Date <span id="last_ser_dt" style="padding-left: 54px;"></span></span><br>
 				  
 				 <input type="date" class="form-control"  id="ls_ser_date" name="ls_ser_date" style="width: 160px;height: 33px;" >
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>3. Not Interested Due to-</span> 
+				  <br><span>3. Not Interested Due to-</span> 
 				</div>
 				<div class="row" style="margin-left: 3px;">
 				  <span>a) Poor service<span id="poor_sr"  style="padding-left:165px;line-height: 29px;"></span></span> 
@@ -933,10 +964,10 @@ if(isset($_SESSION['admin_email_id']))
 				  <span>b) Cost reasons<span id="cust_res"  style="padding-left:161px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>c) Not convenient<span id="not_conv"  style="padding-left:151px;line-height: 29px;"></span></span>
+				  <span>c) Not convenient<span id="not_conv"  style="padding-left:149px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:147px;line-height: 29px;"></span></span>
+				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:146px;line-height: 29px;"></span></span>
 				</div>
 				</div>
 				<div class="col-lg-3" >
@@ -951,7 +982,7 @@ if(isset($_SESSION['admin_email_id']))
 						<span>3. Upgrade enquiry <span id="upgrd"  style="padding-left:153px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>4. Escalation<span id="escl"  style="padding-left:192px;line-height: 43px;"></span></span>
+						<span>4. Escalation<span id="escl"  style="padding-left:198px;line-height: 43px;"></span></span>
 					</div>
 				</div>
 			</div>
@@ -1020,7 +1051,20 @@ if(isset($_SESSION['admin_email_id']))
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
-		
+		    $('input[type=radio][name=newFilterCheck]').on('change', function() {
+				 switch($(this).val()) {
+					 case 'New Filter':
+						$('.old').hide();
+						$('.new').show();
+						
+						 break;
+					 case 'Old Filter':
+					   
+						$('.old').show();
+						$('.new').hide();   
+						 break;
+				 }
+			});
 			/*$("#submit").click(function(){
 				if$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate
 			});*/
@@ -1102,7 +1146,7 @@ if(isset($_SESSION['admin_email_id']))
 								
 							},
 							error:function(error){
-								alert(JSON.stringify(error));
+								//alert(JSON.stringify(error));
 							}
 						});
 				});
@@ -1266,7 +1310,7 @@ if(isset($_SESSION['admin_email_id']))
 						   break;
 						}
 						
-						else{
+						else if($('input[name='+i+']:checked').attr("value")=='No'){
 							$("#service_bb img:last-child").remove();
 							$('#service_bb').prepend('<img height="20" width="30" src="images/no.svg" />');
 							
@@ -1528,7 +1572,20 @@ if(isset($_SESSION['admin_email_id']))
 						} 
 						}
 						
-						
+						<?php if(isset($_GET['customer_type']))
+				{
+				switch($_GET['customer_type'])
+						{
+							case 1:?>
+							$("#modal-title1").html("Customer Name: "+sessionStorage.name+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+"Brand Name: "+'<?php echo $customer;?>');
+							<?php break;
+							case 2:?>
+							$("#modal-title1").html("Customer Name: "+sessionStorage.name+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+'&nbsp'+"Brand Name: "+'<?php echo $customer;?>');
+							<?php 
+							
+							break;
+						}
+				}?>
 				
                 
 				
