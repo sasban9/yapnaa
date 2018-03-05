@@ -2030,11 +2030,11 @@ class admin	{
 	function zerob_appointment_sms($id,$apptDate,$number,$comment,$custType){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
-		$message	=	"Thanks for confirming your appointment​ for AMC​ of ZeroB Water filter. We look forward to seeing you on ​".$apptDate;
+		$message	=	"Thanks for confirming your appointment​ for Water filter. We look forward to seeing you on ​".$apptDate;
 		$user_number = array($number);
 		$admin_name		= $_SESSION['admin_name'];
 		  $ar_id  	        = $_SESSION['ar_id'];
-		//$this->send_user_sms($user_number,$message,$id,$comment);
+		$this->send_user_sms($user_number,$message,$id,$comment);
 		
 		$time = strtotime($apptDate);
 		$newformat = date('Y-m-d H:i:S',$time);

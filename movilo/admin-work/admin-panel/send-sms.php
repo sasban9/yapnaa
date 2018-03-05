@@ -102,7 +102,7 @@ if(isset($_SESSION['admin_email_id']))
 			<input type="button" style="margin-right:30%;" value="Use template" class="btn btn-info pull-right template"  id="1"/>
 		</div>
 		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
-			<p id="p2">Thanks for confirming your appointment​ for AMC​ of ZeroB Water filter. We look forward to seeing you on [Date] at [Time].​ ​</p>
+			<p id="p2">Thanks for confirming your appointment​ for Water filter. We look forward to seeing you on [Date] at [Time].​ ​</p>
 			<input type="button"  style="margin-right:30%;" value="Use template" class="btn btn-info pull-right template"   id="2"/>
 		</div>
 		<div class="col-lg-4" style="border:2px ;padding:10px;background:white;box-shadow: 2px 2px 2px 2px #888888">
