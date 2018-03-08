@@ -574,7 +574,7 @@ class model {
 		return $ret;
 	}
 	// Get brand Customer List
-	function get_brand_cust_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand )
+	function get_brand_cust_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
 	{	
 	//echo $action_taken_by;die;
 	//echo $amc_fromDate;
@@ -620,6 +620,22 @@ class model {
 			$condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date between '$fromDate' and '$toDate')";
 			}
 		}
+		if($yapnaaIdfm != null){
+			
+			$condition = " and zc.id >= '$yapnaaIdfm'";
+			
+		}
+		if($yapnaaIdto != null){
+			
+			
+			$condition = " and zc.id <= '$yapnaaIdto'";
+			
+		}
+		if($yapnaaIdfm != null && $yapnaaIdto != null){
+			
+			$condition = " and (zc.id between '$yapnaaIdfm' and '$yapnaaIdto')";
+			
+		}
 		 if($amc_fromDate != null){
 			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
 		}
@@ -641,7 +657,7 @@ class model {
 		}
 		switch($filterByBrand){
 			case 0:
-			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." ";
 			break;
 			case 1:
 			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes') ";
@@ -654,18 +670,22 @@ class model {
 			break;
 		}  
 		//echo 	$fromDate."==".$toDate."<br>"	 ;
-		//echo $sql;die;
+		//echo $sql;die; 
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		//print_r(mysqli_fetch_assoc($qry));die;
 		while($row=mysqli_fetch_assoc($qry)){
 			   
 			$user_phone=$row['PHONE1'];
-			  $qry1	=	connection()->query("SELECT distinct yq.questions,um.qst_id,um.answer FROM user_question_aws_mapping um left join yapnaa_questions yq on um.qst_id=yq.id  where um.user_phone=$user_phone "); 
+			  $qry1	=	connection()->query("SELECT distinct yq.questions,um.qst_id,um.answer,um.user_phone FROM user_question_aws_mapping um left join yapnaa_questions yq on um.qst_id=yq.id  where um.user_phone=$user_phone "); 
 			  while($row1=mysqli_fetch_assoc($qry1)){
 			  $ret1[]=$row1;
 			  }
+			  if($user_phone==$ret1[0]['user_phone']){
 			   $row['qust_map']=$ret1;
+			  }else{
+				  $row['qust_map']=array();
+			  }
 				$ret[]=$row;
 			}
 			//echo '<pre>';print_r($ret);exit;

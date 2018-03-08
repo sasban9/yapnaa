@@ -46,6 +46,18 @@ if(isset($_SESSION['admin_email_id']))
 		else{
 			$toDate	=	"";
 		}
+		if(isset($_POST['yapnaaIdfm']) && !empty($_POST['yapnaaIdfm'])){ //echo "<br>in from";
+			$yapnaaIdfm = $_POST['yapnaaIdfm'];
+		}
+		else{
+			$yapnaaIdfm = "";
+		}
+		if(isset($_POST['yapnaaIdto']) && !empty($_POST['yapnaaIdto'])){// echo "<br>in to";
+			$yapnaaIdto = $_POST['yapnaaIdto'];
+		}
+		else{
+			$yapnaaIdto	=	"";
+		}
 		if(isset($_POST['amc_fromDate']) && !empty($_POST['amc_fromDate'])){// echo "<br>in to";
 			$amc_fromDate= date_format(date_create($_POST['amc_fromDate']),"d-m-Y");
 		}
@@ -61,10 +73,10 @@ if(isset($_SESSION['admin_email_id']))
 		
 		//echo $fromDate."--".$toDate;die;
 		//echo $date1;exit;
-		$get_amc_list = $control->get_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand);
+		$get_amc_list = $control->get_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		
 		if(isset($_POST['da_downl']) || !empty($_POST['da_downl'])){
-			$control->download_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand);
+			$control->download_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 	}
 	/*else{
@@ -221,6 +233,14 @@ if(isset($_SESSION['admin_email_id']))
 			</div>
 			</br>
 			<div class="row">
+			<div class="col-lg-2 " >
+					<label>From</label>
+					<input type="text" class="form-control" placeholder="Yapnaa Id"  id="yapnaaIdfm" name="yapnaaIdfm" >
+				</div>
+				<div class="col-lg-2 " >
+					<label>To</label>
+					<input type="text" class="form-control"  placeholder="Yapnaa Id" id="yapnaaIdto" name="yapnaaIdto" >
+				</div>
              <div class="col-lg-2 old" style="display:none;">
 					<label>AMC From</label>
 					<input type="date" class="form-control"  id="amc_fromDate" name="amc_fromDate" >
@@ -265,6 +285,7 @@ if(isset($_SESSION['admin_email_id']))
 					<thead>
 					<tr>
 							<th><!--input type="checkbox" name="" id="selectAll" /--></th>
+							<th>Yapnaa ID</th>
 							<th><?php echo $customer; ?> ID</th>
 							<th>Phone </th>
 							<th>Name</th>
@@ -279,7 +300,7 @@ if(isset($_SESSION['admin_email_id']))
 					</thead>
 					<tbody>
 					<?php $j=1;?>
-					<?php 
+					<?php //echo '<pre>';print_r($get_amc_list);exit;
 						$numbers = array_column($get_amc_list,"PHONE1");//print_r($numbers);die;
 						$qust_map['qst'] = array_column($get_amc_list,"qust_map");
 						$qust_map = json_encode( $qust_map ); //convert array to a JSON string
@@ -297,11 +318,13 @@ if(isset($_SESSION['admin_email_id']))
 							//echo "<br>".$date1."--".$date2."--".$diff."<br>";
 							$datediff= (int)round(($date2 - $date1)/3600/24,0);
 							$qust_map1= $get_amc_list[$i]['qust_map'];
-							//echo '<pre>';print_r($qust_map);
+							//echo '<pre>';print_r($qust_map1);
 							//echo "Days".$datediff;
+							$PHONE1=$get_amc_list[$i]['PHONE1'];
 					?>
 						<tr>
 							<td><input id="individual_sms" type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
+							<td><?php echo $get_amc_list[$i]['id'];?></td>
 							<td <?php //echo "status".$get_amc_list[$i]['status'];
 									/*if($get_amc_list[$i]['users'] != null || !empty($get_amc_list[$i]['users'])){
 											echo 'style="background-color:orange;color:white;font-style:bold;"><i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>Yapnaa Registered';
@@ -396,8 +419,31 @@ if(isset($_SESSION['admin_email_id']))
 										echo "Not interested";
 									break;
 									case 3:
+										
+										if($get_amc_list[$i]['req_service_date'] !=NULL)
+										{
+										$time = strtotime($get_amc_list[$i]['req_service_date']);
+										echo "Service Appointment - ".date('d-m-Y H:i',$time);
+										}
+										else if($get_amc_list[$i]['req_amc_date'] !=NULL)
+										{
+										$time = strtotime($get_amc_list[$i]['req_amc_date']);
+										echo "AMC Appointment - ".date('d-m-Y H:i',$time);
+										}
+										else if($get_amc_list[$i]['req_upgrade_date'] !=NULL)
+										{
+										$time = strtotime($get_amc_list[$i]['req_upgrade_date']);
+										echo "Upgrade Appointment - ".date('d-m-Y H:i',$time);
+										}
+										else if($get_amc_list[$i]['req_follow_up_date'] !=NULL)
+										{
+										$time = strtotime($get_amc_list[$i]['req_follow_up_date']);
+										echo "Follow up Appointment - ".date('d-m-Y H:i',$time);
+										}
+										else{
 										$time = strtotime($get_amc_list[$i]['amc_appointment_datetime']);
 										echo "Appointment set - ".date('d-m-Y H:i',$time);
+										}
 									break;
 									case 4:
 										echo "Registered in App";
@@ -422,9 +468,9 @@ if(isset($_SESSION['admin_email_id']))
 							?></td> 
 							<td><?php echo empty($get_amc_list[$i]['last_call_comment'])?$get_amc_list[$i]['last_sms_sent']:$get_amc_list[$i]['last_call_comment']; ?></td>
 							<td><?php //if(!($datediff <= 15)){ ?>  
-							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button>
+							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button>
 							
-							<button type="button"  style="margin-right:2px; width:38px" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
+							<button type="button"  style="margin-right:2px; width:38px" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
 							 
 						</tr>
 					<?php $j++; } ?>
@@ -463,7 +509,7 @@ if(isset($_SESSION['admin_email_id']))
         </div>
         <div class="modal-body">
 
-		  	 <div class="row" style="padding-bottom:10px;border-bottom: 1px solid #e5e5e5;">
+		   <div class="row" style="padding-bottom:10px;border-bottom: 1px solid #e5e5e5;">
 				<div class="col-lg-5" style="border-right: 1px solid #e5e5e5;"> 
 				
 				<h4><?php for($i=0;$i<count($question);$i++){
@@ -482,17 +528,23 @@ if(isset($_SESSION['admin_email_id']))
 				<?php 
 				   
 					for($i=0;$i<count($question);$i++){
+						
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='SERVICE SATISFACTION LEVEL'){
 					       if( $question[$i]["group_id"]=='Service by brand'){
+//echo '<pre>';print_r($get_amc_list);
+					  
+							
 							 foreach($qust_map1 as $qm){
-								  if($qm['qst_id']==$question[$i]['id']){
-									  $qss=$qm['qst_id'];
-									  $ans=$qm['answer'];
+								  
+								  if($qm['qst_id']==$question[$i]['id'] && $qm['user_phone']==	$get_amc_list[$a]['PHONE1']){
+									    $qss=$qm['qst_id'];
+									   $user_phone=$qm['user_phone'];
+									   $ans=$qm['answer'];
 									  break;
 								  }
 							  }
-							   
+							
 						?>
 						
                  
@@ -505,16 +557,14 @@ if(isset($_SESSION['admin_email_id']))
 								<div class="col-lg-4" >
                                    <?php ?>								
 									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"
-									<?php 
-									if($qss==$question[$i]['id']){									
+									<?php
+									if($qss==$question[$i]['id'] ){ 							
 									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
 									} ?>
-
-
 									> 
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
-						<?php	} ?>
+							<?php	 }?>
 						</div>
 					 <?php }}}?>
 					
@@ -533,13 +583,17 @@ if(isset($_SESSION['admin_email_id']))
 							
 					       if( $question[$i]["group_id"]=='Source of service not known'){
 							  // $k=$i++;
+						
 							 foreach($qust_map1 as $qm){
-								  if($qm['qst_id']==$question[$i]['id']){
-									  $qss=$qm['qst_id'];
-									  $ans=$qm['answer'];
+								  
+								  if($qm['qst_id']==$question[$i]['id'] && $qm['user_phone']==	$get_amc_list[$a]['PHONE1']){
+									    $qss=$qm['qst_id'];
+									   $user_phone=$qm['user_phone'];
+									    $ans=$qm['answer'];
 									  break;
 								  }
-							  } 
+							  }
+						
 							
 						?>
 						
@@ -552,9 +606,10 @@ if(isset($_SESSION['admin_email_id']))
 							
 								<div class="col-lg-4" > 
 									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" 
-									<?php if($qss==$question[$i]['id']){									
+									<?php 
+									if($qss==$question[$i]['id'] ){									
 									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
-									}?> 
+									} ?> 
 									>
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
@@ -574,13 +629,17 @@ if(isset($_SESSION['admin_email_id']))
 						if( $question[$i]["group_level"]=='SERVICE SATISFACTION LEVEL'){
 							
 					       if( $question[$i]["group_id"]=='Not interested'){
-							foreach($qust_map1 as $qm){
+						
+							 foreach($qust_map1 as $qm){
+								  
 								  if($qm['qst_id']==$question[$i]['id']){
-									  $qss=$qm['qst_id'];
-									  $ans=$qm['answer'];
+									    $qss=$qm['qst_id'];
+									   $user_phone=$qm['user_phone'];
+									    $ans=$qm['answer'];
 									  break;
 								  }
-							  }     
+							  }
+						
 							 
 						?>
 						
@@ -592,7 +651,8 @@ if(isset($_SESSION['admin_email_id']))
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-5"> 
 									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"
-									<?php if($qss==$question[$i]['id']){									
+									<?php
+									if($qss==$question[$i]['id']){									
 									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
 									}?>
 									>
@@ -623,13 +683,18 @@ if(isset($_SESSION['admin_email_id']))
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='LOYALTY AND RETENTION INDEX'){
 							
-					     foreach($qust_map1 as $qm){
+					    
+							 foreach($qust_map1 as $qm){
+								  
 								  if($qm['qst_id']==$question[$i]['id']){
-									  $qss=$qm['qst_id'];
-									  $ans=$qm['answer'];
+									    $qss=$qm['qst_id'];
+									   $user_phone=$qm['user_phone'];
+									    $ans=$qm['answer'];
 									  break;
 								  }
-							  } 
+							  }
+							  
+						
 						?>
 						
                  
@@ -638,7 +703,9 @@ if(isset($_SESSION['admin_email_id']))
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-4" > 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php if($qss==$question[$i]['id']){									
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" 
+									<?php  
+									if($qss==$question[$i]['id']){									
 									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
 									}?>>
 									
@@ -662,34 +729,79 @@ if(isset($_SESSION['admin_email_id']))
 					for($i=0;$i<count($question);$i++){
 						$answers	=	$question[$i]["answers"];
 						if( $question[$i]["group_level"]=='CONVERSION OPPORTUNITY'){
-							
-					    foreach($qust_map1 as $qm){
+						
+							 foreach($qust_map1 as $qm){
+								  
 								  if($qm['qst_id']==$question[$i]['id']){
-									  $qss=$qm['qst_id'];
-									  $ans=$qm['answer'];
+									    $qss=$qm['qst_id'];
+									   
+									    $ans=$qm['answer'];
 									  break;
 								  }
-							  } 
+							  }
+							  
+						
 						?>
 						
                  
-					<br><br><label data-qid="<?php echo $question[$i]['id'];?>"><?php echo ($k++).". ".$question[$i]['questions'];?></label><br>
+					<br><label data-qid="<?php echo $question[$i]['id'];?>"><?php echo ($k++).". ".$question[$i]['questions'];?></label><br>
 						<div class="row"> 
 						<?php 
 							for($j=0;$j<count($answers);$j++){?>
 								<div class="col-lg-3"> 
-									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" <?php  if($qss==$question[$i]['id']){									
+									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>" 
+									<?php  
+									if($qss==$question[$i]['id'] ){									
 									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
 									}?>>
-									
+									 
 									
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
-						<?php	} ?>
+								
+								<?php } ?>
+						<?php  
+						
+						switch($question[$i]['id']){
+									case 17:
+								?>
+								<div class="controls input-append date form_datetime service_requested" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
+								<input size="16" type="text" value="" id="service_requested_date"  name="service_requested_date"  readonly>
+								<span class="add-on"><i class="icon-remove"></i></span>
+								<span class="add-on"><i class="icon-th"></i></span>
+								</div>
+								<?php break; 
+								      case 19:
+								?>
+								<div class="controls input-append date form_datetime amc_requested" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
+								<input size="16" type="text" value="" id="amc_requested_date"  name="amc_requested_date"  readonly>
+								<span class="add-on"><i class="icon-remove"></i></span>
+								<span class="add-on"><i class="icon-th"></i></span>
+								</div>
+								<?php break;
+								      case 21:
+								?>
+								<div class="controls input-append date form_datetime wish_upgrade" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
+								<input size="16" type="text" value="" id="wish_upgrade_date"  name="wish_upgrade_date"  readonly>
+								<span class="add-on"><i class="icon-remove"></i></span>
+								<span class="add-on"><i class="icon-th"></i></span>
+								</div>
+								<?php break;
+								      case 24:
+								?>
+								<div class="controls input-append date form_datetime follow_up" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
+								<input size="16" type="text" value="" id="follow_up_date"  name="follow_up_date"  readonly>
+								<span class="add-on"><i class="icon-remove"></i></span>
+								<span class="add-on"><i class="icon-th"></i></span>
+								</div>
+								<?php break;  
+								      default:
+						           }
+								?>
 						</div>
 							<?php }}?>
 				</div>
-		   </div><br> 
+		   </div><br>
 		   
           <div class="row">
 				<div class="col-lg-2"> 
@@ -940,19 +1052,19 @@ if(isset($_SESSION['admin_email_id']))
 				 <span>2. Under AMC<span id="service_amc"  style="padding-left: 172px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:109px;line-height: 43px;"></span></span>
+				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:102px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:83px;line-height: 43px;"></span></span>
+				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:74px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:92px;line-height: 43px;"></span></span>
+				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:85px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>6. Refers product<span id="service_pd"  style="padding-left:154px;line-height: 43px;"></span></span>
+				<span>6. Refers product<span id="service_pd"  style="padding-left:153px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:138px;line-height: 43px;"></span></span>
+				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:137px;line-height: 43px;"></span></span>
 				</div>
 				
 				</div>
@@ -984,25 +1096,31 @@ if(isset($_SESSION['admin_email_id']))
 				  <span>b) Cost reasons<span id="cust_res"  style="padding-left:161px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>c) Not convenient<span id="not_conv"  style="padding-left:151px;line-height: 29px;"></span></span>
+				  <span>c) Not convenient<span id="not_conv"  style="padding-left:149px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:147px;line-height: 29px;"></span></span>
+				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:146px;line-height: 29px;"></span></span>
 				</div>
 				</div>
 				<div class="col-lg-3" >
 					<h4>CONVERSION OPPORTUNITY</h4>
 					<div class="row" style="margin-left: 3px;">
-						<span>1. Service request received<span id="service_rec"  style="padding-left:111px;line-height: 43px;"></span></span>
+						<span>1. Service Request<span id="service_rec"  style="padding-left:111px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>2. AMC enquiry received<span id="amc_enquery"  style="padding-left:126px;line-height: 43px;"></span></span>
+						<span>2. AMC Enquiry<span id="amc_enquery"  style="padding-left:128px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>3. Upgrade enquiry <span id="upgrd"  style="padding-left:154px;line-height: 43px;"></span></span>
+						<span>3. Upgrade Enquiry <span id="upgrd"  style="padding-left:101px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>4. Escalation<span id="escl"  style="padding-left:194px;line-height: 43px;"></span></span>
+						<span>4. Escalation<span id="escl"  style="padding-left:147px;line-height: 43px;"></span></span>
+					</div>
+					<div class="row" style="margin-left: 3px;">
+						<span>5. Note on AMC Details<span id="amcdetails"  style="padding-left:82px;line-height: 43px;"></span></span>
+					</div>
+					<div class="row" style="margin-left: 3px;">
+						<span>6. Note on Upgrade Offers<span id="upgradeoffers"  style="padding-left:63px;line-height: 43px;"></span></span>
 					</div>
 				</div>
 			</div>
@@ -1071,6 +1189,42 @@ if(isset($_SESSION['admin_email_id']))
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+			$('input[type=radio][name=17]').on('change', function() {
+				 if($(this).val()=='Yes') {
+					 $('.service_requested').show();
+				 }
+				 else{
+					 $('.service_requested').hide();
+				 }
+					 
+			});
+			$('input[type=radio][name=19]').on('change', function() {
+				 if($(this).val()=='Yes') {
+					 $('.amc_requested').show();
+				 }
+				 else{
+					 $('.amc_requested').hide();
+				 }
+					 
+			});
+			$('input[type=radio][name=21]').on('change', function() {
+				 if($(this).val()=='Yes') {
+					 $('.wish_upgrade').show();
+				 }
+				 else{
+					 $('.wish_upgrade').hide();
+				 }
+					 
+			});
+			$('input[type=radio][name=24]').on('change', function() {
+				 if($(this).val()=='Yes') {
+					 $('.follow_up').show();
+				 }
+				 else{
+					 $('.follow_up').hide();
+				 }
+					 
+			});
 		    $('input[type=radio][name=newFilterCheck]').on('change', function() {
 				 switch($(this).val()) {
 					 case 'New Filter':
@@ -1151,16 +1305,21 @@ if(isset($_SESSION['admin_email_id']))
 					 $("input:radio[class=chk]:checked").each(function () {
 						var quest = $(this).attr("id");	
 						var ans = $(this).val();
-                        					
 						
+                        var follow_up_date = $('#follow_up_date').val();	
+						var wish_upgrade_date = $('#wish_upgrade_date').val();
+						var amc_requested_date = $('#amc_requested_date').val();	
+						var service_requested_date = $('#service_requested_date').val();
 					    var mob=	sessionStorage.mobile;
+					    var customerid=	sessionStorage.customerid;
+					    var customername=	sessionStorage.name;
 						
 						var brandId=1;
 						var brandName=(custType==2)?'Zero B':'Livpure';  
-						$.ajax({
+						 $.ajax({
 							url:"smsActions.php?custResponse=submit",
 							type:"POST",
-							data:{userQst:quest,answer:ans,number:mob,brandId:brandId,brandName:brandName},
+							data:{userQst:quest,answer:ans,number:mob,brandId:brandId,brandName:brandName,customerid:customerid,customername:customername,follow_up_date:follow_up_date,wish_upgrade_date:wish_upgrade_date,amc_requested_date:amc_requested_date,service_requested_date:service_requested_date},
 							success:function(response){
 								console.log(response);
 								
@@ -1168,7 +1327,7 @@ if(isset($_SESSION['admin_email_id']))
 							error:function(error){
 								//alert(JSON.stringify(error));
 							}
-						});
+						}); 
 				});
 				
 					alert("Customer response saved successfully.");
@@ -1280,6 +1439,12 @@ if(isset($_SESSION['admin_email_id']))
 				}
 				if($('#escl').html()==''){
 				$('#escl').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#amcdetails').html()==''){
+				$('#amcdetails').prepend('<img height="20" width="30" src="images/circle.svg" />');
+				}
+				if($('#upgradeoffers').html()==''){
+				$('#upgradeoffers').prepend('<img height="20" width="30" src="images/circle.svg" />');
 				}
 				if($('#service_kwd').html()==''){
 				$('#service_kwd').prepend('<img height="20" width="30" src="images/circle.svg" />');
@@ -1558,8 +1723,8 @@ if(isset($_SESSION['admin_email_id']))
 						} 
 						}
 						
-						if($('input[name='+18+']:checked').attr("value") ||  $('input[name='+19+']:checked').attr("value")){
-						if($('input[name='+18+']:checked').attr("value")=='Yes' || $('input[name='+19+']:checked').attr("value")=='Yes'){ 
+						if($('input[name='+19+']:checked').attr("value")){
+						if($('input[name='+19+']:checked').attr("value")=='Yes'){ 
 							$("#amc_enquery img:last-child").remove();
 							$('#amc_enquery').prepend('<img height="20" width="30" src="images/yes.svg" />');
 						   
@@ -1569,8 +1734,30 @@ if(isset($_SESSION['admin_email_id']))
 							$('#amc_enquery').prepend('<img height="20" width="30" src="images/no.svg" />');
 						} 
 						}
-						if($('input[name='+20+']:checked').attr("value") || $('input[name='+21+']:checked').attr("value")){
-						if($('input[name='+20+']:checked').attr("value")=='Yes' || $('input[name='+21+']:checked').attr("value")=='Yes'){
+						if($('input[name='+18+']:checked').attr("value")){
+						if($('input[name='+18+']:checked').attr("value")=='Yes'){ 
+							$("#amcdetails img:last-child").remove();
+							$('#amcdetails').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else{
+							$("#amcdetails img:last-child").remove();
+							$('#amcdetails').prepend('<img height="20" width="30" src="images/no.svg" />');
+						} 
+						}
+						if($('input[name='+20+']:checked').attr("value")){
+						if($('input[name='+20+']:checked').attr("value")=='Yes'){ 
+							$("#upgradeoffers img:last-child").remove();
+							$('#upgradeoffers').prepend('<img height="20" width="30" src="images/yes.svg" />');
+						   
+						}
+						else{
+							$("#upgradeoffers img:last-child").remove();
+							$('#upgradeoffers').prepend('<img height="20" width="30" src="images/no.svg" />');
+						} 
+						}
+						if( $('input[name='+21+']:checked').attr("value")){
+						if($('input[name='+21+']:checked').attr("value")=='Yes'){
 							$("#upgrd img:last-child").remove();
 							$('#upgrd').prepend('<img height="20" width="30" src="images/yes.svg" />');
 						   

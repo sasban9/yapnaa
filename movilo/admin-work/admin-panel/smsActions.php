@@ -53,13 +53,23 @@ if(isset($_SESSION['admin_email_id'])){
 		exit;
 	}
 	if(isset($_REQUEST['custResponse'])){
+				
 		$custType = $_REQUEST['custType'];
 		$userQst = $_REQUEST['userQst'];
 		$answer = $_REQUEST['answer'];
+		
+		
+		$amc_requested_date = $_REQUEST['amc_requested_date'];
+		$follow_up_date = $_REQUEST['follow_up_date'];
+		$wish_upgrade_date = $_REQUEST['wish_upgrade_date'];
+		$service_requested_date = $_REQUEST['service_requested_date'];
+		
 		$number = $_REQUEST['number'];
 		$brandId = $_REQUEST['brandId'];
 		$brandName = $_REQUEST['brandName'];
-		$_list = $control->insertStatus($userQst,$answer,$number,$brandId,$brandName);
+		$customerid = $_REQUEST['customerid'];
+		$customername = $_REQUEST['customername'];
+		$_list = $control->insertStatus($userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date);
 		echo 1;
 		exit;
 	}
