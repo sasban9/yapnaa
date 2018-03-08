@@ -31,13 +31,72 @@ class admin	{
 		//echo '<pre>'.print_r($result);die;
 		return $quest_arr;
 	}
- function insertStatus($userQst,$answer,$number,$brandId,$brandName){  
+ function insertStatus($userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
 	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
+	  
 	   $check_duplicate		=	$this->model->data_query($sql);
 	   
         if($check_duplicate !=NULL)
+		{
+			
+           $condition="user_phone=$number and qst_id=$userQst";			
+           $condition_brand="PHONE1=$number";			
+		   $set_array	=	array(
+		                   
+							'answer'				        =>	$answer,							
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+		$set_array_brand	=	array(
+		                    'status'                        =>3,
+		                    'req_service_date'              =>$service_requested_date,
+		                    'req_amc_date'                  =>$amc_requested_date,
+		                    'req_upgrade_date'              =>$wish_upgrade_date,
+		                    'req_follow_up_date'            =>$follow_up_date
+							
+							);
+            if( $brandId==1) 
+			{
+				$brandtable='livpure';
+			}
+			else{
+				$brandtable='zerob_consol1';
+			}	
+			$brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
+			
+			$result	=	$this->model->update($table,$set_array,$condition);	
+				
+					
+		}	
+		else{ 
+			
+			$arr_input	=	array(
+			               
+							'qst_id'				        =>	$userQst,							
+							'user_phone'			        =>	$number,
+							'answer'				        =>	$answer,
+							'brand_name'				    =>	$brandName,
+							'brand_id'                      =>  $brandId,
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			
+			$result		=	$this->model->insert($table,$arr_input);
+			 
+				 
+			
+		}
+			return $result;
+	
+ }	
+	function insertStatus1($userQst,$answer,$number,$brandId,$brandName,$customerid,$customername){  
+	date_default_timezone_set('Asia/Kolkata');
+	   $table		=	'user_question_aws_mapping';
+	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
+	  
+	   $check_duplicate		=	$this->model->data_query($sql);
+	   
+          if($check_duplicate !=NULL)
 		{
 			
            $condition="user_phone=$number and qst_id=$userQst";			
@@ -47,64 +106,14 @@ class admin	{
 							);
 			$result	=	$this->model->update($table,$set_array,$condition);
 			
-				/* $to="ranjan.jjbyte@gmail.com"; 
-					$text="test";
-					$subject="Service request received";
-					$this->send_email($text,$subject,$to); */
-				/* if($result){
-					if ($userQst=17 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new Service request";
-					$subject="Service request received";
-					$this->send_email($text,$subject,$to); 
-					break;
-					}
-					 if ($userQst=18 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new AMC enquiry";
-					$subject="AMC enquiry received";
-					$this->send_email($text,$subject,$to);	
-					break;
-					}
-					if ($userQst=19 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new AMC enquiry";
-					$subject="AMC enquiry received";
-					$this->send_email($text,$subject,$to);	
-					break;
-					}
-					if ($userQst=20 && $answer='Yes')
-					{
-                    $to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new Upgrade enquiry";
-					$subject="Upgrade enquiry";
-					$this->send_email($text,$subject,$to);
-					break;
-					}
-					 if ($userQst=20 && $answer='Yes')
-					{
-                    $to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new Upgrade enquiry";
-					$subject="Upgrade enquiry";
-					$this->send_email($text,$subject,$to);
-					break;
-					}
-					 if ($userQst=23 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com";  
-					$text="Hi,You have got a Escalation";
-					$subject="Escalation";
-					$this->send_email($text,$subject,$to);	
-					break;
-				    }  
-				} */
 				
-			
+				if($result){
+					return $result;
+				}
+					
 		}
-		else{
+		else{  
+			
 			$arr_input	=	array(
 							'qst_id'				        =>	$userQst,							
 							'user_phone'			        =>	$number,
@@ -115,60 +124,15 @@ class admin	{
 							);
 			$result		=	$this->model->insert($table,$arr_input);
 			 
-				/* if($result){
-					if ($userQst=17 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new Service request";
-					$subject="Service request received";
-					$this->send_email($text,$subject,$to); 
-					break;
-					}
-					 if ($userQst=18 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new AMC enquiry";
-					$subject="AMC enquiry received";
-					$this->send_email($text,$subject,$to);	
-					break;
-					}
-					 if ($userQst=19 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new AMC enquiry";
-					$subject="AMC enquiry received";
-					$this->send_email($text,$subject,$to);	
-					break;
-					}
-				    if ($userQst=20 && $answer='Yes')
-					{
-                    $to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new Upgrade enquiry";
-					$subject="Upgrade enquiry";
-					$this->send_email($text,$subject,$to);
-					break;
-					}
-					if ($userQst=20 && $answer='Yes')
-					{
-                    $to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a new Upgrade enquiry";
-					$subject="Upgrade enquiry";
-					$this->send_email($text,$subject,$to);
-					break;
-					}
-					 if ($userQst=23 && $answer='Yes')
-					{
-					$to="ranjan.jjbyte@gmail.com"; 
-					$text="Hi,You have got a Escalation";
-					$subject="Escalation";
-					$this->send_email($text,$subject,$to);	
-					break;
-				    }  
-				} */ 
+				if($result){
+					
+					return true;
+				} 
 			
 		}
-			return $result;
-	} 
+			
+	
+	}
 	function user_answer_select(){
 		$user_answer= array();
 		$table		=	'yapnaa_questions';	
@@ -4123,18 +4087,18 @@ class admin	{
 		// print_r($arr_log_in );
 
     }// SEARCH Customer
-	function get_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand)
+	function get_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
 		$arr_log_in=array();
 		if($_GET['customer_type']==1){
 			$table='livpure';
 		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand);
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 		if($_GET['customer_type']==2){
 			$table='zerob_consol1';
 		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand);
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 		return $arr_log_in;
 		// print_r($arr_log_in );
@@ -4970,8 +4934,161 @@ class admin	{
 			
 		$headers 				= 'MIME-Version: 1.0'. "\r\n";
 		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
-		$headers 			.= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
+		$headers 			.= 'From: Yapnaa Admin <info@yapnaa.com>'. "\r\n";
+		$headers            .= 'Cc: ranjan.jjbyte@gmail.com ' . "\r\n";
+		//echo $subject;die;
+		// Mail it
+		mail($to, $subject, $message,$headers);
 		
+	}
+	function send_email111($subject,$to,$customerid,$customername,$number){
+		$message	=	'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <!--[if !mso]><!-->
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!--<![endif]-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  
+	     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+      <!--[if (gte mso 9)|(IE)]>
+      <style type="text/css">
+         table {border-collapse: collapse !important;}
+      </style>
+      <![endif]-->
+   <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/07F733F4-CC45-CA48-AAE8-118119D9AF18/main.js" charset="UTF-8"></script></head>
+   
+
+   <style>
+   td img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+   </style>
+   
+   
+   <body style="Margin:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;min-width:100%;background-color:#ececec;">
+      <center class="wrapper" style="width:100%;table-layout:fixed;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#ececec;">
+         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ececec;" bgcolor="#ececec;">
+            <tr>
+               <td width="100%">
+                  <div class="webkit" style="width:650px;Margin:0 auto; background:#fff;">
+                     <!--[if (gte mso 9)|(IE)]>
+                     <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0" >
+                        <tr>
+                           <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                              <![endif]--> 
+                              <!-- ======= start main body ======= -->
+                              <table class="outer" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0;Margin:0 auto;width:100%;max-width:600px;">
+                                 <tr>
+                                    <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">
+                                       <!-- ======= start header ======= -->
+                                       <table border="0" width="100%" cellpadding="0" cellspacing="0"  >
+                                          <tr>
+                                             <td>
+                                                <table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td align="center">
+                                                            <center>
+                                                               <table border="0" align="center" width="100%" cellpadding="0" cellspacing="0" style="Margin: 0 auto;">
+                                                                  <tbody>
+                                                                     <tr>
+                                                                        <td class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" bgcolor="#FFFFFF">
+                                                                           <!-- ======= start header ======= -->
+                                                                           <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                              <tr>
+                                                                                 <td class="two-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;text-align:center;font-size:0;">
+                                                                                    <!--[if (gte mso 9)|(IE)]>
+                                                                                    <table width="100%" style="border-spacing:0" >
+                                                                                       <tr>
+                                                                                          <td width="20%" valign="top" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                                                                                             <![endif]-->
+                                                                                             <div class="column" style="width:100%;max-width:110px;display:inline-block;vertical-align:top;">
+                                                                                                <table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
+                                                                                                   <tr>
+																								   <td></td>
+                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="center"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+                                                               <td></td>                                    </tr>
+                                                                                                </table>
+                                                                                             </div>
+                                                                                            
+                                                                                 </td>
+                                                                              </tr>
+                                                                              <tr >
+                                                                                 <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                                                       <tr>
+                                                                                          <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                                                       </tr>
+                                                                                    </table>
+                                                                                 </td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                              </tr>
+                                                                           </table>
+                                                                        </td>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </center>
+                                                         </td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end header ======= --> 
+                                       <!-- ======= start hero article ======= -->
+                                       <table class="one-column" border="0" cellpadding="40" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td  style="text-align:center;"> 
+                                                
+												
+												<p style="text-align:center;color:#666666; font-size:21px;  font-family: "Montserrat", sans-serif;""><b>'.$subject.'</b></p>
+												
+                                               
+                                             </td>
+                                          </tr>
+										  <tr><td style="padding-bottom:2%; padding-top:2%;">
+										  
+											<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;""><b>ID:'.$customerid.'</b></p>
+											<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;""><b>Name:'.$customername.'</b></p>
+											<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;""><b>Number:'.$number.'</b></p>
+										   <!-- START BUTTON -->
+                                                <!-- END BUTTON -->
+										  </td></tr>
+                                       </table>
+                                       <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td align="center">&nbsp;</td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end hero article ======= --> 
+                                      
+   </body>
+</html>
+			';
+			
+		$headers 				= 'MIME-Version: 1.0'. "\r\n";
+		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
+		$headers 			.= 'From: Yapnaa Admin <info@yapnaa.com>'. "\r\n";
+		$headers            .= 'Cc: ranjan.jjbyte@gmail.com ' . "\r\n";
 		//echo $subject;die;
 		// Mail it
 		mail($to, $subject, $message,$headers);
