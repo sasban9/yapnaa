@@ -56,13 +56,16 @@ class admin	{
 		                    'req_follow_up_date'            =>$follow_up_date
 							
 							);
-            if( $brandId==1) 
+            switch( $brandId) 
 			{
+				case 1:
 				$brandtable='livpure';
-			}
-			else{
+				break;
+				case 2:
 				$brandtable='zerob_consol1';
-			}	
+				break;
+			}
+		   	
 			$brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
 			
 			$result	=	$this->model->update($table,$set_array,$condition);	

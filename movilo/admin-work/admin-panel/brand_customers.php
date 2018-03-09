@@ -1314,7 +1314,7 @@ if(isset($_SESSION['admin_email_id']))
 					    var customerid=	sessionStorage.customerid;
 					    var customername=	sessionStorage.name;
 						
-						var brandId=1;
+						var brandId=(custType==2)?2:1; 
 						var brandName=(custType==2)?'Zero B':'Livpure';  
 						 $.ajax({
 							url:"smsActions.php?custResponse=submit",
