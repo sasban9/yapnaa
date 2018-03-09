@@ -58,11 +58,30 @@ if(isset($_SESSION['admin_email_id'])){
 		$userQst = $_REQUEST['userQst'];
 		$answer = $_REQUEST['answer'];
 		
-		
-		$amc_requested_date = $_REQUEST['amc_requested_date'];
-		$follow_up_date = $_REQUEST['follow_up_date'];
-		$wish_upgrade_date = $_REQUEST['wish_upgrade_date'];
-		$service_requested_date = $_REQUEST['service_requested_date'];
+		if(!empty($_REQUEST['amc_requested_date'])){
+		$amc_requested_date = date('Y-m-d h:i' , strtotime($_REQUEST['amc_requested_date']));
+		}
+		else{
+		$amc_requested_date ='';	
+		}
+		if(!empty($_REQUEST['follow_up_date'])){
+		$follow_up_date = date('Y-m-d h:i' , strtotime($_REQUEST['follow_up_date']));
+		}
+		else{
+		$follow_up_date ='';	
+		}
+		if(!empty($_REQUEST['wish_upgrade_date'])){
+		$wish_upgrade_date = date('Y-m-d h:i' , strtotime($_REQUEST['wish_upgrade_date']));
+		}
+		else{
+		$wish_upgrade_date ='';	
+		}
+		if(!empty($_REQUEST['service_requested_date'])){
+		$service_requested_date = date('Y-m-d h:i' , strtotime($_REQUEST['service_requested_date']));  
+        }
+		else{
+		$service_requested_date ='';	
+		}		
 		
 		$number = $_REQUEST['number'];
 		$brandId = $_REQUEST['brandId'];

@@ -31,6 +31,417 @@ class admin	{
 		//echo '<pre>'.print_r($result);die;
 		return $quest_arr;
 	}
+	function followup_cron($followuptype){
+		switch($followuptype){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            break;			
+		}
+		
+		$fields		=	'*';
+		$condition 	=	"STATUS =3 AND DATE(req_follow_up_date) = DATE_ADD(CURDATE(),INTERVAL 1 
+DAY)";				
+		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
+		
+		foreach($result as  $key => $value ){
+			 $name .=$value['CUSTOMER_NAME'].'<br>';
+			 $custid .=$value['CUSTOMERID'].'<br>';
+			 $phone .=$value['PHONE1'].'<br>';
+			 $date .=$value['req_follow_up_date'].'<br>'; 
+			
+		}
+		 
+		$to = "sriramm@moviloglobal.com";
+		$subject = "Follow Up Customers of $titlename1";
+		$message = "
+<html>
+<head>
+<title>Follow Up Customers</title>
+</head>
+<body>
+<p>Hi,You have some follow up customers as below:-</p>
+<table>
+<tr>
+<th>Name</th>
+<th></th>
+<th></th>
+<th>Customer Id</th>
+<th></th>
+<th></th>
+<th>Phone Number</th>
+<th></th>
+<th></th>
+<th>Date</th>
+</tr>
+<tr>
+<td>$name</td>
+<td></td>
+<td></td>
+<td>$custid</td>
+<td></td>
+<td></td>
+<td>$phone</td>
+<td></td>
+<td></td>
+<td>$date</td>
+</tr>
+</table>
+</body>
+</html>
+";
+		
+		 
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= "From: info@yapnaa.com" . "\r\n" .
+		"CC: harshal.jjbytes@gmail.com";
+        		
+
+		mail($to,$subject,$message,$headers);
+		//echo '<pre>';print_r($result);die;
+		
+		return true;
+	}
+	function conversion_oppertunity($conversionopp){  
+		switch($conversionopp){
+			case 1:
+		    $table		=	'livpure';
+			$titlename2='Livpure';
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename2='Zero B';
+            break;			
+		}
+		
+		$fields		=	'*';
+		$condition1 	=	"STATUS =3 AND DATE(req_service_date) > CURDATE() ";
+		$condition2 	=	"STATUS =3 AND DATE(req_amc_date) > CURDATE() ";	
+		$condition3 	=	"STATUS =3 AND DATE(req_upgrade_date)  > CURDATE() ";				
+		$condition4 	=	"phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
+		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
+		$result3	=	$this->model->get_Details_condition($table,$fields,$condition3);
+		$result4	=	$this->model->get_Details_condition($table,$fields,$condition4);
+		
+		foreach($result1 as  $key1 => $value1 ){
+			 $name1 .=$value1['CUSTOMER_NAME'].'<br>';
+			 $custid1 .=$value1['CUSTOMERID'].'<br>';
+			 $phone1 .=$value1['PHONE1'].'<br>';
+			 $date1 .=$value1['req_service_date'].'<br>'; 
+			
+		}
+		foreach($result2 as  $key2 => $value2 ){
+			 $name2 .=$value2['CUSTOMER_NAME'].'<br>';
+			 $custid2 .=$value2['CUSTOMERID'].'<br>';
+			 $phone2 .=$value2['PHONE1'].'<br>';
+			 $date2 .=$value2['req_amc_date'].'<br>'; 
+			
+		}
+		foreach($result3 as  $key3 => $value3 ){
+			 $name3 .=$value3['CUSTOMER_NAME'].'<br>';
+			 $custid3 .=$value3['CUSTOMERID'].'<br>';
+			 $phone3 .=$value3['PHONE1'].'<br>';
+			 $date3 .=$value3['req_upgrade_date'].'<br>'; 
+			
+		}
+		foreach($result4 as  $key4 => $value4 ){
+			 $name4 .=$value4['CUSTOMER_NAME'].'<br>';
+			 $custid4 .=$value4['CUSTOMERID'].'<br>';
+			 $phone4 .=$value4['PHONE1'].'<br>';
+			 $date4 .=$value4['req_upgrade_date'].'<br>'; 
+			
+		}
+		
+		$to = "sriramm@moviloglobal.com";
+		$subject = "Conversion Opportunity of $titlename2";
+		$message = "
+<html>
+<head>
+<title>Service Request Customers</title>
+</head>
+<body>
+<h3>Service Request :-</h3>
+<table>
+<tr>
+<th>Name</th>
+<th></th>
+<th></th>
+<th>Customer Id</th>
+<th></th>
+<th></th>
+<th>Phone Number</th>
+<th></th>
+<th></th>
+<th>Date</th>
+</tr>
+<tr>
+<td>$name1</td>
+<td></td>
+<td></td>
+<td>$custid1</td>
+<td></td>
+<td></td>
+<td>$phone1</td>
+<td></td>
+<td></td>
+<td>$date1</td>
+</tr>
+</table>
+</body>
+</html>
+";
+$message .= "
+<html>
+<head>
+<title>AMC Enquiry Customers</title>
+</head>
+<body>
+<h3>AMC Enquiry :-</h3>
+<table>
+<tr>
+<th>Name</th>
+<th></th>
+<th></th>
+<th>Customer Id</th>
+<th></th>
+<th></th>
+<th>Phone Number</th>
+<th></th>
+<th></th>
+<th>Date</th>
+</tr>
+<tr>
+<td>$name2</td>
+<td></td>
+<td></td>
+<td>$custid2</td>
+<td></td>
+<td></td>
+<td>$phone2</td>
+<td></td>
+<td></td>
+<td>$date2</td>
+</tr>
+</table>
+</body>
+</html>
+";
+$message .= "
+<html>
+<head>
+<title>Upgrade Enquiry  Customers</title>
+</head>
+<body>
+<h3>Upgrade Enquiry :-</h3>
+<table>
+<tr>
+<th>Name</th>
+<th></th>
+<th></th>
+<th>Customer Id</th>
+<th></th>
+<th></th>
+<th>Phone Number</th>
+<th></th>
+<th></th>
+<th>Date</th>
+</tr>
+<tr>
+<td>$name3</td>
+<td></td>
+<td></td>
+<td>$custid3</td>
+<td></td>
+<td></td>
+<td>$phone3</td>
+<td></td>
+<td></td>
+<td>$date3</td>
+</tr>
+</table>
+</body>
+</html>
+";
+$message .= "
+<html>
+<head>
+<title>Escalation  Customers</title>
+</head>
+<body>
+<h3>Escalation :-</h3>
+<table>
+<tr>
+<th>Name</th>
+<th></th>
+<th></th>
+<th>Customer Id</th>
+<th></th>
+<th></th>
+<th>Phone Number</th>
+<th></th>
+<th></th>
+<th>Date</th>
+</tr>
+<tr>
+<td>$name4</td>
+<td></td>
+<td></td>
+<td>$custid4</td>
+<td></td>
+<td></td>
+<td>$phone4</td>
+<td></td>
+<td></td>
+<td>$date4</td>
+</tr>
+</table>
+</body>
+</html>
+";
+		
+		 
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= "From: info@yapnaa.com" . "\r\n";
+        		
+
+		mail($to,$subject,$message,$headers);
+		//echo '<pre>';print_r($result);die;
+		
+		return true;
+	}
+	
+	function amcupgrade($amcupgrade){  
+		switch($amcupgrade){
+			case 1:
+		    $table		=	'livpure';
+			$titlename='Livpure';
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename='Zero B';
+            break;			
+		}
+		
+		$fields		=	'*';
+		$condition1 	=	"phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =18 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";
+		$condition2 	=	"phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =20 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( )) ";	
+					
+		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
+		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
+		
+		
+		foreach($result1 as  $key1 => $value1 ){
+			 $name1 .=$value1['CUSTOMER_NAME'].'<br>';
+			 $custid1 .=$value1['CUSTOMERID'].'<br>';
+			 $phone1 .=$value1['PHONE1'].'<br>';
+			 $date1 .=''.'<br>'; 
+			
+		}
+		foreach($result2 as  $key2 => $value2 ){
+			 $name2 .=$value2['CUSTOMER_NAME'].'<br>';
+			 $custid2 .=$value2['CUSTOMERID'].'<br>';
+			 $phone2 .=$value2['PHONE1'].'<br>';
+			 $date2 .=''.'<br>'; 
+			
+		}
+		
+		
+		$to = "sriramm@moviloglobal.com";
+		$subject = "AMC and Upgrade Offers Customer of $titlename";
+		$message = "
+<html>
+<head>
+<title>Note for AMC Details</title>
+</head>
+<body>
+<h3>Note for AMC Details Customers :-</h3>
+<table>
+<tr>
+<th>Name</th>
+<th></th>
+<th></th>
+<th>Customer Id</th>
+<th></th>
+<th></th>
+<th>Phone Number</th>
+<th></th>
+<th></th>
+<th>Date</th>
+</tr>
+<tr>
+<td>$name1</td>
+<td></td>
+<td></td>
+<td>$custid1</td>
+<td></td>
+<td></td>
+<td>$phone1</td>
+<td></td>
+<td></td>
+<td>$date1</td>
+</tr>
+</table>
+</body>
+</html>
+";
+$message .= "
+<html>
+<head>
+<title>Note for Upgrade Offers</title>
+</head>
+<body>
+<h3>Note for Upgrade Offers Customers :-</h3>
+<table>
+<tr>
+<th>Name</th>
+<th></th>
+<th></th>
+<th>Customer Id</th>
+<th></th>
+<th></th>
+<th>Phone Number</th>
+<th></th>
+<th></th>
+<th>Date</th>
+</tr>
+<tr>
+<td>$name2</td>
+<td></td>
+<td></td>
+<td>$custid2</td>
+<td></td>
+<td></td>
+<td>$phone2</td>
+<td></td>
+<td></td>
+<td>$date2</td>
+</tr>
+</table>
+</body>
+</html>
+";
+
+		
+		 
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= "From: info@yapnaa.com" . "\r\n" .
+		"CC: harshal.jjbytes@gmail.com";
+        		
+
+		mail($to,$subject,$message,$headers);
+		//echo '<pre>';print_r($result);die;
+		
+		return true;
+	} 
+	
  function insertStatus($userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
