@@ -765,15 +765,16 @@ if(isset($_SESSION['admin_email_id']))
 						switch($question[$i]['id']){
 									case 17:
 								?>
-								<div class="controls input-append date form_datetime service_requested" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
-								<input size="16" type="text" value="" id="service_requested_date"  name="service_requested_date"  readonly>
-								<span class="add-on"><i class="icon-remove"></i></span>
-								<span class="add-on"><i class="icon-th"></i></span>
-								</div>
+								
+					<div class="controls input-append date form_datetime service_requested" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
+						<input size="16" type="text" value="" id="service_requested_date"  name="service_requested_date"  readonly>
+						<span class="add-on"><i class="icon-remove"></i></span>
+						<span class="add-on"><i class="icon-th"></i></span>
+					</div>
 								<?php break; 
 								      case 19:
 								?>
-								<div class="controls input-append date form_datetime amc_requested" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
+								<div class="controls input-append date form_datetime amc_requested" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
 								<input size="16" type="text" value="" id="amc_requested_date"  name="amc_requested_date"  readonly>
 								<span class="add-on"><i class="icon-remove"></i></span>
 								<span class="add-on"><i class="icon-th"></i></span>
@@ -781,7 +782,7 @@ if(isset($_SESSION['admin_email_id']))
 								<?php break;
 								      case 21:
 								?>
-								<div class="controls input-append date form_datetime wish_upgrade" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
+								<div class="controls input-append date form_datetime wish_upgrade" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
 								<input size="16" type="text" value="" id="wish_upgrade_date"  name="wish_upgrade_date"  readonly>
 								<span class="add-on"><i class="icon-remove"></i></span>
 								<span class="add-on"><i class="icon-th"></i></span>
@@ -789,7 +790,7 @@ if(isset($_SESSION['admin_email_id']))
 								<?php break;
 								      case 24:
 								?>
-								<div class="controls input-append date form_datetime follow_up" data-date="2017-09-16T05:25:07Z" data-date-format="yyyy-mm-dd H:i" data-link-field="dtp_input1" hidden="hidden">
+								<div class="controls input-append date form_datetime follow_up" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
 								<input size="16" type="text" value="" id="follow_up_date"  name="follow_up_date"  readonly>
 								<span class="add-on"><i class="icon-remove"></i></span>
 								<span class="add-on"><i class="icon-th"></i></span>
@@ -1118,7 +1119,7 @@ if(isset($_SESSION['admin_email_id']))
 					</div>
 					<div class="row" style="margin-left: 3px;">
 						<span>5. Note on AMC Details<span id="amcdetails"  style="padding-left:82px;line-height: 43px;"></span></span>
-					</div> 
+					</div>
 					<div class="row" style="margin-left: 3px;">
 						<span>6. Note on Upgrade Offers<span id="upgradeoffers"  style="padding-left:66px;line-height: 43px;"></span></span>
 					</div>
@@ -1310,6 +1311,7 @@ if(isset($_SESSION['admin_email_id']))
 						var wish_upgrade_date = $('#wish_upgrade_date').val();
 						var amc_requested_date = $('#amc_requested_date').val();	
 						var service_requested_date = $('#service_requested_date').val();
+						
 					    var mob=	sessionStorage.mobile;
 					    var customerid=	sessionStorage.customerid;
 					    var customername=	sessionStorage.name;
