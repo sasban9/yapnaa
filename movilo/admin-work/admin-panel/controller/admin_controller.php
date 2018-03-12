@@ -49,14 +49,15 @@ DAY)";
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		
 		foreach($result as  $key => $value ){
-			 $name .=$value['CUSTOMER_NAME'].'<br>';
-			 $custid .=$value['CUSTOMERID'].'<br>';
-			 $phone .=$value['PHONE1'].'<br>';
-			 $date .=$value['req_follow_up_date'].'<br>'; 
+			 $name .=$value['CUSTOMER_NAME'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $custid .=$value['CUSTOMERID'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $phone .=$value['PHONE1'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $date .=$value['req_follow_up_date'].'<p style="border-bottom: 1px  solid black;"></p>'; 
 			
 		}
 		 
-		$to = "sriramm@moviloglobal.com";
+		//$to = "sriramm@moviloglobal.com";
+		$to = "ranjan.jjbyte@gmail.com";
 		$subject = "Follow Up Customers of $titlename1";
 		$message = "
 <html>
@@ -65,30 +66,18 @@ DAY)";
 </head>
 <body>
 <p>Hi,You have some follow up customers as below:-</p>
-<table>
-<tr>
-<th>Name</th>
-<th></th>
-<th></th>
-<th>Customer Id</th>
-<th></th>
-<th></th>
-<th>Phone Number</th>
-<th></th>
-<th></th>
-<th>Date</th>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Customer Id</th>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
 </tr>
-<tr>
-<td>$name</td>
-<td></td>
-<td></td>
-<td>$custid</td>
-<td></td>
-<td></td>
-<td>$phone</td>
-<td></td>
-<td></td>
-<td>$date</td>
+<tr style='height:25px'> 
+<td style='border: 1px solid black;'>$date</td>
+<td style='border: 1px solid black;'>$custid</td>
+<td style='border: 1px solid black;'>$name</td>
+<td style='border: 1px solid black;'>$phone</td>
 </tr>
 </table>
 </body>
@@ -98,8 +87,9 @@ DAY)";
 		 
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headers .= "From: info@yapnaa.com" . "\r\n" .
-		"CC: harshal.jjbytes@gmail.com";
+		/* $headers .= "From: info@yapnaa.com" . "\r\n" .
+		"CC: harshal.jjbytes@gmail.com"; */
+		$headers .= "From: info@yapnaa.com" . "\r\n";
         		
 
 		mail($to,$subject,$message,$headers);
@@ -130,31 +120,31 @@ DAY)";
 		$result4	=	$this->model->get_Details_condition($table,$fields,$condition4);
 		
 		foreach($result1 as  $key1 => $value1 ){
-			 $name1 .=$value1['CUSTOMER_NAME'].'<br>';
-			 $custid1 .=$value1['CUSTOMERID'].'<br>';
-			 $phone1 .=$value1['PHONE1'].'<br>';
-			 $date1 .=$value1['req_service_date'].'<br>'; 
+			 $name1 .=$value1['CUSTOMER_NAME'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $custid1 .=$value1['CUSTOMERID'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $phone1 .=$value1['PHONE1'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $date1 .=$value1['req_service_date'].'<p style="border-bottom: 1px  solid black;"></p>'; 
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
-			 $name2 .=$value2['CUSTOMER_NAME'].'<br>';
-			 $custid2 .=$value2['CUSTOMERID'].'<br>';
-			 $phone2 .=$value2['PHONE1'].'<br>';
-			 $date2 .=$value2['req_amc_date'].'<br>'; 
+			 $name2 .=$value2['CUSTOMER_NAME'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $custid2 .=$value2['CUSTOMERID'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $phone2 .=$value2['PHONE1'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $date2 .=$value2['req_amc_date'].'<p style="border-bottom: 1px  solid black;"></p>'; 
 			
 		}
 		foreach($result3 as  $key3 => $value3 ){
-			 $name3 .=$value3['CUSTOMER_NAME'].'<br>';
-			 $custid3 .=$value3['CUSTOMERID'].'<br>';
-			 $phone3 .=$value3['PHONE1'].'<br>';
-			 $date3 .=$value3['req_upgrade_date'].'<br>'; 
+			 $name3 .=$value3['CUSTOMER_NAME'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $custid3 .=$value3['CUSTOMERID'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $phone3 .=$value3['PHONE1'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $date3 .=$value3['req_upgrade_date'].'<p style="border-bottom: 1px  solid black;"></p>'; 
 			
 		}
 		foreach($result4 as  $key4 => $value4 ){
-			 $name4 .=$value4['CUSTOMER_NAME'].'<br>';
-			 $custid4 .=$value4['CUSTOMERID'].'<br>';
-			 $phone4 .=$value4['PHONE1'].'<br>';
-			 $date4 .=$value4['req_upgrade_date'].'<br>'; 
+			 $name4 .=$value4['CUSTOMER_NAME'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $custid4 .=$value4['CUSTOMERID'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $phone4 .=$value4['PHONE1'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $date4 .=$value4['req_upgrade_date'].'<p style="border-bottom: 1px  solid black;"></p>'; 
 			
 		}
 		
@@ -167,30 +157,20 @@ DAY)";
 </head>
 <body>
 <h3>Service Request :-</h3>
-<table>
-<tr>
-<th>Name</th>
-<th></th>
-<th></th>
-<th>Customer Id</th>
-<th></th>
-<th></th>
-<th>Phone Number</th>
-<th></th>
-<th></th>
-<th>Date</th>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Customer Id</th>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+
+
 </tr>
-<tr>
-<td>$name1</td>
-<td></td>
-<td></td>
-<td>$custid1</td>
-<td></td>
-<td></td>
-<td>$phone1</td>
-<td></td>
-<td></td>
-<td>$date1</td>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>$date1</td>
+<td style='border: 1px solid black;'>$custid1</td>
+<td style='border: 1px solid black;'>$name1</td>
+<td style='border: 1px solid black;'>$phone1</td>
 </tr>
 </table>
 </body>
@@ -203,30 +183,20 @@ $message .= "
 </head>
 <body>
 <h3>AMC Enquiry :-</h3>
-<table>
-<tr>
-<th>Name</th>
-<th></th>
-<th></th>
-<th>Customer Id</th>
-<th></th>
-<th></th>
-<th>Phone Number</th>
-<th></th>
-<th></th>
-<th>Date</th>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Customer Id</th>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+
+
 </tr>
-<tr>
-<td>$name2</td>
-<td></td>
-<td></td>
-<td>$custid2</td>
-<td></td>
-<td></td>
-<td>$phone2</td>
-<td></td>
-<td></td>
-<td>$date2</td>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>$date2</td>
+<td style='border: 1px solid black;'>$custid2</td>
+<td style='border: 1px solid black;'>$name2</td>
+<td style='border: 1px solid black;'>$phone2</td>
 </tr>
 </table>
 </body>
@@ -239,30 +209,20 @@ $message .= "
 </head>
 <body>
 <h3>Upgrade Enquiry :-</h3>
-<table>
-<tr>
-<th>Name</th>
-<th></th>
-<th></th>
-<th>Customer Id</th>
-<th></th>
-<th></th>
-<th>Phone Number</th>
-<th></th>
-<th></th>
-<th>Date</th>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Customer Id</th>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+
+
 </tr>
-<tr>
-<td>$name3</td>
-<td></td>
-<td></td>
-<td>$custid3</td>
-<td></td>
-<td></td>
-<td>$phone3</td>
-<td></td>
-<td></td>
-<td>$date3</td>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>$date3</td>
+<td style='border: 1px solid black;'>$custid3</td>
+<td style='border: 1px solid black;'>$name3</td>
+<td style='border: 1px solid black;'>$phone3</td>
 </tr>
 </table>
 </body>
@@ -275,30 +235,20 @@ $message .= "
 </head>
 <body>
 <h3>Escalation :-</h3>
-<table>
-<tr>
-<th>Name</th>
-<th></th>
-<th></th>
-<th>Customer Id</th>
-<th></th>
-<th></th>
-<th>Phone Number</th>
-<th></th>
-<th></th>
-<th>Date</th>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Customer Id</th>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+
+
 </tr>
-<tr>
-<td>$name4</td>
-<td></td>
-<td></td>
-<td>$custid4</td>
-<td></td>
-<td></td>
-<td>$phone4</td>
-<td></td>
-<td></td>
-<td>$date4</td>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>$date4</td>
+<td style='border: 1px solid black;'>$custid4</td>
+<td style='border: 1px solid black;'>$name4</td>
+<td style='border: 1px solid black;'>$phone4</td>
 </tr>
 </table>
 </body>
@@ -338,17 +288,17 @@ $message .= "
 		
 		
 		foreach($result1 as  $key1 => $value1 ){
-			 $name1 .=$value1['CUSTOMER_NAME'].'<br>';
-			 $custid1 .=$value1['CUSTOMERID'].'<br>';
-			 $phone1 .=$value1['PHONE1'].'<br>';
+			 $name1 .=$value1['CUSTOMER_NAME'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $custid1 .=$value1['CUSTOMERID'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $phone1 .=$value1['PHONE1'].'<p style="border-bottom: 1px  solid black;"></p>';
 			 $date1 .=''.'<br>'; 
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
-			 $name2 .=$value2['CUSTOMER_NAME'].'<br>';
-			 $custid2 .=$value2['CUSTOMERID'].'<br>';
-			 $phone2 .=$value2['PHONE1'].'<br>';
-			 $date2 .=''.'<br>'; 
+			 $name2 .=$value2['CUSTOMER_NAME'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $custid2 .=$value2['CUSTOMERID'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $phone2 .=$value2['PHONE1'].'<p style="border-bottom: 1px  solid black;"></p>';
+			 $date2 .=''.'<p style="border-bottom: 1px  solid black;"></p>'; 
 			
 		}
 		
@@ -362,30 +312,20 @@ $message .= "
 </head>
 <body>
 <h3>Note for AMC Details Customers :-</h3>
-<table>
-<tr>
-<th>Name</th>
-<th></th>
-<th></th>
-<th>Customer Id</th>
-<th></th>
-<th></th>
-<th>Phone Number</th>
-<th></th>
-<th></th>
-<th>Date</th>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Customer Id</th>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+
+
 </tr>
-<tr>
-<td>$name1</td>
-<td></td>
-<td></td>
-<td>$custid1</td>
-<td></td>
-<td></td>
-<td>$phone1</td>
-<td></td>
-<td></td>
-<td>$date1</td>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>$date1</td>
+<td style='border: 1px solid black;'>$custid1</td>
+<td style='border: 1px solid black;'>$name1</td>
+<td style='border: 1px solid black;'>$phone1</td>
 </tr>
 </table>
 </body>
@@ -398,30 +338,20 @@ $message .= "
 </head>
 <body>
 <h3>Note for Upgrade Offers Customers :-</h3>
-<table>
-<tr>
-<th>Name</th>
-<th></th>
-<th></th>
-<th>Customer Id</th>
-<th></th>
-<th></th>
-<th>Phone Number</th>
-<th></th>
-<th></th>
-<th>Date</th>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Customer Id</th>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+
+
 </tr>
-<tr>
-<td>$name2</td>
-<td></td>
-<td></td>
-<td>$custid2</td>
-<td></td>
-<td></td>
-<td>$phone2</td>
-<td></td>
-<td></td>
-<td>$date2</td>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>$date2</td>
+<td style='border: 1px solid black;'>$custid2</td>
+<td style='border: 1px solid black;'>$name2</td>
+<td style='border: 1px solid black;'>$phone2</td>
 </tr>
 </table>
 </body>

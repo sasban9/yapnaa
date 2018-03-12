@@ -537,7 +537,7 @@ if(isset($_SESSION['admin_email_id']))
 							
 							 foreach($qust_map1 as $qm){
 								  
-								  if($qm['qst_id']==$question[$i]['id'] && $qm['user_phone']==	$get_amc_list[$a]['PHONE1']){
+								  if($qm['qst_id']==$question[$i]['id'] ){
 									    $qss=$qm['qst_id'];
 									   $user_phone=$qm['user_phone'];
 									   $ans=$qm['answer'];
@@ -586,7 +586,7 @@ if(isset($_SESSION['admin_email_id']))
 						
 							 foreach($qust_map1 as $qm){
 								  
-								  if($qm['qst_id']==$question[$i]['id'] && $qm['user_phone']==	$get_amc_list[$a]['PHONE1']){
+								  if($qm['qst_id']==$question[$i]['id'] ){
 									    $qss=$qm['qst_id'];
 									   $user_phone=$qm['user_phone'];
 									    $ans=$qm['answer'];
