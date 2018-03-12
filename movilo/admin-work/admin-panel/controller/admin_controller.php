@@ -89,7 +89,7 @@ DAY)";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headers .= "From: info@yapnaa.com" . "\r\n" .
 		"CC: harshal.jjbytes@gmail.com"; 
-		$headers .= "From: info@yapnaa.com" . "\r\n";
+		//$headers .= "From: info@yapnaa.com" . "\r\n";
         		
 
 		mail($to,$subject,$message,$headers);
