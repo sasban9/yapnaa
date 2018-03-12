@@ -56,8 +56,8 @@ DAY)";
 			
 		}
 		 
-		//$to = "sriramm@moviloglobal.com";
-		$to = "ranjan.jjbyte@gmail.com";
+		$to = "sriramm@moviloglobal.com";
+		//$to = "ranjan.jjbyte@gmail.com";
 		$subject = "Follow Up Customers of $titlename1";
 		$message = "
 <html>
@@ -87,8 +87,8 @@ DAY)";
 		 
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		/* $headers .= "From: info@yapnaa.com" . "\r\n" .
-		"CC: harshal.jjbytes@gmail.com"; */
+		$headers .= "From: info@yapnaa.com" . "\r\n" .
+		"CC: harshal.jjbytes@gmail.com"; 
 		$headers .= "From: info@yapnaa.com" . "\r\n";
         		
 
