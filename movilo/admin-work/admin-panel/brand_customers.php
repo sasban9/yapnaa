@@ -197,7 +197,10 @@ if(isset($_SESSION['admin_email_id']))
 						<option value="0"<?php echo($_POST['filterByBrand']==0)?"selected":"";?>>Filter</option>
 						<option value="1" <?php echo($_POST['filterByBrand']==1)?"selected":"";?>>Highly Engaged Customer</option>
 						<option value="2"<?php echo($_POST['filterByBrand']==2)?"selected":"";?> >AMC And Upgrade Opportunity</option>
-						<option value="3" <?php echo($_POST['filterByBrand']==3)?"selected":"";?>>Disinterested Customer</option>
+						<option value="3" <?php echo($_POST['filterByBrand']==3)?"selected":"";?>>Engaged Customer</option>
+						<option value="4" <?php echo($_POST['filterByBrand']==4)?"selected":"";?>>Unhappy Customer</option>
+						<option value="5" <?php echo($_POST['filterByBrand']==5)?"selected":"";?>>Disinterested Customer</option> 
+						
 						
 					</select>
 				</div>
