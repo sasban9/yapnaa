@@ -79,7 +79,7 @@ $datacustomer
 </body>
 </html>
 ";
-		
+		 
 		 
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -117,21 +117,21 @@ $datacustomer
 		
 		foreach($result1 as  $key1 => $value1 ){
 
-			 $datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_service_date']."</td>
+			 $datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value1['req_service_date']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
-             $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_amc_date']."</td>
+             $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value2['req_amc_date']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result3 as  $key3 => $value3 ){
-			 $datacustomer3 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_upgrade_date']."</td>
+			 $datacustomer3 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value3['req_upgrade_date']."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value3['PHONE1']."</td></tr>";
