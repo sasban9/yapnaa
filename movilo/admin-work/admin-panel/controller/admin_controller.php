@@ -118,30 +118,30 @@ $datacustomer
 		foreach($result1 as  $key1 => $value1 ){
 
 			 $datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_service_date']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
+			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
+			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
              $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_amc_date']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
+			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
+			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result3 as  $key3 => $value3 ){
 			 $datacustomer3 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_upgrade_date']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value3['CUSTOMERID']."</td>
+			 <td style='border: 1px solid black;'>".$value3['CUSTOMER_NAME']."</td>
+			 <td style='border: 1px solid black;'>".$value3['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result4 as  $key4 => $value4 ){
 			 $datacustomer4 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value4['CUSTOMERID']."</td>
+			 <td style='border: 1px solid black;'>".$value4['CUSTOMER_NAME']."</td>
+			 <td style='border: 1px solid black;'>".$value4['PHONE1']."</td></tr>";
 			
 		}
 		
@@ -258,16 +258,16 @@ $datacustomer4
 		
 		foreach($result1 as  $key1 => $value1 ){
 			 $datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
+			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
+			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
 			 $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
-			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
+			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
+			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td></tr>";
 		}
 		
 		
