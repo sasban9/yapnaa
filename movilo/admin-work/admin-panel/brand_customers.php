@@ -1309,7 +1309,7 @@ if(isset($_SESSION['admin_email_id']))
 					 $("input:radio[class=chk]:checked").each(function () {
 						var quest = $(this).attr("id");	
 						var ans = $(this).val();
-						
+						var callback=$("#comments").val();
                         var follow_up_date = $('#follow_up_date').val();	
 						var wish_upgrade_date = $('#wish_upgrade_date').val();
 						var amc_requested_date = $('#amc_requested_date').val();	
@@ -1324,7 +1324,7 @@ if(isset($_SESSION['admin_email_id']))
 						 $.ajax({
 							url:"smsActions.php?custResponse=submit",
 							type:"POST",
-							data:{userQst:quest,answer:ans,number:mob,brandId:brandId,brandName:brandName,customerid:customerid,customername:customername,follow_up_date:follow_up_date,wish_upgrade_date:wish_upgrade_date,amc_requested_date:amc_requested_date,service_requested_date:service_requested_date},
+							data:{callbackCust:callback,userQst:quest,answer:ans,number:mob,brandId:brandId,brandName:brandName,customerid:customerid,customername:customername,follow_up_date:follow_up_date,wish_upgrade_date:wish_upgrade_date,amc_requested_date:amc_requested_date,service_requested_date:service_requested_date},
 							success:function(response){
 								console.log(response);
 								

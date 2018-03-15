@@ -84,11 +84,12 @@ if(isset($_SESSION['admin_email_id'])){
 		}		
 		
 		$number = $_REQUEST['number'];
+		$callbackCust = $_REQUEST['callbackCust'];
 		$brandId = $_REQUEST['brandId'];
 		$brandName = $_REQUEST['brandName'];
 		$customerid = $_REQUEST['customerid'];
 		$customername = $_REQUEST['customername'];
-		$_list = $control->insertStatus($userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date);
+		$_list = $control->insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date);
 		echo 1;
 		exit;
 	}

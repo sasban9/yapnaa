@@ -106,9 +106,9 @@ $datacustomer
 		}
 		
 		$fields		=	'*';
-		$condition1 	=	"STATUS =3 AND DATE(req_service_date) > CURDATE() ";
-		$condition2 	=	"STATUS =3 AND DATE(req_amc_date) > CURDATE() ";	
-		$condition3 	=	"STATUS =3 AND DATE(req_upgrade_date)  > CURDATE() ";				
+		$condition1 	=	"STATUS =3 AND DATE(req_service_date) >= CURDATE() ";
+		$condition2 	=	"STATUS =3 AND DATE(req_amc_date) >= CURDATE() ";	
+		$condition3 	=	"STATUS =3 AND DATE(req_upgrade_date)  >= CURDATE() ";				
 		$condition4 	=	"phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
 		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
 		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
@@ -326,29 +326,21 @@ $datacustomer2
 		return true;
 	} 
 	
- function insertStatus($userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
+ function insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
 	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
 	  
 	   $check_duplicate		=	$this->model->data_query($sql);
 	   
-        if($check_duplicate !=NULL)
-		{
-			
-           $condition="user_phone=$number and qst_id=$userQst";			
-           $condition_brand="PHONE1=$number";			
-		   $set_array	=	array(
-		                   
-							'answer'				        =>	$answer,							
-							'date'                          =>date('Y-m-d h:i:s')
-							);
-		$set_array_brand	=	array(
+	   $condition_brand="PHONE1=$number";
+	   $set_array_brand	=	array(
 		                    'status'                        =>3,
 		                    'req_service_date'              =>$service_requested_date,
 		                    'req_amc_date'                  =>$amc_requested_date,
 		                    'req_upgrade_date'              =>$wish_upgrade_date,
-		                    'req_follow_up_date'            =>$follow_up_date
+		                    'req_follow_up_date'            =>$follow_up_date,
+							 'last_call_comment'            => $callbackCust
 							
 							);
             switch( $brandId) 
@@ -362,6 +354,17 @@ $datacustomer2
 			}
 		   	
 			$brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
+		
+        if($check_duplicate !=NULL)
+		{
+			
+           $condition="user_phone=$number and qst_id=$userQst";			
+          			
+		   $set_array	=	array(
+		                   
+							'answer'				        =>	$answer,							
+							'date'                          =>date('Y-m-d h:i:s')
+							);
 			
 			$result	=	$this->model->update($table,$set_array,$condition);	
 				
