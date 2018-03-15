@@ -20,13 +20,13 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'yapnaa-blogs');
+define('DB_NAME', 'yapnaa_blogs');
 
 /** MySQL database username */
-define('DB_USER', 'yapnaa-blogs');
+define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'yusuf@Bl0g$');
+define('DB_PASSWORD', 'M0v!Lo@987');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
