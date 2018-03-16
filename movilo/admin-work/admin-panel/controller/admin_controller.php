@@ -334,6 +334,8 @@ $datacustomer2
 	   $check_duplicate		=	$this->model->data_query($sql);
 	   
 	   $condition_brand="PHONE1=$number";
+	   if(!empty($service_requested_date)|| !empty($amc_requested_date) || !empty($wish_upgrade_date) || !empty($follow_up_date) ||  !empty($callbackCust))
+	   {
 	   $set_array_brand	=	array(
 		                    'status'                        =>3,
 		                    'req_service_date'              =>$service_requested_date,
@@ -343,6 +345,13 @@ $datacustomer2
 							 'last_call_comment'            => $callbackCust
 							
 							);
+	   }else
+	   {
+		   $set_array_brand	=	array(
+		                    'status'                        =>0 
+		                    
+							);
+	   }
             switch( $brandId) 
 			{
 				case 1:
