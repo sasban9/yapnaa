@@ -302,7 +302,7 @@ padding-right: 0% !important;
 	
 	<div class="row" style="    margin-top: 3%;">
 	
-	<div class="col-xs-6"><p style="color:#fcfffe;font-family: 'GothamRoundedLight'"  ><i class="fa fa-phone" aria-hidden="true">+91 63600 98824</i></p></div>
+	<div class="col-xs-6"><!--p style="color:#fcfffe;font-family: 'GothamRoundedLight'"  ><i class="fa fa-phone" aria-hidden="true">+91 63600 98824</i></p--></div>
 	<div class="col-xs-6"><p style="color:#fcfffe;font-family: 'GothamRoundedLight'"><i class="fa fa-envelope" aria-hidden="true"> info@yapnaa.com</i></p></div>
 	
 	</div>
