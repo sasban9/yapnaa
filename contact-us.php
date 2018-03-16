@@ -344,7 +344,7 @@ background: #ff6010;
 21st Main Road, 
 Near BDA complex,<br> Banashankari 2nd Stage, 
 Bangalore - 560070</li>
-								<li><i class="fa fa-phone" style="font-size:16px !important;"></i> <strong>Phone:</strong>+91 63600 98824</li>
+								<!--li><i class="fa fa-phone" style="font-size:16px !important;"></i> <strong>Phone:</strong>+91 63600 98824</li-->
 								<li><i class="fa fa-envelope" style="font-size:16px !important;"></i> <strong>Email:</strong> <a href="mailto:info@yapnaa.com">info@yapnaa.com</a></li>
 							</ul>
 
@@ -391,7 +391,7 @@ Bangalore - 560070</li>
                               <ul class="address">
                                    <li><i class="fa fa-map-marker" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>Movilo Networks Pvt Ltd<br> # 6, First Floor,<br> 21st Main Road, <br>Near BDA complex, Banashankari 2nd Stage, <br>Bangalore - 560070</span></li>
                                  <li><a href="mailto:info@yapnaa.com" style="decoration:none"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>info@yapnaa.com</span></a></li>
-                                 <li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 63600 98824</span></li>
+                                 <!--li><i class="fa fa-phone" style="color:#ff6010;font-size:1.2em !important;padding: 3px;"></i><span>+91 63600 98824</span></li-->
                               </ul>
                            </div>
 							
