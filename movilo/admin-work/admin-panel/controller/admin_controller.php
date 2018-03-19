@@ -44,12 +44,13 @@ class admin	{
 		}
 		
 		$fields		=	'*';
-		$condition 	=	"STATUS =3 AND DATE(req_follow_up_date) = DATE_ADD(CURDATE(),INTERVAL 1 
+		$condition 	=	"STATUS =3 and mail_status !=1 AND DATE(req_follow_up_date) = DATE_ADD(CURDATE(),INTERVAL 1 
 DAY)";				
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		
 		foreach($result as  $key => $value ){
-			 $datacustomer .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_follow_up_date']."</td>
+          $followupcustID []=$value['CUSTOMERID'];
+		$datacustomer .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_follow_up_date']."</td>
 			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
@@ -58,7 +59,7 @@ DAY)";
 		}
 		 
 		$to = "sriramm@moviloglobal.com";
-		//$to = "ranjan.jjbyte@gmail.com";
+        //$to = "ranjan.jjbyte@gmail.com";
 		$subject = "Follow Up Customers of $titlename1";
 		$message = "
 <html>
@@ -83,14 +84,24 @@ $datacustomer
 		 
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		 $headers .= "From: info@yapnaa.com" . "\r\n" .
+		$headers .= "From: info@yapnaa.com" . "\r\n" .
 		"CC: harshal.jjbytes@gmail.com";
-		//$headers .= "From: info@yapnaa.com" . "\r\n";
-        		
-
-		mail($to,$subject,$message,$headers);
-		//echo '<pre>';print_r($result);die;
 		
+		 //$headers .= "From: info@yapnaa.com" . "\r\n";
+        		
+        
+		if($followupcustID !=NULL){
+		mail($to,$subject,$message,$headers); 
+		}
+		
+		for($i=0;$i<count($followupcustID);$i++){
+        $condition="CUSTOMERID=".$followupcustID[$i]; 
+        $set_array	=	array(                  
+							'mail_status'=>	1
+							);
+			
+        $mailstatus	=	$this->model->update($table,$set_array,$condition);
+		}
 		return true;
 	}
 	function conversion_oppertunity($conversionopp){  
@@ -106,17 +117,17 @@ $datacustomer
 		}
 		
 		$fields		=	'*';
-		$condition1 	=	"STATUS =3 AND DATE(req_service_date) >= CURDATE() ";
-		$condition2 	=	"STATUS =3 AND DATE(req_amc_date) >= CURDATE() ";	
-		$condition3 	=	"STATUS =3 AND DATE(req_upgrade_date)  >= CURDATE() ";				
-		$condition4 	=	"phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
+		$condition1 	=	"STATUS =3 and mail_status !=2 AND DATE(req_service_date) >= CURDATE() ";
+		$condition2 	=	"STATUS =3 and mail_status !=3 AND DATE(req_amc_date) >= CURDATE() ";	
+		$condition3 	=	"STATUS =3 and mail_status !=4 AND DATE(req_upgrade_date)  >= CURDATE() ";				
+		$condition4 	=	"mail_status !=5 and phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
 		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
 		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
 		$result3	=	$this->model->get_Details_condition($table,$fields,$condition3);
 		$result4	=	$this->model->get_Details_condition($table,$fields,$condition4);
 		
 		foreach($result1 as  $key1 => $value1 ){
-
+             $serviceCustID[]=$value1['CUSTOMERID'];
 			 $datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value1['req_service_date']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
@@ -124,6 +135,7 @@ $datacustomer
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
+			$amcCustID[]=$value2['CUSTOMERID'];
              $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value2['req_amc_date']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
@@ -131,14 +143,16 @@ $datacustomer
 			
 		}
 		foreach($result3 as  $key3 => $value3 ){
-			 $datacustomer3 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value3['req_upgrade_date']."</td>
+            $upgradeCustID[]=$value3['CUSTOMERID'];
+       		$datacustomer3 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value3['req_upgrade_date']."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value3['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result4 as  $key4 => $value4 ){
-			 $datacustomer4 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
+            $escalCustID[]=$value4['CUSTOMERID'];
+    		$datacustomer4 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
 			 <td style='border: 1px solid black;'>".$value4['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value4['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value4['PHONE1']."</td></tr>";
@@ -146,6 +160,8 @@ $datacustomer
 		}
 		
 		$to = "sriramm@moviloglobal.com";
+		//$to = "ranjan.jjbyte@gmail.com"; 
+		
 		$subject = "Conversion Opportunity of $titlename2";
 		$message = "
 <html>
@@ -229,10 +245,43 @@ $datacustomer4
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headers .= "From: info@yapnaa.com" . "\r\n";
         		
-
-		mail($to,$subject,$message,$headers);
-		//echo '<pre>';print_r($result);die;
+		if($serviceCustID !=NULL || $amcCustID !=NULL || $upgradeCustID !=NULL || $escalCustID !=NULL){
+		mail($to,$subject,$message,$headers); 
+		}
 		
+		
+		for($i=0;$i<count($serviceCustID);$i++){
+        $condition_sevice="CUSTOMERID=".$serviceCustID[$i]; 
+        $set_array	=	array(                  
+							'mail_status'=>	2
+							);
+			
+        $mailstatus	=	$this->model->update($table,$set_array,$condition_sevice);
+		}
+        for($i=0;$i<count($amcCustID);$i++){
+        $condition_amc="CUSTOMERID=".$amcCustID[$i]; 
+        $set_array	=	array(                  
+							'mail_status'=>	3
+							);
+			
+        $mailstatus	=	$this->model->update($table,$set_array,$condition_amc);
+		}
+        for($i=0;$i<count($upgradeCustID);$i++){
+        $condition_upgrade="CUSTOMERID=".$upgradeCustID[$i]; 
+        $set_array	=	array(                  
+							'mail_status'=>	4
+							);
+			
+        $mailstatus	=	$this->model->update($table,$set_array,$condition_upgrade);
+		}		
+        for($i=0;$i<count($escalCustID);$i++){
+        $condition_escal="CUSTOMERID=".$escalCustID[$i]; 
+        $set_array	=	array(                  
+							'mail_status'=>	5
+							);
+			
+        $mailstatus	=	$this->model->update($table,$set_array,$condition_escal);
+		}		
 		return true;
 	}
 	
@@ -249,21 +298,23 @@ $datacustomer4
 		}
 		
 		$fields		=	'*';
-		$condition1 	=	"phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =18 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";
-		$condition2 	=	"phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =20 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( )) ";	
+		$condition1 	=	"mail_status !=6 AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =18 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( ))";
+		$condition2 	=	"mail_status !=7 AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =20 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( )) ";	
 					
 		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
 		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
 		
 		
 		foreach($result1 as  $key1 => $value1 ){
-			 $datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
+            $noteAmcCustID[]=$value1['CUSTOMERID'];
+    		$datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td></tr>";
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
+			$noteUpgradeCustID[]=$value2['CUSTOMERID'];
 			 $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
@@ -272,6 +323,7 @@ $datacustomer4
 		
 		
 		$to = "sriramm@moviloglobal.com";
+		//$to = "ranjan.jjbyte@gmail.com";
 		$subject = "AMC and Upgrade Offers Customer of $titlename";
 		$message = "
 <html>
@@ -319,13 +371,33 @@ $datacustomer2
 		$headers .= "From: info@yapnaa.com" . "\r\n" .
 		"CC: harshal.jjbytes@gmail.com";
         		
-
-		mail($to,$subject,$message,$headers);
+        //$headers .= "From: info@yapnaa.com" . "\r\n";
+		if($noteAmcCustID !=NULL || $noteUpgradeCustID !=NULL){ 
+		mail($to,$subject,$message,$headers); 
+		}
+		
+		
+		for($i=0;$i<count($noteAmcCustID);$i++){
+        $condition_amc_details="CUSTOMERID=".$noteAmcCustID[$i]; 
+        $set_array	=	array(                  
+							'mail_status'=>	6
+							);
+			
+        $mailstatus	=	$this->model->update($table,$set_array,$condition_amc_details);
+		}
+		for($i=0;$i<count($noteUpgradeCustID);$i++){
+        $condition_upgrade_details="CUSTOMERID=".$noteUpgradeCustID[$i]; 
+        $set_array	=	array(                  
+							'mail_status'=>	7
+							);
+			
+        $mailstatus	=	$this->model->update($table,$set_array,$condition_upgrade_details);
+		}
 		//echo '<pre>';print_r($result);die;
 		
 		return true;
 	} 
-	
+
  function insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
