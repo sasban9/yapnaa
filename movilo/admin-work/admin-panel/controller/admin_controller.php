@@ -12,6 +12,478 @@ class admin	{
 		$this->model=& $obj_model;
 
 	}
+	function schedule_campaign($schedulecampaign){
+		//echo "here";
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		}
+		$highlyengaged		=	$this->model->data_query("SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
+		GROUP by zc.CUSTOMERID) AS users FROM $table zc where zc.highly_engaged in(1,'')
+AND zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes')");
+
+		$Engaged  = $this->model->data_query("SELECT * , (SELECT user_phone FROM users WHERE user_phone = zc.phone1
+OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE zc.engaged in(1,'')
+AND (zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes') AND zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes' ) AND zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12
+AND answer =  'Yes') AND  zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =2
+AND answer =  'No'))"); 
+       $partiallyengaged = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
+WHERE user_phone = zc.phone1 OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table zc
+WHERE zc.partialy_engaged in(1,'')
+AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
+)AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'
+)and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
+			and answer in('Yes','No'))AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
+WHERE qst_id =12 AND answer =  'No'
+)"); 
+        
+$Disinterested = $this->model->data_query("SELECT *, 
+(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
+FROM $table zc where zc.disinterested in(1,2,3,'')
+AND (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1 and (answer='Less than 6 months' or answer='Less than 1 year')) 
+or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') or 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes') or 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') or 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5 and answer='Yes')) and 
+((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
+))
+and 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=16  and answer='No')
+and
+ zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=13  and answer='No')"); 
+		
+		//echo '<pre>';print_r($Disinterested);die;	
+		foreach($highlyengaged as $customer_info){
+			$userphone= $customer_info['PHONE1'];
+			$username= $customer_info['CUSTOMER_NAME'];
+			$email= $customer_info['email'];
+			$custid= $customer_info['CUSTOMERID'];
+			//check customer after 15 days			
+			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
+            if($check15days !=NULL){
+                $brandresult	=	$this->model->update($table,array('highly_engaged'=>1),
+				'CUSTOMERID='.$custid);  
+				 if($email !=''){
+				$brand_img="yapnaa-new-logo.png";		   
+				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+</p>
+ 
+<br><p style='text-align:center'>   
+<a href='http://bit.ly/yapnaa-website'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
+ </a>
+</p> 
+";
+				$subject="One app to secure all your appliances";
+				
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				      }				
+					else{
+	                     $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+";	
+						 $userphone=array($userphone);				
+						$this->send_bulk_sms($userphone,$text);
+					}
+			}
+            
+			//check customer after 30 days			
+			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+            if($check30days !=NULL){
+				$brandresult	=	$this->model->update($table,array('highly_engaged'=>2),
+				'CUSTOMERID='.$custid);
+				if($email !=''){
+				$brand_img="yapnaa-new-logo.png";	 		
+				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
+<p style='text-align:left;font-weight:normal;line-height:3'>Yapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.</p>
+  
+<p style='text-align:center'>   
+<a href='http://bit.ly/YapnaaForAndroid'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Download app'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/yapnaa-after_scal.jpg' alt='Yapnaa' height='100%' width='100%'> 
+ </a>
+</p> ";
+				$subject="After Sales companion for all your appliances";
+				
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				      }				
+					else{
+	                     $text="Dear ".ucfirst($username).",\nYapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.";	
+						 $userphone=array($userphone);				
+						$this->send_bulk_sms($userphone,$text);
+					}
+			}
+		}
+
+		foreach($partiallyengaged as $customer_info){
+			//echo "here2";
+			$userphone= $customer_info['PHONE1'];
+			$username= $customer_info['CUSTOMER_NAME'];
+			$email= $customer_info['email'];
+			$custid= $customer_info['CUSTOMERID'];
+			//check customer after 15 days			
+			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
+            if($check15days !=NULL){
+				
+                $brandresult	=	$this->model->update($table,array('partialy_engaged'=>1),
+				'CUSTOMERID='.$custid); 
+				if($email !=''){   
+$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
+
+<br><p style='text-align:center'>  
+<a href='http://bit.ly/livpure-amc'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
+'/></a></p><br>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>Why it is important to take AMC from Livpure for your RO Water Purifier? 
+</p>
+<p style='font-family:arial,sans-serif;font-weight:normal;text-align:left;'>
+
+<ul>
+<li style='font-weight:normal;line-height:3;'>Ensures uninterrupted supply of Pure & Safe Water</li>
+<li style='font-weight:normal;line-height:3;'>Periodic Maintenance, Cleaning of Filters, Replacement of Consumables to avoid Break-down.</li>
+<li style='font-weight:normal;line-height:3;'>1 year comprehensive warranty</li>
+<li style='font-weight:normal;line-height:3;'>No Service Charges for any Break-Down Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Assurance of genuine Livpure Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Free Replacement of Electrical/Electronic Parts in case of Failure</li>
+<li style='font-weight:normal;line-height:3;'>Service by Verified, Certified & Trained Company Engineers</li>
+ </ul> 
+</p>
+<p style='text-align:center'> 
+<a href='http://bit.ly/livpure-amc'>
+<input type='button' 
+style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
+";
+				$subject="Secure your water purifier with AMC"; 
+               				
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				}else{
+                $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc
+";	
+                 $userphone=array($userphone);				
+				$this->send_bulk_sms($userphone,$text);
+				}
+			}
+            
+			//check customer after 30 days			
+			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+            if($check30days !=NULL){
+				
+				$brandresult	=	$this->model->update($table,array('partialy_engaged'=>2),
+				'CUSTOMERID='.$custid);
+				if($email !=''){
+				$brand_img="yapnaa-new-logo.png";	
+				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+</p>
+ 
+<br><p style='text-align:center'>   
+<a href='http://bit.ly/yapnaa-website'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
+ </a>
+</p> 
+";
+				$subject="One app to secure all your appliances";   
+                $this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				}else{
+			    $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+";	
+                $userphone=array($userphone);				
+				$this->send_bulk_sms($userphone,$text);
+				}
+			}
+		}
+		
+		foreach($Engaged as $customer_info){
+							
+			$userphone= $customer_info['PHONE1'];
+			$username= $customer_info['CUSTOMER_NAME'];
+			$email= $customer_info['email'];
+			$custid= $customer_info['CUSTOMERID'];
+			//check customer after 15 days			
+			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
+            if($check15days !=NULL){
+				
+                $brandresult	=	$this->model->update($table,array('engaged'=>1),
+				'CUSTOMERID='.$custid);
+				if($email !=''){
+				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
+
+<br><p style='text-align:center'>  
+<a href='http://bit.ly/livpure-amc'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
+'/></a></p><br>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>Why it is important to take AMC from Livpure for your RO Water Purifier? 
+</p>
+<p style='font-family:arial,sans-serif;font-weight:normal;text-align:left;'>
+
+<ul>
+<li style='font-weight:normal;line-height:3;'>Ensures uninterrupted supply of Pure & Safe Water</li>
+<li style='font-weight:normal;line-height:3;'>Periodic Maintenance, Cleaning of Filters, Replacement of Consumables to avoid Break-down.</li>
+<li style='font-weight:normal;line-height:3;'>1 year comprehensive warranty</li>
+<li style='font-weight:normal;line-height:3;'>No Service Charges for any Break-Down Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Assurance of genuine Livpure Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Free Replacement of Electrical/Electronic Parts in case of Failure</li>
+<li style='font-weight:normal;line-height:3;'>Service by Verified, Certified & Trained Company Engineers</li>
+ </ul> 
+</p>
+<p style='text-align:center'> 
+<a href='http://bit.ly/livpure-amc'>
+<input type='button' 
+style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
+";
+				$subject="Secure your water purifier with AMC";  
+                $this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				}else{
+				 $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently
+";	
+                 $userphone=array($userphone);				
+				$this->send_bulk_sms($userphone,$text);
+				}
+			}
+            
+			//check customer after 30 days			
+			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+            if($check30days !=NULL){
+ 
+				$brandresult	=	$this->model->update($table,array('engaged'=>2),
+				'CUSTOMERID='.$custid);
+				if($email !=''){
+				$brand_img="yapnaa-new-logo.png";	
+				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+</p>
+ 
+<br><p style='text-align:center'>   
+<a href='http://bit.ly/yapnaa-website'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
+ </a>
+</p> 
+";
+				$subject="One app to secure all your appliances";
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				}else{
+			    $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+";	
+                $userphone=array($userphone);				
+				$this->send_bulk_sms($userphone,$text);
+				}
+			}
+		}
+		
+		foreach($Disinterested as $customer_info){
+            $userphone= $customer_info['PHONE1'];
+			$username= $customer_info['CUSTOMER_NAME'];
+			$email= $customer_info['email'];
+			$custid= $customer_info['CUSTOMERID'];
+			//check customer after 15 days			
+			$check7days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 7 DAY ) ) ");
+            $check14days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 14 DAY ) ) ");
+            $check21days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 21 DAY ) ) ");
+            $check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+            
+            if($check7days !=NULL||$check14days !=NULL || $check21days !=NULL || $check30days !=NULL){
+				//echo "here";
+					if($check30days !=NULL){
+					    $count=4;
+						$brand_img="yapnaa-new-logo.png";
+						if($email !=''){
+						$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
+<p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
+
+<br><p style='text-align:center'>  
+<a href='http://bit.ly/livpure-amc'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
+'/></a></p><br>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>Why it is important to take AMC from Livpure for your RO Water Purifier? 
+</p>
+<p style='font-family:arial,sans-serif;font-weight:normal;text-align:left;'>
+
+<ul>
+<li style='font-weight:normal;line-height:3;'>Ensures uninterrupted supply of Pure & Safe Water</li>
+<li style='font-weight:normal;line-height:3;'>Periodic Maintenance, Cleaning of Filters, Replacement of Consumables to avoid Break-down.</li>
+<li style='font-weight:normal;line-height:3;'>1 year comprehensive warranty</li>
+<li style='font-weight:normal;line-height:3;'>No Service Charges for any Break-Down Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Assurance of genuine Livpure Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Free Replacement of Electrical/Electronic Parts in case of Failure</li>
+<li style='font-weight:normal;line-height:3;'>Service by Verified, Certified & Trained Company Engineers</li>
+ </ul> 
+</p>
+<p style='text-align:center'> 
+<a href='http://bit.ly/livpure-amc'>
+<input type='button' 
+style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
+";
+				$subject="Secure your water purifier with AMC";
+				
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				      }				
+					else{
+	                     $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc
+		";	
+						 $userphone=array($userphone);				
+						$this->send_bulk_sms($userphone,$text);
+					}
+					}
+					if($check21days !=NULL){
+						$count=3;
+						$brand_img="yapnaa-new-logo.png";
+							if($email !=''){
+				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
+<p style='text-align:left;font-weight:normal;'>Don’t compromise on the water quality in your house. Get a free water testing by Livpure experts.
+</p>
+  
+<br><p style='text-align:center'>   
+<a href='http://bit.ly/livpure-watertest'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Book a Free Demo'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/livpure_water.jpg' alt='Yapnaa' height='60%' width='60%'>
+ </a>
+</p> ";
+				$subject="Get a free water testing from Livpure";
+				
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				      }				
+					else{
+	                     $text="Dear ".ucfirst($username).",\nDon’t compromise on the water quality in your house. Get a free water testing by Livpure experts.
+";	
+						 $userphone=array($userphone);				
+						$this->send_bulk_sms($userphone,$text);
+					}
+				   }	
+					if($check14days !=NULL){
+						$count=2;
+						if($email !=''){
+				$brand_img="yapnaa-new-logo.png";	 		
+				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
+<p style='text-align:left;font-weight:normal;line-height:3'>Yapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.</p>
+  
+<p style='text-align:center'>   
+<a href='http://bit.ly/YapnaaForAndroid'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Download app'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/yapnaa-after_scal.jpg' alt='Yapnaa' height='100%' width='100%'> 
+ </a>
+</p> ";
+				$subject="After Sales companion for all your appliances";
+				
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				      }				
+					else{
+	                     $text="Dear ".ucfirst($username).",\nYapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.";	
+						 $userphone=array($userphone);				
+						$this->send_bulk_sms($userphone,$text);
+					}
+					}
+					if($check7days !=NULL){
+						$count=1;
+						
+				       if($email !=''){
+				$brand_img="yapnaa-new-logo.png";		   
+				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+</p>
+ 
+<br><p style='text-align:center'>   
+<a href='http://bit.ly/yapnaa-website'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
+ </a>
+</p> 
+";
+				$subject="One app to secure all your appliances";
+				
+				$this->send_schedulecapaign_email($text,$subject,$email,$brand_img);
+				      }				
+					else{
+	                     $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+";	
+						 $userphone=array($userphone);				
+						$this->send_bulk_sms($userphone,$text);
+					}
+				}
+		      
+			}
+                $brandresult	=	$this->model->update($table,array('disinterested'=>$count),
+				'CUSTOMERID='.$custid);				  
+            
+		}
+		//echo '<pre>';print_r($result1);die;
+	}
 	
 	function user_question_select(){
 		
@@ -322,8 +794,8 @@ $datacustomer4
 		}
 		
 		
-		$to = "sriramm@moviloglobal.com";
-		//$to = "ranjan.jjbyte@gmail.com";
+		//$to = "sriramm@moviloglobal.com";
+		$to = "ranjan.jjbyte@gmail.com";
 		$subject = "AMC and Upgrade Offers Customer of $titlename";
 		$message = "
 <html>
@@ -370,7 +842,7 @@ $datacustomer2
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headers .= "From: info@yapnaa.com" . "\r\n" .
 		"CC: harshal.jjbytes@gmail.com";
-        		
+         		
         //$headers .= "From: info@yapnaa.com" . "\r\n";
 		if($noteAmcCustID !=NULL || $noteUpgradeCustID !=NULL){ 
 		mail($to,$subject,$message,$headers); 
@@ -397,7 +869,7 @@ $datacustomer2
 		
 		return true;
 	} 
-
+	 
  function insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
@@ -405,25 +877,32 @@ $datacustomer2
 	  
 	   $check_duplicate		=	$this->model->data_query($sql);
 	   
-	   $condition_brand="PHONE1=$number";
-	   if(!empty($service_requested_date)|| !empty($amc_requested_date) || !empty($wish_upgrade_date) || !empty($follow_up_date) ||  !empty($callbackCust))
+	    $condition_brand="PHONE1=$number";
+	  
+	   	if(!empty($service_requested_date)|| !empty($amc_requested_date) || !empty($wish_upgrade_date) || !empty($follow_up_date) ||  !empty($callbackCust))
 	   {
+	
 	   $set_array_brand	=	array(
 		                    'status'                        =>3,
 		                    'req_service_date'              =>$service_requested_date,
 		                    'req_amc_date'                  =>$amc_requested_date,
 		                    'req_upgrade_date'              =>$wish_upgrade_date,
 		                    'req_follow_up_date'            =>$follow_up_date,
-							 'last_call_comment'            => $callbackCust
+							 'last_call_comment'            => $callbackCust,
+							 'highly_engaged'               =>'',
+							'partialy_engaged'              =>'',
+							'engaged'                       =>'',
+							'unhappy'                       =>''
+							
 							
 							);
-	   }else
-	   {
-		   $set_array_brand	=	array(
-		                    'status'                        =>0 
-		                    
-							);
-	   }
+			 }else
+			   {
+				   $set_array_brand	=	array(
+									'status'                        =>0 
+									
+									);
+			   }				
             switch( $brandId) 
 			{
 				case 1:
@@ -436,11 +915,12 @@ $datacustomer2
 		   	
 			$brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
 		
+	   
         if($check_duplicate !=NULL)
 		{
 			
            $condition="user_phone=$number and qst_id=$userQst";			
-          			
+           $condition_brand="PHONE1=$number";			
 		   $set_array	=	array(
 		                   
 							'answer'				        =>	$answer,							
@@ -4469,21 +4949,25 @@ $datacustomer2
 		// print_r($arr_log_in );
 
     }// SEARCH Customer
-	function get_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
+	function get_brand_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
 		$arr_log_in=array();
 		if($_GET['customer_type']==1){
 			$table='livpure';
-		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
-		}
+		
+		
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		} 
 		if($_GET['customer_type']==2){
 			$table='zerob_consol1';
-		//echo $tag." == filter: ".$filter." == from: ".$fromDate." == to: ".$toDate;
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
 		}
 		return $arr_log_in;
-		// print_r($arr_log_in );
+		
 
     }
 	// SEARCH Customer
@@ -5317,7 +5801,372 @@ $datacustomer2
 		$headers 				= 'MIME-Version: 1.0'. "\r\n";
 		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
 		$headers 			.= 'From: Yapnaa Admin <info@yapnaa.com>'. "\r\n";
-		$headers            .= 'Cc: ranjan.jjbyte@gmail.com ' . "\r\n";
+		//$headers            .= 'Cc: ranjan.jjbyte@gmail.com ' . "\r\n";
+		//echo $subject;die;
+		// Mail it
+		mail($to, $subject, $message,$headers);
+		
+	}
+	function send_schedulecapaign_email($text,$subject,$to,$brand_img){
+		 echo "tt";
+		$message	=	'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <!--[if !mso]><!-->
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!--<![endif]-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  
+	     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+      <!--[if (gte mso 9)|(IE)]>
+      <style type="text/css">
+         table {border-collapse: collapse !important;}
+      </style>
+      <![endif]-->
+   
+   
+
+   
+   
+   
+   <body style="Margin:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;min-width:100%;background-color:#ececec;">
+      <span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span>
+	  
+	  <center class="wrapper" style="width:100%;table-layout:fixed;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#ececec;">
+         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ececec;" bgcolor="#ececec;">
+            <tr>
+               <td width="100%">
+                  <div class="webkit" style="width:650px;Margin:0 auto; background:#fff;">
+                     <!--[if (gte mso 9)|(IE)]>
+                     <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0" >
+                        <tr>
+                           <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                              <![endif]--> 
+                              <!-- ======= start main body ======= -->
+                              <table class="outer" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0;Margin:0 auto;width:100%;max-width:600px;">
+                                 <tr>
+                                    <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">
+                                       <!-- ======= start header ======= -->
+                                       <table border="0" width="100%" cellpadding="0" cellspacing="0"  >
+                                          <tr>
+                                             <td>
+                                                <table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td align="center">
+                                                            <center>
+                                                               <table border="0" align="center" width="100%" cellpadding="0" cellspacing="0" style="Margin: 0 auto;">
+                                                                  <tbody>
+                                                                     <tr>
+                                                                        <td class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" bgcolor="#FFFFFF">
+                                                                           <!-- ======= start header ======= -->
+                                                                           <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                              <tr>
+                                                                                 <td class="two-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;text-align:center;font-size:0;">
+                                                                                    <!--[if (gte mso 9)|(IE)]>
+                                                                                    <table width="100%" style="border-spacing:0" >
+                                                                                       <tr>
+                                                                                          <td width="20%" valign="top" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                                                                                             <![endif]-->
+																							  <div class="row">
+                                                                                             <div class="column" style="width:100%;max-width:170px;display:inline-block;vertical-align:top;">
+                                                                                                 <table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
+                                                                                                   <tr>
+                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://35.167.16.54/images/yapnaa-new-logo.png"  alt="" style="border-width:0; max-width:170px;height:auto; display:block" /></a></td>
+                            
+							
+																								   </tr>
+                                                                                                </table>
+                                                                                             </div>
+                                                                                             <!--[if (gte mso 9)|(IE)]>
+                                                                                          </td>
+                                                                                          <td width="80%" valign="top" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+                                                                                             <![endif]-->
+                                                                                             <div class="column" style="width:100%;max-width:415px;display:inline-block;vertical-align:top;">
+                                                                                                <table width="100%" style="border-spacing:0" bgcolor="#ffffff">
+                                                                                                   <tr>
+                                                                                                      <td>
+                                                                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hide">
+                                                                                                            <tr>
+                                                                                                               <td height="20">&nbsp;</td>
+                                                                                                            </tr>
+                                                                                                         </table>
+                                                                                                      </td>
+                                                                                                   </tr>
+                                                                                                  <tr>
+                            <td class="inner" style="padding-top: 0px;padding-bottom: 10px;padding-right: 0px;padding-left: 234px"><table class="contents" style="border-spacing:0; width:100%">
+                                <tbody><tr>
+                                  <td width="100%" align="center" valign="top" >
+								  <img src="http://35.167.16.54/images/livpure-logo.png"  alt="" style="border-width:0; max-width:170px;height:auto; display:block" />
+								  </td>
+                                </tr>
+                              </tbody></table></td>
+                          </tr>
+                                                                                                </table>
+                                                                                             </div>
+                                                                                             </div>
+                                                                                             <!--[if (gte mso 9)|(IE)]>
+                                                                                          </td>
+                                                                                       </tr>
+                                                                                    </table>
+                                                                                    <![endif]-->
+                                                                                 </td>
+                                                                              </tr>
+                                                                              <tr >
+                                                                                 <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                                                       <tr>
+                                                                                          <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                                                       </tr>
+                                                                                    </table>
+                                                                                 </td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                              </tr>
+                                                                           </table>
+                                                                        </td>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </center>
+                                                         </td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end header ======= --> 
+                                       <!-- ======= start hero article ======= -->
+                                       <table class="one-column" border="0" cellpadding="40" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td align="" style="padding-bottom:2%; padding-top:2%;">
+                                                
+												<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b>'.$text.'</b></p>
+                                                <!-- START BUTTON -->
+                                                <!-- END BUTTON -->
+                                             </td>
+                                          </tr>
+                                       </table>
+                                       <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td align="center">&nbsp;</td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end hero article ======= --> 
+                                       <center >
+                                          <table bgcolor="#FFFFFF" width="100%">
+                                             <tr>
+											 
+											 <td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> </td>
+                                                         <td>
+                                                           
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+												<td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> </td>
+                                                         <td>
+                                                           
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+
+											 
+											 <td>
+                                                   <table>
+                                                      <tr>
+                                                         <td><a href="http://info@yapnaa.com"><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
+                                                         <td>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> info@yapnaa.com</b></p>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+												<td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> </td>
+                                                         <td>
+                                                           
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+												<td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> </td>
+                                                         <td>
+                                                           
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                                <td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> <a href="http://yapnaa.com"><img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
+                                                         <td>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>yapnaa.com</b></p>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                                <td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> </td>
+                                                         <td>
+                                                           
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+												<td>
+                                                   <table>
+                                                      <tr>
+                                                         <td> </td>
+                                                         <td>
+                                                           
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+
+                                                <td>
+												<table width="150" border="0" cellspacing="0" cellpadding="0">
+                                      <tbody><tr>
+                                        <td width="32" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                     <td width="32" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                      </tr>
+                                    </tbody></table>
+                                                   <!--table>
+                                                      <tr>
+                                                         <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+                                                         <td>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>  +91 98452 856419</b></p>
+                                                         </td>
+                                                      </tr>
+                                                   </table-->
+                                                </td>
+                                             </tr>
+                                          </table>
+                                       </center>
+                                       <!-- ======= start divider ======= -->
+                                       <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
+                                          <tr>
+                                             <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
+                                                <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td align="center">&nbsp;</td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end divider ======= --> 
+
+                                    </td>
+                                 </tr>
+                              </table>
+                              <!--[if (gte mso 9)|(IE)]>
+                           </td>
+                        </tr>
+                     </table>
+                     <![endif]--> 
+					 
+					 
+					                                        <!-- ======= start footer ======= -->
+                                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                             <td>
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0"  bgcolor="#ffdfd0">
+                                                   <tr>
+                                                      <td height="20" align="center" bgcolor="#ffdfd0" class="one-column">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Copyright © 2018</font></td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Networks Pvt. Ltd</b></font></td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td height="6" bgcolor="#ffdfd0" class="contents1" style="width:100%; border-bottom-left-radius:10px; border-bottom-right-radius:10px"></td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                   <tr>
+                                                      <td height="6" bgcolor="#ffdfd0" class="contents" style="width:100%; border-bottom-left-radius:10px; border-bottom-right-radius:10px"></td>
+                                                   </tr>
+                                                  
+                                                </table>
+                                             </td>
+                                          </tr>
+                                       </table>
+                                       <!-- ======= end footer ======= -->
+                  </div>
+               </td>
+            </tr>
+         </table>
+      </center>
+   </body>
+</html>
+
+			';
+		  $headers .= "MIME-Version: 1.0" . "\r\n";
+		  $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+		  $headers .= "X-Priority: 3" . "\r\n";
+		  $headers .= "X-Mailer: PHP". phpversion() ."\r\n" ;
+		
+		  $headers .= "Reply-To: Yapnaa  <info@yapnaa.com>" . "\r\n";  
+		  $headers .= "Return-Path: Yapnaa  <info@yapnaa.com>" . "\r\n"; 
+		  $headers .= "From: Yapnaa  <info@yapnaa.com>" . "\r\n";
+  
+		  $headers .= "Organization: Yapnaa" . "\r\n";
+		  
 		//echo $subject;die;
 		// Mail it
 		mail($to, $subject, $message,$headers);
@@ -5470,9 +6319,11 @@ $datacustomer2
 		$headers 				= 'MIME-Version: 1.0'. "\r\n";
 		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
 		$headers 			.= 'From: Yapnaa Admin <info@yapnaa.com>'. "\r\n";
-		$headers            .= 'Cc: ranjan.jjbyte@gmail.com ' . "\r\n";
+		//$headers            .= 'Cc: ranjan.jjbyte@gmail.com ' . "\r\n";  
 		//echo $subject;die;
 		// Mail it
+		//$message=json_encode($message); 
+		
 		mail($to, $subject, $message,$headers);
 		
 	}
