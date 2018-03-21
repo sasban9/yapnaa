@@ -19,4 +19,10 @@ if(isset($_REQUEST['followuptype'])){
 		$_list = $control->amcupgrade($amcupgrade);		
 		 
 	}
+	if(isset($_REQUEST['schedulecampaign'])){
+	
+	$schedulecampaign=$_REQUEST['schedulecampaign'];
+		$_list = $control->schedule_campaign($schedulecampaign);		
+		 
+	}
 ?>
