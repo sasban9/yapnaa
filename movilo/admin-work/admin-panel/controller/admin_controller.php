@@ -792,10 +792,10 @@ $datacustomer4
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td></tr>";
 		}
+		 
 		
-		
-		//$to = "sriramm@moviloglobal.com";
-		$to = "ranjan.jjbyte@gmail.com";
+		$to = "sriramm@moviloglobal.com";
+		//$to = "ranjan.jjbyte@gmail.com";
 		$subject = "AMC and Upgrade Offers Customer of $titlename";
 		$message = "
 <html>
