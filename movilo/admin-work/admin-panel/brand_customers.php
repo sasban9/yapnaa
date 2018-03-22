@@ -1332,6 +1332,7 @@ if(isset($_SESSION['admin_email_id']))
 						var quest = $(this).attr("id");	
 						var ans = $(this).val();
 						var callback=$("#comments").val();
+						//alert(callback);
                         var follow_up_date = $('#follow_up_date').val();	
 						var wish_upgrade_date = $('#wish_upgrade_date').val();
 						var amc_requested_date = $('#amc_requested_date').val();	
