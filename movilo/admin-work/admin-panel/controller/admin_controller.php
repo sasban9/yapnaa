@@ -91,7 +91,7 @@ and
 WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
             if($check15days !=NULL){
                 $brandresult	=	$this->model->update($table,array('highly_engaged'=>1),
-				'CUSTOMERID='.$custid);  
+				'CUSTOMERID='".$custid."'');  
 				 if($email !=''){
 				$brand_img="yapnaa-new-logo.png";		   
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -126,7 +126,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
             if($check30days !=NULL){
 				$brandresult	=	$this->model->update($table,array('highly_engaged'=>2),
-				'CUSTOMERID='.$custid);
+				'CUSTOMERID='".$custid."'');
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	 		
 				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
@@ -166,7 +166,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check15days !=NULL){
 				
                 $brandresult	=	$this->model->update($table,array('partialy_engaged'=>1),
-				'CUSTOMERID='.$custid); 
+				'CUSTOMERID='".$custid."''); 
 				if($email !=''){   
 $text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
@@ -213,7 +213,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check30days !=NULL){
 				
 				$brandresult	=	$this->model->update($table,array('partialy_engaged'=>2),
-				'CUSTOMERID='.$custid);
+				'CUSTOMERID='".$custid."'');
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -254,7 +254,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check15days !=NULL){
 				
                 $brandresult	=	$this->model->update($table,array('engaged'=>1),
-				'CUSTOMERID='.$custid);
+				'CUSTOMERID='".$custid."'');
 				if($email !=''){
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
@@ -300,7 +300,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check30days !=NULL){
  
 				$brandresult	=	$this->model->update($table,array('engaged'=>2),
-				'CUSTOMERID='.$custid);
+				'CUSTOMERID='".$custid."'');
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -479,7 +479,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 		      
 			}
                 $brandresult	=	$this->model->update($table,array('disinterested'=>$count),
-				'CUSTOMERID='.$custid);				  
+				'CUSTOMERID='".$custid."'');				  
             
 		}
 		//echo '<pre>';print_r($result1);die;
@@ -567,7 +567,7 @@ $datacustomer
 		}
 		
 		for($i=0;$i<count($followupcustID);$i++){
-        $condition="CUSTOMERID=".$followupcustID[$i]; 
+        $condition="CUSTOMERID='".$followupcustID[$i]."'"; 
         $set_array	=	array(                  
 							'mail_status'=>	1
 							);
@@ -631,7 +631,7 @@ $datacustomer
 			
 		}
 		
-		$to = "sriramm@moviloglobal.com";
+		$to = "sriramm@moviloglobal.com"; 
 		//$to = "ranjan.jjbyte@gmail.com"; 
 		
 		$subject = "Conversion Opportunity of $titlename2";
@@ -723,7 +723,7 @@ $datacustomer4
 		
 		
 		for($i=0;$i<count($serviceCustID);$i++){
-        $condition_sevice="CUSTOMERID=".$serviceCustID[$i]; 
+        $condition_sevice="CUSTOMERID='".$serviceCustID[$i]."'"; 
         $set_array	=	array(                  
 							'mail_status'=>	2
 							);
@@ -731,7 +731,7 @@ $datacustomer4
         $mailstatus	=	$this->model->update($table,$set_array,$condition_sevice);
 		}
         for($i=0;$i<count($amcCustID);$i++){
-        $condition_amc="CUSTOMERID=".$amcCustID[$i]; 
+        $condition_amc="CUSTOMERID='".$amcCustID[$i]."'"; 
         $set_array	=	array(                  
 							'mail_status'=>	3
 							);
@@ -739,7 +739,7 @@ $datacustomer4
         $mailstatus	=	$this->model->update($table,$set_array,$condition_amc);
 		}
         for($i=0;$i<count($upgradeCustID);$i++){
-        $condition_upgrade="CUSTOMERID=".$upgradeCustID[$i]; 
+        $condition_upgrade="CUSTOMERID='".$upgradeCustID[$i]."'"; 
         $set_array	=	array(                  
 							'mail_status'=>	4
 							);
@@ -747,7 +747,7 @@ $datacustomer4
         $mailstatus	=	$this->model->update($table,$set_array,$condition_upgrade);
 		}		
         for($i=0;$i<count($escalCustID);$i++){
-        $condition_escal="CUSTOMERID=".$escalCustID[$i]; 
+        $condition_escal="CUSTOMERID='".$escalCustID[$i]."'"; 
         $set_array	=	array(                  
 							'mail_status'=>	5
 							);
@@ -850,7 +850,7 @@ $datacustomer2
 		
 		
 		for($i=0;$i<count($noteAmcCustID);$i++){
-        $condition_amc_details="CUSTOMERID=".$noteAmcCustID[$i]; 
+        $condition_amc_details="CUSTOMERID='".$noteAmcCustID[$i]."'"; 
         $set_array	=	array(                  
 							'mail_status'=>	6
 							);
@@ -858,7 +858,7 @@ $datacustomer2
         $mailstatus	=	$this->model->update($table,$set_array,$condition_amc_details);
 		}
 		for($i=0;$i<count($noteUpgradeCustID);$i++){
-        $condition_upgrade_details="CUSTOMERID=".$noteUpgradeCustID[$i]; 
+        $condition_upgrade_details="CUSTOMERID='".$noteUpgradeCustID[$i]."'"; 
         $set_array	=	array(                  
 							'mail_status'=>	7
 							);
