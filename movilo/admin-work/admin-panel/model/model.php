@@ -121,7 +121,7 @@ class model {
 		$set 		= implode(', ', $updates);
 		//$table		=	"` $table`";
 		$sql="UPDATE $table SET $set WHERE $condition"; 
-		//echo $sql;//exit;
+		//echo $sql;exit;
 		//echo $sql;//exit ;
 		//unset($set);
 		$qry	=	connection()->query($sql);
