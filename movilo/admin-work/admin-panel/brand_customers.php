@@ -1214,9 +1214,9 @@ if(isset($_SESSION['admin_email_id']))
 
     <!-- Page-Level Scripts -->
     <script>
-	function myfun(number){
+	/* function myfun(number){
 	alert(number);
-}
+} */
         $(document).ready(function() {
 			$('input[type=radio][name=17]').on('change', function() {
 				 if($(this).val()=='Yes') {
