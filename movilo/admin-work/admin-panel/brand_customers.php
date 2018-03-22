@@ -1,4 +1,3 @@
-
 <?php
 session_start(); 
 if(isset($_SESSION['admin_email_id']))
@@ -34,6 +33,7 @@ if(isset($_SESSION['admin_email_id']))
 		$action_taken_by = $_POST['action_taken_by'];
 		$filter = $_POST['filter'];
 		$filterByBrand = $_POST['filterByBrand'];
+		$filterByAttempt = $_POST['filterByAttempt'];
 		if(isset($_POST['fromDate']) && !empty($_POST['fromDate'])){ //echo "<br>in from";
 			$fromDate = date_format(date_create($_POST['fromDate']),"Y-m-d H:i:s");
 		}
@@ -73,10 +73,10 @@ if(isset($_SESSION['admin_email_id']))
 		
 		//echo $fromDate."--".$toDate;die;
 		//echo $date1;exit;
-		$get_amc_list = $control->get_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		$get_amc_list = $control->get_brand_list($filterByAttempt,$action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		
 		if(isset($_POST['da_downl']) || !empty($_POST['da_downl'])){
-			$control->download_brand_list($action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+			$control->download_brand_list($filterByAttempt,$action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 	}
 	/*else{
@@ -190,16 +190,23 @@ if(isset($_SESSION['admin_email_id']))
 					<label>Search Keyword</label>
 					<input type="text" id="searchBox" class="maincls form-control" value="<?php echo($_POST['search']==0)?$_POST['search']:"";?>"  maxlength="60" name="search" placeholder="Enter name, number or area">
 				</div>
+				<div class="col-lg-2 new" >
+					<label>Filter By</label>
+					<select id="filterByAttempt" class="form-control" name="filterByAttempt">
+						<option value="0"<?php echo($_POST['filterByAttempt']==0)?"selected":"";?>>Filter</option>
+						<option value="1" <?php echo($_POST['filterByAttempt']==1)?"selected":"";?>>Not Attempted Customer</option>						 
+						
+					</select>
+				</div>
 				<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
 				 <div class="col-lg-2 new" >
 					<label>Filter By</label>
 					<select id="filterByBrand" class="form-control" name="filterByBrand">
 						<option value="0"<?php echo($_POST['filterByBrand']==0)?"selected":"";?>>Filter</option>
 						<option value="1" <?php echo($_POST['filterByBrand']==1)?"selected":"";?>>Highly Engaged Customer</option>
-						<option value="2"<?php echo($_POST['filterByBrand']==2)?"selected":"";?> >AMC And Upgrade Opportunity</option>
-						<option value="3" <?php echo($_POST['filterByBrand']==3)?"selected":"";?>>Engaged Customer</option>
-						<option value="4" <?php echo($_POST['filterByBrand']==4)?"selected":"";?>>Unhappy Customer</option>
-						<option value="5" <?php echo($_POST['filterByBrand']==5)?"selected":"";?>>Disinterested Customer</option> 
+						<option value="2"<?php echo($_POST['filterByBrand']==2)?"selected":"";?> >Engaged Customer</option>
+						<option value="3" <?php echo($_POST['filterByBrand']==3)?"selected":"";?>>Partially Engaged </option>						
+						<option value="4" <?php echo($_POST['filterByBrand']==4)?"selected":"";?>>Disinterested Customer</option> 
 						
 						
 					</select>
@@ -401,11 +408,23 @@ if(isset($_SESSION['admin_email_id']))
 							</td>
 							<td><?php echo $get_amc_list[$i]['PHONE1']; ?></a>
 								<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
-							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-next-service-data="<?php echo $get_amc_list[$i]['next_service_date']; ?>" data-last-service-data="<?php echo $get_amc_list[$i]['last_service_date']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
+							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" 
+							data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" 
+							data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" 
+							data-id="<?php echo $get_amc_list[$i]['id']; ?>"
+							data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" 
+							data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" 
+							data-next-service-data="<?php echo $get_amc_list[$i]['next_service_date']; ?>" 
+							data-last-service-data="<?php echo $get_amc_list[$i]['last_service_date']; ?>" 
+							data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" 
+							data-email="<?php echo $get_amc_list[$i]['email']; ?>" 
+							data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" 
+							data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
 							data-user-qm="<?php echo $qust_map; ?>"
 							
 							
-							data-toggle="modal" data-target="#userQstM" title="Edit AMC Details"><i class="fa fa-eye"></i></button>	
+							data-toggle="modal" data-target="#userQstM" title="Edit AMC Details">
+							<i class="fa fa-eye"></i></button>	
 								<?php } ?>
 							</td>
 							<td><?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?></td>
@@ -473,7 +492,10 @@ if(isset($_SESSION['admin_email_id']))
 							<td><?php //if(!($datediff <= 15)){ ?>  
 							<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button>
 							
-							<button type="button"  style="margin-right:2px; width:38px" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
+							<button type="button" id="custdatam"   
+							style="margin-right:2px; width:38px" 
+							class="custdatam btn btn-info pull-right actionBox" 
+							onclick="myfun(<?php  echo json_encode($get_amc_list[$i]['qust_map']); ?>)" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i></button><?php //}?></td>   
 							 
 						</tr>
 					<?php $j++; } ?>
@@ -540,7 +562,7 @@ if(isset($_SESSION['admin_email_id']))
 							
 							 foreach($qust_map1 as $qm){
 								  
-								  if($qm['qst_id']==$question[$i]['id'] ){
+								  if($qm['qst_id']==$question[$i]['id']){
 									    $qss=$qm['qst_id'];
 									   $user_phone=$qm['user_phone'];
 									   $ans=$qm['answer'];
@@ -1056,19 +1078,19 @@ if(isset($_SESSION['admin_email_id']))
 				 <span>2. Under AMC<span id="service_amc"  style="padding-left: 172px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:109px;line-height: 43px;"></span></span>
+				<span>3. Satisfied with timelines<span id="service_st"  style="padding-left:102px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:83px;line-height: 43px;"></span></span>
+				<span>4. Satisfied with workmanship<span id="service_sw"  style="padding-left:74px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:93px;line-height: 43px;"></span></span>
+				<span>5. Likely to buy next product<span id="service_buy"  style="padding-left:85px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>6. Refers product<span id="service_pd"  style="padding-left:154px;line-height: 43px;"></span></span>
+				<span>6. Refers product<span id="service_pd"  style="padding-left:153px;line-height: 43px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:139px;line-height: 43px;"></span></span>
+				<span>7. Share knowledge<span id="service_kwd"  style="padding-left:137px;line-height: 43px;"></span></span>
 				</div>
 				
 				</div>
@@ -1100,10 +1122,10 @@ if(isset($_SESSION['admin_email_id']))
 				  <span>b) Cost reasons<span id="cust_res"  style="padding-left:161px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>c) Not convenient<span id="not_conv"  style="padding-left:152px;line-height: 29px;"></span></span>
+				  <span>c) Not convenient<span id="not_conv"  style="padding-left:149px;line-height: 29px;"></span></span>
 				</div>
 				<div class="row" style="margin-left: 3px;">
-				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:148px;line-height: 29px;"></span></span>
+				  <span>d) Bad experience<span id="bad_exp"  style="padding-left:146px;line-height: 29px;"></span></span>
 				</div>
 				</div>
 				<div class="col-lg-3" >
@@ -1118,13 +1140,13 @@ if(isset($_SESSION['admin_email_id']))
 						<span>3. Upgrade Enquiry <span id="upgrd"  style="padding-left:101px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>4. Escalation<span id="escl"  style="padding-left:143px;line-height: 43px;"></span></span>
+						<span>4. Escalation<span id="escl"  style="padding-left:147px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
 						<span>5. Note on AMC Details<span id="amcdetails"  style="padding-left:82px;line-height: 43px;"></span></span>
 					</div>
 					<div class="row" style="margin-left: 3px;">
-						<span>6. Note on Upgrade Offers<span id="upgradeoffers"  style="padding-left:66px;line-height: 43px;"></span></span>
+						<span>6. Note on Upgrade Offers<span id="upgradeoffers"  style="padding-left:63px;line-height: 43px;"></span></span>
 					</div>
 				</div>
 			</div>
@@ -1192,6 +1214,9 @@ if(isset($_SESSION['admin_email_id']))
 
     <!-- Page-Level Scripts -->
     <script>
+	function myfun(number){
+	alert(number);
+}
         $(document).ready(function() {
 			$('input[type=radio][name=17]').on('change', function() {
 				 if($(this).val()=='Yes') {
@@ -1243,10 +1268,7 @@ if(isset($_SESSION['admin_email_id']))
 						 break;
 				 }
 			});
-			/*$("#submit").click(function(){
-				if$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate
-			});*/
-		  
+			
 			
             $('.dataTables-example').dataTable({
                 responsive: true,
@@ -1339,6 +1361,7 @@ if(isset($_SESSION['admin_email_id']))
 					location.reload();
 				
 			});
+			
 			$(".actionBox,editAMC").click(function(){
 				sessionStorage.id = $(this).attr('data-id');
 				sessionStorage.name = $(this).attr('data-name');
@@ -1488,7 +1511,7 @@ if(isset($_SESSION['admin_email_id']))
 				}
 				//alert(sessionStorage.nextServiceDate);
 				
-				var jsonData = JSON.parse($(this).attr('data-user-qm'));
+//var jsonData = JSON.parse($(this).attr('data-user-qm'));
 				var questionId= $('.chk:checked').attr('data-qid');
 				var answer= $('.chk:checked').val();
 				for (i = 1; i < 5; i++) { 
