@@ -91,7 +91,7 @@ and
 WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
             if($check15days !=NULL){
                 $brandresult	=	$this->model->update($table,array('highly_engaged'=>1),
-				'CUSTOMERID='".$custid."'');  
+				'CUSTOMERID='.$custid);  
 				 if($email !=''){
 				$brand_img="yapnaa-new-logo.png";		   
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -126,7 +126,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
             if($check30days !=NULL){
 				$brandresult	=	$this->model->update($table,array('highly_engaged'=>2),
-				'CUSTOMERID='".$custid."'');
+				'CUSTOMERID='.$custid);
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	 		
 				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
@@ -166,7 +166,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check15days !=NULL){
 				
                 $brandresult	=	$this->model->update($table,array('partialy_engaged'=>1),
-				'CUSTOMERID='".$custid."''); 
+				'CUSTOMERID='.$custid); 
 				if($email !=''){   
 $text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
@@ -213,7 +213,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check30days !=NULL){
 				
 				$brandresult	=	$this->model->update($table,array('partialy_engaged'=>2),
-				'CUSTOMERID='".$custid."'');
+				'CUSTOMERID='.$custid);
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -254,7 +254,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check15days !=NULL){
 				
                 $brandresult	=	$this->model->update($table,array('engaged'=>1),
-				'CUSTOMERID='".$custid."'');
+				'CUSTOMERID='.$custid);
 				if($email !=''){
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
@@ -300,7 +300,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
             if($check30days !=NULL){
  
 				$brandresult	=	$this->model->update($table,array('engaged'=>2),
-				'CUSTOMERID='".$custid."'');
+				'CUSTOMERID='.$custid);
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -479,7 +479,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 		      
 			}
                 $brandresult	=	$this->model->update($table,array('disinterested'=>$count),
-				'CUSTOMERID='".$custid."'');				  
+				'CUSTOMERID='.$custid);				  
             
 		}
 		//echo '<pre>';print_r($result1);die;
