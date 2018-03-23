@@ -41,8 +41,8 @@ if(isset($_REQUEST['custResponse'])){
 			break;
 		}
 		$userQst2 = $_REQUEST['userQst2'];
-		 
-		
+		$email = $_REQUEST['email']; 
+		$comments = $_REQUEST['comm'];
 		
 		$number = $_REQUEST['mobile'];
 		$brandId = 1;
@@ -52,7 +52,7 @@ if(isset($_REQUEST['custResponse'])){
 		$userQst= array("3","4","2","12");
 		$answer= array("$userQst1","$userQst1","$userQst2","$userQst3");
 		for($i=0;$i<count($userQst);$i++){
-		$_list = $control->insertStatus1($userQst[$i],$answer[$i],$number,$brandId,$brandName,$customerid,$customername);
+		$_list = $control->insertStatus1($email,$comments,$userQst[$i],$answer[$i],$number,$brandId,$brandName,$customerid,$customername);
 		}  
 		 
 	}
