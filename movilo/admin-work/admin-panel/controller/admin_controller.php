@@ -950,24 +950,78 @@ $datacustomer2
 			return $result;
 	
  }	
-	function insertStatus1($email,$comments,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername){  
+	function insertStatus1
+	($email,$comments,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
+	   if($brandId ==1){
 	   $brandtable  =	'livpure';  
-	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
-	  
+	   }
+	   else{
+	   $brandtable  =	''; 	     
+	   }
+	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";	  
 	   $check_duplicate		=	$this->model->data_query($sql);
 	   
+	   $brand_sql="SELECT * FROM $brandtable l where l.PHONE1=$number";	  
+	   $check_duplicate_brand		=	$this->model->data_query($brand_sql);
+	   if($check_duplicate_brand !=NULL)
+	   {
 	   $condition_brand="PHONE1=$number";
-	   
-	   $set_array_brand	=	array(
-							 'last_call_comment'            => $comments,
-							 'highly_engaged'               =>'',
-							 'partialy_engaged'              =>'',
-							 'engaged'                       =>''
-							);
+			   if(!empty($email)){
+			   $set_array_brand	=	array(
+									 'last_call_comment'            => $comments,
+									 'email'                        =>$email,
+									 'highly_engaged'               =>'',
+									 'partialy_engaged'             =>'',
+									 'engaged'                      =>'',
+									 'disinterested'                =>''
+									);
+			   }else{
+				   $set_array_brand	=	array(
+									 'last_call_comment'            => $comments,							 
+									 'highly_engaged'               =>'',
+									 'partialy_engaged'             =>'',
+									 'engaged'                      =>'',
+									 'disinterested'                =>''
+									); 
+			   }
 	   $brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
-								
+	   }else{
+	   $datacustomer ="<tr style='height:25px'>
+	         <td style='border: 1px solid black;'>".$customername."</td>
+			 <td style='border: 1px solid black;'>".$number."</td>
+			 <td style='border: 1px solid black;'>".$email."</td>
+			 <td style='border: 1px solid black;'>".$comments."</td>			 
+			 </tr>";
+		$to = "info@yapnaa.com";        
+		$subject = "Customers of $brandtable";
+		$message = "
+<html>
+<head>
+<title>Customers of $brandtable</title>
+</head>
+<body>
+<p>Hi,You have a customers of $brandtable:-</p>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone</th>
+<th style='border: 1px solid black;width: 120px;'>Email</th>
+<th style='border: 1px solid black;width: 120px;'>Comments</th>
+</tr>
+$datacustomer
+</table>
+</body>
+</html>
+";
+		 
+		 
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= "From: harshal.jjbytes@gmail.com" . "\r\n" ;		
+		mail($to,$subject,$message,$headers);		  
+	   }		   
 	   
           if($check_duplicate !=NULL)
 		{

@@ -32,12 +32,12 @@ if(isset($_REQUEST['custResponse'])){
 			break;
 			case 3:
 			$userQst3 ='Yes' ;
-			break;
+			break; 
 			case 4:
 			$userQst3 ='Yes' ;
 			break;
 			case 5:
-			$userQst3 ='Yes' ;
+			$userQst3 ='Yes' ;  
 			break;
 		}
 		$userQst2 = $_REQUEST['userQst2'];
@@ -45,8 +45,16 @@ if(isset($_REQUEST['custResponse'])){
 		$comments = $_REQUEST['comm'];
 		
 		$number = $_REQUEST['mobile'];
-		$brandId = 1;
-		$brandName = 'Livpure';
+		$brandId = $_REQUEST['custResponse'];
+		if($_REQUEST['custResponse']==1)
+		{
+		 $brandName = 'Livpure';	
+		}
+		else
+		{
+		 $brandName = '';	
+		}
+		
 		$customerid =preg_replace('/[0-3]+/', '', $_REQUEST['mobile']);
 		$customername = $_REQUEST['name'];
 		$userQst= array("3","4","2","12");
