@@ -950,12 +950,24 @@ $datacustomer2
 			return $result;
 	
  }	
-	function insertStatus1($userQst,$answer,$number,$brandId,$brandName,$customerid,$customername){  
+	function insertStatus1($email,$comments,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername){  
 	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
+	   $brandtable  =	'livpure';  
 	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
 	  
 	   $check_duplicate		=	$this->model->data_query($sql);
+	   
+	   $condition_brand="PHONE1=$number";
+	   
+	   $set_array_brand	=	array(
+							 'last_call_comment'            => $comments,
+							 'highly_engaged'               =>'',
+							 'partialy_engaged'              =>'',
+							 'engaged'                       =>''
+							);
+	   $brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
+								
 	   
           if($check_duplicate !=NULL)
 		{
