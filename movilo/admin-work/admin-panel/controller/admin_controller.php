@@ -1401,7 +1401,7 @@ $datacustomer
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headers .= "From: harshal.jjbytes@gmail.com" . "\r\n" ;		
 		mail($to,$subject,$message,$headers);	
-        break;		
+       	
 	   }		   
 	   
           if($check_duplicate !=NULL)
@@ -5248,7 +5248,7 @@ $datacustomer
 							$fields		=	'srm_question_id,srm_question_bp_id,srm_questions,srm_question_opt1,srm_question_type';
 							$condition 	=	"srm_question_id='".$q_list."'";		
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
-							return $result; 
+							 
 					break;		
 					case 2:
 							$table		=	'srm_questions';
@@ -5257,7 +5257,7 @@ $datacustomer
 							$fields		=	'srm_question_id,srm_question_bp_id,srm_questions,srm_question_opt2,srm_question_type';
 							$condition 	=	"srm_question_id='".$q_list."'";		
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
-							return $result; 
+							
 					break;
 					case 3:
 							$table		=	'srm_questions';
@@ -5266,7 +5266,7 @@ $datacustomer
 							$fields		=	'srm_question_id,srm_question_bp_id,srm_questions,srm_question_opt3,srm_question_type';
 							$condition 	=	"srm_question_id='".$q_list."'";		
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
-							return $result; 
+							
 					break;		
 					case 4:
 							$table		=	'srm_questions';
@@ -5275,12 +5275,13 @@ $datacustomer
 							$fields		=	'srm_question_id,srm_question_bp_id,srm_questions,srm_question_opt4,srm_question_type';
 							$condition 	=	"srm_question_id='".$q_list."'";		
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
-							return $result; 
+							
 		 
 		            break;
 		 
 		 
 		}
+		return $result; 
 	}
 	
 	
