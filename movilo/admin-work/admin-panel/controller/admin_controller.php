@@ -398,9 +398,7 @@ could not be delivered,please try again.";
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
-			$brand_img="logo_livpure_yapnaa.png";
-			
-			
+			$brand_img="logo_livpure_yapnaa.png";		
             break;
 			case 2:
 		    $table		=	'zerob_consol1';
@@ -1374,34 +1372,33 @@ $datacustomer2
 			 <td style='border: 1px solid black;'>".$email."</td>
 			 <td style='border: 1px solid black;'>".$comments."</td>			 
 			 </tr>";
-		$to = "info@yapnaa.com";        
-		$subject = "Customers of $brandtable";
-		$message = "
-<html>
-<head>
-<title>Customers of $brandtable</title>
-</head>
-<body>
-<p>Hi,You have a customers of $brandtable:-</p>
-<table style='border: 1px solid black; border-collapse: collapse;'>
-<tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Name</th>
-<th style='border: 1px solid black;width: 120px;'>Phone</th>
-<th style='border: 1px solid black;width: 120px;'>Email</th>
-<th style='border: 1px solid black;width: 120px;'>Comments</th>
-</tr>
-$datacustomer
-</table>
-</body>
-</html>
-";
+			$to = "info@yapnaa.com";        
+			$subject = "Customers of $brandtable";
+			$message = "<html>
+			<head>
+			<title>Customers of $brandtable</title>
+			</head>
+			<body>
+			<p>Hi,You have a customers of $brandtable:-</p>
+			<table style='border: 1px solid black; border-collapse: collapse;'>
+			<tr style='height:25px'>
+			<th style='border: 1px solid black;width: 120px;'>Name</th>
+			<th style='border: 1px solid black;width: 120px;'>Phone</th>
+			<th style='border: 1px solid black;width: 120px;'>Email</th>
+			<th style='border: 1px solid black;width: 120px;'>Comments</th>
+			</tr>
+			$datacustomer
+			</table>
+			</body>
+			</html>
+			";
 		 
 		 
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headers .= "From: harshal.jjbytes@gmail.com" . "\r\n" ;		
 		mail($to,$subject,$message,$headers);	
-        break;		
+       		
 	   }		   
 	   
           if($check_duplicate !=NULL)
