@@ -5249,7 +5249,7 @@ $datacustomer
 							$condition 	=	"srm_question_id='".$q_list."'";		
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 							return $result; 
-							
+					break;		
 					case 2:
 							$table		=	'srm_questions';
 							// $fields		=	'srm_question_id,srm_question_bp_id,srm_questions,srm_question_opt1,srm_question_opt2,srm_question_type';
@@ -5258,7 +5258,7 @@ $datacustomer
 							$condition 	=	"srm_question_id='".$q_list."'";		
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 							return $result; 
-					
+					break;
 					case 3:
 							$table		=	'srm_questions';
 							// $fields		=	'srm_question_id,srm_question_bp_id,srm_questions,srm_question_opt1,srm_question_opt2,srm_question_opt3,srm_question_type';
@@ -5267,7 +5267,7 @@ $datacustomer
 							$condition 	=	"srm_question_id='".$q_list."'";		
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 							return $result; 
-							
+					break;		
 					case 4:
 							$table		=	'srm_questions';
 							// $fields		=	'srm_question_id,srm_question_bp_id,srm_questions,srm_question_opt1,srm_question_opt2,srm_question_opt3,srm_question_opt4,srm_question_type';
@@ -5277,7 +5277,7 @@ $datacustomer
 							$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 							return $result; 
 		 
-		 
+		            break;
 		 
 		 
 		}
