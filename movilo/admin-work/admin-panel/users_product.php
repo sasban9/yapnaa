@@ -55,13 +55,13 @@ if(isset($_SESSION['admin_email_id']))
 
 		<div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>User List</h2>
+                    <h2>User Products</h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.php">Home</a>
                         </li>
                         <li class="active">
-                            <strong>User List</strong>
+                            <strong>User Products</strong>
                         </li>
                     </ol>
                 </div>
@@ -117,9 +117,9 @@ if(isset($_SESSION['admin_email_id']))
                
 <?php include "footer.php";?>
 
-    <!-- Mainly scripts -->
+    <!-- Mainly scripts 
     <script src="js/jquery-2.1.1.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>-->
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>

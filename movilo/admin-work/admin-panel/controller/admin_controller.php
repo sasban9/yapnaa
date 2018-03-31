@@ -13,380 +13,14 @@ class admin	{
 
 	}
 	
-<<<<<<< HEAD
-	$message	=	'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <!--[if !mso]><!-->
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <!--<![endif]-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	  
-	     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-      <!--[if (gte mso 9)|(IE)]>
-      <style type="text/css">
-         table {border-collapse: collapse !important;}
-      </style>
-      <![endif]-->
-   
-   
-
-   
-   
-   
-   <body style="Margin:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;min-width:100%;background-color:#ececec;">
-      <span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span>
-	  
-	  <center class="wrapper" style="width:100%;table-layout:fixed;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#ececec;">
-         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ececec;" bgcolor="#ececec;">
-            <tr>
-               <td width="100%">
-                  <div class="webkit" style="width:650px;Margin:0 auto; background:#fff;">
-                     <!--[if (gte mso 9)|(IE)]>
-                     <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0" >
-                        <tr>
-                           <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
-                              <![endif]--> 
-                              <!-- ======= start main body ======= -->
-                              <table class="outer" align="center" cellpadding="0" cellspacing="0" border="0" style="border-spacing:0;Margin:0 auto;width:100%;max-width:600px;">
-                                 <tr>
-                                    <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">
-                                       <!-- ======= start header ======= -->
-                                       <table border="0" width="100%" cellpadding="0" cellspacing="0"  >
-                                          <tr>
-                                             <td>
-                                                <table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
-                                                   <tbody>
-                                                      <tr>
-                                                         <td align="center">
-                                                            <center>
-                                                               <table border="0" align="center" width="100%" cellpadding="0" cellspacing="0" style="Margin: 0 auto;">
-                                                                  <tbody>
-                                                                     <tr>
-                                                                        <td class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" bgcolor="#FFFFFF">
-                                                                           <!-- ======= start header ======= -->
-                                                                           <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                                              <tr>
-                                                                                 <td class="two-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;text-align:center;font-size:0;">
-                                                                                    <!--[if (gte mso 9)|(IE)]>
-                                                                                    <table width="100%" style="border-spacing:0" >
-                                                                                       <tr>
-                                                                                          <td width="20%" valign="top" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
-                                                                                             <![endif]-->
-																							  <div class="row">
-                                                                                             <div class="column" style="width:100%;max-width:170px;display:inline-block;vertical-align:top;">
-                                                                                                 <table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
-                                                                                                   <tr>
-                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://35.167.16.54/images/yapnaa-new-logo.png"  alt="" style="border-width:0; max-width:170px;height:auto; display:block" /></a></td>
-                            
-							
-																								   </tr>
-                                                                                                </table>
-                                                                                             </div>
-                                                                                             <!--[if (gte mso 9)|(IE)]>
-                                                                                          </td>
-                                                                                          <td width="80%" valign="top" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
-                                                                                             <![endif]-->
-                                                                                             <div class="column" style="width:100%;max-width:415px;display:inline-block;vertical-align:top;">
-                                                                                                <table width="100%" style="border-spacing:0" bgcolor="#ffffff">
-                                                                                                   <tr>
-                                                                                                      <td>
-                                                                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="hide">
-                                                                                                            <tr>
-                                                                                                               <td height="20">&nbsp;</td>
-                                                                                                            </tr>
-                                                                                                         </table>
-                                                                                                      </td>
-                                                                                                   </tr>
-                                                                                                  <tr>
-                            <td class="inner" style="padding-top: 0px;padding-bottom: 10px;padding-right: 0px;padding-left: 234px"><table class="contents" style="border-spacing:0; width:100%">
-                                <tbody><tr>
-                                  <td width="100%" align="center" valign="top" >
-								  <img src="http://35.167.16.54/images/livpure-logo.png"  alt="" style="border-width:0; max-width:170px;height:auto; display:block" />
-								  </td>
-                                </tr>
-                              </tbody></table></td>
-                          </tr>
-                                                                                                </table>
-                                                                                             </div>
-                                                                                             </div>
-                                                                                             <!--[if (gte mso 9)|(IE)]>
-                                                                                          </td>
-                                                                                       </tr>
-                                                                                    </table>
-                                                                                    <![endif]-->
-                                                                                 </td>
-                                                                              </tr>
-                                                                              <tr >
-                                                                                 <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
-                                                                                    <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
-                                                                                       <tr>
-                                                                                          <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
-                                                                                       </tr>
-                                                                                    </table>
-                                                                                 </td>
-                                                                              </tr>
-                                                                              <tr>
-                                                                              </tr>
-                                                                           </table>
-                                                                        </td>
-                                                                     </tr>
-                                                                  </tbody>
-                                                               </table>
-                                                            </center>
-                                                         </td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </table>
-                                       <!-- ======= end header ======= --> 
-                                       <!-- ======= start hero article ======= -->
-                                       <table class="one-column" border="0" cellpadding="40" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
-                                          <tr>
-                                             <td align="" style="padding-bottom:2%; padding-top:2%;">
-                                                
-												<p style="color:#666666; font-size:14px;  font-family: "Montserrat", sans-serif;"><b>'.$text.'</b></p>
-                                                <!-- START BUTTON -->
-                                                <!-- END BUTTON -->
-                                             </td>
-                                          </tr>
-                                       </table>
-                                       <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
-                                          <tr>
-                                             <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
-                                                <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
-                                                   <tbody>
-                                                      <tr>
-                                                         <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td align="center">&nbsp;</td>
-                                          </tr>
-                                       </table>
-                                       <!-- ======= end hero article ======= --> 
-                                       <center >
-                                          <table bgcolor="#FFFFFF" width="100%">
-                                             <tr>
-											 
-											 <td>
-                                                   <table>
-                                                      <tr>
-                                                         <td> </td>
-                                                         <td>
-                                                           
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-												<td>
-                                                   <table>
-                                                      <tr>
-                                                         <td> </td>
-                                                         <td>
-                                                           
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-
-											 
-											 <td>
-                                                   <table>
-                                                      <tr>
-                                                         <td><a href="http://info@yapnaa.com"><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
-                                                         <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> info@yapnaa.com</b></p>
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-												<td>
-                                                   <table>
-                                                      <tr>
-                                                         <td> </td>
-                                                         <td>
-                                                           
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-												<td>
-                                                   <table>
-                                                      <tr>
-                                                         <td> </td>
-                                                         <td>
-                                                           
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-                                                <td>
-                                                   <table>
-                                                      <tr>
-                                                         <td> <a href="http://yapnaa.com"><img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
-                                                         <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>yapnaa.com</b></p>
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-                                                <td>
-                                                   <table>
-                                                      <tr>
-                                                         <td> </td>
-                                                         <td>
-                                                           
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-												<td>
-                                                   <table>
-                                                      <tr>
-                                                         <td> </td>
-                                                         <td>
-                                                           
-                                                         </td>
-                                                      </tr>
-                                                   </table>
-                                                </td>
-
-                                                <td>
-												<table width="150" border="0" cellspacing="0" cellpadding="0">
-                                      <tbody><tr>
-                                        <td width="32" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                        <td width="32" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                        <td width="32" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                     <td width="32" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                      </tr>
-                                    </tbody></table>
-                                                   <!--table>
-                                                      <tr>
-                                                         <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
-                                                         <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>  +91 98452 856419</b></p>
-                                                         </td>
-                                                      </tr>
-                                                   </table-->
-                                                </td>
-                                             </tr>
-                                          </table>
-                                       </center>
-                                       <!-- ======= start divider ======= -->
-                                       <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0" bgcolor="#FFFFFF">
-                                          <tr>
-                                             <td align="left" style="padding-left:40px;border-bottom:2px solid #9E9E9E;">
-                                                <table border="0" cellpadding="0" cellspacing="0" style="" align="left">
-                                                   <tbody>
-                                                      <tr>
-                                                         <td height="20" width="30" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td align="center">&nbsp;</td>
-                                          </tr>
-                                       </table>
-                                       <!-- ======= end divider ======= --> 
-
-                                    </td>
-                                 </tr>
-                              </table>
-                              <!--[if (gte mso 9)|(IE)]>
-                           </td>
-                        </tr>
-                     </table>
-                     <![endif]--> 
-					 
-					 
-					                                        <!-- ======= start footer ======= -->
-                                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                          <tr>
-                                             <td>
-                                                <table width="100%" cellpadding="0" cellspacing="0" border="0"  bgcolor="#ffdfd0">
-                                                   <tr>
-                                                      <td height="20" align="center" bgcolor="#ffdfd0" class="one-column">&nbsp;</td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Copyright © 2018</font></td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center"><b>Movilo Networks Pvt. Ltd</b></font></td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;"><font style="font-size:13px; text-decoration:none; color:#5b5f65; font-family: "Montserrat", sans-serif;; text-align:center">Your After Sales Companion</font></td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td align="center" bgcolor="#ffdfd0" class="one-column" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">&nbsp;</td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td height="6" bgcolor="#ffdfd0" class="contents1" style="width:100%; border-bottom-left-radius:10px; border-bottom-right-radius:10px"></td>
-                                                   </tr>
-                                                </table>
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                                   <tr>
-                                                      <td height="6" bgcolor="#ffdfd0" class="contents" style="width:100%; border-bottom-left-radius:10px; border-bottom-right-radius:10px"></td>
-                                                   </tr>
-                                                  
-                                                </table>
-                                             </td>
-                                          </tr>
-                                       </table>
-                                       <!-- ======= end footer ======= -->
-                  </div>
-               </td>
-            </tr>
-         </table>
-      </center>
-   </body>
-</html>
-
-			';
-	$filteredmessage = "This is the yapnaamessage";
-    $mail->msgHTML($message);
-	$mail->AltBody = $filteredmessage;
-    if (!$mail->send()) {
-        echo "We are extremely sorry to inform you that your message
-could not be delivered,please try again.";
-    } else {
-        echo "Your message was successfully delivered,you would be contacted shortly.";
-        }
-	}
 	function schedule_campaign($schedulecampaign){
-		//echo "here";
-=======
-	function schedule_campaign($schedulecampaign){
->>>>>>> 239a0fe82e1a6c9ac909374c851995304585aa8c
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
-<<<<<<< HEAD
-			$brand_img="logo_livpure_yapnaa.png";		
-=======
 			$brand_img="logo_livpure_yapnaa.png";
 			
 			
->>>>>>> 239a0fe82e1a6c9ac909374c851995304585aa8c
             break;
 			case 2:
 		    $table		=	'zerob_consol1';
@@ -538,7 +172,7 @@ $text="<p style='font-weight:lighter;'>Dear $username,</p>"."
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -558,7 +192,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -566,7 +200,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
                				
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				}else{
-                $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc
+                $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc-offer
 ";	
                  $userphone=array($userphone);				
 				$this->send_bulk_sms($userphone,$text);
@@ -626,7 +260,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -646,7 +280,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -720,7 +354,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -740,7 +374,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -749,7 +383,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				      }				
 					else{
-	                     $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc
+	                     $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc-offer
 		";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
@@ -882,7 +516,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 		}
 		
 		$fields		=	'*';
-		$condition 	=	"STATUS =3 and mail_status !=1 AND DATE(req_follow_up_date) = DATE_ADD(CURDATE(),INTERVAL 1 
+		$condition 	=	"STATUS =3 and followup_mail ='' AND DATE(req_follow_up_date) = DATE_ADD(CURDATE(),INTERVAL 1 
 DAY)";				
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		
@@ -935,7 +569,7 @@ $datacustomer
 		for($i=0;$i<count($followupcustID);$i++){
         $condition="CUSTOMERID='".$followupcustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	1
+							'followup_mail'=>	1
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition);
@@ -955,10 +589,10 @@ $datacustomer
 		}
 		
 		$fields		=	'*';
-		$condition1 	=	"STATUS =3 and mail_status !=2 AND DATE(req_service_date) >= CURDATE() ";
-		$condition2 	=	"STATUS =3 and mail_status !=3 AND DATE(req_amc_date) >= CURDATE() ";	
-		$condition3 	=	"STATUS =3 and mail_status !=4 AND DATE(req_upgrade_date)  >= CURDATE() ";				
-		$condition4 	=	"mail_status !=5 and phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
+		$condition1 	=	"STATUS =3 and mail_status_service ='' AND DATE(req_service_date) >= CURDATE() ";
+		$condition2 	=	"STATUS =3 and mail_status_amc ='' AND DATE(req_amc_date) >= CURDATE() ";	
+		$condition3 	=	"STATUS =3 and mail_status_upgrade ='' AND DATE(req_upgrade_date)  >= CURDATE() ";				
+		$condition4 	=	"mail_status_escalation ='' and phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
 		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
 		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
 		$result3	=	$this->model->get_Details_condition($table,$fields,$condition3);
@@ -1089,36 +723,44 @@ $datacustomer4
 		
 		
 		for($i=0;$i<count($serviceCustID);$i++){
-        $condition_sevice="CUSTOMERID='".$serviceCustID[$i]."'"; 
-        $set_array	=	array(                  
-							'mail_status'=>	2
-							);
+		
+			$condition_sevice="CUSTOMERID='".$serviceCustID[$i]."'"; 
+			$set_array	=	array(                  
+								'mail_status_service'=>	2
+								);
+				
+			$mailstatus	=	$this->model->update($table,$set_array,$condition_sevice);
 			
-        $mailstatus	=	$this->model->update($table,$set_array,$condition_sevice);
 		}
         for($i=0;$i<count($amcCustID);$i++){
+			
         $condition_amc="CUSTOMERID='".$amcCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	3
+							'mail_status_amc'=>	3
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_amc);
+			
 		}
         for($i=0;$i<count($upgradeCustID);$i++){
+			
         $condition_upgrade="CUSTOMERID='".$upgradeCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	4
+							'mail_status_upgrade'=>	4
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_upgrade);
+			
 		}		
         for($i=0;$i<count($escalCustID);$i++){
+			
         $condition_escal="CUSTOMERID='".$escalCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	5
+							'mail_status_escalation'=>	5
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_escal);
+			
 		}		
 		return true;
 	}
@@ -1136,8 +778,8 @@ $datacustomer4
 		}
 		
 		$fields		=	'*';
-		$condition1 	=	"mail_status !=6 AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =18 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( ))";
-		$condition2 	=	"mail_status !=7 AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =20 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( )) ";	
+		$condition1 	=	"note_for_amc ='' AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =18 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( ))";
+		$condition2 	=	"note_for_upgrade ='' AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =20 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( )) ";	
 					
 		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
 		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
@@ -1160,7 +802,7 @@ $datacustomer4
 		}
 		 
 		
-		$to = "sriramm@moviloglobal.com";
+		$to = "sriramm@moviloglobal.com"; 
 		//$to = "ranjan.jjbyte@gmail.com";
 		$subject = "AMC and Upgrade Offers Customer of $titlename";
 		$message = "
@@ -1218,7 +860,7 @@ $datacustomer2
 		for($i=0;$i<count($noteAmcCustID);$i++){
         $condition_amc_details="CUSTOMERID='".$noteAmcCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	6
+							'note_for_amc'=>	6
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_amc_details);
@@ -1226,7 +868,7 @@ $datacustomer2
 		for($i=0;$i<count($noteUpgradeCustID);$i++){
         $condition_upgrade_details="CUSTOMERID='".$noteUpgradeCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	7
+							'note_for_upgrade'=>	7
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_upgrade_details);
@@ -1360,37 +1002,34 @@ $datacustomer2
 			 <td style='border: 1px solid black;'>".$email."</td>
 			 <td style='border: 1px solid black;'>".$comments."</td>			 
 			 </tr>";
-			$to = "info@yapnaa.com";        
-			$subject = "Customers of $brandtable";
-			$message = "<html>
-			<head>
-			<title>Customers of $brandtable</title>
-			</head>
-			<body>
-			<p>Hi,You have a customers of $brandtable:-</p>
-			<table style='border: 1px solid black; border-collapse: collapse;'>
-			<tr style='height:25px'>
-			<th style='border: 1px solid black;width: 120px;'>Name</th>
-			<th style='border: 1px solid black;width: 120px;'>Phone</th>
-			<th style='border: 1px solid black;width: 120px;'>Email</th>
-			<th style='border: 1px solid black;width: 120px;'>Comments</th>
-			</tr>
-			$datacustomer
-			</table>
-			</body>
-			</html>
-			";
+		$to = "info@yapnaa.com";        
+		$subject = "Customers of $brandtable";
+		$message = "
+<html>
+<head>
+<title>Customers of $brandtable</title>
+</head>
+<body>
+<p>Hi,You have a customers of $brandtable:-</p>
+<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone</th>
+<th style='border: 1px solid black;width: 120px;'>Email</th>
+<th style='border: 1px solid black;width: 120px;'>Comments</th>
+</tr>
+$datacustomer
+</table>
+</body>
+</html>
+";
 		 
 		 
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headers .= "From: harshal.jjbytes@gmail.com" . "\r\n" ;		
 		mail($to,$subject,$message,$headers);	
-<<<<<<< HEAD
-       		
-=======
        	
->>>>>>> 239a0fe82e1a6c9ac909374c851995304585aa8c
 	   }		   
 	   
           if($check_duplicate !=NULL)
@@ -4162,7 +3801,7 @@ $datacustomer2
 	}
 		//Get get_filtered_user_list 
 	function get_filtered_user_list($filter)
-	{
+	{ 
 		$table		=	'users';
 		$fields		=	'*';
 		if($filter == 0){
@@ -4183,8 +3822,13 @@ $datacustomer2
 				$condition		=	'user_phone IN ( SELECT phone1 FROM zerob_consol1 ) OR user_phone  IN ( SELECT phone2 FROM zerob_consol1 ) order by user_id desc';
 				return $result	=	$this->model->get_Details_condition($table,$fields,$condition);
 			break;
+			
 			case 2:
-				$condition		=	'user_phone NOT IN ( SELECT phone1 FROM zerob_consol1 ) OR user_phone NOT  IN ( SELECT phone2 FROM zerob_consol1 ) order by user_id desc';
+				$condition		=	'user_phone IN ( SELECT phone1 FROM livpure ) OR user_phone  IN ( SELECT phone2 FROM livpure ) order by user_id desc';
+				return $result	=	$this->model->get_Details_condition($table,$fields,$condition);
+			break;
+			case 3:
+				$condition		=	'user_phone NOT IN ( SELECT phone1 FROM zerob_consol1 ) OR user_phone NOT  IN ( SELECT phone2 FROM zerob_consol1 ) OR user_phone NOT IN ( SELECT phone1 FROM livpure ) OR user_phone NOT IN ( SELECT phone2 FROM livpure ) order by user_id desc';
 				return $result	=	$this->model->get_Details_condition($table,$fields,$condition);
 			break;
 		}
