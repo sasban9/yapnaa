@@ -81,9 +81,9 @@ if(isset($_SESSION['admin_email_id']))
                     <li>
                         <a href="users_product.php"><i class="fa fa-user"></i>All users products</a>
                     </li>
-					<li>
+					<!--li>
                         <a href="amc-price-list.php"><i class="fa fa-clock-o"></i>AMC Price List</a>
-                    </li>
+                    </li-->
                     <li >
                       <a href="add-banner.php">
                         <i class="fa fa-picture-o">
@@ -146,9 +146,9 @@ if(isset($_SESSION['admin_email_id']))
                     <li>
                         <a href="users_product.php"><i class="fa fa-user"></i>All users products</a>
                     </li>
-					<li>
+					<!--li>
                         <a href="amc-price-list.php"><i class="fa fa-clock-o"></i>AMC Price List</a>
-                    </li>
+                    </li-->
                     <li >
                       <a href="add-banner.php">
                         <i class="fa fa-picture-o">

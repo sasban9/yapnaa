@@ -130,8 +130,9 @@ if(isset($_SESSION['admin_email_id']))
 				<form method="post" action="">
 					<select name="filter">
 						<option value="0">All</option>
-						<option value="1">ZeroB Customers</option>
-						<option value="2">Non-ZeroB Customers</option>
+						<option value="1">Zero B Customers</option>
+						<option value="2">livpure Customers</option>
+						<option value="3">General Customers</option>
 					
 					</select>
 					<input type="submit" class="btn btn-info" name="filterSubmit" value="Filter">
@@ -332,9 +333,9 @@ if(isset($_SESSION['admin_email_id']))
 			   
 <?php include "footer.php";?>
 
-    <!-- Mainly scripts -->
+    <!-- Mainly scripts 
     <script src="js/jquery-2.1.1.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>-->
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>

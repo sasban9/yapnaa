@@ -9,11 +9,11 @@ if(isset($_POST['value']))
 	require_once(__DIR__.'/'.'../model/model.php');
 	$obj_model	=new model;
 	require_once(__DIR__.'/'.'../config/tab_config.php');
-}
+} 
 
 
 
-class users
+class users 
 {
 	
     function __construct()
@@ -99,8 +99,8 @@ $headers .= 'From: '.$email."\r\n";
 	      $table_log_in                  = 'users';
 		  $fields_log_in   				 = 	'*';
           $condition_log_in				 = 	'user_reg_verification_otp    = '.$reg_otp;
-          $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-	      if($arr_log_in !=NULL){
+          $arr_log_in1      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+	      if($arr_log_in1 !=NULL){
 			
 			$user_last_login 			= 	date('Y-m-d h:i:s');
             $set_array     = array(
@@ -110,9 +110,11 @@ $headers .= 'From: '.$email."\r\n";
             );
             $condition     = 'user_reg_verification_otp = ' . "'" . $reg_otp . "'";
             $arr_log_in    = $this->model->update($table_log_in, $set_array, $condition);
-			$_SESSION['user_name']		=  $arr_log_in[0]['user_name'];
-			echo '<script>alert("Successfully Logged in !")</script>';	
-		    echo '<script>window.location.assign("index.php")</script>';
+			$_SESSION['user_name']		=  $arr_log_in1[0]['user_name'];
+			
+			echo '<script>alert("Successfully Logged in !")</script>';  
+		header("Location:/movilo/user-dashboard/dashboard.php?vals=".urlencode(serialize($arr_log_in1)));
+		 
 		  }else{
 			 echo '<script>alert("Error ! wrong OTP")</script>';	 
 			 echo '<script>window.location.assign("login.php")</script>'; 
@@ -223,17 +225,42 @@ $headers .= 'From: '.$email."\r\n";
 		$fields_user='*';
 		$table_user='users';
 		$condition_user='user_phone ='.$mob.' AND user_pin="'.$pwd.'"';
-		$arr_result_test = $this->model->get_Details_condition($table_user, $fields_user, $condition_user);
-		if($arr_result_test !=NULL){
-		$_SESSION['user_name']		=  $arr_result_test[0]['user_name'];
-		echo '<script>alert("Successfully Logged in !")</script>';
-		echo '<script>window.location.assign("index.php")</script>';
-		 //print_r($arr_result_test);
+		$user_info = $this->model->get_Details_condition($table_user, $fields_user, $condition_user);
+		
+		//echo '<pre>';print_r($user_info);
+		
+		if($user_info !=NULL){
+		echo '<script>alert("Successfully Logged in !")</script>'; 
+		header("Location:/movilo/user-dashboard/dashboard.php?vals=".urlencode(serialize($user_info)));
+		 
 		}else{
 		echo '<script>alert("Error ! Please provide correct credentials")</script>';	
 		echo '<script>window.location.assign("login.php")</script>';	
 		}
 	}
+	function fblogin($fbId){
+		$fields_user='*';
+		$table_user='users';
+		$condition_user='user_social_id=$fbId';
+		$user_info = $this->model->get_Details_condition($table_user, $fields_user, $condition_user);
+		
+		//echo '<pre>';print_r($user_info);
+		
+		return $user_info;
+	}
+	
+	//logout
+	function logout(){
+		
+		// remove all session variables
+		session_unset(); 
+		// destroy the session 
+		session_destroy();  
+		echo '<script>alert("Logout succesfully")</script>';	
+		echo '<script>window.location.assign("../../login.php")</script>';
+	}
+	
+	
     //save service request
 	function save_request_raise($user,$cust_name,$brand_info,$brand,$issue,$cust_phone){
 		$fields_reg = array(
@@ -1450,7 +1477,17 @@ function checkout_user_login(){
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
 	
-		 
+	function brand_product_list_by_category_dashboard($p_category_id)
+    {
+		$brand_p_category_id		     = 	$p_category_id;
+		$table           				 = 	table();
+		$table		    				 = 	$table['tb3'];
+		$fields							 =  'brand_name,product_id,p_category_name,brand_id';
+		$condition		 				 = 	'product_status    =1 and product_name='.$brand_p_category_id;
+		$arr_log_in       				 = 	$this->model->brand_product_list_by_category($table, $fields, $condition);
+		// print_r($arr_log_in ); 
+		return $arr_log_in;
+	}		
 	 
 	 
 	 
@@ -1519,7 +1556,17 @@ function checkout_user_login(){
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
 	
-
+    //get all categories product
+	function get_product_cat_list(){
+		$table           				 = 	table();
+		$table_name	    				 = 	$table['tb5'];
+		$fields_log_in   				 = 	'*';
+		$condition_log_in				 = 	'p_category_status    = 1';
+		$order_by						 = 	'p_category_priority';
+		$arr_log_in      	 			 = 	$this->model->get_Details_condition_order_by($table_name, $fields_log_in, $condition_log_in,$order_by);	
+		
+		return $arr_log_in;
+	}
 	
 	
 	//feching all main categories
@@ -1710,7 +1757,7 @@ function checkout_user_login(){
 			if($sr_product_id){
 				return $arr_result1=3;
 			}
-			else{
+			else{ 
 				return $arr_result1=2;
 			}
 			
@@ -1719,6 +1766,101 @@ function checkout_user_login(){
 		}
     } 
 	 
+	//add product for dashboard
+     function add_product($bId,$product_user_id,$brands,$dateInstallation)
+    {
+		//echo $product_user_id;
+		
+    	
+        $table           				 = 	table();
+		date_default_timezone_set('Asia/Kolkata');
+       
+        $add_product_user_serial_no   	 = 	'';
+        $add_product_user_brand_id   	 = 	$bId;
+        $add_product_user_id		   	 = 	$product_user_id;
+        $add_product_user_dealer_name  	 = 	'';
+        $add_product_product_id		  	 = 	$brands;
+        $add_product_installation	  	 = 	'';
+        $add_product_instal_date	  	 = 	$dateInstallation;
+		
+		$table_log_in    				 = 	$table['tb1'];
+        $fields_log_in   				 = 	'*';
+        
+        $condition_log_in				 =  "user_id= $add_product_user_id";
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		
+		
+		$device_type				     =	$arr_log_in[0]['user_login_device']; 
+		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
+		
+		
+		if($arr_log_in){
+			//echo here;die;
+			
+					 $fields_reg = array(
+									'up_user_id' 						=> $add_product_user_id,
+									'up_product_id'						=> $add_product_product_id,
+									'up_dealer_name'					=> $add_product_user_dealer_name,
+									'up_owner_purchase_date' 			=> $add_product_instal_date,
+									'up_serial_no' 						=> $add_product_user_serial_no,
+									'up_created_date' 					=> date('Y-m-d h:i:s'),
+									'up_serial_no_image'				=> $add_icon
+								);
+								
+				$table_log_in = $table['tb4'];
+				$arr_result1   = $this->model->insert($table_log_in, $fields_reg);
+				 $add_product_product_id = $arr_result1;
+				
+				//print_r($arr_result1);die;
+				if($arr_result1){
+					
+					if( $add_product_installation=='Yes'){
+						$srm_c_date 					 = 	date('Y-m-d H:i:s');
+						$fields_reg = array(
+								'srm_user_id' 				=> $add_product_user_id,  
+								'srm_product_id'			=> $add_product_product_id,
+								'srm_user_notes'			=> 'Requested for insatllaion',
+								'srm_c_date' 				=> $srm_c_date,
+								'srm_user_generated_date'	=> $srm_c_date,
+								'srm_installation'			=> $add_product_installation,
+								'srm_installation_date'		=> $add_product_instal_date,
+							); 
+							// print_r($fields_reg);exit;
+						$table_log_in = $table['tb8'];
+						$arr_result   = $this->model->insert($table_log_in, $fields_reg);
+						  
+						if($device_type=='Android'){    
+							$pushMessage['SRM_id']			 = 	$arr_result;
+							$pushMessage['message']			 = 	"Service request for insatllation";
+								if (isset($user_gcm_id) && isset($pushMessage)) {		
+								$gcmRegIds  = array($user_gcm_id); 
+								$message = array("msg" => $pushMessage);	
+								$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
+								// echo'<pre>';print_r($message); 
+								}
+							return $result;
+						}
+	 
+						
+						
+						if($device_type=='IOS'){ 
+							return $result;
+						}	
+						
+						
+						
+						
+					}
+					
+			}
+			
+			return $arr_result1=3;
+			
+			
+		}else{
+			return $arr_log_in=1;
+		}
+    }
 	 
 	//Adding user product
 	function user_add_product()
@@ -1813,7 +1955,64 @@ function checkout_user_login(){
 	
 
 	/*********************************************************************************************************************************/	
-
+    function upload_digilocker_dashboard($dl_product_type_id,$dl_user_id,$dl_doc_type,$dl_product_id,$dl_doc_name){
+		//echo "here";die;
+        $table           				 = 	table();
+		date_default_timezone_set('Asia/Kolkata');
+        
+        $dl_product_type_id   			 = 	$dl_product_type_id;
+        $dl_user_id   					 = 	$dl_user_id;
+        $dl_document				   	 = 	$this->file_upload();
+        $dl_doc_type					 = 	$dl_doc_type;
+        $dl_product_id				  	 = 	$dl_product_id;
+        $dl_doc_name				  	 = 	$dl_doc_name;
+        $dl_updated_time				 = 	 date('Y-m-d h:i:s');
+       
+		/* print_r($_FILES);
+		echo $dl_document;
+		die; */
+	   
+		$table_log_in    				 = 	$table['tb1'];
+        $fields_log_in   				 = 	'*';
+        // $condition_log_in				 = 	'user_token    = '.$add_product_user_token_key;
+        $condition_log_in				 =  "user_id= $dl_user_id";
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		
+		//print_r($arr_log_in);exit;
+		
+		$device_type				     =	$arr_log_in[0]['user_login_device']; 
+		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
+		
+		
+		
+		 //print_r($arr_log_in);exit;
+		if($arr_log_in){//print_r($arr_log_in);exit;
+			//$table_log_in    				 = 	"users_digilocker";
+				
+			$fields_reg = array(
+								'dl_product_type_id'		=> $dl_product_type_id,
+								'dl_user_id'				=> $dl_user_id,
+								'dl_document'				=> $dl_document,
+								'dl_doc_type' 				=> $dl_doc_type,
+								'dl_product_id' 			=> $dl_product_id,
+								'dl_doc_name' 			    => $dl_doc_name,
+								'dl_updated_time'			=> $dl_updated_time
+							);
+			
+			// print_r($fields_reg);exit;
+            $table_log_in = "users_digilocker";
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg);
+			if($arr_result){
+				$_POST=array();
+			}
+			echo "<script>alert('You have added digilocker!')</script>";
+			echo "<script>window.location.assign('digi-locker-product-details.php?cat=$dl_product_type_id&user=$dl_user_id')</script>";
+			
+			
+		}else{
+			return $arr_log_in=1;
+		}
+    }
 	function upload_digilocker(){
 		
         $table           				 = 	table();
@@ -1900,11 +2099,53 @@ function checkout_user_login(){
 					else return "error";
 			}
 	}
+	
 /*----------------------------------------------------------------------------------------------------------------------*/		
 
 	
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
+	function user_product_list_dashboard($user_product_list_user_id)
+    {
+        $table           				 = 	table();
+        
+        $user_product_list_user_id		 = 	$user_product_list_user_id;
+		
+		$table_log_in    				 = 	$table['tb1'];
+        $fields_log_in   				 = 	'*';
+        $condition_log_in				 = 	"user_id= $user_product_list_user_id";
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		// print_r($arr_log_in );
+		if($arr_log_in){
+			$table		    				 = 	$table['tb4'];
+			$fields							 =  '*';
+			$condition		 				 = 	"up_user_id    =$user_product_list_user_id and up_user_status =1";
+			$arr_log_in       				 = 	$this->model->user_product_list($table, $fields, $condition);
+			// print_r($arr_log_in );
+			return $arr_log_in;
+		}else{
+			return $arr_log_in='';
+		}
+    }
+	function user_product_list_dashboard_paticular($user_id,$up_product_id)
+    {
+        $table           				 = 	table();  
+		$table_log_in    				 = 	$table['tb1'];
+        $fields_log_in   				 = 	'*';
+        $condition_log_in				 = 	"user_id= $user_id";
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		//print_r($arr_log_in );die;
+		if($arr_log_in){
+			$table		    				 = 	$table['tb4'];
+			$fields							 =  '*';
+			$condition		 				 = 	"up_user_id    =$user_id and up_user_status =1 and up_product_id=$up_product_id";
+			$arr_log_in       				 = 	$this->model->user_product_list($table, $fields, $condition);
+			//print_r($arr_log_in );
+			return $arr_log_in;
+		}else{
+			return $arr_log_in='';
+		}
+    }
 
 	
 	//feching User Product List
@@ -1961,7 +2202,29 @@ function checkout_user_login(){
 			return $arr_log_in='';
 		}
     }
-	
+	function user_digilocker_list_dashboard($dl_product_type_id,$dl_user_id)
+    {
+        $table           				 = 	table();
+        
+        $digilocker_user_id				 = 	$dl_user_id;
+        $dl_product_type_id		 		 = 	$dl_product_type_id;
+		
+		$table_log_in    				 = 	$table['tb1'];
+        $fields_log_in   				 = 	'*';
+        $condition_log_in				 = 	"user_id= $digilocker_user_id";
+        $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		//print_r($arr_log_in );
+		if($arr_log_in){
+			$table		    				 =  "users_digilocker";
+			$fields							 =  '*';
+			$condition		 				 = 	"dl_user_id    =$digilocker_user_id and dl_product_type_id=$dl_product_type_id";
+			$arr_log_in       				 = 	$this->model->get_Details_condition($table, $fields, $condition);
+			//print_r($arr_log_in );
+			return $arr_log_in;
+		}else{
+			return $arr_log_in='';
+		}
+    }
 	
 	
 	
@@ -2901,6 +3164,33 @@ function checkout_user_login(){
 		$table_log_in    				    = 	$table['tb1'];
         $fields_log_in   				    = 	'*'; 
         $condition_log_in				    =  "user_token    =$del_u_token_key and user_id= $del_user_id";
+        $arr_log_in      	 			  = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		// print_r($arr_log_in);exit;
+		
+		
+		if($arr_log_in){   
+			$condition			=	"up_id='$del_up_id'";
+			$res				=	$this->model->delete_row_data($table_name,$condition);
+			return $res;
+		}else{
+			return $arr_log_in='';
+		}
+		
+		
+	}
+	/*Delete Usee Added Product Dashboard*/
+	function deleteProduct($del_up_id,$del_user_id)
+	{
+		$table           	= 	table();
+		$table_name     	=	$table['tb4']; 
+		$del_up_id			=	$del_up_id;
+		$del_user_id		= 	$del_user_id;
+       
+		
+		
+		$table_log_in    				    = 	$table['tb1'];
+        $fields_log_in   				    = 	'*'; 
+        $condition_log_in				    =  "user_id= $del_user_id";
         $arr_log_in      	 			  = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
 		// print_r($arr_log_in);exit;
 		

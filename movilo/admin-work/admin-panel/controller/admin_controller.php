@@ -172,7 +172,7 @@ $text="<p style='font-weight:lighter;'>Dear $username,</p>"."
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -192,7 +192,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -200,7 +200,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
                				
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				}else{
-                $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc
+                $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc-offer
 ";	
                  $userphone=array($userphone);				
 				$this->send_bulk_sms($userphone,$text);
@@ -260,7 +260,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -280,7 +280,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -354,7 +354,7 @@ WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -374,7 +374,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc'>
+<a href='http://bit.ly/livpure-amc-offer'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -383,7 +383,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				      }				
 					else{
-	                     $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc
+	                     $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc-offer
 		";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
@@ -516,7 +516,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 		}
 		
 		$fields		=	'*';
-		$condition 	=	"STATUS =3 and mail_status !=1 AND DATE(req_follow_up_date) = DATE_ADD(CURDATE(),INTERVAL 1 
+		$condition 	=	"STATUS =3 and followup_mail ='' AND DATE(req_follow_up_date) = DATE_ADD(CURDATE(),INTERVAL 1 
 DAY)";				
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		
@@ -569,7 +569,7 @@ $datacustomer
 		for($i=0;$i<count($followupcustID);$i++){
         $condition="CUSTOMERID='".$followupcustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	1
+							'followup_mail'=>	1
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition);
@@ -589,10 +589,10 @@ $datacustomer
 		}
 		
 		$fields		=	'*';
-		$condition1 	=	"STATUS =3 and mail_status !=2 AND DATE(req_service_date) >= CURDATE() ";
-		$condition2 	=	"STATUS =3 and mail_status !=3 AND DATE(req_amc_date) >= CURDATE() ";	
-		$condition3 	=	"STATUS =3 and mail_status !=4 AND DATE(req_upgrade_date)  >= CURDATE() ";				
-		$condition4 	=	"mail_status !=5 and phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
+		$condition1 	=	"STATUS =3 and mail_status_service ='' AND DATE(req_service_date) >= CURDATE() ";
+		$condition2 	=	"STATUS =3 and mail_status_amc ='' AND DATE(req_amc_date) >= CURDATE() ";	
+		$condition3 	=	"STATUS =3 and mail_status_upgrade ='' AND DATE(req_upgrade_date)  >= CURDATE() ";				
+		$condition4 	=	"mail_status_escalation ='' and phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =23 AND answer =  'Yes' AND DATE( DATE ) >= CURDATE( ))";				
 		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
 		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
 		$result3	=	$this->model->get_Details_condition($table,$fields,$condition3);
@@ -723,36 +723,44 @@ $datacustomer4
 		
 		
 		for($i=0;$i<count($serviceCustID);$i++){
-        $condition_sevice="CUSTOMERID='".$serviceCustID[$i]."'"; 
-        $set_array	=	array(                  
-							'mail_status'=>	2
-							);
+		
+			$condition_sevice="CUSTOMERID='".$serviceCustID[$i]."'"; 
+			$set_array	=	array(                  
+								'mail_status_service'=>	2
+								);
+				
+			$mailstatus	=	$this->model->update($table,$set_array,$condition_sevice);
 			
-        $mailstatus	=	$this->model->update($table,$set_array,$condition_sevice);
 		}
         for($i=0;$i<count($amcCustID);$i++){
+			
         $condition_amc="CUSTOMERID='".$amcCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	3
+							'mail_status_amc'=>	3
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_amc);
+			
 		}
         for($i=0;$i<count($upgradeCustID);$i++){
+			
         $condition_upgrade="CUSTOMERID='".$upgradeCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	4
+							'mail_status_upgrade'=>	4
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_upgrade);
+			
 		}		
         for($i=0;$i<count($escalCustID);$i++){
+			
         $condition_escal="CUSTOMERID='".$escalCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	5
+							'mail_status_escalation'=>	5
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_escal);
+			
 		}		
 		return true;
 	}
@@ -770,8 +778,8 @@ $datacustomer4
 		}
 		
 		$fields		=	'*';
-		$condition1 	=	"mail_status !=6 AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =18 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( ))";
-		$condition2 	=	"mail_status !=7 AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =20 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( )) ";	
+		$condition1 	=	"note_for_amc ='' AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =18 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( ))";
+		$condition2 	=	"note_for_upgrade ='' AND phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =20 AND answer =  'Yes' AND DATE( DATE ) <= CURDATE( )) ";	
 					
 		$result1	=	$this->model->get_Details_condition($table,$fields,$condition1);
 		$result2	=	$this->model->get_Details_condition($table,$fields,$condition2);
@@ -794,7 +802,7 @@ $datacustomer4
 		}
 		 
 		
-		$to = "sriramm@moviloglobal.com";
+		$to = "sriramm@moviloglobal.com"; 
 		//$to = "ranjan.jjbyte@gmail.com";
 		$subject = "AMC and Upgrade Offers Customer of $titlename";
 		$message = "
@@ -852,7 +860,7 @@ $datacustomer2
 		for($i=0;$i<count($noteAmcCustID);$i++){
         $condition_amc_details="CUSTOMERID='".$noteAmcCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	6
+							'note_for_amc'=>	6
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_amc_details);
@@ -860,7 +868,7 @@ $datacustomer2
 		for($i=0;$i<count($noteUpgradeCustID);$i++){
         $condition_upgrade_details="CUSTOMERID='".$noteUpgradeCustID[$i]."'"; 
         $set_array	=	array(                  
-							'mail_status'=>	7
+							'note_for_upgrade'=>	7
 							);
 			
         $mailstatus	=	$this->model->update($table,$set_array,$condition_upgrade_details);
@@ -3793,7 +3801,7 @@ $datacustomer
 	}
 		//Get get_filtered_user_list 
 	function get_filtered_user_list($filter)
-	{
+	{ 
 		$table		=	'users';
 		$fields		=	'*';
 		if($filter == 0){
@@ -3814,8 +3822,13 @@ $datacustomer
 				$condition		=	'user_phone IN ( SELECT phone1 FROM zerob_consol1 ) OR user_phone  IN ( SELECT phone2 FROM zerob_consol1 ) order by user_id desc';
 				return $result	=	$this->model->get_Details_condition($table,$fields,$condition);
 			break;
+			
 			case 2:
-				$condition		=	'user_phone NOT IN ( SELECT phone1 FROM zerob_consol1 ) OR user_phone NOT  IN ( SELECT phone2 FROM zerob_consol1 ) order by user_id desc';
+				$condition		=	'user_phone IN ( SELECT phone1 FROM livpure ) OR user_phone  IN ( SELECT phone2 FROM livpure ) order by user_id desc';
+				return $result	=	$this->model->get_Details_condition($table,$fields,$condition);
+			break;
+			case 3:
+				$condition		=	'user_phone NOT IN ( SELECT phone1 FROM zerob_consol1 ) OR user_phone NOT  IN ( SELECT phone2 FROM zerob_consol1 ) OR user_phone NOT IN ( SELECT phone1 FROM livpure ) OR user_phone NOT IN ( SELECT phone2 FROM livpure ) order by user_id desc';
 				return $result	=	$this->model->get_Details_condition($table,$fields,$condition);
 			break;
 		}
