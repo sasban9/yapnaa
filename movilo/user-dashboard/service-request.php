@@ -35,7 +35,7 @@ $brands_list=$obj_user->n_brand_list();
                -->
             <div class="sidebar-wrapper">
                <div class="logo">
-                  <a href="http://www.creative-tim.com" class="simple-text">
+                  <a href="https://yapnaa.com" class="simple-text">
                   <img alt="Yapnaa" height="60" width="60" class="img-responsive " style="    margin: 0 auto;" src="http://yapnaa.com//img/Yapnaa-logo.svg">
                   </a>
                </div>
