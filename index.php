@@ -1,6 +1,6 @@
 <?php
 session_start();
-$user_name	= $_SESSION['user_name'];
+$user_name	= $_SESSION['name'];
 require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 $obj_user = new users;
 	
