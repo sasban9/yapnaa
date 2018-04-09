@@ -188,7 +188,7 @@ h6, .h6 {
                            <div class="col-md-12" style="background:#f4f3ef;padding-bottom: 3%;">
                               <div class="content" >
 							   <?php
-                               if($service_info_status !==NULL){
+                               if($service_info_status !=NULL){
                                  foreach($service_info_status as $service){								   
 							 ?>
                                  <div class="col-md-12" style="padding:30px;border-bottom:2px solid #ffff;"> 
