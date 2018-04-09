@@ -43,7 +43,7 @@ if(isset($_POST['saveProfile'])){
       <!--  Paper Dashboard core CSS    -->
       <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
       <!--  Fonts and icons     -->
-      <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
       <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
       <link href="assets/css/themify-icons.css" rel="stylesheet">
    </head>
@@ -66,8 +66,12 @@ h6, .h6 {
 	text-transform:none !important;
 }	
 .card h6 {
-    font-size: 13px;
-   
+    font-size: 13px;   
+}
+.btn:hover {
+   border-color: #ff6010 !important;
+    color: #ffffff !important;
+   background-color: #ff6010 !important;
 }
 </style>
    <body>
@@ -242,15 +246,15 @@ h6, .h6 {
                      <div class="col-lg-4 col-md-5">
                         <div class="card">
                            <div class="content" style="    border: 1px solid #d8d1c9;">
-                              <div class="row text-center">
-                                 <div class="col-xs-6" style="border-right: 2px solid #d8d1c9;">
+                               <div class="row text-center">
+                                 <div class="col-xs-7" style="border-right: 2px solid #d8d1c9;">
                                     <a href="#">
-                                    <span style="font-size: 16px;"> Reach us<br>(info@yapnaa.com)</span>
+                                    <span style="font-size: 14px;"><i class="fa fa-envelope" style="color:#ff6010;font-size:1.2em !important;"></i> info@yapnaa.com</span>
                                     </a>
                                  </div>
-                                 <div class="col-xs-6">
+                                 <div class="col-xs-5">
                                     <a href="#" onclick="alert('Coming soon!')">
-                                    <span style="font-size: 20px;"><i class="fa fa-comment"></i>	Live chat</span>
+                                    <span style="font-size: 14px;"><i class="fa fa-comment"></i>	Live chat</span>
                                     </a>
                                  </div>
                               </div>
@@ -541,7 +545,7 @@ h6, .h6 {
 										</div>									
 										<div class="row">
 											<span>
-											Phone nunber:
+											Mobile number:
 											 <?php if(!empty($_SESSION['user_phone']) || $_SESSION['user_phone'] !='' || $_SESSION['user_phone'] !=NULL){
 											  
 											   echo $_SESSION['user_phone'];
