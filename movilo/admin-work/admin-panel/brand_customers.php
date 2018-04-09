@@ -1221,46 +1221,24 @@ if(isset($_SESSION['admin_email_id']))
 
     <!-- Page-Level Scripts -->
     <script>
-	
-		$(function(){
-			var now  = new Date();
-			now.setDate(now.getDate() + 2)
-			now.setHours(8);
-			now.setMinutes(0);
-			now.setMilliseconds(0);
-
-			$('*[name=service_requested_date]').appendDtpicker({
-			"closeOnSelected": true,
-			"current": new Date(now),	
-			"dateFormat": "DD-MM-YYYY hh:mm",
-			"futureOnly": true
-			});
-			$('*[name=amc_requested_date]').appendDtpicker({
-			"closeOnSelected": true,
-			"current": new Date(now),	
-			"dateFormat": "DD-MM-YYYY hh:mm",
-			"futureOnly": true
-			});
-			$('*[name=wish_upgrade_date]').appendDtpicker({
-			"closeOnSelected": true,
-			"current": new Date(now),	
-			"dateFormat": "DD-MM-YYYY hh:mm",
-			"futureOnly": true
-			});
-			$('*[name=follow_up_date]').appendDtpicker({
-			"closeOnSelected": true,
-			"current": new Date(now),	
-			"dateFormat": "DD-MM-YYYY hh:mm", 
-			"futureOnly": true
-			});
-			
-		});
-     
-  
         $(document).ready(function() {
 			$('input[type=radio][name=17]').on('change', function() {
 				 if($(this).val()=='Yes') {
 					 $('.service_requested').show();
+					 $(function(){
+						var now  = new Date();
+						now.setDate(now.getDate() + 2)
+						now.setHours(8);
+						now.setMinutes(0);
+						now.setMilliseconds(0);
+
+						$('*[name=service_requested_date]').appendDtpicker({
+						"closeOnSelected": true,
+						"current": new Date(now),	
+						"dateFormat": "DD-MM-YYYY hh:mm",
+						"futureOnly": true
+						});
+					});
 				 }
 				 else{
 					 $('.service_requested').hide();
@@ -1270,6 +1248,20 @@ if(isset($_SESSION['admin_email_id']))
 			$('input[type=radio][name=19]').on('change', function() {
 				 if($(this).val()=='Yes') {
 					 $('.amc_requested').show();
+					 $(function(){
+						var now  = new Date();
+						now.setDate(now.getDate() + 2)
+						now.setHours(8);
+						now.setMinutes(0);
+						now.setMilliseconds(0);
+
+						$('*[name=amc_requested_date]').appendDtpicker({
+						"closeOnSelected": true,
+						"current": new Date(now),	
+						"dateFormat": "DD-MM-YYYY hh:mm",
+						"futureOnly": true
+						});
+					});
 				 }
 				 else{
 					 $('.amc_requested').hide();
@@ -1279,6 +1271,20 @@ if(isset($_SESSION['admin_email_id']))
 			$('input[type=radio][name=21]').on('change', function() {
 				 if($(this).val()=='Yes') {
 					 $('.wish_upgrade').show();
+					 $(function(){
+						var now  = new Date();
+						now.setDate(now.getDate() + 2)
+						now.setHours(8);
+						now.setMinutes(0);
+						now.setMilliseconds(0);
+
+						$('*[name=wish_upgrade_date]').appendDtpicker({
+						"closeOnSelected": true,
+						"current": new Date(now),	
+						"dateFormat": "DD-MM-YYYY hh:mm",
+						"futureOnly": true
+						});
+					});
 				 }
 				 else{
 					 $('.wish_upgrade').hide();
@@ -1288,6 +1294,20 @@ if(isset($_SESSION['admin_email_id']))
 			$('input[type=radio][name=24]').on('change', function() {
 				 if($(this).val()=='Yes') {
 					 $('.follow_up').show();
+					  $(function(){
+						var now  = new Date();
+						now.setDate(now.getDate() + 2)
+						now.setHours(8);
+						now.setMinutes(0);
+						now.setMilliseconds(0);
+
+						$('*[name=follow_up_date]').appendDtpicker({
+						"closeOnSelected": true,
+						"current": new Date(now),	
+						"dateFormat": "DD-MM-YYYY hh:mm", 
+						"futureOnly": true
+						});
+					});
 				 }
 				 else{
 					 $('.follow_up').hide();
@@ -2017,3 +2037,4 @@ else
 <?php
 }
 ?>
+ 
