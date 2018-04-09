@@ -39,12 +39,12 @@ if(isset($_POST['saveProfile'])){
       <!--  Paper Dashboard core CSS    -->
       <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
       <!--  Fonts and icons     -->
-      <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
       <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
       <link href="assets/css/themify-icons.css" rel="stylesheet">
    </head>
    <style>
-   .sidebar .nav p, .off-canvas-sidebar .nav p {
+.sidebar .nav p, .off-canvas-sidebar .nav p {
 	            font-size:15px !important;
 			    text-transform:none !important;
 		  }	
@@ -92,9 +92,6 @@ if(isset($_POST['saveProfile'])){
 .rating-stars ul > li.star.selected > i.fa {
   color:#FF912C;
 }
-
-
-
 
 
    </style>
@@ -464,7 +461,7 @@ if(isset($_POST['saveProfile'])){
    <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
    <script src="assets/js/paper-dashboard.js"></script>
    
-   <script>
+       <script>
 	$(document).ready(function(){
   
   /* 1. Visualizing things on Hover - See next part for action on click */
