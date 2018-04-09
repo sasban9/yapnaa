@@ -10,14 +10,23 @@ require_once('../controller/user_controller.php');
 $obj_user = new users;
 $produtcat=  $obj_user->get_product_cat_list();
 $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
+if(isset($_POST['saveProfile'])){
+	
+	$myproduct=  $obj_user->update_user_profile_dashboard();
+	if($myproduct !=NULL)
+	{
+		echo '<script>alert("Your profile has been updated successfully. Please do re-login to apply the changes! ")</script>';
+		 
+	}
+}
 ?>
 
 <!doctype html>
 <html lang="en">
    <head>
       <meta charset="utf-8" />
-      <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-      <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+      
+      <link rel="shortcut icon" href="../../images/yapnaa-fav.png" type="image/x-icon">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
       <title>Dashboard</title>
       <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -44,6 +53,17 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
 				 float:none !important;
 			 }
 		  }
+.sidebar .nav p, .off-canvas-sidebar .nav p {
+	            font-size:15px !important;
+			    text-transform:none !important;
+		  }	
+h6, .h6 {
+	text-transform:none !important;
+}	
+.card h6 {
+    font-size: 13px;
+    
+}		  
 </style>
    <body>
       <div class="wrapper">
@@ -54,8 +74,8 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                -->
             <div class="sidebar-wrapper">
                <div class="logo">
-                  <a href="https://yapnaa.com" class="simple-text">
-                  <img alt="Yapnaa" height="60" width="60" class="img-responsive " style="    margin: 0 auto;" src="http://yapnaa.com//img/Yapnaa-logo.svg">
+                  <a href="https://yapnaa.com" class="simple-text" >
+                  <img alt="Yapnaa" height="60" width="60" class="img-responsive " style="    margin: 0 auto;" src="https://yapnaa.com//img/Yapnaa-logo.svg">
                   </a>
                </div>
                <ul class="nav">
@@ -91,19 +111,19 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                      </a>
                   </li>
                   <li>
-                     <a href="#">
+                     <a href="myticket.php">
                          <img style="display:inline-block;" src="assets/img/dashboard/ticket.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                        <p style="padding-left: 15px;display:inline-block;">My Tickets</p>
                      </a>
                   </li>
                   <li>
-                     <a href="#">
+                     <a href="feedback.php">
                          <img style="display:inline-block;" src="assets/img/dashboard/feedback.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                        <p style="padding-left: 15px;display:inline-block;">Feedback</p>
                      </a>
                   </li>
                   <li>
-                     <a href="#">
+                     <a href="contact-us.php">
                         <img style="display:inline-block;" src="assets/img/dashboard/contact.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                        <p style="padding-left: 15px;display:inline-block;">Contact us</p>
                      </a>
@@ -117,7 +137,7 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                   <div class="navbar-header">
                      <div class="col-xs-6">
                         <a href="https://yapnaa.com" class="simple-text hidden-lg hidden-md">
-                        <img alt="Yapnaa" height="60" width="60" class="img-responsive "  src="http://yapnaa.com//img/Yapnaa-logo.svg">
+                        <img alt="Yapnaa" height="60" width="60" class="img-responsive "  src="https://yapnaa.com//img/Yapnaa-logo.svg">
                         </a>
                      </div>
                      <div class="col-xs-6">
@@ -133,7 +153,7 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                      <ul class="nav navbar-nav navbar-right"    >
 					
                         <li>
-						 <a href="https://yapnaa.com" style="height:0;margin:0; ">
+						 <a href="https://yapnaa.com" style="height:0;margin:0; " >
                            <button class="btn btn-default btn-block" >Visit Website</button>
 						   </a> 
                         </li>
@@ -145,7 +165,8 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                               <b class="caret"></b>
                            </a>
                            <ul class="dropdown-menu">
-                             <li><a href="/movilo/user-dashboard/common-media.php?logout" name="logout">Logout</a></li>
+						      <li><a data-target="#myProfile" data-toggle="modal"  style="cursor:pointer" name="my profile">My Profile</a></li>
+                              <li><a href="/movilo/user-dashboard/common-media.php?logout" name="logout">Logout</a></li>
                            </ul>
                         </li>
                      </ul>
@@ -165,13 +186,19 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                            </div>
                            <div class="col-md-12" style="background:#f4f3ef;padding-bottom: 3%;">
                               <div class="content" >
-							  <?php foreach($myproduct as $pddetails){?>
+							   <?php 
+							  if($myproduct !=NULL){
+							  foreach($myproduct as $pddetails){?>
                                  <div class="col-md-3">
 									<div class="avatar">
 									<img onclick="myProductList(<?php echo $pddetails['up_product_id'];?>)" data-toggle="modal" src="../product-icon/<?php echo $pddetails['p_category_icon_medium'];?>" data-target="#myProductModal" alt="Circle Image" height="100" width="100" class="pointer img-no-padding  img-center">
 									</div>
 									<h6 onclick="myProductList(<?php echo $pddetails['up_product_id'];?>)" data-toggle="modal" data-target="#myProductModal" class="title text-center"><?php echo $pddetails['p_category_name'];?></h6>
 								</div>
+							  <?php }
+							  }else{								  
+								  ?>
+								  <label>No products added</label>
 							  <?php }?>
                               </div>
                            </div>
@@ -182,13 +209,13 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                         <div class="card">
                            <div class="content" style="    border: 1px solid #d8d1c9;">
                               <div class="row text-center">
-                                 <div class="col-xs-6" style="border-right: 2px solid #d8d1c9;">
+                                  <div class="col-xs-6" style="border-right: 2px solid #d8d1c9;">
                                     <a href="#">
-                                    <span style="font-size: 20px;"><i class="fa fa-phone"></i> Call Me</span>
+                                    <span style="font-size: 16px;"> Reach us<br>(info@yapnaa.com)</span>
                                     </a>
                                  </div>
                                  <div class="col-xs-6">
-                                    <a href="#">
+                                    <a href="#" onclick="alert('Coming soon!')">
                                     <span style="font-size: 20px;"><i class="fa fa-comment"></i>	Live chat</span>
                                     </a>
                                  </div>
@@ -252,7 +279,7 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
             </div>
             <footer class="footer">
                <div class="container-fluid">
-                  <nav class="pull-left">
+                  <!--nav class="pull-left">
                      <ul>
                         <li>
                            <a href="#">
@@ -270,12 +297,12 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
                            </a>
                         </li>
                      </ul>
-                  </nav>
+                  </nav-->
                   <div class="copyright pull-right">
-                     &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://developeronrent.com">DeveloperOnRent</a>
+                     &copy; <script>document.write(new Date().getFullYear())</script>. All Rights Reserved. Movilo Networks Pvt. Ltd.
                   </div>
                </div>
-            </footer>
+            </footer> 
          </div>
       </div>
 	  
@@ -449,6 +476,84 @@ $myproduct=  $obj_user->user_product_list_dashboard($_SESSION['user_id']);
               </div> 
 			</div>
 	  
+	  
+	    		 <!--modal-->
+		<div id="myProfile" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+				  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<h4 class="modal-title">Profile Details!</h4>
+				  </div>
+				  <div class="modal-body">
+				  <form action="" method="POST"> 
+							 <div class="row">
+							 <div class="col-md-10">
+							   <div class="col-md-10" >
+									
+										<div class="row">
+											<span>
+											Name:
+											<?php if(!empty($_SESSION['name']) || $_SESSION['name'] !='' || $_SESSION['name'] !=NULL){
+											  
+											   echo $_SESSION['name'];
+											   }else{  ?>
+											   
+											
+											<input type="text" name="profile_name">
+											<?php } ?>
+											</span>
+										</div>									
+										<div class="row">
+											<span>
+											Phone nunber:
+											 <?php if(!empty($_SESSION['user_phone']) || $_SESSION['user_phone'] !='' || $_SESSION['user_phone'] !=NULL){
+											  
+											   echo $_SESSION['user_phone'];
+											    }else{ 
+											   ?>
+											  <input type="text" name="profile_phone_number"> 
+											  <?php } ?>
+											</span>
+										</div>
+										<div class="row">
+											<span>
+											Email Id:
+											  <?php if(!empty($_SESSION['user_email_id']) || $_SESSION['user_email_id'] !='' || $_SESSION['user_email_id'] !=NULL){
+											  
+											   echo $_SESSION['user_email_id'];
+											    }else{ 
+											   ?>
+											  <input type="text" name="profile_email_id"> 
+											  <?php } ?>
+											</span>
+										</div>
+										
+									
+								</div>
+								
+								
+								
+							</div>
+								
+						</div>
+                     <div class="modal-footer">
+					<?php if(empty($_SESSION['name']) || empty($_SESSION['user_phone']) || empty($_SESSION['user_email_id'])){?>
+											  
+						<input type="submit" id="saveProfile" name="saveProfile" class="btn btn-default save" value="save">
+						<?php } ?>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					  </div>						
+					</form>
+					</div>
+				  
+				  
+				  
+				</div>
+              </div> 
+			</div>
 	  
 	  
    </body>

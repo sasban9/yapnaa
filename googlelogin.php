@@ -18,34 +18,37 @@ function connection(){
 //print_r($_GET);die;
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	$name = $_GET['name'];	
-	$facebookId= $_GET['id'];
-	 $query=mysqli_query(connection(), "select * from users where user_social_id='$facebookId'");
+	$googleId= $_GET['id'];
+	 $query=mysqli_query(connection(), "select * from users where user_social_id='$googleId'");
 	 while ($row = mysqli_fetch_array($query)){
 			$_SESSION['name']=$row['user_name'];
 			$_SESSION['user_id']=$row['user_id'];
 	 }
+	$googleEmail= $_GET['email'];
     global $return;
 	
-    if (insertIntoDatabase($name,$facebookId)) {
+    if (insertIntoDatabase($name,$googleId,$googleEmail)) {
         //return "Data inserted successfully!";
         echo json_encode($return);
     } else {
         echo json_encode($return);
     }
 }
-function insertIntoDatabase($name,$facebookId) {
+function insertIntoDatabase($name,$googleId,$googleEmail) {
     // Function that inserts username, password and email defined by user into database
     global $return;
     //Connect to a database
     //include 'includes/database.php';
     // Sanitize inputs
-	 $sql1 = "select * from users where user_social_id='$facebookId'";
+	 $sql1 = "select * from users where user_social_id='$googleId'";
 	 $data=mysqli_query(connection(), $sql1);
 	 //print_r($data['num_rows']);
    if( $data->num_rows==0){
     //Insert fields into database
-    $sql = "INSERT INTO users (user_name,user_social_id) VALUES ('$name','$facebookId')";
-  (mysqli_query(connection(), $sql));
+    $sql = "INSERT INTO users (user_name,user_social_id,user_email_id,user_login_type) VALUES ('$name','$googleId','$googleEmail',2)";
+  (mysqli_query(connection(), $sql)); 
+      
+	
    }
     // close connection
     mysqli_close($con);

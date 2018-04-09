@@ -106,6 +106,9 @@ if(isset($_SESSION['admin_email_id']))
 .table-striped{
 	font-size:13px;
 }
+.datebrand{
+	left: 1167.86px !important;
+}
 </style>
 <!DOCTYPE html>
 <html>
@@ -791,35 +794,37 @@ if(isset($_SESSION['admin_email_id']))
 									case 17:
 								?>
 								
-					<div class="controls input-append date form_datetime service_requested" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
-						<input size="16" type="text" value="" id="service_requested_date"  name="service_requested_date"  readonly>
-						<span class="add-on"><i class="icon-remove"></i></span>
-						<span class="add-on"><i class="icon-th"></i></span>
-					</div>
+							<div class="controls    service_requested" hidden="hidden">
+							<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="service_requested_date" id="service_requested_date" parsley-trigger="change" required>
+							</div>
+											 
 								<?php break; 
 								      case 19:
 								?>
-								<div class="controls input-append date form_datetime amc_requested" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
-								<input size="16" type="text" value="" id="amc_requested_date"  name="amc_requested_date"  readonly>
-								<span class="add-on"><i class="icon-remove"></i></span>
-								<span class="add-on"><i class="icon-th"></i></span>
-								</div>
+							<div class="controls    amc_requested" hidden="hidden">
+							<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="amc_requested_date" id="amc_requested_date" parsley-trigger="change" required>
+							</div>
+								
 								<?php break;
 								      case 21:
 								?>
-								<div class="controls input-append date form_datetime wish_upgrade" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
-								<input size="16" type="text" value="" id="wish_upgrade_date"  name="wish_upgrade_date"  readonly>
-								<span class="add-on"><i class="icon-remove"></i></span>
-								<span class="add-on"><i class="icon-th"></i></span>
-								</div>
+							<div class="controls   wish_upgrade" hidden="hidden">
+							<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="wish_upgrade_date" id="wish_upgrade_date" parsley-trigger="change" required>
+							</div>	
+								
 								<?php break;
 								      case 24:
 								?>
-								<div class="controls input-append date form_datetime follow_up" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
+							<div class="controls    follow_up" hidden="hidden">
+							<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="follow_up_date" id="follow_up_date" parsley-trigger="change" required>
+							
+							</div>	
+                            							
+								<!--<div class="controls input-append date form_datetime follow_up" data-date="2017-09-16T05:25:07Z" data-date-format="dd-mm-yyyy H:i" data-link-field="dtp_input1" hidden="hidden">
 								<input size="16" type="text" value="" id="follow_up_date"  name="follow_up_date"  readonly>
 								<span class="add-on"><i class="icon-remove"></i></span>
 								<span class="add-on"><i class="icon-th"></i></span>
-								</div>
+								</div>-->
 								<?php break;  
 								      default:
 						           }
@@ -1206,6 +1211,8 @@ if(isset($_SESSION['admin_email_id']))
 			linkFormat: "yyyy-mm-dd hh:ii"
 		});
 	</script> 
+	<link rel="stylesheet" href="css/jquery.simple-dtpicker.css">
+    <script src="js/jquery.simple-dtpicker.js"></script>
     <!-- Data Tables -->
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
@@ -1214,9 +1221,42 @@ if(isset($_SESSION['admin_email_id']))
 
     <!-- Page-Level Scripts -->
     <script>
-	/* function myfun(number){
-	alert(number);
-} */
+	
+		$(function(){
+			var now  = new Date();
+			now.setDate(now.getDate() + 2)
+			now.setHours(8);
+			now.setMinutes(0);
+			now.setMilliseconds(0);
+
+			$('*[name=service_requested_date]').appendDtpicker({
+			"closeOnSelected": true,
+			"current": new Date(now),	
+			"dateFormat": "DD-MM-YYYY hh:mm",
+			"futureOnly": true
+			});
+			$('*[name=amc_requested_date]').appendDtpicker({
+			"closeOnSelected": true,
+			"current": new Date(now),	
+			"dateFormat": "DD-MM-YYYY hh:mm",
+			"futureOnly": true
+			});
+			$('*[name=wish_upgrade_date]').appendDtpicker({
+			"closeOnSelected": true,
+			"current": new Date(now),	
+			"dateFormat": "DD-MM-YYYY hh:mm",
+			"futureOnly": true
+			});
+			$('*[name=follow_up_date]').appendDtpicker({
+			"closeOnSelected": true,
+			"current": new Date(now),	
+			"dateFormat": "DD-MM-YYYY hh:mm", 
+			"futureOnly": true
+			});
+			
+		});
+     
+  
         $(document).ready(function() {
 			$('input[type=radio][name=17]').on('change', function() {
 				 if($(this).val()=='Yes') {

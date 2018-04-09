@@ -340,5 +340,41 @@ class model {
 		return $ret;
 	}
 	
+		/*Get get product Details   */
+	function get_product_id($user_id) 
+	{	
+			$sql = "SELECT brands.brand_name,brands.brand_id,(select p_category_id from product_category_list where  p_category_id =brand_products.product_name) as p_category_id,
+			(select p_category_name from product_category_list where  p_category_id =brand_products.product_name) as product_name,
+			users_products.up_product_id from users_products 
+			inner join brand_products inner join brands  on   users_products.up_product_id=brand_products.product_id 
+			and brand_products.product_brand_id =brands.brand_id  where users_products.up_user_id=$user_id";
+//echo $sql;exit;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+			//print_r($ret);exit;
+		return $ret;
+	}
+	/*Get get service Details   */
+	function get_service_status($user_id) 
+	{	
+			$sql = "SELECT brands.brand_name,SRM.`srm_user_generated_date`,SRM.`srm_status`,SRM.type,
+			(select p_category_name from product_category_list where  p_category_id =brand_products.product_name) as product_name
+			 from users_products 
+			inner join brand_products inner join brands  on   users_products.up_product_id=brand_products.product_id 
+			and brand_products.product_brand_id =brands.brand_id  inner join SRM on SRM.srm_user_id=users_products.up_user_id and SRM.srm_product_id=users_products.up_product_id
+where users_products.up_user_id=$user_id";
+//echo $sql;exit;
+		$qry	=	connection()->query($sql);
+		$ret=array();
+		while($row=mysqli_fetch_assoc($qry)){
+				$ret[]=$row;
+			}
+			//print_r($ret);exit;
+		return $ret;
+	}
+	
 	
 }

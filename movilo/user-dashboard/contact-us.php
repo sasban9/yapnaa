@@ -1,42 +1,13 @@
 <?php session_start();
 require_once('../controller/user_controller.php');
 $obj_user = new users;
-$produtcat=  $obj_user->get_product_cat_list();
-if(isset($_GET['user']) && isset($_GET['cat'])){
-$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_GET['cat'],$_GET['user']);
-
-}
-else{
-$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_SESSION['dl_product_type_id'],$_SESSION['user_id']);
-}
-//echo '<pre>';print_r($user_digilocker_list);
-if(isset($_POST['fileName'])){
-	//print_r($_POST);die;
-	$extension = end(explode(".", $_FILES['file_name']['name']));
-    if($extension=='pdf'){
-		$dl_doc_type=1;
+$brandcategory=$obj_user->brand_category_list();
+$brands_list=$obj_user->n_brand_list();
+if(isset($_POST['message']) || !empty($_POST['message'])){
+		//echo"here";
+		$subject='Customer enquiry '.$_SESSION['user_id'];
+		 $obj_user->n_yapnaa_send_mail($_SESSION['name'],$_POST['email'],$subject,$_POST['message']);
 	}
-	else if($extension=='doc' || $extension=='docx' || $extension=='docs'){
-		$dl_doc_type=2;
-	}
-	else if($extension=='jpg' || $extension=='png' || $extension=='gif' || $extension=='jpeg'){
-		$dl_doc_type=3;
-	}
-	else{
-		echo "<script>alert('The Document type is not accepted. Please provide pdf,doc,docs,docx,jpg,png,gif,
-jpeg')</script>";
-        echo "<script>window.location.assign('digi-locker-product-details.php')</script>";
-	}
-	$dl_product_type_id=($_GET['cat'])?$_GET['cat']:$_SESSION['dl_product_type_id'];
-	$dl_user_id=($_GET['user'])?$_GET['user']:$_SESSION['user_id'];
-	$dl_product_id='';
-	$dl_doc_name=$_POST['fileName'];
-    $produtcat=  $obj_user->upload_digilocker_dashboard($dl_product_type_id,$dl_user_id,$dl_doc_type,$dl_product_id,$dl_doc_name);
-	
-		
-		//echo "<script>location.reload(true)</script>";
-			
-}
 if(isset($_POST['saveProfile'])){
 	
 	$myproduct=  $obj_user->update_user_profile_dashboard();
@@ -46,7 +17,10 @@ if(isset($_POST['saveProfile'])){
 		 
 	}
 }
+	
+
 ?>
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -54,7 +28,7 @@ if(isset($_POST['saveProfile'])){
       
       <link rel="shortcut icon" href="../../images/yapnaa-fav.png" type="image/x-icon">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-      <title>Service Request</title>
+      <title>Contact Us</title>
       <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
       <meta name="viewport" content="width=device-width" />
       <!-- Bootstrap core CSS     -->
@@ -69,11 +43,6 @@ if(isset($_POST['saveProfile'])){
       <link href="assets/css/themify-icons.css" rel="stylesheet">
    </head>
    <style>
-   .pointer {cursor: pointer;}
-   .save{
-	background-color: #5740c9 !important;
-    border-color: #5740c9 !important;
-}
    .sidebar .nav p, .off-canvas-sidebar .nav p {
 	            font-size:15px !important;
 			    text-transform:none !important;
@@ -118,7 +87,7 @@ if(isset($_POST['saveProfile'])){
                         <p style="padding-left: 15px;display:inline-block;">My digilocker</p>
                      </a>
                   </li>
-                  <li>
+                  <li >
                      <a href="service-request.php">
                         <img style="display:inline-block;" src="assets/img/dashboard/service.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                         <p style="padding-left: 15px;display:inline-block;">Service Request</p>
@@ -136,9 +105,9 @@ if(isset($_POST['saveProfile'])){
                        <p style="padding-left: 15px;display:inline-block;">Feedback</p>
                      </a>
                   </li>
-                  <li>
+                  <li class="active">
                      <a href="contact-us.php">
-                        <img style="display:inline-block;" src="assets/img/dashboard/contact.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
+                        <img style="display:inline-block;" src="assets/img/dashboard/contact1.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                        <p style="padding-left: 15px;display:inline-block;">Contact us</p>
                      </a>
                   </li>
@@ -177,8 +146,8 @@ if(isset($_POST['saveProfile'])){
                               <b class="caret"></b>
                            </a>
                            <ul class="dropdown-menu">
-						       <li><a data-target="#myProfile" data-toggle="modal"  style="cursor:pointer" name="my profile">My Profile</a></li>
-                               <li><a href="/movilo/user-dashboard/common-media.php?logout"  name="logout">Logout</a></li>
+						     <li><a data-target="#myProfile" data-toggle="modal"  style="cursor:pointer" name="my profile">My Profile</a></li>
+                             <li><a href="/movilo/user-dashboard/common-media.php?logout"  name="logout">Logout</a></li>
                            </ul>
                         </li>
                      </ul>
@@ -191,58 +160,39 @@ if(isset($_POST['saveProfile'])){
                      <div class="col-md-8">
                         <div class="card">
                            <div class="col-md-12">
-                              <h4 class="title">My Digilocker</h4>
+                              <h4 class="title">Contact Us</h4>
                            </div>
-						   
-                          
                            <div class="col-md-12" >
-                              <div class="content" style="    background: #f4f3ef;">
-                                 <div class="row text-center">
-                                    <div class="col-xs-6" >
-                                       <a href="digi-locker.php" style="color:#000;">
-                                       <span style="font-size: 20px; float: left;"><i class="fa fa-toggle-left"></i>Back</span>
-                                       </a>
+                              <div class="content" >
+                                 <div class="row">
+                                    <div class="col-md-12">
+									<form method="post" id="contact_us">
+                                       <div class="form-group">
+									   <label>You can reach us at  <span style="color:#fc7f2b">info@yapnaa.com</span></label>
+                                       </div>
                                     </div>
-                                    <div class="col-xs-6">
-                                       <a href="#" style="color:#000;" data-toggle="modal" data-target="#myModal">
-                                       <span style="font-size: 20px; float: right;"><i class="fa fa-upload"></i>	Upload Files</span>
-                                       </a>
+                                   
+                                 </div> 
+                                
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <div class="form-group">
+                                          
+                                        <textarea rows="5" class="form-control border-input" placeholder="Enter Your problem description or any comments " value="Mike" name="message" id="message" maxlength="250" required>
+                                        Message......
+									   </textarea>
+									   <input type="text" id="yp_user" value="<?php echo $_SESSION['name'];?>" hidden>
+                                    
+									   </div>
                                     </div>
                                  </div>
-                              </div>
-                              <div class="col-md-12" >
-                                 <div class="content">
-                                    <!--div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">Samsung</h5>
-                                       <small>8 feb 2018</small>
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <div class="text-center">
+                                          <button type="submit"  id="service_req" class="mb-2 footer-btnbtn btn-info btn-fill btn-wd">Submit</button>
+                                       </div>
+									   </form>
                                     </div>
-                                    <div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">ZeroB</h5>
-                                       <small>8 feb 2018</small>
-                                    </div>
-                                    <div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">Livpure</h5>
-                                       <small>8 feb 2018</small>
-                                    </div-->
-									<?php
-									if($user_digilocker_list !=NULL){
-									foreach($user_digilocker_list as $ls){?>
-                                    <div class="col-md-3 text-center" >
-									<a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>">
-                                       <img src="../digilocker_images/<?php echo $ls['dl_document'];?>" alt="Circle Image" height="100" width="100" class=" img-no-padding  img-center" >
-                                     </a> 
-									  <h5 class="title "><?php echo $ls['dl_doc_name'];?></h5>
-                                       <small><?php echo date('Y-m-d', strtotime($ls['dl_created_time']));?></small>
-                                    </div>
-									<?php }
-									}
-									else{
-									?>
-									<label>No Record Found </label>
-									<?php }?>
                                  </div>
                               </div>
                            </div>
@@ -349,46 +299,7 @@ if(isset($_POST['saveProfile'])){
          </div>
       </div>
 	  
-	  	  <div id="myModal" class="modal fade" role="dialog">
-			  <div class="modal-dialog">
-
-				<!-- Modal content-->
-				<div class="modal-content">
-				  <div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">×</button>
-					<h4 class="modal-title">Digilocker!</h4>
-				  </div>
-				  <div class="modal-body">
-				  <form action="" method="POST" enctype="multipart/form-data"> 
-							 <div class="row">
-							 <div class="col-md-12"> 
-							  <div class="col-md-4">
-									<label>Enter Title</label>
-									<input type="text" id="fileName" style="max-width: 132px" name="fileName" required>
-									
-								</div>
-							   <div class="col-md-4">
-									<label>Product Type</label>
-									<input type="file" id="file_name" style="max-width: 132px" name="file_name" required>
-								</div>
-								
-							</div>
-								
-						</div> 
-						<div class="modal-footer">
-							<input type="submit" id="digilockerForm" name="digilockerForm" class="btn btn-default save" value="Save">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</form>
-					</div>
-				  
-				  
-				  
-				</div>
-              </div> 
-			</div>
-	  
-	       	  		 <!--modal-->
+	  		 <!--modal-->
 		<div id="myProfile" class="modal fade" role="dialog">
 			  <div class="modal-dialog">
 
@@ -466,6 +377,8 @@ if(isset($_POST['saveProfile'])){
               </div> 
 			</div>
 	  
+	  
+	  
    </body>
    <!--   Core JS Files   -->
    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
@@ -475,8 +388,53 @@ if(isset($_POST['saveProfile'])){
    <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
    <script src="assets/js/paper-dashboard.js"></script>
    <script>
-   function brandList(catId){
-	   $('#dl_product_type_id').val(catId);
-   }
+  /*   $( "#service_req" ).click(function() {
+	//alert($("#yp_user").val().length);
+	
+	var brandType=$("#brand_type").find(":selected").val();
+	var fbuser =sessionStorage.facebookUser;
+	//alert(fbuser);//var yp_user =$("#yp_user").val();
+	if((fbuser) )
+	{
+		var socialuser=fbuser;
+	}
+   else if($("#yp_user").val().length !=0){
+		
+		var socialuser=$("#yp_user").val();
+	}
+	else{
+		var socialuser='';
+	}
+	
+	var brandName=$("#brand_name").find(":selected").val();
+	var issueType=$("#issue_type").val();
+	var issue_t=$("#issue_t").find(":selected").val();
+	var serial_numaber=$("#serial_numaber").val();
+	var useID=<?php $_SESSION['user_id']?>;
+	alert(useID);
+	/* if(!serName || !serPhone ){
+		alert('Please fill all the fields');
+		return false;
+	} */
+	
+	//alert(brandType+''+socialuser+''+brandName+''+issueType+''+serName+''+serPhone);
+ /*  $.ajax({
+		url: "common-media.php?service_req=submit", //This is the page where you will handle your SQL insert
+		type:"GET",
+		data:{serial_numaber:serial_numaber,user:socialuser,issue_t:issue_t,brandInfo:brandType,brand:brandName,issue:issueType,userId:useID},
+		success:function(response){
+			console.log(response);
+			if(response){
+				
+				alert("Service request raised successfully.");
+				$('#ser_request').trigger("reset");
+			}
+		},
+		error:function(error){
+			//alert(JSON.stringify(error));
+		}
+	}); 
+	
+});  */
    </script>
 </html>

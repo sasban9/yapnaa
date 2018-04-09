@@ -1,3 +1,7 @@
+<?php
+session_start();
+$user_name	= $_SESSION['name'];
+?>
 <!DOCTYPE html>
 <html>
    <head>
@@ -188,6 +192,40 @@ background: #ff6010;
 .thec{
 padding: 10px !important;
 }
+.button:hover {
+  text-decoration: none;
+  background-color: white;
+  border-color: white;
+  color: black;
+}
+.inputBox .input {
+	color:#000;
+}
+.drop_down {
+	display: block !important;
+	box-shadow: none !important;
+}
+.fa-caret-down {
+	position: absolute !important;
+    top: 4px !important;
+    left: 80px;
+}
+ .hover_color {
+	 color: #404040 !important;
+ }
+	#dropdown_logout{position: absolute;
+    left: 0px;
+    font-style: normal;
+    font-family: GothamRoundedBook;
+    color: #fc7f2b;
+    padding: 3px 0;
+    width: 85px;
+    text-align: left;
+    height: 30px;
+    overflow: hidden;
+    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: 1.44;}
       </style>
    </head>
    <body>
@@ -206,15 +244,11 @@ padding: 10px !important;
                      </div>
                     <div class="header-column">
                         <div class="header-row">
-                           <div class="header-nav header-nav-stripe" style="    margin-right: -38px;">
+                           <div class="header-nav header-nav-stripe" style=" ">
                               <button class="btn header-btn-collapse-nav" style="background-color: Transparent;background-repeat:no-repeat;border: none; cursor:pointer;overflow: hidden;outline:none;margin-right:10px;margin-top:-1px" data-toggle="collapse" data-target=".header-nav-main">
                               <i class="fa fa-bars"></i>
                               </button>
-                              <ul class="header-social-icons social-icons hidden-xs">
-							  <a href="login.php" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
-                                    " class="btn btn-3d btn-primary btn-lg mr-xs mb-sm " >
-                                LOGIN</a>
-                              </ul>
+                              
                               <div class="header-nav-main header-nav-main-square header-nav-main-effect-1 header-nav-main-sub-effect-1 collapse">
                                  <nav>
                                     <ul class="nav nav-pills" id="mainNav">
@@ -242,12 +276,44 @@ padding: 10px !important;
                                           <a href="contact-us.php">
                                           Contact
                                           </a>
-
-
-										  <li class="dropdown mobile">
+                                        </li>
+                                          <?php if(empty($user_name)){?>
+										  <li class="dropdown mobile ">
                                           <a href="login.php"  class="mobile">
                                          Login
                                           </a>
+                                         </li>
+									   <?php }else{?>
+									    <li class="dropdown mobile ">
+                                         <a><?php echo ucfirst($user_name);?></a>
+                                         </li>
+										 <li class="dropdown mobile ">
+                                         <a  href="/movilo/user-dashboard/dashboard.php" name="logout">My Dashboard</a>
+                                         </li>
+										 <li class="dropdown mobile ">
+                                         <a  href="/movilo/user-dashboard/common-media.php?logout" name="logout">Logout</a>
+                                         </li>
+									   <?php }?>
+                                       <li>
+											<ul class="header-social-icons social-icons hidden-xs">
+												 <?php if(!empty($user_name)){?>
+												<li class="dropdown" style="box-shadow: none">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: none">
+													  <span id="dropdown_logout"  title='Logout'><?php echo ucfirst($user_name);?></span>
+													</a>
+													<ul class="dropdown-menu" style="top:112%; left: -51px; min-width: 115px;padding-top: 0px; padding-bottom: 0px;">
+													 <li style="box-shadow: none; display: block;border-bottom: 1px solid #eee;border-radius: inherit;margin: 0px;"><a class="hover_color" href="/movilo/user-dashboard/dashboard.php" name="logout"style="background: none; color: #838383 !important;padding:0px 13px;">My Dashboard</a></li>
+													 <li style="box-shadow: none; display: block;border-bottom: 1px solid #eee;border-radius: inherit;margin: 0px;"><a class="hover_color" href="/movilo/user-dashboard/common-media.php?logout" name="logout"style="background: none; color: #838383 !important;padding:0px 13px;">Logout</a></li>
+													</ul>
+												</li>  
+												  
+												<?php }else{?>
+												<a href="login.php" style="background-color:#fc7f2b; border:0; width:100px; border-radius:40px 40px;    font-family: GothamRoundedBook;     font-size: 14px;     margin-top: -4%;
+													" class="btn btn-3d btn-primary btn-lg mr-xs mb-sm " >
+												LOGIN</a>
+												<?php }?>
+											  
+											</ul>
                                        </li>
                                     </ul>
                                  </nav>

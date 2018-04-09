@@ -51,14 +51,15 @@ if(isset($_REQUEST['facebook'])){
 }
 if(isset($_REQUEST['service_req'])){
 		$user = $_REQUEST['user'];
-		$cust_name = $_REQUEST['custName'];
+		$issue_t = $_REQUEST['issue_t'];
 		$brand_info = $_REQUEST['brandInfo'];
 		$brand = $_REQUEST['brand'];
 		$issue = $_REQUEST['issue'];
-		$cust_phone = $_REQUEST['custPhone'];
+		$serial_numaber = $_REQUEST['serial_numaber'];
+		$useID   = $_REQUEST['useID'];
 		
 		
-		$obj_user->save_request_raise($user,$cust_name,$brand_info,$brand,$issue,$cust_phone);
+		$obj_user->save_request_raise1($user,$issue_t,$brand_info,$brand,$issue,$serial_numaber,$useID);
 		echo 1;
 		exit;
 	}

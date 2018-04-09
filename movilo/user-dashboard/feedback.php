@@ -1,42 +1,15 @@
 <?php session_start();
 require_once('../controller/user_controller.php');
 $obj_user = new users;
-$produtcat=  $obj_user->get_product_cat_list();
-if(isset($_GET['user']) && isset($_GET['cat'])){
-$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_GET['cat'],$_GET['user']);
-
-}
-else{
-$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_SESSION['dl_product_type_id'],$_SESSION['user_id']);
-}
-//echo '<pre>';print_r($user_digilocker_list);
-if(isset($_POST['fileName'])){
-	//print_r($_POST);die;
-	$extension = end(explode(".", $_FILES['file_name']['name']));
-    if($extension=='pdf'){
-		$dl_doc_type=1;
-	}
-	else if($extension=='doc' || $extension=='docx' || $extension=='docs'){
-		$dl_doc_type=2;
-	}
-	else if($extension=='jpg' || $extension=='png' || $extension=='gif' || $extension=='jpeg'){
-		$dl_doc_type=3;
-	}
-	else{
-		echo "<script>alert('The Document type is not accepted. Please provide pdf,doc,docs,docx,jpg,png,gif,
-jpeg')</script>";
-        echo "<script>window.location.assign('digi-locker-product-details.php')</script>";
-	}
-	$dl_product_type_id=($_GET['cat'])?$_GET['cat']:$_SESSION['dl_product_type_id'];
-	$dl_user_id=($_GET['user'])?$_GET['user']:$_SESSION['user_id'];
-	$dl_product_id='';
-	$dl_doc_name=$_POST['fileName'];
-    $produtcat=  $obj_user->upload_digilocker_dashboard($dl_product_type_id,$dl_user_id,$dl_doc_type,$dl_product_id,$dl_doc_name);
-	
+$brandcategory=$obj_user->brand_category_list();
+$brands_list=$obj_user->n_brand_list();
+if(isset($_POST['message']) || !empty($_POST['message'])){
+		//echo"here";
 		
-		//echo "<script>location.reload(true)</script>";
-			
-}
+		
+		 $obj_user->n_yapnaa_feedback($_SESSION['user_id'],$_POST['message'],$_POST['yapnaarate']);
+	}
+	
 if(isset($_POST['saveProfile'])){
 	
 	$myproduct=  $obj_user->update_user_profile_dashboard();
@@ -46,7 +19,9 @@ if(isset($_POST['saveProfile'])){
 		 
 	}
 }
+
 ?>
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -54,7 +29,7 @@ if(isset($_POST['saveProfile'])){
       
       <link rel="shortcut icon" href="../../images/yapnaa-fav.png" type="image/x-icon">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-      <title>Service Request</title>
+      <title>Feedback</title>
       <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
       <meta name="viewport" content="width=device-width" />
       <!-- Bootstrap core CSS     -->
@@ -69,15 +44,59 @@ if(isset($_POST['saveProfile'])){
       <link href="assets/css/themify-icons.css" rel="stylesheet">
    </head>
    <style>
-   .pointer {cursor: pointer;}
-   .save{
-	background-color: #5740c9 !important;
-    border-color: #5740c9 !important;
-}
    .sidebar .nav p, .off-canvas-sidebar .nav p {
 	            font-size:15px !important;
 			    text-transform:none !important;
 		  }	
+/*.star {
+	
+    visibility:hidden;
+    font-size:30px;
+    cursor:pointer;
+}
+.star:before {
+   content: "\2606";
+   position: absolute;
+   visibility:visible;
+}
+.star:checked:before {
+   content: "\2605";
+   position: absolute;
+}*/
+
+/* Rating Star Widgets Style */
+.rating-stars ul {
+  list-style-type:none;
+  padding:0;
+  
+  -moz-user-select:none;
+  -webkit-user-select:none;
+}
+.rating-stars ul > li.star {
+  display:inline-block;
+  
+}
+
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+  font-size:2.5em; /* Change the size of the stars */
+  color:#ccc; /* Color on idle state */
+}
+
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+  color:#FFCC36;
+}
+
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+  color:#FF912C;
+}
+
+
+
+
+
    </style>
    <body>
       <div class="wrapper">
@@ -118,7 +137,7 @@ if(isset($_POST['saveProfile'])){
                         <p style="padding-left: 15px;display:inline-block;">My digilocker</p>
                      </a>
                   </li>
-                  <li>
+                  <li >
                      <a href="service-request.php">
                         <img style="display:inline-block;" src="assets/img/dashboard/service.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                         <p style="padding-left: 15px;display:inline-block;">Service Request</p>
@@ -130,13 +149,13 @@ if(isset($_POST['saveProfile'])){
                        <p style="padding-left: 15px;display:inline-block;">My Tickets</p>
                      </a>
                   </li>
-                  <li>
+                  <li class="active">
                      <a href="feedback.php">
-                         <img style="display:inline-block;" src="assets/img/dashboard/feedback.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
+                         <img style="display:inline-block;" src="assets/img/dashboard/feedback1.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                        <p style="padding-left: 15px;display:inline-block;">Feedback</p>
                      </a>
                   </li>
-                  <li>
+                  <li >
                      <a href="contact-us.php">
                         <img style="display:inline-block;" src="assets/img/dashboard/contact.svg" alt="Circle Image" height="25" width="25" class=" img-no-padding img-responsive">
                        <p style="padding-left: 15px;display:inline-block;">Contact us</p>
@@ -178,7 +197,7 @@ if(isset($_POST['saveProfile'])){
                            </a>
                            <ul class="dropdown-menu">
 						       <li><a data-target="#myProfile" data-toggle="modal"  style="cursor:pointer" name="my profile">My Profile</a></li>
-                               <li><a href="/movilo/user-dashboard/common-media.php?logout"  name="logout">Logout</a></li>
+                              <li><a href="/movilo/user-dashboard/common-media.php?logout"  name="logout">Logout</a></li>
                            </ul>
                         </li>
                      </ul>
@@ -191,58 +210,66 @@ if(isset($_POST['saveProfile'])){
                      <div class="col-md-8">
                         <div class="card">
                            <div class="col-md-12">
-                              <h4 class="title">My Digilocker</h4>
+                              <h4 class="title">Feedback</h4>
                            </div>
-						   
-                          
                            <div class="col-md-12" >
-                              <div class="content" style="    background: #f4f3ef;">
-                                 <div class="row text-center">
-                                    <div class="col-xs-6" >
-                                       <a href="digi-locker.php" style="color:#000;">
-                                       <span style="font-size: 20px; float: left;"><i class="fa fa-toggle-left"></i>Back</span>
-                                       </a>
+                              <div class="content" >
+                                 <div class="row" style="text-align: center">
+                                    <div class="col-md-12">
+									<form method="post" id="contact_us">
+                                       <div class="form-group" style="">
+										<label  class="form-control" style="margin-bottom: -10px;">Rate your experience</label>										
+						                <input class="yapnaarate "  name="yapnaarate" type="text" hidden="hidden"   />
+											<section class='rating-widget'>
+											  <!-- Rating Stars Box -->
+											  <div class='rating-stars text-center'>
+												<ul id='stars'>
+												  <li class='star' title='Poor' data-value='1'>
+													<i class='fa fa-star fa-fw'></i>
+												  </li>
+												  <li class='star' title='Fair' data-value='2'>
+													<i class='fa fa-star fa-fw'></i>
+												  </li>
+												  <li class='star' title='Good' data-value='3'>
+													<i class='fa fa-star fa-fw'></i>
+												  </li>
+												  <li class='star' title='Excellent' data-value='4'>
+													<i class='fa fa-star fa-fw'></i>
+												  </li>
+												  <li class='star' title='WOW!!!' data-value='5'>
+													<i class='fa fa-star fa-fw'></i>
+												  </li>
+												</ul>
+											  </div>
+											</section>
                                     </div>
-                                    <div class="col-xs-6">
-                                       <a href="#" style="color:#000;" data-toggle="modal" data-target="#myModal">
-                                       <span style="font-size: 20px; float: right;"><i class="fa fa-upload"></i>	Upload Files</span>
-                                       </a>
+                                   </div>
+                                 </div> 
+                                <div class="row">
+                                    <div class="col-md-12">
+									<div class="form-group" style="">
+									</div>
+								</div>
+                               </div>	
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <div class="form-group">
+                                          
+                                        <textarea rows="5" class="form-control border-input" placeholder="Any suggestion for improvement " value="Mike" name="message" id="message" maxlength="250" required>
+                                        Any suggestion for improvement................
+									   </textarea>
+									   <input type="text" id="yp_user" value="<?php echo $_SESSION['name'];?>" hidden>
+                                    
+									   </div>
                                     </div>
                                  </div>
-                              </div>
-                              <div class="col-md-12" >
-                                 <div class="content">
-                                    <!--div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">Samsung</h5>
-                                       <small>8 feb 2018</small>
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <div class="text-center">
+                                          <button type="submit"  id="feedback" class="mb-2 footer-btnbtn btn-info btn-fill btn-wd">Submit</button>
+                                       </div>
+									   </form>
                                     </div>
-                                    <div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">ZeroB</h5>
-                                       <small>8 feb 2018</small>
-                                    </div>
-                                    <div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">Livpure</h5>
-                                       <small>8 feb 2018</small>
-                                    </div-->
-									<?php
-									if($user_digilocker_list !=NULL){
-									foreach($user_digilocker_list as $ls){?>
-                                    <div class="col-md-3 text-center" >
-									<a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>">
-                                       <img src="../digilocker_images/<?php echo $ls['dl_document'];?>" alt="Circle Image" height="100" width="100" class=" img-no-padding  img-center" >
-                                     </a> 
-									  <h5 class="title "><?php echo $ls['dl_doc_name'];?></h5>
-                                       <small><?php echo date('Y-m-d', strtotime($ls['dl_created_time']));?></small>
-                                    </div>
-									<?php }
-									}
-									else{
-									?>
-									<label>No Record Found </label>
-									<?php }?>
                                  </div>
                               </div>
                            </div>
@@ -349,46 +376,7 @@ if(isset($_POST['saveProfile'])){
          </div>
       </div>
 	  
-	  	  <div id="myModal" class="modal fade" role="dialog">
-			  <div class="modal-dialog">
-
-				<!-- Modal content-->
-				<div class="modal-content">
-				  <div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">×</button>
-					<h4 class="modal-title">Digilocker!</h4>
-				  </div>
-				  <div class="modal-body">
-				  <form action="" method="POST" enctype="multipart/form-data"> 
-							 <div class="row">
-							 <div class="col-md-12"> 
-							  <div class="col-md-4">
-									<label>Enter Title</label>
-									<input type="text" id="fileName" style="max-width: 132px" name="fileName" required>
-									
-								</div>
-							   <div class="col-md-4">
-									<label>Product Type</label>
-									<input type="file" id="file_name" style="max-width: 132px" name="file_name" required>
-								</div>
-								
-							</div>
-								
-						</div> 
-						<div class="modal-footer">
-							<input type="submit" id="digilockerForm" name="digilockerForm" class="btn btn-default save" value="Save">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</form>
-					</div>
-				  
-				  
-				  
-				</div>
-              </div> 
-			</div>
-	  
-	       	  		 <!--modal-->
+	    		 <!--modal-->
 		<div id="myProfile" class="modal fade" role="dialog">
 			  <div class="modal-dialog">
 
@@ -466,6 +454,7 @@ if(isset($_POST['saveProfile'])){
               </div> 
 			</div>
 	  
+	  
    </body>
    <!--   Core JS Files   -->
    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
@@ -474,9 +463,67 @@ if(isset($_POST['saveProfile'])){
    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
    <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
    <script src="assets/js/paper-dashboard.js"></script>
+   
    <script>
-   function brandList(catId){
-	   $('#dl_product_type_id').val(catId);
-   }
+	$(document).ready(function(){
+  
+  /* 1. Visualizing things on Hover - See next part for action on click */
+  $('#stars li').on('mouseover', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+   
+    // Now highlight all the stars that's not after the current hovered star
+    $(this).parent().children('li.star').each(function(e){
+      if (e < onStar) {
+        $(this).addClass('hover');
+      }
+      else {
+        $(this).removeClass('hover');
+      }
+    });
+    
+  }).on('mouseout', function(){
+    $(this).parent().children('li.star').each(function(e){
+      $(this).removeClass('hover');
+    });
+  });
+  
+  
+  /* 2. Action to perform on click */
+  $('#stars li').on('click', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+    var stars = $(this).parent().children('li.star');
+    
+    for (i = 0; i < stars.length; i++) {
+      $(stars[i]).removeClass('selected');
+    }
+    
+    for (i = 0; i < onStar; i++) {
+      $(stars[i]).addClass('selected');
+    }
+    
+    // JUST RESPONSE (Not needed)
+    var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+	$('.yapnaarate').val(ratingValue);
+    var msg = "";
+	
+    if (ratingValue > 1) {
+        msg = "Thanks! You rated this " + ratingValue + " stars.";
+    }
+    else {
+        msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+    }
+    responseMessage(msg);
+    
+  });
+  
+  
+});
+
+
+function responseMessage(msg) {
+  $('.success-box').fadeIn(200);  
+  
+  $('.success-box div.text-message').html("<span>" + msg + "</span>");
+}
    </script>
 </html>

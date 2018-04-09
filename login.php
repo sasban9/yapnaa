@@ -340,8 +340,14 @@ carousel-inner.item a img, .carousel-inner.item img, .img-responsive, .thumbnail
 <script type="text/javascript" src="//connect.facebook.net/en_US/all.js#xfbml=1&appId=1490431951079031" id="facebook-jssdk"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};HandleGoogleApiLibrary()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+<script type="text/javascript" async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 <script type="text/javascript" >
+
+ $(window).load(function() {	
+	
+	HandleGoogleApiLibrary();
+}); 
+
 function HandleGoogleApiLibrary() {
 gapi.load('client:auth2',  {
 callback: function() {
@@ -351,6 +357,33 @@ clientId: '1037002184931-osjb0bcfml52hao4rmvd95c87vjnjpoi.apps.googleusercontent
 scope: 'https://www.googleapis.com/auth/plus.login'
 }).then(
 function(success) {
+gapi.client.request({ path: 'https://www.googleapis.com/plus/v1/people/me' }).then(
+function(success) {
+var user_info = JSON.parse(success.body);
+var username_google = 'name=' +user_info.displayName+'&id='+user_info.id+'&email='+user_info.emails[0].value;
+console.log(user_info);
+    $.ajax({
+            url: "googlelogin.php", //This is the page where you will handle your SQL insert
+            type: "get",
+            data: username_google, //The data your sending to some-page.php
+			beforeSend: function(){console.log(username_google);},
+            success: function(){
+			   alert('Successfully logged in !');
+			  // sessionStorage.facebookUser = user_info.displayName;
+			   
+			    window.location.assign("index.php");
+                //console.log("AJAX request was successfull");
+            },
+            error:function(xhr,status,response){
+			    alert('Failed to logged in !');
+               // console.log("AJAX request was a failure"+xhr.status);
+            }
+        });
+},
+function(error) {
+
+}
+);
 
 }, 
 function(error) {
@@ -364,6 +397,7 @@ onerror: function() {
 });
 }
 
+// Call login API on a click event
 // Call login API on a click event
 $('.google-login-button').on('click', function() {
 
@@ -379,20 +413,13 @@ function(error) {
 );
 });
 
-gapi.client.request({ path: 'https://www.googleapis.com/plus/v1/people/me' }).then(
-function(success) {
-var user_info = JSON.parse(success.body);
-//console.log(user_info);
-},
-function(error) {
 
-}
-);
+
 
 
 function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
+   // console.log('statusChangeCallback');
+   // console.log(response);
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
@@ -423,8 +450,8 @@ function checkLoginState() {
 
 window.fbAsyncInit = function () {
     FB.init({
-        appId: '1490431951079031',
-        cookie: true, // enable cookies to allow the server to access 
+        appId: '1977703235808225',
+        cookie: true, // enable cookies to allow the server to access 1490431951079031
         // the session
         xfbml: true, // parse social plugins on this page
         version: 'v2.2' // use version 2.2

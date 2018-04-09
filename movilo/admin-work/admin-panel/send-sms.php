@@ -24,11 +24,13 @@ if(isset($_SESSION['admin_email_id']))
 		
 		$numb_arr = explode(",",$user_phone);
 		for($i=0;$i<count($numb_arr);$i++){
+			 
 			$user_phone = $numb_arr[$i];
 			 $desc 						= 	$_POST['desc'];
 			$ch = curl_init();
-			 $url = "http://203.212.70.200/smpp/sendsms?username=jjbytesotp&password=del12345&to=".urlencode($user_phone)."&from=YAPNAA&text=".urlencode("".$desc ."");
-			
+			 //$url = "http://203.212.70.200/smpp/sendsms?username=jjbytesotp&password=del12345&to=".urlencode($user_phone)."&from=YAPNAA&text=".urlencode("".$desc ."");
+			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_phone)."&message=".urlencode("".$desc."");
+					
 			curl_setopt( $ch,CURLOPT_URL, $url );
 			curl_setopt( $ch,CURLOPT_POST, false ); 
 			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );

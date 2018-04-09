@@ -29,15 +29,13 @@ class admin	{
             break;			
 		}
 		$highlyengaged		=	$this->model->data_query("SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
-		GROUP by zc.CUSTOMERID) AS users FROM $table zc where zc.highly_engaged in(1,'')
-AND zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
+		GROUP by zc.CUSTOMERID) AS users FROM $table zc where  zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
 		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')
 		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') 
 		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes')");
 
 		$Engaged  = $this->model->data_query("SELECT * , (SELECT user_phone FROM users WHERE user_phone = zc.phone1
-OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE zc.engaged in(1,'')
-AND (zc.phone1
+OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE  (zc.phone1
 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes') AND zc.phone1 IN (
 SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes' ) AND zc.phone1
 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12
@@ -46,8 +44,7 @@ SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =2
 AND answer =  'No'))"); 
        $partiallyengaged = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
 WHERE user_phone = zc.phone1 OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table zc
-WHERE zc.partialy_engaged in(1,'')
-AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
+WHERE  zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
 )AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'
 )and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
 			and answer in('Yes','No'))AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
@@ -56,8 +53,7 @@ WHERE qst_id =12 AND answer =  'No'
         
 $Disinterested = $this->model->data_query("SELECT *, 
 (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
-FROM $table zc where zc.disinterested in(1,2,3,'')
-AND (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1 and (answer='Less than 6 months' or answer='Less than 1 year')) 
+FROM $table zc where  (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1 and (answer='Less than 6 months' or answer='Less than 1 year')) 
 or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') or 
 zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes') or 
 zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') or 
@@ -88,7 +84,7 @@ and
 			$custid= $customer_info['CUSTOMERID'];
 			//check customer after 15 days			
 			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
             if($check15days !=NULL){
                 $brandresult	=	$this->model->update($table,array('highly_engaged'=>1),
 				'CUSTOMERID='.$custid);  
@@ -123,7 +119,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
             
 			//check customer after 30 days			
 			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
             if($check30days !=NULL){
 				$brandresult	=	$this->model->update($table,array('highly_engaged'=>2),
 				'CUSTOMERID='.$custid);
@@ -162,7 +158,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 			$custid= $customer_info['CUSTOMERID'];
 			//check customer after 15 days			
 			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
             if($check15days !=NULL){
 				
                 $brandresult	=	$this->model->update($table,array('partialy_engaged'=>1),
@@ -209,7 +205,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
             
 			//check customer after 30 days			
 			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
             if($check30days !=NULL){
 				
 				$brandresult	=	$this->model->update($table,array('partialy_engaged'=>2),
@@ -250,7 +246,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 			$custid= $customer_info['CUSTOMERID'];
 			//check customer after 15 days			
 			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
             if($check15days !=NULL){
 				
                 $brandresult	=	$this->model->update($table,array('engaged'=>1),
@@ -296,7 +292,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
             
 			//check customer after 30 days			
 			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
             if($check30days !=NULL){
  
 				$brandresult	=	$this->model->update($table,array('engaged'=>2),
@@ -336,13 +332,13 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 			$custid= $customer_info['CUSTOMERID'];
 			//check customer after 15 days			
 			$check7days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 7 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 7 DAY ) ) ");
             $check14days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 14 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 14 DAY ) ) ");
             $check21days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 21 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 21 DAY ) ) ");
             $check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) LIKE DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
             
             if($check7days !=NULL||$check14days !=NULL || $check21days !=NULL || $check30days !=NULL){
 				//echo "here";
@@ -522,10 +518,12 @@ DAY)";
 		
 		foreach($result as  $key => $value ){
           $followupcustID []=$value['CUSTOMERID'];
-		$datacustomer .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value['req_follow_up_date']."</td>
+		$datacustomer .="<tr style='height:25px'>
+		<td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td>
+			 <td style='border: 1px solid black;'>".$value['req_follow_up_date']."</td></tr>";
 			 
 			
 		}
@@ -542,10 +540,11 @@ DAY)";
 <p>Hi,You have some follow up customers as below:-</p>
 <table style='border: 1px solid black; border-collapse: collapse;'>
 <tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Mail Date</th>
 <th style='border: 1px solid black;width: 120px;'>Customer Id</th>
 <th style='border: 1px solid black;width: 120px;'>Name</th>
 <th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Enquiry Date</th>
 </tr>
 $datacustomer
 </table>
@@ -600,38 +599,46 @@ $datacustomer
 		
 		foreach($result1 as  $key1 => $value1 ){
              $serviceCustID[]=$value1['CUSTOMERID'];
-			 $datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value1['req_service_date']."</td>
+			 $datacustomer1 .="<tr style='height:25px'>
+			 <td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td>
+			 <td style='border: 1px solid black;'>".$value1['req_service_date']."</td></tr>";
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
 			$amcCustID[]=$value2['CUSTOMERID'];
-             $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value2['req_amc_date']."</td>
+             $datacustomer2 .="<tr style='height:25px'>
+			 <td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td>
+			  <td style='border: 1px solid black;'>".$value2['req_amc_date']."</td></tr>";
 			
 		}
 		foreach($result3 as  $key3 => $value3 ){
             $upgradeCustID[]=$value3['CUSTOMERID'];
-       		$datacustomer3 .="<tr style='height:25px'><td style='border: 1px solid black;'>".$value3['req_upgrade_date']."</td>
+       		$datacustomer3 .="<tr style='height:25px'>
+			<td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value3['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value3['PHONE1']."</td>
+			 <td style='border: 1px solid black;'>".$value3['req_upgrade_date']."</td></tr>";
 			
 		}
 		foreach($result4 as  $key4 => $value4 ){
             $escalCustID[]=$value4['CUSTOMERID'];
-    		$datacustomer4 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
+    		$datacustomer4 .="<tr style='height:25px'>
+			<td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value4['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value4['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value4['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value4['PHONE1']."</td>
+			 <td style='border: 1px solid black;'>".''."</td></tr>";
 			
 		}
-		
-		$to = "sriramm@moviloglobal.com"; 
+		 
+		$to = "sriramm@moviloglobal.com";  
 		//$to = "ranjan.jjbyte@gmail.com"; 
 		
 		$subject = "Conversion Opportunity of $titlename2";
@@ -644,10 +651,11 @@ $datacustomer
 <h3>Service Request :-</h3>
 <table style='border: 1px solid black; border-collapse: collapse;'>
 <tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Mail Date</th>
 <th style='border: 1px solid black;width: 120px;'>Customer Id</th>
 <th style='border: 1px solid black;width: 120px;'>Name</th>
 <th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Enquiry Date</th>
 </tr>
 $datacustomer1
 </table>
@@ -663,10 +671,11 @@ $message .= "
 <h3>AMC Enquiry :-</h3>
 <table style='border: 1px solid black; border-collapse: collapse;'>
 <tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Mail Date</th>
 <th style='border: 1px solid black;width: 120px;'>Customer Id</th>
 <th style='border: 1px solid black;width: 120px;'>Name</th>
 <th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Enquiry Date</th>
 </tr>
 $datacustomer2
 </table>
@@ -682,10 +691,11 @@ $message .= "
 <h3>Upgrade Enquiry :-</h3>
 <table style='border: 1px solid black; border-collapse: collapse;'>
 <tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Mail Date</th>
 <th style='border: 1px solid black;width: 120px;'>Customer Id</th>
 <th style='border: 1px solid black;width: 120px;'>Name</th>
 <th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Enquiry Date</th>
 </tr>
 $datacustomer3
 </table>
@@ -701,10 +711,11 @@ $message .= "
 <h3>Escalation :-</h3>
 <table style='border: 1px solid black; border-collapse: collapse;'>
 <tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Mail Date</th>
 <th style='border: 1px solid black;width: 120px;'>Customer Id</th>
 <th style='border: 1px solid black;width: 120px;'>Name</th>
 <th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Enquiry Date</th>
 </tr>
 $datacustomer4
 </table>
@@ -787,18 +798,20 @@ $datacustomer4
 		
 		foreach($result1 as  $key1 => $value1 ){
             $noteAmcCustID[]=$value1['CUSTOMERID'];
-    		$datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
+    		$datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td>
+			 <td style='border: 1px solid black;'>".''."</td></tr>";
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
 			$noteUpgradeCustID[]=$value2['CUSTOMERID'];
-			 $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".''."</td>
+			 $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
-			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td></tr>";
+			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td>
+			 <td style='border: 1px solid black;'>".''."</td></tr>";
 		}
 		 
 		
@@ -814,10 +827,11 @@ $datacustomer4
 <h3>Note for AMC Details Customers :-</h3>
 <table style='border: 1px solid black; border-collapse: collapse;'>
 <tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Mail Date</th>
 <th style='border: 1px solid black;width: 120px;'>Customer Id</th>
 <th style='border: 1px solid black;width: 120px;'>Name</th>
 <th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Enquiry Date</th>
 </tr>
 $datacustomer1
 </table>
@@ -833,10 +847,11 @@ $message .= "
 <h3>Note for Upgrade Offers Customers :-</h3>
 <table style='border: 1px solid black; border-collapse: collapse;'>
 <tr style='height:25px'>
-<th style='border: 1px solid black;width: 120px;'>Date</th>
+<th style='border: 1px solid black;width: 120px;'>Mail Date</th>
 <th style='border: 1px solid black;width: 120px;'>Customer Id</th>
 <th style='border: 1px solid black;width: 120px;'>Name</th>
 <th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Enquiry Date</th>
 </tr>
 $datacustomer2
 </table>
@@ -858,7 +873,7 @@ $datacustomer2
 		
 		
 		for($i=0;$i<count($noteAmcCustID);$i++){
-        $condition_amc_details="CUSTOMERID='".$noteAmcCustID[$i]."'"; 
+        $condition_amc_details="CUSTOMERID='".$noteAmcCustID[$i]."'";  
         $set_array	=	array(                  
 							'note_for_amc'=>	6
 							);
@@ -1132,8 +1147,8 @@ $datacustomer
 		$fields		=	'*';
 		$condition 	=	"CURDATE()=date(user_created_date)+3";				
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
-		$message    =   "<p>Dear Customer,</p><p>Now maintaining your home appliances is easy.</p><p>Read More</p><p>Link:-\n\n <a href='http://yapnaa.com/yapnaa_capability.php'>Yapnaa</a></p>";
-			$sm_message    =   "Dear Customer,\n\nNow maintaining your home appliances is easy.\n\nRead More\n\nLink:-\nhttp://yapnaa.com/yapnaa_capability.php";
+		$message    =   "<p>Dear Customer,</p><p>Now maintaining your home appliances is easy.</p><p>Read More</p><p>Link:-\n\n <a href='https://yapnaa.com/yapnaa_capability.php'>Yapnaa</a></p>";
+			$sm_message    =   "Dear Customer,\n\nNow maintaining your home appliances is easy.\n\nRead More\n\nLink:-\nhttps://yapnaa.com/yapnaa_capability.php";
 			$subject    =   "Yapnaa Capabilites";
 		foreach($result as $row){
 			$user_mobile         =   $row['user_phone'];
@@ -1212,7 +1227,7 @@ $datacustomer
 																									 <div class="column" style="width:100%;max-width:110px;display:inline-block;vertical-align:top;">
 																										<table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
 																										   <tr>
-																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="https://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
 																										   </tr>
 																										</table>
 																									 </div>
@@ -1236,10 +1251,10 @@ $datacustomer
 										<tbody><tr>
 										  <td width="100%" align="center" valign="top" style="padding-top:10px"><table width="200" border="0" cellspacing="0" cellpadding="0">
 											  <tbody><tr>
-												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="https://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="https://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
 											  </tr>
 											</tbody></table></td>
 										</tr>
@@ -1318,7 +1333,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td> &nbsp; &nbsp; <img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
+																 <td> &nbsp; &nbsp; <img src="https://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; www.yapnna.com</b></p>
 																 </td>
@@ -1328,7 +1343,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; help@yapnna.com</b></p>
 																 </td>
@@ -1338,7 +1353,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; +91 98452 856419</b></p>
 																 </td>
@@ -1521,7 +1536,7 @@ $datacustomer
 																									 <div class="column" style="width:100%;max-width:110px;display:inline-block;vertical-align:top;">
 																										<table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
 																										   <tr>
-																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="https://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
 																										   </tr>
 																										</table>
 																									 </div>
@@ -1545,10 +1560,10 @@ $datacustomer
 										<tbody><tr>
 										  <td width="100%" align="center" valign="top" style="padding-top:10px"><table width="200" border="0" cellspacing="0" cellpadding="0">
 											  <tbody><tr>
-												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="https://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="https://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
 											  </tr>
 											</tbody></table></td>
 										</tr>
@@ -1631,7 +1646,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td> &nbsp; &nbsp; <img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
+																 <td> &nbsp; &nbsp; <img src="https://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; www.yapnna.com</b></p>
 																 </td>
@@ -1641,7 +1656,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; help@yapnna.com</b></p>
 																 </td>
@@ -1651,7 +1666,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; +91 98452 856419</b></p>
 																 </td>
@@ -1833,7 +1848,7 @@ $datacustomer
 																									 <div class="column" style="width:100%;max-width:110px;display:inline-block;vertical-align:top;">
 																										<table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
 																										   <tr>
-																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="https://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
 																										   </tr>
 																										</table>
 																									 </div>
@@ -1857,10 +1872,10 @@ $datacustomer
 										<tbody><tr>
 										  <td width="100%" align="center" valign="top" style="padding-top:10px"><table width="200" border="0" cellspacing="0" cellpadding="0">
 											  <tbody><tr>
-												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="https://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="https://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
 											  </tr>
 											</tbody></table></td>
 										</tr>
@@ -1943,7 +1958,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td> &nbsp; &nbsp; <img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
+																 <td> &nbsp; &nbsp; <img src="https://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; www.yapnna.com</b></p>
 																 </td>
@@ -1953,7 +1968,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; help@yapnna.com</b></p>
 																 </td>
@@ -1963,7 +1978,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; +91 98452 856419</b></p>
 																 </td>
@@ -2145,7 +2160,7 @@ $datacustomer
 																									 <div class="column" style="width:100%;max-width:110px;display:inline-block;vertical-align:top;">
 																										<table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
 																										   <tr>
-																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+																											  <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="https://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
 																										   </tr>
 																										</table>
 																									 </div>
@@ -2169,10 +2184,10 @@ $datacustomer
 										<tbody><tr>
 										  <td width="100%" align="center" valign="top" style="padding-top:10px"><table width="200" border="0" cellspacing="0" cellpadding="0">
 											  <tbody><tr>
-												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="https://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+												<td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="https://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+											 <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
 											  </tr>
 											</tbody></table></td>
 										</tr>
@@ -2255,7 +2270,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td> &nbsp; &nbsp; <img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
+																 <td> &nbsp; &nbsp; <img src="https://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; www.yapnna.com</b></p>
 																 </td>
@@ -2265,7 +2280,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; help@yapnna.com</b></p>
 																 </td>
@@ -2275,7 +2290,7 @@ $datacustomer
 														<td>
 														   <table>
 															  <tr>
-																 <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+																 <td><img src="https://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
 																 <td>
 																	<p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> &nbsp; +91 98452 856419</b></p>
 																 </td>
@@ -5664,7 +5679,7 @@ $datacustomer
                                                                                              <div class="column" style="width:100%;max-width:110px;display:inline-block;vertical-align:top;">
                                                                                                 <table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
                                                                                                    <tr>
-                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="left"><a href="#" target="_blank"><img src="https://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
                                                                                                    </tr>
                                                                                                 </table>
                                                                                              </div>
@@ -5688,10 +5703,10 @@ $datacustomer
                                 <tbody><tr>
                                   <td width="100%" align="center" valign="top" style="padding-top:10px"><table width="200" border="0" cellspacing="0" cellpadding="0">
                                       <tbody><tr>
-                                        <td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-                                        <td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-                                        <td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
-                                     <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                        <td width="33" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="https://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                        <td width="34" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                        <td width="33" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="https://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
+                                     <td width="33" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"></a></td>
                                       </tr>
                                     </tbody></table></td>
                                 </tr>
@@ -5765,9 +5780,9 @@ $datacustomer
                                                 <td>
                                                    <table>
                                                       <tr>
-                                                         <td> <a href="http://www.yapnaa.com"><img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
+                                                         <td> <a href="https://yapnaa.com"><img src="https://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
                                                          <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> www.yapnaa.com</b></p>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> yapnaa.com</b></p>
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -5775,9 +5790,9 @@ $datacustomer
                                                 <td>
                                                    <table>
                                                       <tr>
-                                                         <td><a href="http://help@yapnaa.com"><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
+                                                         <td><a href="https://info@yapnaa.com"><img src="https://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
                                                          <td>
-                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> help@yapnaa.com</b></p>
+                                                            <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> info@yapnaa.com</b></p>
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -5785,7 +5800,7 @@ $datacustomer
                                                 <td>
                                                    <table>
                                                       <tr>
-                                                         <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+                                                         <td><img src="https://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
                                                          <td>
                                                             <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>  +91 98452 856419</b></p>
                                                          </td>
@@ -6075,7 +6090,7 @@ $datacustomer
 											 <td>
                                                    <table>
                                                       <tr>
-                                                         <td><a href="http://info@yapnaa.com"><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
+                                                         <td><a href="https://info@yapnaa.com"><img src="https://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
                                                          <td>
                                                             <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> info@yapnaa.com</b></p>
                                                          </td>
@@ -6105,7 +6120,7 @@ $datacustomer
                                                 <td>
                                                    <table>
                                                       <tr>
-                                                         <td> <a href="http://yapnaa.com"><img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
+                                                         <td> <a href="https://yapnaa.com"><img src="https://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
                                                          <td>
                                                             <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>yapnaa.com</b></p>
                                                          </td>
@@ -6136,15 +6151,15 @@ $datacustomer
                                                 <td>
 												<table width="150" border="0" cellspacing="0" cellpadding="0">
                                       <tbody><tr>
-                                        <td width="32" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                        <td width="32" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                        <td width="32" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                     <td width="32" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="https://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="https://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                     <td width="32" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
                                       </tr>
                                     </tbody></table>
                                                    <!--table>
                                                       <tr>
-                                                         <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+                                                         <td><img src="https://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
                                                          <td>
                                                             <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>  +91 98452 856419</b></p>
                                                          </td>
@@ -6322,7 +6337,7 @@ $datacustomer
                                                                                                 <table class="contents" style="border-spacing:0; width:100%"  bgcolor="#ffffff" >
                                                                                                    <tr>
 																								   <td></td>
-                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="center"><a href="#" target="_blank"><img src="http://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
+                                                                                                      <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" align="center"><a href="#" target="_blank"><img src="https://yapnaa.com/images/yapnaa-logo1.png" width="74" alt="" style="border-width:0; max-width:74px;height:auto; display:block" /></a></td>
                                                                <td></td>                                    </tr>
                                                                                                 </table>
                                                                                              </div>
@@ -6617,7 +6632,7 @@ $datacustomer
 											 <td>
                                                    <table>
                                                       <tr>
-                                                         <td><a href="http://info@yapnaa.com"><img src="http://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
+                                                         <td><a href="https://info@yapnaa.com"><img src="https://yapnaa.com/movilo/Images/emailAsset.png"  width="32" height="25" border="0" ></a></td>
                                                          <td>
                                                             <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b> info@yapnaa.com</b></p>
                                                          </td>
@@ -6647,7 +6662,7 @@ $datacustomer
                                                 <td>
                                                    <table>
                                                       <tr>
-                                                         <td> <a href="http://yapnaa.com"><img src="http://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
+                                                         <td> <a href="https://yapnaa.com"><img src="https://yapnaa.com/movilo/Images/websiteAsset.png" width="32" height="30" border="0" ></a></td>
                                                          <td>
                                                             <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>yapnaa.com</b></p>
                                                          </td>
@@ -6678,15 +6693,15 @@ $datacustomer
                                                 <td>
 												<table width="150" border="0" cellspacing="0" cellpadding="0">
                                       <tbody><tr>
-                                        <td width="32" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="http://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                        <td width="32" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                        <td width="32" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="http://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
-                                     <td width="32" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="http://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en" target="_blank"><img src="https://yapnaa.com/movilo/Images/googleplayAsset.png" alt="facebook" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://www.facebook.com/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/FacebookAsset.png" alt="twitter" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                        <td width="32" align="center"><a href="https://twitter.com/yapnaa" target="_blank"><img src="https://yapnaa.com/movilo/Images/TwitterAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
+                                     <td width="32" align="center"><a href="https://www.linkedin.com/company/yapnaa/" target="_blank"><img src="https://yapnaa.com/movilo/Images/LinkedinAsset.png" alt="linkedin" width="30" height="30" border="0" style="border-width:0; max-width:30px;height:auto; display:block; max-height:30px"></a></td>
                                       </tr>
                                     </tbody></table>
                                                    <!--table>
                                                       <tr>
-                                                         <td><img src="http://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
+                                                         <td><img src="https://yapnaa.com/movilo/Images/CallAsset.png" width="32" height="28" border="0" ></td>
                                                          <td>
                                                             <p style="color:#5b5f65; font-size:12px;  font-family: "Montserrat", sans-serif;"> <b>  +91 98452 856419</b></p>
                                                          </td>

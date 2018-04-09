@@ -3,7 +3,7 @@ require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 
 	 $obj_search = new users;
 	if(isset($_POST['d_mobile']) || !empty($_POST['d_mobile'])){
-		 $obj_search->n_yapnaa_signup($_POST['d_mobile'],$_POST['d_password']);
+		 $obj_search->n_yapnaa_signup($_POST['d_mobile'],$_POST['d_password'],$_POST['d_name']);
 	}
 	?>
 <html style="overflow-x: hidden;">
@@ -240,6 +240,14 @@ padding-right: 0% !important;
 					 <div class="col-sm-8 ">
 						<div class="inputBox " style="margin-bottom:15px;">
 						   <input type="text" name="d_mobile" placeholder="Mobile" class="input " required>
+						</div>
+					 </div>
+				 </div>
+				 <div class="row ">
+				
+					 <div class="col-sm-8 ">
+						<div class="inputBox " style="margin-bottom:15px;">
+						   <input type="text" name="d_name" placeholder="Name" class="input " required>
 						</div>
 					 </div>
 				 </div>
