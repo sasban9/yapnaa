@@ -1,7 +1,7 @@
 <?php 
 require 'PHPMailerAutoload.php';  
 require_once("model/model.php");
-$obj_model	=new	model;
+$obj_model	=new	model; 
 
 //Controller to perform all admin functions
 class admin	{
@@ -111,7 +111,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				      }				
 					else{
 	                     $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
-";	
+ http://bit.ly/YapnaaForAndroid";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
 					}
@@ -126,7 +126,7 @@ WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	 		
 				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
-<p style='text-align:left;font-weight:normal;line-height:3'>Yapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.</p>
+<p style='text-align:left;font-weight:normal;line-height:3'>Yapnaa is your after sales companion to manage your home appliances and connect with brands directly for any service support.http://bit.ly/yapnaa-website.</p>
   
 <p style='text-align:center'>   
 <a href='http://bit.ly/YapnaaForAndroid'>
@@ -143,7 +143,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				      }				
 					else{
-	                     $text="Dear ".ucfirst($username).",\nYapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.";	
+	                     $text="Dear ".ucfirst($username).",\nYapnaa is your after sales companion to manage your home appliances and connect with brands directly for any service support.http://bit.ly/yapnaa-website";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
 					}
@@ -168,7 +168,7 @@ $text="<p style='font-weight:lighter;'>Dear $username,</p>"."
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc-offer'>
+<a href='http://bit.ly/livpure_amc'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -188,7 +188,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc-offer'>
+<a href='http://bit.ly/livpure_amc'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -196,7 +196,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
                				
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				}else{
-                $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc-offer
+                $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure_amc
 ";	
                  $userphone=array($userphone);				
 				$this->send_bulk_sms($userphone,$text);
@@ -231,7 +231,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
                 $this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				}else{
 			    $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
-";	
+http://bit.ly/YapnaaForAndroid";	
                 $userphone=array($userphone);				
 				$this->send_bulk_sms($userphone,$text);
 				}
@@ -256,7 +256,7 @@ WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc-offer'>
+<a href='http://bit.ly/livpure_amc'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -276,7 +276,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc-offer'>
+<a href='http://bit.ly/livpure_amc'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -284,7 +284,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
                 $this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				}else{
 				 $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently
-";	
+http://bit.ly/livpure_amc";	
                  $userphone=array($userphone);				
 				$this->send_bulk_sms($userphone,$text);
 				}
@@ -318,7 +318,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				}else{
 			    $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
-";	
+http://bit.ly/YapnaaForAndroid";	
                 $userphone=array($userphone);				
 				$this->send_bulk_sms($userphone,$text);
 				}
@@ -350,7 +350,7 @@ WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
 
 <br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure-amc-offer'>
+<a href='http://bit.ly/livpure_amc'>
 <input type='button' 
 style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
 '/></a></p><br>
@@ -370,7 +370,7 @@ style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;
  </ul> 
 </p>
 <p style='text-align:center'> 
-<a href='http://bit.ly/livpure-amc-offer'>
+<a href='http://bit.ly/livpure_amc'>
 <input type='button' 
 style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
 ";
@@ -379,7 +379,7 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				      }				
 					else{
-	                     $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure-amc-offer
+	                     $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently. Know why it is important http://bit.ly/livpure_amc
 		";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
@@ -409,7 +409,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				      }				
 					else{
 	                     $text="Dear ".ucfirst($username).",\nDon’t compromise on the water quality in your house. Get a free water testing by Livpure experts.
-";	
+http://bit.ly/livpure-watertest";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
 					}
@@ -419,7 +419,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 						if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	 		
 				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
-<p style='text-align:left;font-weight:normal;line-height:3'>Yapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.</p>
+<p style='text-align:left;font-weight:normal;line-height:3'>Yapnaa is your after sales companion to manage your home appliances and connect with brands directly for any service support.http://bit.ly/yapnaa-website.</p>
   
 <p style='text-align:center'>   
 <a href='http://bit.ly/YapnaaForAndroid'>
@@ -436,7 +436,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
 				      }				
 					else{
-	                     $text="Dear ".ucfirst($username).",\nYapnaa is your after sales companion offering simple and intuitive mobile interface to manage branded durables and to connect with authorized service center for support in the easiest way. Access single tap support on Android App.";	
+	                     $text="Dear ".ucfirst($username).",\nYapnaa is your after sales companion to manage your home appliances and connect with brands directly for any service support.http://bit.ly/yapnaa-website.";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
 					}
@@ -467,7 +467,7 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 				      }				
 					else{
 	                     $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
-";	
+http://bit.ly/YapnaaForAndroid";	
 						 $userphone=array($userphone);				
 						$this->send_bulk_sms($userphone,$text);
 					}
