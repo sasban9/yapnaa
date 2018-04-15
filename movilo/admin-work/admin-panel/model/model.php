@@ -593,33 +593,33 @@ class model {
 			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
 		}
 		if($fromDate != null){
-			if($filterByBrand==0)
+		/* 	if($filterByBrand==0)
 			{
 			$condition = " and last_called >= '$fromDate'";
 			}
-			else{
+			else{ */
               $condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date>='$fromDate')";
-			}
+			//}
 		}
 		if($toDate != null){
 			
-			if($filterByBrand==0)
+		/* 	if($filterByBrand==0)
 			{
 			$condition = " and last_called <= '$toDate'";
 			}
-			else{
+			else{ */
 	          $condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date<='$toDate')"; 
-			  }
+			 // }
 		}
 		if($fromDate != null && $toDate != null){
-			if($filterByBrand==0)
+			/* if($filterByBrand==0)
 			{
 			$condition = " and (last_called between '$fromDate' and '$toDate')";
 			}
-			else{
+			else{ */
 			
 			$condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date between '$fromDate' and '$toDate')";
-			}
+			//}
 		}
 		if($yapnaaIdfm != null){
 			
@@ -686,7 +686,7 @@ class model {
 			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
 			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes') 
 			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
-			and answer in('Yes','No'))
+			and answer in('Yes'))
             and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')";
 			break;
 			 
