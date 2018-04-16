@@ -13,7 +13,7 @@ class admin	{
 
 	}
 	
-	function schedule_campaign($schedulecampaign){
+	function schedule_campaign1($schedulecampaign){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -34,49 +34,9 @@ class admin	{
 		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') 
 		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes')");
 
-		$Engaged  = $this->model->data_query("SELECT * , (SELECT user_phone FROM users WHERE user_phone = zc.phone1
-OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE  (zc.phone1
-IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes') AND zc.phone1 IN (
-SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes' ) AND zc.phone1
-IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12
-AND answer =  'Yes') AND  zc.phone1 IN (
-SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =2
-AND answer =  'No'))"); 
-       $partiallyengaged = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
-WHERE user_phone = zc.phone1 OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table zc
-WHERE  zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
-)AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'
-)and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
-			and answer in('Yes','No'))AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
-WHERE qst_id =12 AND answer =  'No'
-)"); 
-        
-$Disinterested = $this->model->data_query("SELECT *, 
-(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
-FROM $table zc where  (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1 and (answer='Less than 6 months' or answer='Less than 1 year')) 
-or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5 and answer='Yes')) and 
-((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
-or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
-or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
-))
-and 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=16  and answer='No')
-and
- zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=13  and answer='No')"); 
 		
-		//echo '<pre>';print_r($Disinterested);die;	
+		
+		//echo '<pre>';print_r($highlyengaged);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
 		foreach($highlyengaged as $customer_info){
 			$userphone= $customer_info['PHONE1'];
 			$username= $customer_info['CUSTOMER_NAME'];
@@ -149,7 +109,151 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 					}
 			}
 		}
+       return true;
+		
+	}
+	function schedule_campaign2($schedulecampaign){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		}
+		$Engaged  = $this->model->data_query("SELECT * , (SELECT user_phone FROM users WHERE user_phone = zc.phone1
+OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE  (zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes') AND zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes' ) AND zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12
+AND answer =  'Yes') AND  zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =2
+AND answer =  'No'))");
 
+		
+		
+		//echo '<pre>';print_r($Engaged);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
+		foreach($Engaged as $customer_info){
+							
+			$userphone= $customer_info['PHONE1'];
+			$username= $customer_info['CUSTOMER_NAME'];
+			$email= $customer_info['email'];
+			$custid= $customer_info['CUSTOMERID'];
+			//check customer after 15 days			
+			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
+            if($check15days !=NULL){
+				
+                $brandresult	=	$this->model->update($table,array('engaged'=>1),
+				'CUSTOMERID='.$custid);
+				if($email !=''){
+				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
+
+<br><p style='text-align:center'>  
+<a href='http://bit.ly/livpure_amc'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
+'/></a></p><br>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>Why it is important to take AMC from Livpure for your RO Water Purifier? 
+</p>
+<p style='font-family:arial,sans-serif;font-weight:normal;text-align:left;'>
+
+<ul>
+<li style='font-weight:normal;line-height:3;'>Ensures uninterrupted supply of Pure & Safe Water</li>
+<li style='font-weight:normal;line-height:3;'>Periodic Maintenance, Cleaning of Filters, Replacement of Consumables to avoid Break-down.</li>
+<li style='font-weight:normal;line-height:3;'>1 year comprehensive warranty</li>
+<li style='font-weight:normal;line-height:3;'>No Service Charges for any Break-Down Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Assurance of genuine Livpure Spare Parts</li>
+<li style='font-weight:normal;line-height:3;'>Free Replacement of Electrical/Electronic Parts in case of Failure</li>
+<li style='font-weight:normal;line-height:3;'>Service by Verified, Certified & Trained Company Engineers</li>
+ </ul> 
+</p>
+<p style='text-align:center'> 
+<a href='http://bit.ly/livpure_amc'>
+<input type='button' 
+style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
+";
+				$subject="Secure your water purifier with AMC";  
+                $this->sendmail_phpmailer($text,$subject,$email,$brand_img);
+				}else{
+				 $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently
+http://bit.ly/livpure_amc";	
+                 $userphone=array($userphone);				
+				$this->send_bulk_sms($userphone,$text);
+				}
+			}
+            
+			//check customer after 30 days			
+			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
+WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+            if($check30days !=NULL){
+ 
+				$brandresult	=	$this->model->update($table,array('engaged'=>2),
+				'CUSTOMERID='.$custid);
+				if($email !=''){
+				$brand_img="yapnaa-new-logo.png";	
+				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
+<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+</p>
+ 
+<br><p style='text-align:center'>   
+<a href='http://bit.ly/yapnaa-website'>
+<input type='button' 
+style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
+
+<p style='text-align:center;font-family:arial,sans-serif;'>
+<a href='http://bit.ly/YapnaaForAndroid'>
+<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
+ </a>
+</p> 
+";
+				$subject="One app to secure all your appliances";
+				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
+				}else{
+			    $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+http://bit.ly/YapnaaForAndroid";	
+                $userphone=array($userphone);				
+				$this->send_bulk_sms($userphone,$text);
+				}
+			}
+		}
+       return true;
+		
+	}
+	function schedule_campaign3($schedulecampaign){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		}
+		 $partiallyengaged = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
+WHERE user_phone = zc.phone1 OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table zc
+WHERE  zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
+)AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'
+)and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
+			and answer in('No'))AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
+WHERE qst_id =12 AND answer =  'No'
+)"); 
+		
+		
+		//echo '<pre>';print_r($partiallyengaged);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
 		foreach($partiallyengaged as $customer_info){
 			//echo "here2";
 			$userphone= $customer_info['PHONE1'];
@@ -237,94 +341,51 @@ http://bit.ly/YapnaaForAndroid";
 				}
 			}
 		}
+       return true;
 		
-		foreach($Engaged as $customer_info){
-							
-			$userphone= $customer_info['PHONE1'];
-			$username= $customer_info['CUSTOMER_NAME'];
-			$email= $customer_info['email'];
-			$custid= $customer_info['CUSTOMERID'];
-			//check customer after 15 days			
-			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
-            if($check15days !=NULL){
-				
-                $brandresult	=	$this->model->update($table,array('engaged'=>1),
-				'CUSTOMERID='.$custid);
-				if($email !=''){
-				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
-<p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
-
-<br><p style='text-align:center'>  
-<a href='http://bit.ly/livpure_amc'>
-<input type='button' 
-style='width:33%;font-weight:normal;background-color:#442c8b;border-radius:20px;color:#fff;font:inherit;line-height:2;font-size:14px;border:none' value='Enquire to Know
-'/></a></p><br>
-
-<p style='text-align:center;font-family:arial,sans-serif;'>Why it is important to take AMC from Livpure for your RO Water Purifier? 
-</p>
-<p style='font-family:arial,sans-serif;font-weight:normal;text-align:left;'>
-
-<ul>
-<li style='font-weight:normal;line-height:3;'>Ensures uninterrupted supply of Pure & Safe Water</li>
-<li style='font-weight:normal;line-height:3;'>Periodic Maintenance, Cleaning of Filters, Replacement of Consumables to avoid Break-down.</li>
-<li style='font-weight:normal;line-height:3;'>1 year comprehensive warranty</li>
-<li style='font-weight:normal;line-height:3;'>No Service Charges for any Break-Down Spare Parts</li>
-<li style='font-weight:normal;line-height:3;'>Assurance of genuine Livpure Spare Parts</li>
-<li style='font-weight:normal;line-height:3;'>Free Replacement of Electrical/Electronic Parts in case of Failure</li>
-<li style='font-weight:normal;line-height:3;'>Service by Verified, Certified & Trained Company Engineers</li>
- </ul> 
-</p>
-<p style='text-align:center'> 
-<a href='http://bit.ly/livpure_amc'>
-<input type='button' 
-style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:2.5;font-size:14px;border:none' value='Avail AMC Service Today'/></a></p>
-";
-				$subject="Secure your water purifier with AMC";  
-                $this->sendmail_phpmailer($text,$subject,$email,$brand_img);
-				}else{
-				 $text="Dear ".ucfirst($username).",\nGet annual maintenance contract to ensure that your water filter works efficiently
-http://bit.ly/livpure_amc";	
-                 $userphone=array($userphone);				
-				$this->send_bulk_sms($userphone,$text);
-				}
-			}
-            
-			//check customer after 30 days			
-			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
-            if($check30days !=NULL){
- 
-				$brandresult	=	$this->model->update($table,array('engaged'=>2),
-				'CUSTOMERID='.$custid);
-				if($email !=''){
-				$brand_img="yapnaa-new-logo.png";	
-				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
-<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
-</p>
- 
-<br><p style='text-align:center'>   
-<a href='http://bit.ly/yapnaa-website'>
-<input type='button' 
-style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
-
-<p style='text-align:center;font-family:arial,sans-serif;'>
-<a href='http://bit.ly/YapnaaForAndroid'>
-<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
- </a>
-</p> 
-";
-				$subject="One app to secure all your appliances";
-				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
-				}else{
-			    $text="Dear ".ucfirst($username).",\nNow you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
-http://bit.ly/YapnaaForAndroid";	
-                $userphone=array($userphone);				
-				$this->send_bulk_sms($userphone,$text);
-				}
-			}
+	}
+	function schedule_campaign4($schedulecampaign){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
 		}
+		 $Disinterested = $this->model->data_query("SELECT *, 
+(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
+FROM $table zc where  (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1 and (answer='Less than 6 months' or answer='Less than 1 year')) 
+or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') or 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes') or 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') or 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5 and answer='Yes')) and 
+((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
+))
+and 
+zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=16  and answer='No')
+and
+ zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=13  and answer='No')"); 
 		
+		
+		//echo '<pre>';print_r($Disinterested);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
 		foreach($Disinterested as $customer_info){
             $userphone= $customer_info['PHONE1'];
 			$username= $customer_info['CUSTOMER_NAME'];
@@ -478,9 +539,9 @@ http://bit.ly/YapnaaForAndroid";
 				'CUSTOMERID='.$custid);				  
             
 		}
-		//echo '<pre>';print_r($result1);die;
+       return true;
+		
 	}
-	
 	function user_question_select(){
 		
 		$table		=	'yapnaa_questions';	
