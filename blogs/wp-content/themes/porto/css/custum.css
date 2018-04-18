@@ -1,0 +1,159 @@
+﻿@font-face {
+    font-family: GothamRoundedBook;
+    src: url(../fonts/Gotham/GothamRoundedBook.ttf);
+}
+
+@font-face {
+    font-family: GothamRoundedLight;
+    src: url(../fonts/Gotham/GothamRoundedLight.ttf);
+}
+
+#main-menu .mega-menu > li.menu-item > a, #main-menu .mega-menu > li.menu-item > h5 {
+    font-family: GothamRoundedBook;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #000;
+}
+
+h1, h2, h3, h4, h5, h6,p {
+    font-family: GothamRoundedBook;
+    margin: 0;
+}
+
+
+ul.contact-details {
+    font-size: 16px;
+}
+
+ul.contact-details i {
+       color: #ff6010;
+    font-size: 1.2em !important;
+    padding: 3px;
+}
+
+.address {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0px 0px 0px;
+}
+
+.address li {
+    font-size: 1.1em;
+    position: relative;
+    margin-bottom: 3%;
+}
+
+.address i {
+ color: #ff6010;
+    font-size: 1.2em !important;
+    padding: 3px;
+}
+
+.address li span {
+    padding-bottom: 10px;
+    position: relative;
+    left: 30px;
+    color: #000;
+    font-size: 16px;
+    font-family: GothamRoundedLight;
+    font-weight: bold;
+}
+
+
+.top-button a{
+	
+	
+}
+
+
+
+.widget-title a {
+    font-weight: 200;
+    margin-top: 8%;
+    margin-bottom: 20%;
+    font-size: 1.9em !important;
+    font-weight: 600 !important;
+    /* margin-bottom: 20px !important; */
+    font-family: GothamRoundedBook;
+    color: #000 !important;
+    margin-top: 16%;
+}
+
+
+.input-rounded {
+    border-radius: 20px!important;
+    border: 1px solid #ff6010!important;
+    width: 80%;
+    margin-bottom: 5%;
+}
+
+.wpcf7-submit{
+	
+	
+	background: #ff6010!important;
+    border: 1px solid #ff6010!important;
+    border-radius: 20px!important;
+    width: 33%;
+}
+
+#jk li {
+    display: inline;
+}
+
+#footer .widgettitle, #footer .widget-title, #footer .widgettitle a, #footer .widget-title a {
+    font-weight: 200;
+    margin-bottom: 16%;
+}
+
+.moreDetails {
+    margin-bottom: 17%;
+}
+
+#footer .footer-bottom {
+   
+    background-color: #384861;
+}
+
+#footer .footer-bottom p, #footer .footer-bottom .widget > div > ul li, #footer .footer-bottom .widget > ul li {
+    color: #fff;
+}
+
+
+
+ul.header-social-icons.social-icons.hidden-xs {
+    margin-top: -24%;
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .desktop {
+        display:none;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .mobile {
+            display: none !important;
+    }
+}
+
+
+ul.contact-details.list.list-icons span {
+     padding-bottom: 10px;
+    position: relative;
+
+    color: #000;
+    font-size: 16px!important;
+    font-family: GothamRoundedLight;
+    font-weight: bold;
+}
+
+
+.list.list-icons li .fa {
+    color: #fc7f2b;
+    border-color: #fc7f2b;
+    font-size: 1.2em !important;
+	    height: 100px;
+}
