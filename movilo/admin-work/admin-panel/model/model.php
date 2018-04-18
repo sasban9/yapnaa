@@ -693,12 +693,7 @@ class model {
 			case 4:
 			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
 			FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." 
-and (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1 and (answer='Less than 6 months' or answer='Less than 1 year')) 
-or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5 and answer='Yes')) and 
+and 
 (
 (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
 and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
@@ -721,10 +716,7 @@ zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 an
 and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
 )
 )
-and 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=16  and answer='No')
-and
- zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=13  and answer='No')"; 
+"; 
 			
 			
 			

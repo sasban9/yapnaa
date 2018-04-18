@@ -203,13 +203,13 @@ if(isset($_SESSION['admin_email_id']))
 				</div>
 				<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
 				 <div class="col-lg-2 new" >
-					<label>Filter By</label>
+					<label>Filter By</label> 
 					<select id="filterByBrand" class="form-control" name="filterByBrand">
 						<option value="0"<?php echo($_POST['filterByBrand']==0)?"selected":"";?>>Filter</option>
 						<option value="1" <?php echo($_POST['filterByBrand']==1)?"selected":"";?>>Highly Engaged Customer</option>
 						<option value="2"<?php echo($_POST['filterByBrand']==2)?"selected":"";?> >Engaged Customer</option>
 						<option value="3" <?php echo($_POST['filterByBrand']==3)?"selected":"";?>>Partially Engaged </option>						
-						<option value="4" <?php echo($_POST['filterByBrand']==4)?"selected":"";?>>Disinterested Customer</option> 
+						<option value="4" <?php echo($_POST['filterByBrand']==4)?"selected":"";?>>Disengaged Customer</option> 
 						
 						
 					</select>
@@ -581,14 +581,15 @@ if(isset($_SESSION['admin_email_id']))
 						<div class="row"> 
 						<?php   
                             					
-							for($j=0;$j<count($answers);$j++){?>
+							for($j=0;$j<count($answers);$j++){?> 
 								<div class="col-lg-4" >
                                    <?php ?>								
 									<input type="radio" class="chk" id="<?php echo $question[$i]['id'];?>" data-qid="<?php echo $question[$i]['id'];?>" value="<?php echo $answers[$j]["answer_type"];?>" name="<?php echo $question[$i]['id'];?>"
 									<?php
 									if($qss==$question[$i]['id'] ){ 							
 									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
-									} ?>
+									}
+									?>
 									> 
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
@@ -723,7 +724,7 @@ if(isset($_SESSION['admin_email_id']))
 							  }
 							  
 						
-						?>
+						?> 
 						
                  
 					<br><label data-qid="<?php echo $question[$i]['id'];?>"><?php echo ($k++).". ".$question[$i]['questions'];?></label><br>
@@ -735,7 +736,8 @@ if(isset($_SESSION['admin_email_id']))
 									<?php  
 									if($qss==$question[$i]['id']){									
 									echo ($ans==$answers[$j]["answer_type"])?'checked':'';
-									}?>>
+									}
+									?>>
 									
 									<?php echo ' '.$answers[$j]["answer_type"];?>
 								</div>
@@ -1391,8 +1393,7 @@ if(isset($_SESSION['admin_email_id']))
 					 $("input:radio[class=chk]:checked").each(function () {
 						var quest = $(this).attr("id");	
 						var ans = $(this).val();
-						var callback=$("#comments").val();
-						//alert(callback);
+						var callback=$("#comments").val();						
                         var follow_up_date = $('#follow_up_date').val();	
 						var wish_upgrade_date = $('#wish_upgrade_date').val();
 						var amc_requested_date = $('#amc_requested_date').val();	
