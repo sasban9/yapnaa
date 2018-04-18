@@ -115,7 +115,7 @@ if(isset($_POST['admin_login']))
                 <a class="btn btn-sm btn-white btn-block" href="register.html">Create an account</a>-->
             </form>
 			
-              <p class="m-t"> <small>&copy; <?php echo date('Y');?> <a href="#">Movilo.in</a>. All Rights Reserved.</small> </p>
+              <p class="m-t"> <small>&copy; <?php echo date('Y');?> <a href="#">Movilo Networks Pvt. Ltd</a>. All Rights Reserved.</small> </p>
         </div>
     </div>
 

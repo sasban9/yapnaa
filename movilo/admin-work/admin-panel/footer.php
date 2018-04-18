@@ -12,7 +12,7 @@
 		});
 	});
 </script>  
-	
+	 
     <script src="js/bootstrap.min.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -21,7 +21,7 @@
 						<small>Powered by <strong><a href="http://jjbytes.com/" target="_balnk">JJ Bytes</a></strong></small>
 					</div>
 					<div>
-						<strong>Copyright</strong>  <small>&copy; <?php echo date('Y');?> <a href="#" target="_balnk">Movilo.in</a>. All Rights Reserved.</small>
+						<strong>Copyright</strong>  <small>&copy; <?php echo date('Y');?> <a href="#" target="_balnk">Movilo Networks Pvt. Ltd</a>. All Rights Reserved.</small>
 					</div>
                 </div>
             </div>

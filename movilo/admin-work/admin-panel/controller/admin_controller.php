@@ -361,11 +361,7 @@ http://bit.ly/YapnaaForAndroid";
 		}
 		 $Disinterested = $this->model->data_query("SELECT *, 
 (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
-FROM $table zc where  (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1 and (answer='Less than 6 months' or answer='Less than 1 year')) 
-or zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') or 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5 and answer='Yes')) and 
+FROM $table zc where   
 ((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
 and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
 and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
@@ -379,10 +375,7 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
 and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
 ))
-and 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=16  and answer='No')
-and
- zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=13  and answer='No')"); 
+"); 
 		
 		
 		//echo '<pre>';print_r($Disinterested);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
@@ -1001,7 +994,13 @@ $datacustomer2
 	   
         if($check_duplicate !=NULL)
 		{
-			
+			if($userQst==2 || $userQst==3 || $userQst==4 || $userQst==12)
+			{
+				if($answer=='Not sure' || $answer=='Sometimes')
+				{
+					$answer='No';
+				}
+			}
            $condition="user_phone=$number and qst_id=$userQst";			
            $condition_brand="PHONE1=$number";			
 		   $set_array	=	array(
@@ -1011,10 +1010,16 @@ $datacustomer2
 							);
 			
 			$result	=	$this->model->update($table,$set_array,$condition);	
-				
 					
 		}	
 		else{ 
+		    if($userQst==2 || $userQst==3 || $userQst==4 || $userQst==12)
+			{
+				if($answer=='Not sure' || $answer=='Sometimes')
+				{
+					$answer='No';
+				}
+			} 
 			
 			$arr_input	=	array(
 			               
@@ -1027,11 +1032,79 @@ $datacustomer2
 							);
 			
 			$result		=	$this->model->insert($table,$arr_input);
-			 
-				 
 			
 		}
-			return $result;
+		
+		//external update for schedulcampain 
+		$sql1="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=2";
+	   
+	    $check_forupdate1		=	$this->model->data_query($sql1);
+		if($check_forupdate1 ==NULL)
+		{
+			$arr_input1	=	array(
+			               
+							'qst_id'				        =>	2,							
+							'user_phone'			        =>	$number,
+							'answer'				        =>	'No',
+							'brand_name'				    =>	$brandName,
+							'brand_id'                      =>  $brandId,
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			
+			$this->model->insert($table,$arr_input1);
+		}
+		$sql2="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=3";
+	   
+	    $check_forupdate2		=	$this->model->data_query($sql2);
+		if($check_forupdate2 ==NULL)
+		{
+			$arr_input2	=	array(
+			               
+							'qst_id'				        =>	3,							
+							'user_phone'			        =>	$number,
+							'answer'				        =>	'No',
+							'brand_name'				    =>	$brandName,
+							'brand_id'                      =>  $brandId,
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			
+			$this->model->insert($table,$arr_input2);
+		}
+		$sql3="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=4";
+	   
+	    $check_forupdate3		=	$this->model->data_query($sql3);
+		if($check_forupdate3 ==NULL)
+		{
+			$arr_input3	=	array(
+			               
+							'qst_id'				        =>	4,							
+							'user_phone'			        =>	$number,
+							'answer'				        =>	'No',
+							'brand_name'				    =>	$brandName,
+							'brand_id'                      =>  $brandId,
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			
+			$this->model->insert($table,$arr_input3);
+		}
+		$sql4="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=12";
+	   
+	    $check_forupdate4		=	$this->model->data_query($sql4);
+		if($check_forupdate4 ==NULL)
+		{
+			$arr_input4	=	array(
+			               
+							'qst_id'				        =>	12,							
+							'user_phone'			        =>	$number,
+							'answer'				        =>	'No',
+							'brand_name'				    =>	$brandName,
+							'brand_id'                      =>  $brandId,
+							'date'                          =>date('Y-m-d h:i:s')
+							);
+			
+			$this->model->insert($table,$arr_input4);
+		}
+   return $result;
 	
  }	
 	function insertStatus1
