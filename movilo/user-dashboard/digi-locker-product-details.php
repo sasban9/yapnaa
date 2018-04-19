@@ -1,7 +1,7 @@
 <?php session_start();
 require_once('../controller/user_controller.php');
 $obj_user = new users;
-$produtcat=  $obj_user->get_product_cat_list();
+$produtcat=  $obj_user->get_product_cat_list(); 
 if(isset($_GET['user']) && isset($_GET['cat'])){
 $user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_GET['cat'],$_GET['user']);
 
