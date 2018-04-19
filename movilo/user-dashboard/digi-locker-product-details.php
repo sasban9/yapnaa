@@ -1,7 +1,7 @@
 <?php session_start();
 require_once('../controller/user_controller.php');
-$obj_user = new users;
-$produtcat=  $obj_user->get_product_cat_list();
+$obj_user = new users; 
+$produtcat=  $obj_user->get_product_cat_list(); 
 if(isset($_GET['user']) && isset($_GET['cat'])){
 $user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_GET['cat'],$_GET['user']);
 
@@ -82,6 +82,36 @@ if(isset($_POST['saveProfile'])){
    border-color: #ff6010 !important;
     color: #ffffff !important;
    background-color: #ff6010 !important;
+}
+
+
+body {margin:2rem;}
+
+.modal-dialog {
+      max-width: 800px;
+      margin: 30px auto;
+  }
+
+
+
+.modal-body {
+  position:relative;
+  padding:0px;
+}
+.close {
+  position:absolute;
+  right:-30px;
+  top:0;
+  z-index:999;
+  font-size:2rem;
+  font-weight: normal;
+  color:#fff;
+  opacity:1;
+}
+
+#image {
+  height:100%; 
+  width:100%;
 }
    </style>
    <body>
@@ -235,9 +265,11 @@ if(isset($_POST['saveProfile'])){
 									<?php
 									if($user_digilocker_list !=NULL){
 									foreach($user_digilocker_list as $ls){?>
-                                    <div class="col-md-3 text-center" >
-									<a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>">
-                                       <img src="../digilocker_images/<?php echo $ls['dl_document'];?>" alt="Circle Image" height="100" width="100" class=" img-no-padding  img-center" >
+                                    <div class="col-md-3 text-center gallery" >
+									<!--<a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>">-->
+									<a >
+                                       <img src="../digilocker_images/<?php echo $ls['dl_document'];?>" alt="Circle Image" height="100" width="100" class=" img-fluid img-no-padding  img-center" 
+									   data-toggle="modal" data-bigimage="../digilocker_images/<?php echo $ls['dl_document'];?>"  data-target="#myModal1234" >
                                      </a> 
 									  <h5 class="title "><?php echo $ls['dl_doc_name'];?></h5>
                                        <small><?php echo date('Y-m-d', strtotime($ls['dl_created_time']));?></small>
@@ -470,6 +502,27 @@ if(isset($_POST['saveProfile'])){
 				</div>
               </div> 
 			</div>
+			
+			<!-- Modal -->
+			<div class="modal fade" id="myModal1234" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+				  
+				  <div class="modal-body">
+
+				   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>        
+                    <a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>" >
+							<img src="//media.tenor.com/images/556e9ff845b7dd0c62dcdbbb00babb4b/tenor.gif" alt="" id="image" class="img-fluid" title="Download">
+
+					</a>
+					
+				  </div>
+
+				</div>
+			  </div>
 	  
    </body>
    <!--   Core JS Files   -->
@@ -483,5 +536,44 @@ if(isset($_POST['saveProfile'])){
    function brandList(catId){
 	   $('#dl_product_type_id').val(catId);
    }
+   
+$(document).ready(function() {
+
+// Gets the video src from the data-src on each button
+var $imageSrc;  
+$('.gallery img').click(function() {
+    $imageSrc = $(this).data('bigimage');
+});
+console.log($imageSrc);
+  
+  
+  
+// when the modal is opened autoplay it  
+$('#myModal1234').on('shown.bs.modal', function (e) {
+    
+// set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
+
+$("#image").attr('src', $imageSrc  ); 
+})
+  
+  
+// reset the modal image
+$('#myModal1234').on('hide.bs.modal', function (e) {
+    // a poor man's stop video
+    $("#image").attr('src',''); 
+}) 
+    
+    
+
+
+  
+  
+// document ready  
+});
+
+
+
+   
+   
    </script>
 </html>
