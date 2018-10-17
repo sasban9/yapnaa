@@ -457,6 +457,20 @@ Email: - info@yapnaa.com
 <p>In the event you wish to make a complaint regarding any violation of the provisions of the Privacy Policy, you may send a written complaint to the Grievance Officer, who shall redress the complaint within one (1) month. This Privacy Policy was last updated on January, 2018.</p></li>
 <li style="font-size:18px;"><p><b>COPYRIGHT © MOVILO NETWORKS PRIVATE LIMITED, 2018. ALL RIGHTS RESERVED</b></p>
 </li>
+
+<li style="font-size:18px;"><p><h6>15. CAMERA</h6>
+<p>
+Used for permissions that are associated with accessing the camera or capturing images from the device.
+This permission allows this application to capture pictures in order for them to be to be saved securely in digilocker and be viewed by the same user when needed
+</p>
+</li>
+
+<li style="font-size:18px;"><p><h6>16. Photos/Files</h6>
+<p>
+Uses one or more files on the device such as images, docx, pdf and doc the device's external storage
+</p>
+</li>
+
 </ul>
 							
 

@@ -210,8 +210,11 @@ if(isset($_SESSION['admin_email_id']))
 					<tbody>
 					<?php $j=1;?>
 					<?php 
-						$numbers = array_column($get_amc_list,"PHONE1");//print_r($numbers);die;
-					for($i=0;$i<count($get_amc_list);$i++){ 
+						if(!empty($get_amc_list)){
+							$numbers = array_column($get_amc_list,"PHONE1");
+						}
+						
+						for($i=0;$i<count($get_amc_list);$i++){ 
 								
 							date_default_timezone_set('Asia/Kolkata');
 	

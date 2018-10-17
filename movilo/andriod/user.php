@@ -105,8 +105,26 @@ if(!empty($_POST['login_submit'])){
 		print_r(json_encode($arr_success_msg));
 	}
 }
+// Agent Login
+if(!empty($_POST['admin_fcm_token'])){ echo "Reached Here";die;
+	$arr_user_login		= 	$obj_search->agent_login();
+	//print_r($arr_user_login);exit;
+	if($arr_user_login){ 
+		/*$data					=	array();
+		$data['user_details']	=	$arr_user_login;
+		$data['msg']			=	'success';*/
+		print_r(json_encode($arr_user_login));
+		
+		// $arr_user_login[0]['msg']	=	'success';
+		// print_r(json_encode($arr_user_login));
+	}else{
+		// $arr_success_msg['msg']  = 'Incorrect Username or Password.';
+		$arr_success_msg['msg']  = 'failure';
+		print_r(json_encode($arr_success_msg));
+	}
+}
 
-
+	
 
 
 /*=============================================================================================*/
@@ -694,5 +712,39 @@ if(!empty($_POST['gcm_user_id'])){
 	} 
 }
 
+if(!empty($_POST['name'])){
+		
+		 $name                                     =  $_REQUEST['name'];
+		 $age                                      =  $_REQUEST['age'];
+		 $phone                                    =  $_REQUEST['phone']; 
+		 $emailid                                  =  $_REQUEST['emailid'];			
+	    $studentresult = $obj_search->registration_student($name,$age,$phone,$emailid);
+		if($studentresult){
+				$data			=	array('status' =>'success','msg'=> "$name successfully registered"); 
+				}
+				else{
+					$data			=	array('status'	=> 'error','msg'	=> 	"registration failed");
+				}
+		
+		 
+		echo json_encode($data); 
+		
+		
+	}
+/* BY Suman */	
 
+//API for Delete Digilocker-Id
+if(!empty($_POST['delete_digilocker_file'])){
+	$user_add_digilocker		= 	$obj_search->delete_digilocker_file();
+	if($user_add_digilocker==1){ 
+		$arr_success_msg['msg'] = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}else{
+		$arr_success_msg['msg'] = 'File Deleted successfully';
+		print_r(json_encode($arr_success_msg));
+	}
+}
+	
+	
+	
 ?>

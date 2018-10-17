@@ -157,3 +157,11 @@ ul.contact-details.list.list-icons span {
     font-size: 1.2em !important;
 	    height: 100px;
 }
+
+
+.btn.btn-lg, .vc_btn3.vc_btn3-size-lg {
+    padding: 10px 16px;
+    font-size: 14px;
+    line-height: 1.3333333;
+}
+

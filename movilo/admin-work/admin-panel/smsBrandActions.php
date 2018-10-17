@@ -1,7 +1,8 @@
 <?php
 require_once('controller/admin_controller.php');
 	$control	=	new admin();
-if(isset($_REQUEST['custResponse'])){
+	
+	if(isset($_REQUEST['custResponse'])){
 		
 		$custType = $_REQUEST['custType']; 
 		$userQst3 = $_REQUEST['userQst3']; 

@@ -1,4 +1,5 @@
 <?php session_start();
+if(isset($_SESSION['user_id'])){
 require_once('../controller/user_controller.php');
 $obj_user = new users;
 $brandcategory=$obj_user->brand_category_list();
@@ -256,9 +257,9 @@ if(isset($_POST['saveProfile'])){
                                     <div class="col-md-12">
                                        <div class="form-group">
                                           
-                                        <textarea rows="5" class="form-control border-input" placeholder="Any suggestion for improvement " value="Mike" name="message" id="message" maxlength="250" required>
-                                        Any suggestion for improvement................
-									   </textarea>
+                                        <textarea rows="5" class="form-control border-input" placeholder="Any suggestion for improvement" value="Mike" name="message" id="message" maxlength="250" required></textarea>
+                                        
+									   
 									   <input type="text" id="yp_user" value="<?php echo $_SESSION['name'];?>" hidden>
                                     
 									   </div>
@@ -528,3 +529,4 @@ function responseMessage(msg) {
 }
    </script>
 </html>
+<?php }?>

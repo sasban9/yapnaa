@@ -138,7 +138,7 @@ class model {
 	function delete_row_data($table,$condition)
 	{
 		$sql = "DELETE FROM $table where $condition";
-		// echo $sql; exit;
+		//echo $sql; exit;
 		$qry	=	connection()->query($sql);		
 		return $qry;
 	}
@@ -375,6 +375,91 @@ where users_products.up_user_id=$user_id";
 			//print_r($ret);exit;
 		return $ret;
 	}
+	
+	
+	/*  Suman  */
+	
+	function get_question_answer_for_landing_page($user_id,$cqa_qid){
+		
+		$sql 		= "SELECT cqa.*,(SELECT CONCAT_WS('_', 'qa', cqa.cqa_answer) FROM question_and_answer qa where cqa.cqa_qid=qa.qa_id) AS answer_weightage FROM customer_question_answer cqa WHERE cqa.cqa_user_id = ".$user_id." AND cqa.cqa_qid = ".$cqa_qid." ";
+		
+		$qry		= connection()->query($sql);
+		$row		= mysqli_fetch_assoc($qry);
+		return $row;
+		
+	}
+	
+	function get_value_of_answer($question_answer,$cqa_qid){
+		
+		$sql 		= "SELECT qa.".$question_answer." FROM question_and_answer qa WHERE qa.qa_id = ".$cqa_qid." ";
+		
+		$qry		= connection()->query($sql);
+		$row		= mysqli_fetch_assoc($qry);
+		$value 		= current($row);
+		return $value; 
+	}
+	
+	
+	function get_q_a($brand,$user_id){
+		$sql 				= "SELECT qa.*,(SELECT cqa.cqa_answer  FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS answer_given,(SELECT CONCAT_WS('_', 'qa', cqa.cqa_answer) FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS answer_weightage,
+		(SELECT cqa.cqa_weightage FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS weightage FROM question_and_answer qa WHERE qa.qa_brand = '".$brand."' ";
+		
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
+		return $row;
+	}
+	
+	
+	function get_existing_profile_status_of_customer($brand,$user_id){
+		$sql 				= "SELECT br.profile_type FROM ".$brand." br WHERE br.id = ".$user_id."  ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		if(!empty($row['profile_type'])){
+			return $row;
+		}else{
+			return array('profile_type' => 'New');
+		}
+		
+	}
+		
+	
+	function get_answered_qsn_without_current_qsn($user_id,$qid_string){
+		$sql 				= "SELECT cqa.* FROM `customer_question_answer` cqa WHERE cqa.cqa_user_id = ".$user_id." AND cqa.cqa_qid NOT IN (".$qid_string.") ";
+		$qry		= connection()->query($sql);
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
+		return $row;
+	}
+	
+	
+	function get_brand_details_of_customer($customer_type,$user_id){
+		switch($customer_type) {
+			case 1:
+			$brand_name	= 'livpure';
+			break;
+			case 2:
+			$brand_name	= 'zerob_consol1';
+			break;
+			case 3:
+			$brand_name	= 'livpure_tn_kl';
+			break;
+			case 4:
+			$brand_name	= 'bluestar_b2b';
+			break;
+			case 5:
+			$brand_name	= 'bluestar_b2c';
+			break;
+		}
+		
+		$sql 				= "SELECT b.* FROM ".$brand_name." b WHERE b.id = ".$user_id." ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		return $row;
+		
+	}
+	
+
 	
 	
 }

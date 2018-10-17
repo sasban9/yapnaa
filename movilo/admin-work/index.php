@@ -26,6 +26,7 @@ if(isset($_POST['admin_login']))
 		$_SESSION['admin_address']			=	$login_val[0]['admin_address'];
 		$_SESSION['ar_role_name']			=	$login_val[0]['ar_role_name'];
 		$_SESSION['ar_id']			        =	$login_val[0]['ar_id'];
+		$_SESSION['admin_id']			    =	$login_val[0]['admin_id'];
 	}
 	
 	

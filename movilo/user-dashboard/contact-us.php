@@ -1,12 +1,29 @@
 <?php session_start();
+if(isset($_SESSION['user_id'])){
 require_once('../controller/user_controller.php');
 $obj_user = new users;
 $brandcategory=$obj_user->brand_category_list();
 $brands_list=$obj_user->n_brand_list();
+
 if(isset($_POST['message']) || !empty($_POST['message'])){
 		//echo"here";
-		$subject='Customer enquiry '.$_SESSION['user_id'];
-		 $obj_user->n_yapnaa_send_mail($_SESSION['name'],$_POST['email'],$subject,$_POST['message']);
+		
+		$_POST['message']="<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Phone Number</th>
+<th style='border: 1px solid black;width: 120px;'>Message</th>
+</tr>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>".$_SESSION['name']."</td>
+<td style='border: 1px solid black;'>".$_SESSION['user_phone']."</td>
+<td style='border: 1px solid black;'>".$_POST['message']."</td>
+</tr>
+</table>";
+		$_POST['name']=$_SESSION['name'];
+		$_POST['subject']='Customer enquiry user dashboard';
+		$_POST['email']=$_SESSION['name'];
+		 $obj_user->n_yapnaa_send_mail($_POST['name'],$_POST['email'],$_POST['subject'],$_POST['message']);
 	}
 if(isset($_POST['saveProfile'])){
 	
@@ -202,9 +219,7 @@ element.style {
                                     <div class="col-md-12">
                                        <div class="form-group">
                                           
-                                        <textarea rows="5" class="form-control border-input" placeholder="Enter Your problem description or any comments " value="Mike" name="message" id="message" maxlength="250" required>
-                                        Message......
-									   </textarea>
+                                        <textarea rows="5" class="form-control border-input" placeholder="Message" value="Mike" name="message" id="message" maxlength="250" required></textarea>
 									   <input type="text" id="yp_user" value="<?php echo $_SESSION['name'];?>" hidden>
                                     
 									   </div>
@@ -462,3 +477,4 @@ element.style {
 });  */
    </script>
 </html>
+<?php }?>

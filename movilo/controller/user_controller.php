@@ -41,12 +41,14 @@ class users
 			  return false;
 		  }
 	}
+  
    function n_yapnaa_send_mail(){
 	   $name=$_POST['name'];
 	   $email=$_POST['email'];
 	   $subject1=$_POST['subject'];
 	   $message1=$_POST['message'];
-	  $to = "info@yapnaa.com";
+	   //$to = "harshal.jjbytes@gmail.com,sriramm@moviloglobal.com ";
+	   $to = "info@yapnaa.com"; 
 $subject = "$subject1";
 
 $message = "
@@ -69,9 +71,9 @@ $message = "
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-// More headers
-$headers .= 'From: '.$email."\r\n";
 
+// More headers
+$headers .= "From: info@yapnaa.com";   
 	   if(mail($to, $subject, $message,$headers)){
 		   echo '<script>alert("Message sent successfully !")</script>';	
 		    echo '<script>window.location.assign("contact-us.php")</script>';
@@ -208,7 +210,7 @@ $headers .= 'From: '.$email."\r\n";
 		  
 		   $_SESSION['user_mobile']		=  $mob;
 	        $ch = curl_init();
-			// $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1nimbus&password=demo123&sender=ARPITA&sendto=".urlencode($resend_otp_phone_no)."&message=".urlencode("Use OTP:".$user_reg_verification_otp ."for reset your password.\n.");
+			
 			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($mob)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
 				
 				
@@ -1269,6 +1271,63 @@ function checkout_user_login(){
 		
     }
 	
+/*-----------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------*/
+
+	// Agent Login
+	function agent_login()
+    {
+		$table           				 = 	table();
+		//$table 					= table();
+		$table_log_in    				 = 	'admin_login';
+		$fields_log_in   				 = 	'*';
+		
+		
+			
+
+		$user_password			       	 = 	md5($_POST['admin_password']);
+		$user_gcm			        	 =  $_POST['admin_fcm_token'];
+		$user_email			        	 =  $_POST['admin_email_id'];
+		
+			
+		$condition_log_in				 = 	"admin_email_id = '".$user_email."'";
+			
+		$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		//echo "<pre>";print_r($arr_log_in);die;	
+		if(empty($arr_log_in)){
+			$arr =  array("status"=>"error","message"=>"Admin does not exists!");
+			return $arr;
+		}
+			
+			$condition_log_in				 = 	'admin_password    = ' . '"'. $user_password . '"' . ' and admin_email_id = ' . '"'. $user_email . '"';
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			
+			if($arr_log_in){
+				date_default_timezone_set('Asia/Kolkata');
+				$user_last_login 			= 	date('Y-m-d h:i:s');
+				$user_token					=   rand(1000,9999999);
+				
+				$set_array     = array(
+					'admin_fcm_id' 				=> $user_gcm,
+					'admin_last_login' 			=> $user_last_login
+				);
+				$condition     					=	'admin_email_id = ' . "'" . $user_email . "'";
+				$arr_log_in1   					 = 	$this->model->update($table_log_in, $set_array, $condition);
+				$fields_log_in   				 = 	'*';
+				$condition_log_in				 = 	'admin_password    = ' . "'" . $user_password . "'" . ' and admin_email_id = ' . "'" . $user_email . "'" ;
+				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				//print_r($arr_log_in);exit;
+				$arr =  array('user_details'=>$arr_log_in,'message'=>'Login success','status'=>'success');
+				return $arr;
+			}
+			else{
+				return $arr =  array("status"=>"error","message"=>"Password is incorrect!");
+			}
+		
+        
+		
+    }
+	
 	
 /*-----------------------------------------------------------------------------------------------------------------------*/
 
@@ -2073,9 +2132,10 @@ function checkout_user_login(){
 		$device_type				     =	$arr_log_in[0]['user_login_device']; 
 		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
 		
-		
-		
-		 //print_r($arr_log_in);exit;
+		if(empty($dl_product_id)){
+			$dl_product_id 				 = 0;
+		}		
+		//print_r($arr_log_in);exit;
 		if($arr_log_in){//print_r($arr_log_in);exit;
 			//$table_log_in    				 = 	"users_digilocker";
 				
@@ -3186,6 +3246,75 @@ function checkout_user_login(){
 		
 /*----------------------------------------------------------------------------------------------------------------------*/		
 	
+	 
+
+
+// User AMC Request from landing page
+	function amc_landing_request($name,$phone_number,$email_id)
+    {
+		
+		 
+				 $fields_reg = array(  
+								'amc_user_name'					=> $name,
+								'amc_user_phone'				=> $phone_number,
+								'amc_user_emai_id' 				=> $email_id
+							);
+				
+			//print_r($fields_reg);exit;  
+            $table_log_in = "amc_request_sevice";
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg); 
+			$subject1	=	"AMC Requested";		
+	
+		    $to                  = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com"; 
+		
+	  
+            $subject = "$subject1";
+
+$message = "
+<html>
+<head>
+<title>Yapnaa</title>
+</head>
+<body>
+
+<table style='border:1px solid'>
+<tr style='border:1px solid'>
+<td style='border:1px solid'>User Name</td><td style='border:1px solid'>$name</td>
+</tr>
+<tr style='border:1px solid'>
+<td style='border:1px solid'>Phone Number</td><td style='border:1px solid'>$phone_number</td>
+</tr style='border:1px solid'>
+<tr style='border:1px solid'>
+<td style='border:1px solid'>Email Id</td><td style='border:1px solid'>$email_id</td>
+</tr>
+</table>
+</body>
+</html>
+";
+
+// Always set content-type when sending HTML email
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+
+// More headers
+$headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";   
+	   if(mail($to, $subject, $message,$headers)){
+			echo "<script>alert('Request Submitted Successfully')</script>";
+			return $arr_result;
+		  
+         }
+		else{
+			echo "<script>alert('Error Something went wrong')</script>";
+			return true;
+		}
+	}
+	
+		
+		
+/*----------------------------------------------------------------------------------------------------------------------*/		
+	
+	
 	
 	
 	function get_banner_home_screen_images()
@@ -4048,12 +4177,305 @@ function checkout_user_login(){
 		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
 		$headers 			.= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 		//$to                  = "ranjan.jjbyte@gmail"; 
-		$to                  = "sriramm@moviloglobal.com"; 
+		$to                  = "sriramm@moviloglobal.com,ranjan.jjbyte@gmail.com"; 
 		//echo $subject;die;
 		
 		// Mail it
 		mail($to, $subject, $message,$headers);
 	}
+	
+	function registration_student($name,$age,$phone,$emailid){
+		 $data                                             = array();		
+		 $data["name"]                                     =  $name;
+		 $data["age"]                                      =  $age;
+		 $data["phone"]                                    =  $phone;
+		 $data["emailid"]                                  =  $emailid;		 
+		 
+		 $studentresult		                   =	$this->model->insert("student_table",$data);
+		return $studentresult;
+	}
+	
+	
+	
+	/*  New Code Added By Suman */
+	
+	// Function  for deleting the file of digilocker
+	function deleteDigilocker($dl_id){
+		$condition			=	"dl_id='$dl_id'";
+		$response			=	$this->model->delete_row_data('users_digilocker',$condition);
+		return $response;
+	}
+	
+	
+	// Delete digilocker file from API
+	function delete_digilocker_file(){
+		
+        $table           				 = 	table();
+		date_default_timezone_set('Asia/Kolkata');
+        $dl_user_token_key   	 		 = $_POST['dl_user_token_key'];
+        $dl_id   			 			 = $_POST['dl_id'];
+        $dl_user_id   			 		 = $_POST['dl_user_id'];
+        $dl_updated_time				 = date('Y-m-d h:i:s');
+      
+		$table_log_in    				 = $table['tb1'];
+        $fields_log_in   				 = '*';
+        $condition_log_in				 = "user_token    =$dl_user_token_key and user_id= $dl_user_id";
+        $arr_log_in      	 			 = $this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		
+		//print_r($arr_log_in);
+		if($arr_log_in){
+			$device_type				 = $arr_log_in[0]['user_login_device']; 
+			$user_gcm_id				 = $arr_log_in[0]['user_gcm_id']; 
+			
+			$condition				 	 = "dl_id='$dl_id'";
+			$res					 	 = $this->model->delete_row_data('users_digilocker',$condition);
+			return $res;
+			
+		}else{
+			return $arr_log_in			 = 1;
+		}
+    }
+	
+	// User AMC Request from landing page
+	function bluestar_lead_generation($postData){
+		//print_r($postData); 
+		$table_log_in 	= "bluestar_lead_generation";
+		$arr_result   	= $this->model->insert($table_log_in, $postData); 
+		$subject1		= "Bluestar Lead";		
+		
+		if($postData['bs_amc_user_status'] == 1){
+			$brand_status = 'Highly Satisfied';
+		}else if($postData['bs_amc_user_status'] == 2){
+			$brand_status = 'Satisfied';
+		}else if($postData['bs_amc_user_status'] == 3){
+			$brand_status = 'Neutral';
+		}else if($postData['bs_amc_user_status'] == 4){
+			$brand_status = 'Unsatisfied';
+		}else if($postData['bs_amc_user_status'] == 5){
+			$brand_status = 'Highly Unsatisfied';
+		}
+		
+		if($postData['bs_amc_set_appointment'] == 1){
+			$apptDate 			= $postData['bs_amc_set_appointment_date'];
+		}else{
+			$apptDate 			= NULL;
+		}
+
+		$to             = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com,vineet@moviloglobal.com"; 
+	
+		$subject 		= "$subject1";
+
+		$message 		= "
+								<html>
+									<head>
+										<title>Yapnaa</title>
+									</head>
+									
+									<body>
+										<table style='border:1px solid'>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Overall brand experience</td><td style='border:1px solid'>".$brand_status."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>User Name</td><td style='border:1px solid'>".$postData['bs_amc_user_name']."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Phone Number</td><td style='border:1px solid'>".$postData['bs_amc_user_phone']."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Comment</td><td style='border:1px solid'>".$postData['bs_amc_user_comment']."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Appointment Date</td><td style='border:1px solid'>".$apptDate."</td>
+											</tr style='border:1px solid'>
+										</table>
+									</body>
+								</html>
+							";
+
+		// Always set content-type when sending HTML email
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+		// More headers
+		$headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";   
+		if(mail($to, $subject, $message,$headers)){
+			echo "<script>alert('Request Submitted Successfully')</script>";
+			return $arr_result;
+        }
+		else{
+			echo "<script>alert('Error Something went wrong')</script>";
+			return true;
+		}
+	}
+	
+	
+	// Function for insert data of transaction lifecycle data into timeline table
+	function insert_transaction_lifecycle_data($postData){
+		$table			= "timeline";
+		$arr_result   	= $this->model->insert($table, $postData); 
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	// Function for update Service Request Date in DB
+	function update_service_date_in_brand($req_service_date,$table,$user_id){
+		$set_array 			 = array('req_service_date' =>$req_service_date,'status' => 3,'updated_on' => date('Y-m-d'));
+		$condition     		 = 'id = '.$user_id;	
+		$update_service_date = $this->model->update($table, $set_array, $condition);
+		
+		if($update_service_date){
+			return 1;
+		}else { 
+			return 0;
+		}
+	}
+	
+	
+	// Function for getting question and answer for landing page
+	function get_question_answer_for_landing_page($user_id,$cqa_qid){
+		$result 			= $this->model->get_question_answer_for_landing_page($user_id,$cqa_qid);
+		if(!empty($result)){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_value_of_answer($question_answer,$cqa_qid){
+		$result 			= $this->model->get_value_of_answer($question_answer,$cqa_qid);
+		if(!empty($result)){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// Update custome question and answer
+	function update_customer_question_answer($user_id,$tse_arr){
+		$data 				= array('cqa_answer' => $tse_arr[1],'cqa_weightage' => $tse_arr[2]);
+		$condition    	 	= 'cqa_user_id = '.$user_id.' AND cqa_qid = '.$tse_arr[0];	
+		
+		$update_cqs    		= $this->model->update('customer_question_answer', $data, $condition);
+		if($update_cqs){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	// Insert custome question and answer
+	function insert_customer_question_answer($getData,$tse_arr,$brand_name){
+		$data 				= array(
+									'cqa_user_id' => $getData['user_id'],
+									'cqa_brand_customer_id' => $getData['brand_customer_id'],
+									'cqa_qid' => $tse_arr[0],	
+									'cqa_answer' => $tse_arr[1],
+									'cqa_brand_id' => $getData['customer_type'],
+									'cqa_brand_name' => $brand_name,
+									'cqa_user_phone' => $getData['user_phone'],
+									'cqa_weightage' => $tse_arr[2],
+									'cqa_created_date' => date('Y-m-d H:i:s'),
+									'cqa_updated_date' => date('Y-m-d H:i:s')	
+									);
+		//print_r($data); die;							
+		$arr_result  	 	= $this->model->insert('customer_question_answer', $data);
+		if($insert_cqs){
+			return true;
+		}else{
+			return false;
+		}	
+	}
+	
+	
+	function getQA($customer_type,$user_id){
+		switch($_GET['customer_type']){
+			case 1:
+			$brand	='livpure';
+			break;
+			case 2:
+			$brand	='zerob_consol1';
+			break;
+			case 3:
+			$brand	='livpure_tn_kl';
+			break;
+			case 4:
+			$brand	='bluestar_b2b';
+			break;
+			case 5:
+			$brand	='bluestar_b2c';
+			break;
+		}
+		
+		$result 	= $this->model->get_q_a($brand,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+		
+	
+	// function for getting existing_profile_status_of_customer
+	function get_existing_profile_status_of_customer($brand_name,$user_id){
+		$result 	= $this->model->get_existing_profile_status_of_customer($brand_name,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	// update profile type in brand
+	function updateProfileInBrand($table,$update_data,$brand_customer_id,$user_id){
+		//$condition		= "id = '".$user_id."' AND CUSTOMERID = '".$brand_customer_id."'";			   
+		$condition		= "id = '".$user_id."' ";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
+	}
+	
+	
+	function get_answered_qsn_without_current_qsn($user_id,$qid_string){
+		$result 	= $this->model->get_answered_qsn_without_current_qsn($user_id,$qid_string);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+
+	
+	function get_brand_details_of_customer($customer_type,$user_id){
+		$result 			= $this->model->get_brand_details_of_customer($customer_type,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// function for inserting data in profile history
+	function insert_profile_history($data){
+		$table 			= 'profile_history';
+		$arr_result   	= $this->model->insert($table, $data);
+		
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}	
+	
+	
+	
 	
 }
 ?>

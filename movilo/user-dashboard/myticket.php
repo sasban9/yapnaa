@@ -1,5 +1,6 @@
 <?php 
 session_start();
+if(isset($_SESSION['user_id'])){
 $user_details= unserialize(urldecode($_GET['vals']));
 foreach($user_details as $user){
 	
@@ -730,3 +731,4 @@ h6, .h6 {
      });
    </script>
 </html>
+<?php }?>

@@ -20,16 +20,14 @@ class model {
 		return $ret;
 	}
 	
-		/* To run custom data query*/
-	function data_query($sql)
-	{
-		//$sql		=	"SELECT * FROM `users_products` up, zerob_consol1 zc, users u WHERE `up_product_id` =1 AND u.user_id = 2";
-		//echo $sql;exit;
-		$qry	=	connection()->query($sql);	//print_r($qry);exit;
-		$ret=array();
-		while($row=mysqli_fetch_assoc($qry)){
-				$ret[]=$row;
-			}
+	/* To run custom data query*/
+	function data_query($sql){
+		
+		$qry	= connection()->query($sql);	//print_r($qry);exit;
+		$ret	= array();
+		while($row = mysqli_fetch_assoc($qry)){
+			$ret[]=$row;
+		}
 		//echo json_encode($ret);exit;
 		return $ret;
 	}
@@ -108,8 +106,7 @@ class model {
 	
 	
 	/* Update the data based on specified table name and columns */
-    function update($table,$set_array,$condition)
-	{
+    function update($table,$set_array,$condition){
 		
 		if (count($set_array) > 0) {
 			foreach($set_array as $key=>$value){
@@ -119,11 +116,8 @@ class model {
 			}
 		}
 		$set 		= implode(', ', $updates);
-		//$table		=	"` $table`";
-		$sql="UPDATE $table SET $set WHERE $condition"; 
-		//echo $sql;//exit;
-		//echo $sql;//exit ;
-		//unset($set);
+		$sql		= "UPDATE $table SET $set WHERE $condition"; 
+		 
 		$qry	=	connection()->query($sql);
 		return $qry;
 		
@@ -546,22 +540,17 @@ class model {
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		}
+		
 		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM zerob_consol1 zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc";
-		
-		
+				
 		if($filter == 7){
-			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
-			
 			$sql = "SELECT ".$columns." ,  user_phone FROM zerob_consol1 zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
-			
-			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}
 		
-		//echo 	$fromDate."==".$toDate."<br>"	 ;
 		//echo $sql;die;
 		$qry	=	connection()->query($sql);		
 		$ret=array();
-		//echo '<pre>';print_r(mysqli_fetch_assoc($qry));die;
+		
 		while($row=mysqli_fetch_assoc($qry)){
 			$user_phone=$row['PHONE1'];
 			  $qry1	=	connection()->query("SELECT distinct yq.questions,um.qst_id,um.answer FROM user_question_aws_mapping um left join yapnaa_questions yq on um.qst_id=yq.id  where um.user_phone=$user_phone "); 
@@ -575,12 +564,7 @@ class model {
 		return $ret;
 	}
 	// Get brand Customer List
-	function get_brand_cust_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
-	{	
-	//echo $action_taken_by;die;
-	//echo $amc_fromDate;
-	
-			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
+	function get_brand_cust_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto){	
 		
 		$columns = "id,last_service_date,next_service_date,CUSTOMERID,CUSTOMER_NAME,CUSTOMER_ADDRESS1,CUSTOMER_ADDRESS2,CUSTOMER_ADDRESS3,CUSTOMER_AREA,CUSTOMER_PINCODE,PHONE1,PHONE2,CUSTOMER_CONTACT_NOS1,CUSTOMER_CONTACT_NOS2,email,PRODUCT,PRODUCT_SLNO,INSTALLATION_DATE,IW,IC,CONTRACT_FROM,CONTRACT_TO,CONTRACT_TYPE,CONTRACT_BY,tag,amc_updated_by,last_called,last_call_comment,last_sms_sent,status";
 		
@@ -593,51 +577,24 @@ class model {
 			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
 		}
 		if($fromDate != null){
-		/* 	if($filterByBrand==0)
-			{
-			$condition = " and last_called >= '$fromDate'";
-			}
-			else{ */
-              $condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date>='$fromDate')";
-			//}
+             $condition = " and last_called >= '$fromDate'";
 		}
 		if($toDate != null){
-			
-		/* 	if($filterByBrand==0)
-			{
-			$condition = " and last_called <= '$toDate'";
-			}
-			else{ */
-	          $condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date<='$toDate')"; 
-			 // }
+	         $condition = " and last_called <= '$toDate'";
 		}
 		if($fromDate != null && $toDate != null){
-			/* if($filterByBrand==0)
-			{
-			$condition = " and (last_called between '$fromDate' and '$toDate')";
-			}
-			else{ */
-			
-			$condition = "and zc.phone1 in (select user_phone from user_question_aws_mapping where date between '$fromDate' and '$toDate')";
-			//}
+			$condition = " and (last_called between '$fromDate' and '$toDate')"; 
 		}
 		if($yapnaaIdfm != null){
-			
 			$condition = " and zc.id >= '$yapnaaIdfm'";
-			
 		}
 		if($yapnaaIdto != null){
-			
-			
 			$condition = " and zc.id <= '$yapnaaIdto'";
-			
 		}
 		if($yapnaaIdfm != null && $yapnaaIdto != null){
-			
 			$condition = " and (zc.id between '$yapnaaIdfm' and '$yapnaaIdto')";
-			
 		}
-		 if($amc_fromDate != null){
+		if($amc_fromDate != null){
 			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
 		}
 		if($amc_toDate != null){
@@ -646,15 +603,11 @@ class model {
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		} 
+		
 		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc"; 
 		
-		
 		if($filter == 7){
-			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
-			
 			$sql = "SELECT ".$columns." ,  user_phone FROM $table zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
-			
-			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}
 		
 		switch($filterByBrand){
@@ -663,19 +616,15 @@ class model {
 			AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." ";
 			break;
 			case 1:
-			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes') ";
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and zc.customet_type=1 ";
 			break;
 			case 2:
 			$sql = "SELECT *,
 			(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
 			GROUP by zc.CUSTOMERID) AS users FROM $table zc where 
 			tag like '%$param%' ".$condition." ".$action_taken_by." 
-			and (zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') 
-			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes')
-			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes') 
-			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
-			and  answer='No')			
-			 )"; 
+			and zc.customet_type=2			
+			 "; 
 			 
 			break;
 			case 3:
@@ -683,77 +632,30 @@ class model {
 			(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
 			GROUP by zc.CUSTOMERID) AS users FROM $table zc 
 			where tag like '%$param%' ".$condition." ".$action_taken_by." 
-			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
-			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes') 
-			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
-			and answer in('Yes'))
-            and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')";
+			and zc.customet_type=3";
 			break;
 			 
 			case 4:
-			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
-			FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." 
-and 
-(
-(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')
-) 
-or  
-(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')
-) 
-or
-(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and 
-zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
-)
-)
-"; 
-			
-			
-			
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and zc.customet_type=4 ";
 			break;
 		} 
-        	
-		//echo 	$fromDate."==".$toDate."<br>"	 ;
-		//echo $sql;die;  
+		
 		$qry	=	connection()->query($sql);
 		if($filterByAttempt==1){
-			//echo "here";
-		 $sql = "SELECT *, 
-		(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
-		GROUP by zc.CUSTOMERID) AS users FROM $table zc where 
-		 zc.phone1 not in (select user_phone from user_question_aws_mapping where user_phone=zc.phone1) limit 100";
-		$qry	=	connection()->query($sql);
+			$sql = "SELECT *, 
+			(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
+			GROUP by zc.CUSTOMERID) AS users FROM $table zc where 
+			zc.customet_type=0 limit 0,100";
+			
+			$qry	=	connection()->query($sql);
 				
 		}	
-		$ret=array();
-		//print_r(mysqli_fetch_assoc($qry));die;
-		while($row=mysqli_fetch_assoc($qry)){
-			   
-			  $user_phone=$row['PHONE1']; 
-			  $qry1	=	connection()->query("SELECT distinct yq.questions,um.qst_id,um.answer,um.user_phone FROM user_question_aws_mapping um left join yapnaa_questions yq on um.qst_id=yq.id  where um.user_phone=$user_phone "); 
-			  while($row1=mysqli_fetch_assoc($qry1)){
-			  $ret1[]=$row1;
-			  }
-			  if($ret1 !=NULL){
-			   $row['qust_map']=$ret1;
-			  }else{
-				  $row['qust_map']=array();
-			  }
-				$ret[]=$row;
-			}//exit;
-			//echo '<pre>';print_r($ret);exit;
-		return $ret;
+		//echo $sql;die;
+		$ret		= array();
+		$row		= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		return $row; 
 	}
+	
 	function download_zerob_list($action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate )
 	{	
 	//echo $amc_fromDate;
@@ -809,15 +711,12 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 			
 		return $ret;
 	}
-	function download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table )
+	function download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
 	{	
-	//echo $amc_fromDate;
-	
-			// $sql = "SELECT *  FROM $table  as   amc  join brand_products as bp on amc.amc_req_product_id	=	bp.product_id join brands as b on b.brand_id  = bp.product_brand_id join  product_category_list as pcl on pcl.p_category_id = bp.product_name join users as us on amc.amc_req_user_id	=	us.user_id";
+	    $columns = "id,last_service_date,next_service_date,CUSTOMERID,CUSTOMER_NAME,CUSTOMER_ADDRESS1,CUSTOMER_ADDRESS2,CUSTOMER_ADDRESS3,CUSTOMER_AREA,CUSTOMER_PINCODE,PHONE1,PHONE2,CUSTOMER_CONTACT_NOS1,CUSTOMER_CONTACT_NOS2,email,PRODUCT,PRODUCT_SLNO,INSTALLATION_DATE,IW,IC,CONTRACT_FROM,CONTRACT_TO,CONTRACT_TYPE,CONTRACT_BY,tag,amc_updated_by,last_called,last_call_comment,last_sms_sent,status";
 		
-		$columns = "id ,CUSTOMERID,CUSTOMER_NAME,CUSTOMER_ADDRESS1,CUSTOMER_ADDRESS2,CUSTOMER_ADDRESS3,CUSTOMER_AREA,CUSTOMER_PINCODE,PHONE1,PHONE2,CUSTOMER_CONTACT_NOS1,CUSTOMER_CONTACT_NOS2,email,PRODUCT,PRODUCT_SLNO,INSTALLATION_DATE,IW,IC,CONTRACT_FROM,CONTRACT_TO,CONTRACT_TYPE,CONTRACT_BY,tag,amc_updated_by,last_called,last_call_comment,last_sms_sent,status";
+		$condition = ""; 
 		
-		$condition = "";
 		if($filter>0){
 			$condition = " and status = $filter";
 		}
@@ -825,15 +724,39 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 			$action_taken_by="and action_taken_by like '%$action_taken_by%'";
 		}
 		if($fromDate != null){
-			$condition = " and last_called >= '$fromDate'";
+		
+             $condition = " and last_called >= '$fromDate'";
+			
 		}
 		if($toDate != null){
-			$condition = " and last_called <= '$toDate'";
+			
+		
+	         $condition = " and last_called <= '$toDate'";
+			
 		}
 		if($fromDate != null && $toDate != null){
-			$condition = " and (last_called between '$fromDate' and '$toDate')";
+			
+			
+			$condition = " and (last_called between '$fromDate' and '$toDate')"; 
+			
 		}
-		if($amc_fromDate != null){
+		if($yapnaaIdfm != null){
+			
+			$condition = " and zc.id >= '$yapnaaIdfm'";
+			
+		}
+		if($yapnaaIdto != null){
+			
+			
+			$condition = " and zc.id <= '$yapnaaIdto'";
+			
+		}
+		if($yapnaaIdfm != null && $yapnaaIdto != null){
+			
+			$condition = " and (zc.id between '$yapnaaIdfm' and '$yapnaaIdto')";
+			
+		}
+		 if($amc_fromDate != null){
 			$condition = " and STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' ";
 		}
 		if($amc_toDate != null){
@@ -841,28 +764,67 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 		}
 		if($amc_fromDate != null && $amc_toDate != null){
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
-		}
-		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 ) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by."order by last_called desc";
+		} 
+		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc"; 
 		
 		
 		if($filter == 7){
-			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc,users u where tag like '%$param%' and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
 			$sql = "SELECT ".$columns." ,  user_phone FROM $table zc,users u where tag like '%$param%' ".$action_taken_by." and (u.user_phone = zc.PHONE1 OR u.user_phone = zc.PHONE2) ";
 			
-			//$sql = "SELECT ".$columns.", (SELECT user_phone FROM users WHERE user_phone = zc.phone1  or user_phone = zc.phone2) AS users FROM zerob_consol1 zc where tag like '%$param%'  order by last_called asc";
 		}
 		
-		//echo 	$fromDate."==".$toDate."<br>"	 ;
-		//echo $sql;die;
-		$qry	=	connection()->query($sql);
-		$ret=array();
-		//print_r(mysqli_fetch_assoc($qry));die;
-		while($row=mysqli_fetch_assoc($qry)){
-				$ret[]=$row;
-			}
+		switch($filterByBrand){
+			case 0:
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID)
+			AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." ";
+			break;
+			case 1:
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." and zc.customet_type=1 ";
+			break;
+			case 2:
+			$sql = "SELECT *,
+			(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
+			GROUP by zc.CUSTOMERID) AS users FROM $table zc where 
+			tag like '%$param%' ".$condition." ".$action_taken_by." 
+			and zc.customet_type=2			
+			 "; 
+			 
+			break;
+			case 3:
+			$sql = "SELECT *, 
+			(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
+			GROUP by zc.CUSTOMERID) AS users FROM $table zc 
+			where tag like '%$param%' ".$condition." ".$action_taken_by." 
+			and zc.customet_type=3";
+			break;
+			 
+			case 4:
+			$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
+								FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." 
+					and zc.customet_type=4
+                  "; 
+			 
 			
-		return $ret;
+			
+			break;
+		} 
+       //echo $sql;exit;
+		$qry	=	connection()->query($sql);
+		if($filterByAttempt==1){
+			
+		 $sql = "SELECT *, 
+		(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
+		GROUP by zc.CUSTOMERID) AS users FROM $table zc where 
+		 zc.customet_type=0 limit 0,100";
+		
+		$qry	=	connection()->query($sql);
+				
+		}	
+		$ret=array();
+		$row=mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
+		return $row; 
 	}
 	
 	
@@ -880,6 +842,367 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 			//print_r($ret);exit;
 		return $ret;
 	}
+	
+	/* By Suman */
+	
+	// Get Data from brand table for call-agencies
+	function getDataFromMasterTableByCondition($brandname,$total){
+		$current_date = date('Y-m-d');
+		$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status IN (0,1,13,14) ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
+		//echo $sql; die;
+		$qry		= connection()->query($sql);
+		$ret		= array();
+		
+		$row		= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		$ret 		= array();
+		$ret1 		= array();
+		foreach($row as $key => $value){
+			$ret['id']  = $value['id'];
+			$ret['tag'] = $value['tag'];
+			$ret['PHONE1'] = $value['PHONE1'];
+			$ret1[]		= $ret;
+		}
+		//echo "<br><pre>"; print_r($ret1); die;
+		return $ret1; 
+	}
+	
+	function get_brand_name($admin_id){
+		$sql 		= "SELECT ca.brandname FROM daily_call_schedule_2 ca WHERE ca.admin_id = ".$admin_id." GROUP BY ca.brandname ";
+		$qry		= connection()->query($sql);
+		$row		= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
+		$ret 		= array();
+		foreach($row as $key => $value){
+			$ret[]  = $value['brandname'];
+		}
+		return $ret;
+	}
+	
+	function get_amc_list_from_brand_and_call($search,$fromDate,$toDate,$admin_id,$join_table_name){
+		$condition 			= "";
+		
+		if($search != null){
+			$condition 		.= " and bn.tag like '%$search%' "; 
+		}
+		if($fromDate != null && $toDate != null){
+			$condition 		.= " and DATE(ca.created_date) BETWEEN '$fromDate' AND '$todate' ";
+		}
+		
+		$sql 				= "SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name."' ".$condition." ";
+		//echo $sql;
+		$qry				= connection()->query($sql);
+		$ret 				= array();
+		while($row=mysqli_fetch_assoc($qry)){
+			$ret[]=$row;
+		}
+		//echo '<br><pre>'.print_r($ret);die;
+		return $ret;
+	}
+	
+	function get_filtered_amc_list_from_brand_and_call($search,$fromDate,$toDate,$admin_id,$join_table_name){
+		$condition 			= "";
+		//print_r($join_table_name); die;
+		if($search != null){
+			$condition 		.= " and bn.tag like '%$search%' "; 
+			//$sql 			= "SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name."' ".$condition." ";
+			
+			/* $sql			 =	"SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name[0]." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name[0]."' ".$condition."  
+				UNION ALL
+			SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name[1]." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name[1]."' ".$condition."  
+				UNION ALL
+			SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name[2]." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name[2]."' ".$condition."
+				UNION ALL
+			SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name[3]." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name[3]."' ".$condition."
+			"; */
+			
+		}
+		
+		if($fromDate != null && $toDate != null){
+			$condition 		.= " and DATE(ca.created_date) BETWEEN '$fromDate' AND '$todate' ";
+			$sql 			= "SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name."' ".$condition." ";
+		}
+		
+		$qry				= connection()->query($sql);
+		$ret 				= array();
+		while($row=mysqli_fetch_assoc($qry)){
+			$ret[]=$row;
+		}
+		//echo '<br><pre>'.print_r($ret);die;
+		return $ret;
+	}
+	
+	function get_q_a($brand,$user_id){
+		//$sql 				= "SELECT qa.* FROM question_and_answer qa WHERE qa.brand = '".$brand."' ";echo $sql;
+		
+		$sql 				= "SELECT qa.*,(SELECT cqa.cqa_answer  FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS answer_given,(SELECT CONCAT_WS('_', 'qa', cqa.cqa_answer) FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS answer_weightage,
+		(SELECT cqa.cqa_weightage FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS weightage FROM question_and_answer qa WHERE qa.qa_brand = '".$brand."' ";
+		
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
+		return $row;
+	}
+	
+	function insert_data_query($data1,$insert_data,$sql,$user_phone){
+		if(empty($insert_data)){
+			$insert_data	= 'insert into customer_question_answer(cqa_user_id,cqa_brand_customer_id,cqa_qid,cqa_answer,cqa_brand_id,cqa_brand_name,cqa_user_phone,cqa_weightage,cqa_created_date) values("'.$data1['user_id'].'","'.$data1['brand_customer_id'].'","'.$data1['qid'].'","'.$data1['answer'].'","'.$data1['brand_id'].'","'.$data1['brand_name'].'","'.$data1['user_phone'].'","'.$data1['weightage'].'","'.$data1['created_date'].'")';
+		}
+		else{
+			$insert_data	.=	",('".$data1['user_id']."','".$data1['brand_customer_id']."','".$data1['qid']."','".$data1['answer']."','".$data1['brand_id']."','".$data1['brand_name']."','".$data1['user_phone']."','".$data1['weightage']."','".$data1['created_date']."')";
+		}
+		//echo $insert_data;die;
+		$qry				= connection()->query($insert_data);
+		return $qry;
+	}
+	
+	function update_data_query($data1,$insert_data,$user_id){
+		if(empty($insert_data)){
+			$update_qry 	= "UPDATE customer_question_answer SET cqa_user_id = '".$data1['user_id']."' , cqa_brand_customer_id = '".$data1['brand_customer_id']."' , cqa_qid = '".$data1['qid']."' , cqa_answer = '".$data1['answer']."' , cqa_brand_id = '".$data1['brand_id']."' , cqa_brand_name = '".$data1['brand_name']."' , cqa_user_phone = '".$data1['user_phone']."' , cqa_weightage = '".$data1['weightage']."' , cqa_updated_date = '".$data1['updated_date']."' WHERE cqa_qid = ".$data1['qid']." AND cqa_user_id = ".$user_id." ";
+			
+		}
+		$qry				= connection()->query($update_qry);
+		return $qry;
+	}
+	
+	function check_duplicate_data_for_QA($value3,$user_phone){
+		$table				= 'customer_question_answer';
+		$sql				= "SELECT * FROM ".$table." y where y.user_phone = ".$user_phone." and y.qst_id=".$value3['qid']." ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		return $row;
+	}
+	
+	function get_qa_ids_of_customer($customer_type,$user_id){
+		$sql 				= "SELECT CONCAT_WS('_', 'qid', cqa.cqa_qid) AS qid FROM customer_question_answer cqa WHERE cqa.cqa_user_id = ".$user_id." AND cqa.cqa_brand_id = ".$customer_type." ";
+
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			$qidArr			= array();
+			foreach($row as $key => $value){
+				$qidArr[]	= $value['qid'];		 
+			}
+			//print_r($qidArr); die;
+			return $qidArr;
+		}
+		else{
+			return array();
+		}
+		
+	}
+	
+	function get_brand_details_of_customer($customer_type,$user_id){
+		switch($customer_type) {
+			case 1:
+			$brand_name	= 'livpure';
+			break;
+			case 2:
+			$brand_name	= 'zerob_consol1';
+			break;
+			case 3:
+			$brand_name	= 'livpure_tn_kl';
+			break;
+			case 4:
+			$brand_name	= 'bluestar_b2b';
+			break;
+			case 5:
+			$brand_name	= 'bluestar_b2c';
+			break;
+		}
+		
+		//$sql 				= "SELECT b.CUSTOMERID,b.CUSTOMER_NAME,b.CUSTOMER_AREA,b.PHONE1,b.PRODUCT,b.PRODUCT_SLNO,b.email,b.status FROM ".$brand_name." b WHERE b.id = ".$user_id." ";
+		
+		$sql 				= "SELECT b.* FROM ".$brand_name." b WHERE b.id = ".$user_id." ";
+		
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		return $row;
+	}
+	
+	
+	function delete_QA_data_by_userid($customer_type,$user_id){
+		$sql 				= "DELETE FROM customer_question_answer WHERE cqa_user_id = ".$user_id." AND cqa_brand_id = ".$customer_type." ";
+		
+		$qry				= connection()->query($sql);		
+		return $qry;
+	}
+	
+
+	
+	/* LIFE CYCLE PROCESS STARTS HERE */
+	
+	function transaction_lifecycle($table){
+		//$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1 FROM ".$table." br WHERE br.status = 7 AND br.CONTRACT_BY = 'Yapnaa' AND CURDATE() = DATE( DATE_ADD(updated_on, INTERVAL 2 DAY )) ";
+		
+		$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1,profile_type FROM ".$table." br WHERE br.status = 7 AND br.CONTRACT_BY = 'Yapnaa' AND CURDATE() = DATE( DATE_ADD(updated_on, INTERVAL 0 DAY )) ";
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+	}
+	
+	
+	function promotional_message(){
+		//$sql 				= "SELECT tm_id,tm_brand_user_phone FROM timeline tm WHERE tm.tm_lifecycle_experience > 5 AND CURDATE() = DATE( DATE_ADD(tm_created_date, INTERVAL 30 DAY ))";
+		$sql 				= "SELECT tm_id,tm_brand_user_phone FROM timeline tm WHERE tm.tm_lifecycle_experience > 5 AND CURDATE() = DATE( DATE_ADD(tm_created_date, INTERVAL 0 DAY ))";
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+		
+	}
+	
+	
+	function productchange_lifecycle($table){
+		//$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1 FROM ".$table." br WHERE br.status = 10 AND CURDATE() = DATE( DATE_ADD(updated_on, INTERVAL 7 DAY )) ";
+		$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1,profile_type FROM ".$table." br WHERE br.status = 10 AND CURDATE() = DATE( DATE_ADD(updated_on, INTERVAL 0 DAY )) ";
+		
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+	}
+	
+	
+	function escalation_lifecycle($table){
+		//$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1 FROM ".$table." br WHERE br.status IN (16,17,18) AND CURDATE() = DATE( DATE_ADD(updated_on, INTERVAL 3 DAY )) ";
+		$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1,profile_type FROM ".$table." br WHERE br.status IN (16,17,18) AND CURDATE() = DATE( DATE_ADD(updated_on, INTERVAL 0 DAY )) ";
+		
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+	}
+	
+	
+	function amc_message($table){
+		//$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1 FROM ".$table." br WHERE br.status = 7 AND br.CONTRACT_FROM != '' AND CURDATE() = DATE( DATE_ADD(CONTRACT_FROM, INTERVAL 120 DAY )) ";
+		$sql 				= "SELECT id,CUSTOMERID,CUSTOMER_NAME,PHONE1,profile_type FROM ".$table." br WHERE br.status = 7 AND br.CONTRACT_FROM != '' AND CURDATE() = DATE( DATE_ADD(CONTRACT_FROM, INTERVAL 0 DAY )) ";
+		
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+	}
+	
+	function get_timeline_detail_of_customer($customer_type,$user_id){
+		$sql 				= "SELECT tl.* FROM timeline tl WHERE tl.tm_brand_user_id = ".$user_id." AND tl.tm_brand_id = ".$customer_type." ";
+		
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+		
+	}
+	
+	
+	function get_existing_profile_status_of_customer($brand,$user_id){
+		$sql 				= "SELECT br.profile_type FROM ".$brand." br WHERE br.id = ".$user_id."  ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		if(!empty($row['profile_type'])){
+			return $row;
+		}else{
+			return array('profile_type' => 'New');
+		}
+		
+	}
+	
+	
+	function get_profile_history_data($brand,$user_id,$tm_id){
+		$sql 				= "SELECT qa.*,(SELECT ph.ph_answer  FROM profile_history ph where ph.ph_qid=qa.qa_id AND ph.ph_user_id = ".$user_id."  AND ph.ph_timeline_id = ".$tm_id." ) AS answer_given,(SELECT CONCAT_WS('_', 'qa', ph.ph_answer) FROM profile_history ph where ph.ph_qid=qa.qa_id AND ph.ph_user_id = ".$user_id." AND ph.ph_timeline_id = ".$tm_id." ) AS answer_weightage,(SELECT ph.ph_weightage FROM profile_history ph where ph.ph_qid=qa.qa_id AND ph.ph_user_id = ".$user_id."  AND ph.ph_timeline_id = ".$tm_id." ) AS weightage,(SELECT ph.ph_customer_name FROM profile_history ph where ph.ph_qid=qa.qa_id AND ph.ph_user_id = ".$user_id."  AND ph.ph_timeline_id = ".$tm_id." ) AS ph_customer_name,(SELECT ph.ph_email FROM profile_history ph where ph.ph_qid=qa.qa_id AND ph.ph_user_id = ".$user_id."  AND ph.ph_timeline_id = ".$tm_id." ) AS ph_email,(SELECT ph.ph_customer_area FROM profile_history ph where ph.ph_qid=qa.qa_id AND ph.ph_user_id = ".$user_id."  AND ph.ph_timeline_id = ".$tm_id." ) AS ph_customer_area FROM question_and_answer qa WHERE qa.qa_brand = '".$brand."' ";
+		
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		return $row;
+	}
+	
+	
+	function promotional_welcome_sms($table){
+		if($table == 'livpure' || 'livpure_tn_kl'){
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND  CURDATE() = DATE( DATE_ADD(dc.updated_date, INTERVAL 0 DAY )) ";
+		}
+		if($table == 'bluestar_b2b' || 'bluestar_b2c'){
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND CURDATE() = DATE( DATE_ADD(dc.updated_date, INTERVAL 0 DAY )) ";
+		}
+		if($table == 'zerob_consol1'){
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND CURDATE() = DATE( DATE_ADD(dc.updated_date, INTERVAL 5 DAY )) ";
+		}
+		
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+	}
+		
+		
+	function amc_cron($table){
+		if($table == 'livpure' || 'livpure_tn_kl'){
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM ".$table." br WHERE br.status != 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 15 DAY )) ";
+		}
+		if($table == 'bluestar_b2b' || 'bluestar_b2c'){
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM ".$table." br WHERE br.status != 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 15 DAY )) ";
+		}
+		if($table == 'zerob_consol1'){
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM ".$table." br WHERE br.status != 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 15 DAY )) ";
+		}
+		
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}
+	}	
+	
+	
+	
+	/*function get_qa_data($brand_customer_id,$user_phone){
+		$sql 				= "SELECT cqa.id,cqa.user_id,cqa.brand_customer_id,cqa.answer,cqa.brand_id,cqa.brand_name,cqa.user_phone,cqa.weightage,
+		CONCAT_WS('_', 'qid', cqa.qid) AS qid, CONCAT_WS('_', cqa.answer, cqa.weightage) AS answer_weightage  FROM customer_question_answer cqa WHERE cqa.brand_customer_id = ".$brand_customer_id." AND cqa.user_phone = '".$user_phone."' ";
+		
+		$sql 				= "SELECT qa.id as qaid,cqa.id AS cqa_id,cqa.brand_customer_id,cqa.answer,cqa.brand_id,cqa.brand_name,cqa.user_phone,cqa.weightage,CONCAT_WS('_', 'qid', cqa.qid) AS qid, CONCAT_WS('_', cqa.answer, cqa.weightage) AS answer_weightage FROM question_and_answer qa INNER JOIN customer_question_answer cqa ON qa.id = cqa.qid WHERE cqa.brand_customer_id = '1341250' AND cqa.user_phone = '9844459216'";
+		
+		$qry				= connection()->query($sql);		
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		//print_r($row);die;
+		return $row;			
+	}*/
+	
+	
+	
+	
+	
 	
 	
 }
