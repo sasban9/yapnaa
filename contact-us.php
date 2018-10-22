@@ -6,6 +6,19 @@ require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
 	 $obj_search = new users;
 	if(isset($_POST['email']) || !empty($_POST['email'])){
 		//echo"here";
+		$_POST['message']="<table style='border: 1px solid black; border-collapse: collapse;'>
+<tr style='height:25px'>
+<th style='border: 1px solid black;width: 120px;'>Name</th>
+<th style='border: 1px solid black;width: 120px;'>Email</th>
+<th style='border: 1px solid black;width: 120px;'>Message</th>
+</tr>
+<tr style='height:25px'>
+<td style='border: 1px solid black;'>".$_POST['name']."</td>
+<td style='border: 1px solid black;'>".$_POST['email']."</td>
+<td style='border: 1px solid black;'>".$_POST['message']."</td>
+</tr>
+</table>";
+$_POST['subject']='Customer enquiry website';
 		 $obj_search->n_yapnaa_send_mail($_POST['name'],$_POST['email'],$_POST['subject'],$_POST['message']);
 	} 
 ?>

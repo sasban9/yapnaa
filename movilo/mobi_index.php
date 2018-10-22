@@ -1,5 +1,7 @@
 <?php
-
+$file = fopen("/var/www/html/Movtesting.txt","a");
+fwrite($file,"/r/n/r/n".json_encode($_REQUEST));
+fclose($file);
 	global $obj_search;
 	global $obj_common;
 	include('controller/user_controller.php');

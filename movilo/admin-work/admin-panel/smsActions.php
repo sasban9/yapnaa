@@ -8,7 +8,7 @@ if(isset($_SESSION['admin_email_id'])){
 	require_once('controller/admin_controller.php');
 	$control	=	new admin();
 	//echo "welcome";
-	if(isset($_REQUEST['appointmentDate'])){
+	if(isset($_REQUEST['appointmentDate'])){ 
 		$date = $_REQUEST['appointmentDate'];
 		$number = $_REQUEST['number'];
 		$id = $_REQUEST['id'];
@@ -97,7 +97,7 @@ if(isset($_SESSION['admin_email_id'])){
 		$custType = $_REQUEST['custType'];
 		$id = $_REQUEST['id'];
 		$comment = $_REQUEST['comment'];
-		$get_amc_list = $control->updateStatus($id,$comment,1,$custType);
+		$get_amc_list = $control->updateStatus($id,$comment,1,$custType); 
 		echo 1;
 		exit;
 	}
@@ -111,7 +111,77 @@ if(isset($_SESSION['admin_email_id'])){
 		echo 1;
 		exit;
 	}
-	//$get_amc_list = $control->get_zerob_list($search);
+	if(isset($_REQUEST['highlyengaged'])){
+		$custType = $_REQUEST['customer_type'];
+		$fromDate = $_REQUEST['fromDate'];
+		$toDate = $_REQUEST['toDate'];		
+		$get_result = $control->highlyengaged_customer($custType,$fromDate,$toDate);		
+		echo json_encode($get_result);
+		exit;
+	}
+	if(isset($_REQUEST['engaged'])){
+		$fromDate = $_REQUEST['fromDate'];
+		$toDate = $_REQUEST['toDate'];	
+		$custType = $_REQUEST['customer_type'];
+		$get_result = $control->engaged_customer($custType,$fromDate,$toDate);
+		echo json_encode($get_result);
+		exit;
+	}
+	if(isset($_REQUEST['partialyengaged'])){
+		$custType = $_REQUEST['customer_type'];
+		$fromDate = $_REQUEST['fromDate'];
+		$toDate = $_REQUEST['toDate'];	
+		$get_result = $control->partialy_engaged_customer($custType,$fromDate,$toDate);
+		echo json_encode($get_result);
+		exit;
+	}
+	if(isset($_REQUEST['disengaged'])){
+		$custType = $_REQUEST['customer_type'];
+		$fromDate = $_REQUEST['fromDate'];
+		$toDate = $_REQUEST['toDate'];	
+		$get_result = $control->disengaged_customer($custType,$fromDate,$toDate);
+		echo json_encode($get_result);
+		exit;
+	}
+	if(isset($_REQUEST['notattempted'])){
+		$custType = $_REQUEST['customer_type'];
+		$fromDate = $_REQUEST['fromDate'];
+		$toDate = $_REQUEST['toDate'];	
+		$get_result = $control->notattempted_customer($custType,$fromDate,$toDate);
+		echo json_encode($get_result);
+		exit;
+	}
+	if(isset($_REQUEST['question'])){
+		$custType = $_REQUEST['customer_type'];		
+		$question = $control->user_question_select();
+		echo json_encode($question);
+		exit;
+	}
+	if(isset($_REQUEST['answer'])){
+		$custType = $_REQUEST['customer_type'];			
+	    $answer = $control->user_answer_select();
+		echo json_encode($answer);
+		exit;
+	}
+	if(isset($_REQUEST['customerSavedResponce'])){
+		$custType = $_REQUEST['customer_type'];			
+		$phone_no = $_REQUEST['phone_no'];			
+	    $res = $control->user_responce_based_on_phone($custType,$phone_no);
+		echo json_encode($res);
+		exit;
+	}
+	if(isset($_REQUEST['sendSms'])){
+		$number = $_REQUEST['number'];			
+		$brandName = $_REQUEST['brandName'];			
+		$customername = $_REQUEST['customername'];			
+	    //send sms	
+		$text="Hello ".ucfirst($customername).",\nThank you for taking time to share your feedback on $brandName service.\nVisit https://www.yapnaa.com for any brand/product support.";	
+		$userphone=array($number);				
+		$control->send_bulk_sms($userphone,$text);
+		echo 1;
+		exit;
+	}
+	
 }
 else
 {

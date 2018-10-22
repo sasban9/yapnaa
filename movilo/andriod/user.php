@@ -105,7 +105,26 @@ if(!empty($_POST['login_submit'])){
 		print_r(json_encode($arr_success_msg));
 	}
 }
+// Agent Login
+if(!empty($_POST['admin_fcm_token'])){ 
+	$arr_user_login		= 	$obj_search->agent_login();
+	//print_r($arr_user_login);exit;
+	if($arr_user_login){ 
+		/*$data					=	array();
+		$data['user_details']	=	$arr_user_login;
+		$data['msg']			=	'success';*/
+		print_r(json_encode($arr_user_login));
+		
+		// $arr_user_login[0]['msg']	=	'success';
+		// print_r(json_encode($arr_user_login));
+	}else{
+		// $arr_success_msg['msg']  = 'Incorrect Username or Password.';
+		$arr_success_msg['msg']  = 'failure';
+		print_r(json_encode($arr_success_msg));
+	}
+}
 
+	
 
 
 
@@ -275,13 +294,24 @@ if(!empty($_POST['user_add_product'])){
 // User View Product List
 if(!empty($_POST['user_product_list_user_id'])){
 	$user_product_list				= 	$obj_search->user_product_list();
-	// print_r($user_product_list);exit;
+	//print_r($user_product_list);die;
 	if($user_product_list){
-		// $arr_success_msg['msg']  = 'success';
-		// print_r(json_encode($user_product_list));
+		foreach($user_product_list as $key => $value){
+			if($value['up_title'] == null){
+				$user_product_list[$key]['up_title'] = "";
+			}
+			if($value['up_warranty_end_date'] == null){
+				$user_product_list[$key]['up_warranty_end_date'] = "-";
+			}
+			if($value['up_guarantee_end_date'] == null){
+				$user_product_list[$key]['up_guarantee_end_date'] = "-";
+			}
+		}
+	
 		$arr_user_reg_info_msg['msg'] 			=	'Success';
 		$arr_user_reg_info_msg['myproductsD'] 	=	$user_product_list;
 		print_r(json_encode($arr_user_reg_info_msg));
+	
 	}else{
 		$arr_success_msg['msg']  = 'No records found';
 		print_r(json_encode($arr_success_msg));
@@ -319,7 +349,7 @@ if(!empty($_POST['digilocker_list'])){//print_r($_POST);die;
 // User Add Product
 if(!empty($_POST['user_particular_product_list_id'])){
 	$user_particular_product_list				= 	$obj_search->user_particular_product_list();
-	// print_r($user_product_list);exit;
+	//print_r($user_product_list);die;
 	if($user_particular_product_list){
 		// $arr_success_msg['msg']  = 'success';
 		$arr_user_reg_info_msg['msg'] 				=	'Success';
@@ -692,6 +722,20 @@ if(!empty($_POST['gcm_user_id'])){
 		$data['msg']			=	'success';
 		print_r(json_encode($data));
 	} 
+}
+
+/* BY Suman */	
+
+//API for Delete Digilocker-Id
+if(!empty($_POST['delete_digilocker_file'])){
+	$user_add_digilocker		= 	$obj_search->delete_digilocker_file();
+	if($user_add_digilocker==0){ 
+		$arr_success_msg['msg'] = 'Token key expire';
+		print_r(json_encode($arr_success_msg));
+	}else{
+		$arr_success_msg['msg'] = 'File Deleted successfully';
+		print_r(json_encode($arr_success_msg));
+	}
 }
 
 

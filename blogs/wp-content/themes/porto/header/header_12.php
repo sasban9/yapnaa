@@ -77,9 +77,14 @@ $search_size = $porto_settings['search-size'];
             <div class="header-left">
                 <?php
                 // show logo
-                $logo = porto_logo();
-                echo $logo;
+                //$logo = porto_logo();
+                //echo $logo;
                 ?>
+				
+				
+				<h1 class="logo logo-transition">    <a href="https://yapnaa.com" title="Yapnaa - Blogs" rel="home">
+                <img class="img-responsive standard-logo" src="//yapnaa.com/blogs/wp-content/uploads/2018/04/Yapnaa-logo-1.png" alt="Yapnaa"><img class="img-responsive retina-logo" src="//yapnaa.com/blogs/wp-content/uploads/2018/04/Yapnaa-logo-1.png" alt="Yapnaa" style="max-height:px;display:none;">            </a>
+    </h1>
             </div>
 
             <div class="header-right">

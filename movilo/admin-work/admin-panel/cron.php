@@ -43,4 +43,29 @@ if(isset($_REQUEST['followuptype'])){
 		$_list = $control->schedule_campaign4($schedulecampaign);		
 		 
 	}
+	if(isset($_REQUEST['cust_type1'])){
+	
+	$cust_type=$_REQUEST['cust_type1'];
+	 $control->update_customer_type1($cust_type);		
+		 
+	}
+	if(isset($_REQUEST['cust_type2'])){
+	
+	$cust_type=$_REQUEST['cust_type2'];
+	 $control->update_customer_type2($cust_type);		
+		 
+	}
+	if(isset($_REQUEST['cust_type3'])){
+	
+	$cust_type=$_REQUEST['cust_type3'];
+	 $control->update_customer_type3($cust_type);		
+		 
+	}
+	if(isset($_REQUEST['cust_type4'])){
+	
+	$cust_type=$_REQUEST['cust_type4'];
+	 $control->update_customer_type4($cust_type);	 	
+		 
+	}
 ?>
+ 

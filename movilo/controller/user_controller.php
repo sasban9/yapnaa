@@ -46,7 +46,8 @@ class users
 	   $email=$_POST['email'];
 	   $subject1=$_POST['subject'];
 	   $message1=$_POST['message'];
-	  $to = "info@yapnaa.com";
+	   //$to = "harshal.jjbytes@gmail.com,sriramm@moviloglobal.com ";
+	   $to = "info@yapnaa.com"; 
 $subject = "$subject1";
 
 $message = "
@@ -69,9 +70,9 @@ $message = "
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-// More headers
-$headers .= 'From: '.$email."\r\n";
 
+// More headers
+$headers .= "From: info@yapnaa.com";   
 	   if(mail($to, $subject, $message,$headers)){
 		   echo '<script>alert("Message sent successfully !")</script>';	
 		    echo '<script>window.location.assign("contact-us.php")</script>';
@@ -1111,54 +1112,48 @@ function checkout_user_login(){
 			
 			//echo $condition_log_in;die;
 			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-			
 			//print_r($arr_log_in);die;
-		
-		
-				date_default_timezone_set('Asia/Kolkata');
-				$user_address 				= 	$_POST['user_address'];
-				$user_phone 				= 	isset($_POST['user_phone'])?$_POST['user_phone']:"";
-				
-				$user_name           		= 	isset($_POST['user_name'])?$_POST['user_name']:"";
-				$user_social_id           	= 	isset($_POST['user_social_id'])?$_POST['user_social_id']:"";
-				$user_profile_pic           = 	isset($_POST['user_profile_pic'])?$_POST['user_profile_pic']:"";
-				$user_gender          		 = 	isset($_POST['user_gender'])?$_POST['user_gender']:"";
-				$user_email_id          		 = 	isset($_POST['user_email_id'])?$_POST['user_email_id']:"";
-				$user_city           		= 	$_POST['user_city'];
-				// $user_pin		    		= 	($_POST["user_pin"]);
-				//$user_pin		    		= 	md5($_POST["user_pin"]);
-				$user_area_pincode			= 	$_POST["user_area_pincode"];
-				$user_gcm_id      			= 	$_POST['user_gcm_id'];
-				$user_login_device		= 	$_POST['user_login_device_type'];
-				$app_key	      			= 	$_POST['app_key'];
-				$app_secret      			= 	$_POST['app_secret'];
-				$user_created_date 			= 	date('Y-m-d h:i:s');
-				$user_last_login 			= 	date('Y-m-d h:i:s');
-				$user_reg_verification_otp	= rand(1000,9999);
-				$user_token					= rand(1000,9999999);
-				
-				
-				
-				
-				$fields_reg	=	array(
-									"user_login_device"	=>		$user_login_device,	
-									"user_name"					=>		$user_name,	
-									"user_address"				=>		$user_address,	
-									"user_phone"				=>		$user_phone,	
-									"user_email_id"				=>		$user_email_id,	
-									"user_social_id"			=>		$user_social_id,	
-									"user_profile_pic"			=>		$user_profile_pic,	
-									"user_gender"				=>		$user_gender,	
-									"user_city"					=>		$user_city,	
-									"user_area_pincode"			=>		$user_area_pincode,	
-									"user_gcm_id"				=>		$user_gcm_id,		
-									"user_created_date"			=>		$user_created_date,	
-									"user_last_login"			=>		$user_last_login,	
-									"user_login_type"			=>		$user_login_type,	
-									"user_status"				=>		1,	
-									"user_token"				=>		$user_token	
-				
-								);
+			date_default_timezone_set('Asia/Kolkata');
+			$user_address 				= 	$_POST['user_address'];
+			$user_phone 				= 	isset($_POST['user_phone'])?$_POST['user_phone']:"";
+			
+			$user_name           		= 	isset($_POST['user_name'])?$_POST['user_name']:"";
+			$user_social_id           	= 	isset($_POST['user_social_id'])?$_POST['user_social_id']:"";
+			$user_profile_pic           = 	isset($_POST['user_profile_pic'])?$_POST['user_profile_pic']:"";
+			$user_gender          		 = 	isset($_POST['user_gender'])?$_POST['user_gender']:"";
+			$user_email_id          		 = 	isset($_POST['user_email_id'])?$_POST['user_email_id']:"";
+			$user_city           		= 	$_POST['user_city'];
+			// $user_pin		    		= 	($_POST["user_pin"]);
+			//$user_pin		    		= 	md5($_POST["user_pin"]);
+			$user_area_pincode			= 	$_POST["user_area_pincode"];
+			$user_gcm_id      			= 	$_POST['user_gcm_id'];
+			$user_login_device		= 	$_POST['user_login_device_type'];
+			$app_key	      			= 	$_POST['app_key'];
+			$app_secret      			= 	$_POST['app_secret'];
+			$user_created_date 			= 	date('Y-m-d h:i:s');
+			$user_last_login 			= 	date('Y-m-d h:i:s');
+			$user_reg_verification_otp	= rand(1000,9999);
+			$user_token					= rand(1000,9999999);
+			
+			$fields_reg	=	array(
+								"user_login_device"	=>		$user_login_device,	
+								"user_name"					=>		$user_name,	
+								"user_address"				=>		$user_address,	
+								"user_phone"				=>		$user_phone,	
+								"user_email_id"				=>		$user_email_id,	
+								"user_social_id"			=>		$user_social_id,	
+								"user_profile_pic"			=>		$user_profile_pic,	
+								"user_gender"				=>		$user_gender,	
+								"user_city"					=>		$user_city,	
+								"user_area_pincode"			=>		$user_area_pincode,	
+								"user_gcm_id"				=>		$user_gcm_id,		
+								"user_created_date"			=>		$user_created_date,	
+								"user_last_login"			=>		$user_last_login,	
+								"user_login_type"			=>		$user_login_type,	
+								"user_status"				=>		1,	
+								"user_token"				=>		$user_token	
+			
+							);
 								
 			if(empty($arr_log_in )){
 				
@@ -1271,7 +1266,64 @@ function checkout_user_login(){
 	
 	
 /*-----------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------*/
 
+	// Agent Login
+	function agent_login()
+    {
+		$table           				 = 	table();
+		//$table 					= table();
+		$table_log_in    				 = 	'admin_login';
+		$fields_log_in   				 = 	'*';
+		
+		
+			
+
+		$user_password			       	 = 	md5($_POST['admin_password']);
+		$user_gcm			        	 =  $_POST['admin_fcm_token'];
+		$user_email			        	 =  $_POST['admin_email_id'];
+		
+			
+		$condition_log_in				 = 	"admin_email_id = '".$user_email."'";
+			
+		$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		//echo "<pre>";print_r($arr_log_in);die;	
+		if(empty($arr_log_in)){
+			$arr =  array("status"=>"error","message"=>"Admin does not exists!");
+			return $arr;
+		}
+			
+			$condition_log_in				 = 	'admin_password    = ' . '"'. $user_password . '"' . ' and admin_email_id = ' . '"'. $user_email . '"';
+			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			
+			if($arr_log_in){
+				date_default_timezone_set('Asia/Kolkata');
+				$user_last_login 			= 	date('Y-m-d h:i:s');
+				$user_token					=   rand(1000,9999999);
+				
+				$set_array     = array(
+					'admin_fcm_id' 				=> $user_gcm,
+					'admin_last_login' 			=> $user_last_login
+				);
+				$condition     					=	'admin_email_id = ' . "'" . $user_email . "'";
+				$arr_log_in1   					 = 	$this->model->update($table_log_in, $set_array, $condition);
+				$fields_log_in   				 = 	'*';
+				$condition_log_in				 = 	'admin_password    = ' . "'" . $user_password . "'" . ' and admin_email_id = ' . "'" . $user_email . "'" ;
+				$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+				//print_r($arr_log_in);exit;
+				$arr =  array('user_details'=>$arr_log_in,'message'=>'Login success','status'=>'success');
+				return $arr;
+			}
+			else{
+				return $arr =  array("status"=>"error","message"=>"Password is incorrect!");
+			}
+		
+        
+		
+    }
+	
+	
+/*-----------------------------------------------------------------------------------------------------------------------*/
 
 
 
@@ -1973,71 +2025,61 @@ function checkout_user_login(){
         $condition_log_in				 =  "user_token    =$add_product_user_token_key and user_id= $add_product_user_id";
         $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
 		
-		
 		$device_type				     =	$arr_log_in[0]['user_login_device']; 
-		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
-		
+		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 	
+
+		if(empty($_POST['add_product_product_id'])){
+			$add_product_product_id  	 = 0;
+		}	
 		
 		if($arr_log_in){
+			$fields_reg = array(
+							'up_user_id' 						=> $add_product_user_id,
+							'up_product_id'						=> $add_product_product_id,
+							'up_dealer_name'					=> $add_product_user_dealer_name,
+							'up_serial_no' 						=> $add_product_user_serial_no,
+							'up_created_date' 					=> date('Y-m-d h:i:s'),
+							'up_serial_no_image'				=> $add_icon
+						);
+							
+			$table_log_in = $table['tb4'];
+			$arr_result1   = $this->model->insert($table_log_in, $fields_reg);
+			$_POST['user_product_id'] = $arr_result1;
 			
-			
-					 $fields_reg = array(
-									'up_user_id' 						=> $add_product_user_id,
-									'up_product_id'						=> $add_product_product_id,
-									'up_dealer_name'					=> $add_product_user_dealer_name,
-									'up_serial_no' 						=> $add_product_user_serial_no,
-									'up_created_date' 					=> date('Y-m-d h:i:s'),
-									'up_serial_no_image'				=> $add_icon
-								);
-								
-				$table_log_in = $table['tb4'];
-				$arr_result1   = $this->model->insert($table_log_in, $fields_reg);
-				$_POST['user_product_id'] = $arr_result1;
-				
-				//print_r($arr_result1);die;
-				if($arr_result1){
-					if( $add_product_installation=='Yes'){
-						$srm_c_date 					 = 	date('Y-m-d H:i:s');
-						$fields_reg = array(
-								'srm_user_id' 				=> $add_product_user_id,  
-								'srm_product_id'			=> $add_product_product_id,
-								'srm_user_notes'			=> 'Requested for insatllaion',
-								'srm_c_date' 				=> $srm_c_date,
-								'srm_user_generated_date'	=> $srm_c_date,
-								'srm_installation'			=> $add_product_installation,
-								'srm_installation_date'		=> $add_product_instal_date,
-							); 
-							// print_r($fields_reg);exit;
-						$table_log_in = $table['tb8'];
-						$arr_result   = $this->model->insert($table_log_in, $fields_reg);
-						  
-						if($device_type=='Android'){    
-							$pushMessage['SRM_id']			 = 	$arr_result;
-							$pushMessage['message']			 = 	"Service request for insatllation";
-								if (isset($user_gcm_id) && isset($pushMessage)) {		
-								$gcmRegIds  = array($user_gcm_id); 
-								$message = array("msg" => $pushMessage);	
-								$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
-								// echo'<pre>';print_r($message); 
-								}
-							return $result;
-						}
-	 
-						
-						
-						if($device_type=='IOS'){ 
-							return $result;
-						}	
-						
-						
-						
-						
+			//print_r($arr_result1);die;
+			if($arr_result1){
+				if( $add_product_installation=='Yes'){
+					$srm_c_date 					 = 	date('Y-m-d H:i:s');
+					$fields_reg = array(
+							'srm_user_id' 				=> $add_product_user_id,  
+							'srm_product_id'			=> $add_product_product_id,
+							'srm_user_notes'			=> 'Requested for insatllaion',
+							'srm_c_date' 				=> $srm_c_date,
+							'srm_user_generated_date'	=> $srm_c_date,
+							'srm_installation'			=> $add_product_installation,
+							'srm_installation_date'		=> $add_product_instal_date,
+						); 
+						// print_r($fields_reg);exit;
+					$table_log_in = $table['tb8'];
+					$arr_result   = $this->model->insert($table_log_in, $fields_reg);
+					  
+					if($device_type=='Android'){    
+						$pushMessage['SRM_id']			 = 	$arr_result;
+						$pushMessage['message']			 = 	"Service request for insatllation";
+							if (isset($user_gcm_id) && isset($pushMessage)) {		
+							$gcmRegIds  = array($user_gcm_id); 
+							$message = array("msg" => $pushMessage);	
+							$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
+							// echo'<pre>';print_r($message); 
+							}
+						return $result;
 					}
+					if($device_type=='IOS'){ 
+						return $result;
+					}
+				}
 			}
-			
 			return $arr_result1=3;
-			
-			
 		}else{
 			return $arr_log_in=1;
 		}
@@ -2073,7 +2115,9 @@ function checkout_user_login(){
 		$device_type				     =	$arr_log_in[0]['user_login_device']; 
 		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
 		
-		
+		if(empty($dl_product_id)){
+			$dl_product_id 				 = 0;
+		}
 		
 		 //print_r($arr_log_in);exit;
 		if($arr_log_in){//print_r($arr_log_in);exit;
@@ -2089,7 +2133,7 @@ function checkout_user_login(){
 								'dl_updated_time'			=> $dl_updated_time
 							);
 			
-			// print_r($fields_reg);exit;
+			//print_r($fields_reg);exit;
             $table_log_in = "users_digilocker";
             $arr_result   = $this->model->insert($table_log_in, $fields_reg);
 			if($arr_result){
@@ -2249,7 +2293,7 @@ function checkout_user_login(){
         $fields_log_in   				 = 	'*';
         $condition_log_in				 = 	"user_token    =$user_product_list_token_key and user_id= $user_product_list_user_id";
         $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-		// print_r($arr_log_in );
+		//print_r($arr_log_in );die;
 		if($arr_log_in){
 			$table		    				 = 	$table['tb4'];
 			$fields							 =  '*';
@@ -2343,7 +2387,8 @@ function checkout_user_login(){
 			$fields							 =  '*';
 			$condition		 				 = 	'up_id    ='.$user_particular_product_list_id;
 			$arr_log_in       				 = 	$this->model->user_product_list($table, $fields, $condition);
-			// print_r($arr_log_in );
+			
+			//print_r($arr_log_in );die;
 			return $arr_log_in;
 		}else{
 			return $arr_log_in='';
@@ -3185,6 +3230,77 @@ function checkout_user_login(){
 		
 		
 /*----------------------------------------------------------------------------------------------------------------------*/		
+	
+	 
+
+
+// User AMC Request from landing page
+	function amc_landing_request($name,$phone_number,$email_id)
+    {
+		
+		 
+				 $fields_reg = array(  
+								'amc_user_name'					=> $name,
+								'amc_user_phone'				=> $phone_number,
+								'amc_user_emai_id' 				=> $email_id
+							);
+				
+			//print_r($fields_reg);exit;  
+            $table_log_in = "amc_request_sevice";
+            $arr_result   = $this->model->insert($table_log_in, $fields_reg); 
+			$subject1	=	"AMC Requested";		
+	
+		    $to                  = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com"; 
+		
+	  
+            $subject = "$subject1";
+
+$message = "
+<html>
+<head>
+<title>Yapnaa</title>
+</head>
+<body>
+
+<table style='border:1px solid'>
+<tr style='border:1px solid'>
+<td style='border:1px solid'>User Name</td><td style='border:1px solid'>$name</td>
+</tr>
+<tr style='border:1px solid'>
+<td style='border:1px solid'>Phone Number</td><td style='border:1px solid'>$phone_number</td>
+</tr style='border:1px solid'>
+<tr style='border:1px solid'>
+<td style='border:1px solid'>Email Id</td><td style='border:1px solid'>$email_id</td>
+</tr>
+</table>
+</body>
+</html>
+";
+
+// Always set content-type when sending HTML email
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+
+// More headers
+$headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";   
+	   if(mail($to, $subject, $message,$headers)){
+			echo "<script>alert('Request Submitted Successfully')</script>";
+			return $arr_result;
+		  
+         }
+		else{
+			echo "<script>alert('Error Something went wrong')</script>";
+			return true;
+		}
+	}
+	
+		
+		
+/*----------------------------------------------------------------------------------------------------------------------*/		
+	
+	
+	
 	
 	
 	
@@ -4054,6 +4170,122 @@ function checkout_user_login(){
 		// Mail it
 		mail($to, $subject, $message,$headers);
 	}
+	
+	
+	
+	/*  New Code Added By Suman */
+	
+	// Function  for deleting the file of digilocker
+	function deleteDigilocker($dl_id){
+		$condition			=	"dl_id='$dl_id'";
+		$response			=	$this->model->delete_row_data('users_digilocker',$condition);
+		return $response;
+	}
+	
+	// Delete digilocker file from API
+	function delete_digilocker_file(){
+		
+        $table           				 = 	table();
+		date_default_timezone_set('Asia/Kolkata');
+        $dl_user_token_key   	 		 = $_POST['dl_user_token_key'];
+        $dl_id   			 			 = $_POST['dl_id'];
+        $dl_user_id   			 		 = $_POST['dl_user_id'];
+        $dl_updated_time				 = date('Y-m-d h:i:s');
+      
+		$table_log_in    				 = $table['tb1'];
+        $fields_log_in   				 = '*';
+        $condition_log_in				 = "user_token    =$dl_user_token_key and user_id= $dl_user_id";
+        $arr_log_in      	 			 = $this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+		
+		//print_r($arr_log_in);die;
+		if($arr_log_in){
+			$device_type				 = $arr_log_in[0]['user_login_device']; 
+			$user_gcm_id				 = $arr_log_in[0]['user_gcm_id']; 
+			
+			$condition				 	 = "dl_id='$dl_id'";
+			$res						 = $this->model->delete_row_data('users_digilocker',$condition);
+			return $res;
+			
+		}else{
+			return $arr_log_in			 = 0;
+		}
+    }
+	
+	
+	// User AMC Request from landing page
+	function bluestar_lead_generation($postData){
+		//print_r($postData); 
+		$table_log_in 	= "bluestar_lead_generation";
+		$arr_result   	= $this->model->insert($table_log_in, $postData); 
+		$subject1		= "Bluestar Lead";		
+		
+		if($postData['bs_amc_user_status'] == 1){
+			$brand_status = 'Highly Satisfied';
+		}else if($postData['bs_amc_user_status'] == 2){
+			$brand_status = 'Satisfied';
+		}else if($postData['bs_amc_user_status'] == 3){
+			$brand_status = 'Neutral';
+		}else if($postData['bs_amc_user_status'] == 4){
+			$brand_status = 'Unsatisfied';
+		}else if($postData['bs_amc_user_status'] == 5){
+			$brand_status = 'Highly Unsatisfied';
+		}
+		
+		if($postData['bs_amc_set_appointment'] == 1){
+			$apptDate 			= $postData['bs_amc_set_appointment_date'];
+		}else{
+			$apptDate 			= NULL;
+		}
+
+		$to             = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com,vineet@moviloglobal.com"; 
+	
+		$subject 		= "$subject1";
+
+		$message 		= "
+								<html>
+									<head>
+										<title>Yapnaa</title>
+									</head>
+									
+									<body>
+										<table style='border:1px solid'>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Overall brand experience</td><td style='border:1px solid'>".$brand_status."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>User Name</td><td style='border:1px solid'>".$postData['bs_amc_user_name']."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Phone Number</td><td style='border:1px solid'>".$postData['bs_amc_user_phone']."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Comment</td><td style='border:1px solid'>".$postData['bs_amc_user_comment']."</td>
+											</tr>
+											<tr style='border:1px solid'>
+												<td style='border:1px solid'>Appointment Date</td><td style='border:1px solid'>".$apptDate."</td>
+											</tr style='border:1px solid'>
+										</table>
+									</body>
+								</html>
+							";
+
+		// Always set content-type when sending HTML email
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+		// More headers
+		$headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";   
+		if(mail($to, $subject, $message,$headers)){
+			echo "<script>alert('Request Submitted Successfully')</script>";
+			return $arr_result;
+        }
+		else{
+			echo "<script>alert('Error Something went wrong')</script>";
+			return true;
+		}
+	}
+	
+	
 	
 }
 ?>

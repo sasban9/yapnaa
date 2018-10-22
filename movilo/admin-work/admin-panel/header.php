@@ -37,192 +37,90 @@ if(isset($_SESSION['admin_email_id']))
 								<li><a href="../logout.php">Logout</a></li>
 							</ul>
                         </div>
-						<?php switch($ar_id){
-                               case 1:			?>
-					<li>
-                        <a href="index.php"><i class="fa fa-home"></i> Home</a>
-                    </li>
-					<li>
-                        <a href="users.php"><i class="fa fa-user"></i> User List</a>
-                    </li>
-					<li>
-                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a>
-                    </li>
+						
+				<?php switch($ar_id){ case 1:?>
+					<li><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
+					<li><a href="users.php"><i class="fa fa-user"></i> User List</a></li>
+					<li><a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a></li>
+					<li><a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure - KA</a></li>
+					<li><a href="brand_customers.php?customer_type=3"><i class="fa fa-search"></i>  Livpure - TN/KL</a></li>
+					<li><a href="brand_customers.php?customer_type=4"><i class="fa fa-search"></i>Bluestar B2B</a></li>
+					<li><a href="brand_customers.php?customer_type=5"><i class="fa fa-search"></i>Bluestar B2C</a></li>
+					<li><a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a></li>
+					<li><a href="amc-requests.php"><i class="fa fa-clock-o"></i>AMC Requests</a></li>
+					<li><a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a></li>
+					<li><a href="user_notifications.php"><i class="fa fa-bell"></i>Notifications</a></li>
+					<li><a href="products-category.php"><i class="fa fa-th-list"></i> Category</a></li>
+					<li><a href="brand-list.php"><i class="fa fa-edit"></i> Brand List</a></li>
+                    <li><a href="brand-products.php"><i class="fa fa-th-large"></i> Brand Products</a></li>
+					<li><a href="users_product.php"><i class="fa fa-user"></i>All users products</a></li>
+                    <li><a href="add-banner.php"><i class="fa fa-picture-o"><b class="bg-success"></b></i><span>Banner Images</span></a></li>
+                    <li><a href="add-faq.php"><i class="fa fa-question"></i> Add FAQ's</a></li>
+					<li><a href="apk-version-update.php"><i class="fa fa-android"></i>APK Version Update</a></li>
+					<li><a href="daily_call_setting.php"><i class="fa fa-child"></i>Daily Call Setting</a></li>
+					<li><a href="daily_calls.php"><i class="fa fa-search"></i>Daily Calls</a></li>
+					
+				<?php break; case 2:?>
+						
+					<li><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
+					<li><a href="users.php"><i class="fa fa-user"></i> User List</a></li>
+					<li><a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a></li>
 					<!--li>
                         <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
                     </li-->
-					<li>
-                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure</a>
-                    </li>
-					<li>
-                        <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>
-                    </li>
-					<li>
-                        <a href="amc-requests.php"><i class="fa fa-clock-o"></i>AMC Requests</a>
-                    </li>
-					<li>
-                        <a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a>
-                    </li>
-					 <li>
-                        <a href="user_notifications.php"><i class="fa fa-bell"></i>Notifications</a>
-                    </li>
-					 <li>
-                        <a href="products-category.php"><i class="fa fa-th-list"></i> Category</a>
-                    </li>
-					<li>
-                        <a href="brand-list.php"><i class="fa fa-edit"></i> Brand List</a>
-                    </li>
-                  
-                    <li>
-                        <a href="brand-products.php"><i class="fa fa-th-large"></i> Brand Products</a>
-                    </li>
-					
-
-                    <li>
-                        <a href="users_product.php"><i class="fa fa-user"></i>All users products</a>
-                    </li>
+					<li><a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure - KA</a></li>
+					<li><a href="brand_customers.php?customer_type=3"><i class="fa fa-search"></i>  Livpure - TN/KL</a></li>
+					<li><a href="brand_customers.php?customer_type=4"><i class="fa fa-search"></i>Bluestar B2B</a></li>
+					<li><a href="brand_customers.php?customer_type=5"><i class="fa fa-search"></i>Bluestar B2C</a></li>
+					<li><a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a></li>
+					<li><a href="amc-requests.php"><i class="fa fa-clock-o"></i>AMC Requests</a></li>
+					<li><a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a></li>
+					<li><a href="user_notifications.php"><i class="fa fa-bell"></i>Notifications</a></li>
+					<li><a href="products-category.php"><i class="fa fa-th-list"></i> Category</a></li>
+					<li><a href="brand-list.php"><i class="fa fa-edit"></i> Brand List</a></li>
+                    <li><a href="brand-products.php"><i class="fa fa-th-large"></i> Brand Products</a></li>
+                    <li><a href="users_product.php"><i class="fa fa-user"></i>All users products</a></li>
 					<!--li>
                         <a href="amc-price-list.php"><i class="fa fa-clock-o"></i>AMC Price List</a>
                     </li-->
-                    <li >
-                      <a href="add-banner.php">
-                        <i class="fa fa-picture-o">
-                          <b class="bg-success"></b>
-                        </i> 
-                        <span>Banner Images</span>
-                      </a> 
-                    </li>
-                    <li>
-                        <a href="add-faq.php"><i class="fa fa-question"></i> Add FAQ's</a>
-                    </li>
-					
-					<li>
-                        <a href="apk-version-update.php"><i class="fa fa-android"></i>APK Version Update</a>
-                    </li>
-					
-                   
-						<?php break;
-						case 2:?>
+                    <li><a href="add-banner.php"><i class="fa fa-picture-o"><b class="bg-success"></b></i><span>Banner Images</span></a> </li>
+                    <li><a href="add-faq.php"><i class="fa fa-question"></i> Add FAQ's</a></li>
+					<li><a href="apk-version-update.php"><i class="fa fa-android"></i>APK Version Update</a></li>
+					<li><a href="daily_call_setting.php"><i class="fa fa-child"></i>Daily Call Setting</a></li>
 						
-						<li>
-                        <a href="index.php"><i class="fa fa-home"></i> Home</a>
-                    </li>
-					<li>
-                        <a href="users.php"><i class="fa fa-user"></i> User List</a>
-                    </li>
-					<li>
-                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a>
-                    </li>
-					<!--li>
-                        <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
-                    </li-->
-					<li>
-                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure</a>
-                    </li>
-					<li>
-                        <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>
-                    </li>
-					<li>
-                        <a href="amc-requests.php"><i class="fa fa-clock-o"></i>AMC Requests</a>
-                    </li>
-					<li>
-                        <a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a>
-                    </li>
-					 <li>
-                         <a href="user_notifications.php"><i class="fa fa-bell"></i>Notifications</a>
-                    </li>
-					 <li>
-                        <a href="products-category.php"><i class="fa fa-th-list"></i> Category</a>
-                    </li>
-					<li>
-                        <a href="brand-list.php"><i class="fa fa-edit"></i> Brand List</a>
-                    </li>
-                  
-                    <li>
-                        <a href="brand-products.php"><i class="fa fa-th-large"></i> Brand Products</a>
-                    </li>
-					
-
-                    <li>
-                        <a href="users_product.php"><i class="fa fa-user"></i>All users products</a>
-                    </li>
-					<!--li>
-                        <a href="amc-price-list.php"><i class="fa fa-clock-o"></i>AMC Price List</a>
-                    </li-->
-                    <li >
-                      <a href="add-banner.php">
-                        <i class="fa fa-picture-o">
-                          <b class="bg-success"></b>
-                        </i> 
-                        <span>Banner Images</span>
-                      </a> 
-                    </li>
-                    <li>
-                        <a href="add-faq.php"><i class="fa fa-question"></i> Add FAQ's</a>
-                    </li>
-					
-					<li>
-                        <a href="apk-version-update.php"><i class="fa fa-android"></i>APK Version Update</a>
-                    </li>
+				<?php break; case 3:?>
 						
-						<?php
-						break;
-						case 3:?>
-						
-					<li>
-                        <a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a>
-                    </li>
+					<li><a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a></li>
+					<li><a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>Zero B</a></li>
+					<li><a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>Livpure - KA</a></li>
+					<li><a href="brand_customers.php?customer_type=3"><i class="fa fa-search"></i>Livpure - TN/KL</a></li>
+					<li><a href="brand_customers.php?customer_type=4"><i class="fa fa-search"></i>Bluestar B2B</a></li>
+					<li><a href="brand_customers.php?customer_type=5"><i class="fa fa-search"></i>Bluestar B2C</a></li>
+					<li><a href="daily_call_setting.php"><i class="fa fa-child"></i>Daily Call Setting</a></li>
+					<li><a href="daily_calls.php"><i class="fa fa-search"></i>Daily Calls</a></li>
+					
+				<?php break; case 4:?>
 				
-					<li>
-                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a>
-                    </li>
-					<!--li>
-                        <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
-                    </li-->
-					<li>
-                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure</a>
-                    </li>
+					<li><a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a></li>
+					<li><a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure - KA</a></li>
+					<li><a href="brand_customers.php?customer_type=3"><i class="fa fa-search"></i>  Livpure - TN/KL</a></li>
+					<li><a href="brand_customers.php?customer_type=4"><i class="fa fa-search"></i>Bluestar B2B</a></li>
+					<li><a href="brand_customers.php?customer_type=5"><i class="fa fa-search"></i>Bluestar B2C</a></li>
 					
-						<?php
-						break;
-						case 4:?>
-						<li>
-                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a>
-                    </li>
-					<!--li>
-                        <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
-                    </li-->
-					<li>
-                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure</a>
-                    </li>
-					 <?php
-					break;
-					case 5:?>
-						
+				<?php break;case 5:?>
+				
+					<li><a href="index.php"><i class="fa fa-home"></i> Home</a> </li>	
+				    <li><a href="users.php"><i class="fa fa-user"></i> User List</a></li>
+					<li><a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a></li>
+					<li><a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure - KA</a></li>
+					<li><a href="brand_customers.php?customer_type=3"><i class="fa fa-search"></i>  Livpure - TN/KL</a></li>
+					<li><a href="brand_customers.php?customer_type=4"><i class="fa fa-search"></i>Bluestar B2B</a></li>
+					<li><a href="brand_customers.php?customer_type=5"><i class="fa fa-search"></i>Bluestar B2C</a></li>
+					<li><a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a></li>
+					<li><a href="amc-requests.php"><i class="fa fa-clock-o"></i>AMC Requests</a></li>
+					<li><a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a></li>
 					
-				    <li>
-                        <a href="users.php"><i class="fa fa-user"></i> User List</a>
-                    </li>
-					<li>
-                        <a href="brand_customers.php?customer_type=2"><i class="fa fa-search"></i>  Zero B</a>
-                    </li>
-					<!--li>
-                        <a href="zerob_customers.php"><i class="fa fa-search"></i> Search ZeroB Data</a>
-                    </li-->
-					<li>
-                        <a href="brand_customers.php?customer_type=1"><i class="fa fa-search"></i>  Livpure</a>
-                    </li>
-					<li>
-                        <a href="srm-list.php"><i class="fa fa-send"></i>SRM Requests</a>
-                    </li>
-					<li>
-                        <a href="amc-requests.php"><i class="fa fa-clock-o"></i>AMC Requests</a>
-                    </li>
-					<li>
-                        <a href="send-sms.php"><i class="fa fa-comments"></i> Send SMS</a>
-                    </li>
-					
-						<?php }?>
+				<?php }?>
                     
                 </ul>
 

@@ -12,8 +12,19 @@ class admin	{
 		$this->model=& $obj_model;
 
 	}
-	
-	function schedule_campaign1($schedulecampaign){
+	function user_responce_based_on_phone($custType,$phone_no){
+		/* switch($cust_type){
+			case 1:
+		    $table		=	'livpure';
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+            break;			
+		}  */
+	$responce=	$this->model->data_query("SELECT  yq.questions,um.qst_id,um.answer,um.user_phone FROM user_question_aws_mapping um left join yapnaa_questions yq on um.qst_id=yq.id  where um.user_phone=$phone_no");
+	return $responce;
+	}
+	function update_customer_type($cust_type){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -26,28 +37,1627 @@ class admin	{
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
             break;			
-		}
-		$highlyengaged		=	$this->model->data_query("SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
-		GROUP by zc.CUSTOMERID) AS users FROM $table zc where  zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
+		} 
+		
+		$highlyengaged		=	$this->model->data_query("SELECT *, 
+		(SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date 
+		FROM $table zc where zc.phone1 in
+		(select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes')
 		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')
 		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') 
-		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes')");
-
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes')" 
+			);
+		//print_r($highlyengaged);exit;  
+		foreach($highlyengaged as $cust_type1)
+		{
+			    $condition_highly="CUSTOMERID='".$cust_type1['CUSTOMERID']."'";
+				$array_update_highly=array('last_called'=>$cust_type1['date'],'customet_type'=>1);
+				$this->model->update($table,$array_update_highly,$condition_highly);
+			
+		}
+		$engaged		=	$this->model->data_query("SELECT *,
+			(SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date FROM $table zc where 
+			zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') 
+			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes')
+			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes') 
+			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
+			and  answer='No')");
+        foreach($engaged as $cust_type2)
+		{
+			    $condition_engaged="CUSTOMERID='".$cust_type2['CUSTOMERID']."'";			   
+				$array_update_engaged=array('last_called'=>$cust_type2['date'],'customet_type'=>2);
+				$this->model->update($table,$array_update_engaged,$condition_engaged);
+			
+		} 
+        $partiallyengaged = $this->model->data_query("SELECT *,
+			(SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date FROM $table zc WHERE zc.phone1 IN 
+(SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer = 'Yes' )
+AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer = 'Yes' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer in('No') )
+AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12 AND answer = 'No')");
+       foreach($partiallyengaged as $cust_type3)
+		{
+			    $condition_partialy="CUSTOMERID='".$cust_type3['CUSTOMERID']."'";			  
+				$array_update_partialy=array('last_called'=>$cust_type3['date'],'customet_type'=>3);
+				$this->model->update($table,$array_update_partialy,$condition_partialy);
+			
+		}
+      $Disinterested = $this->model->data_query("SELECT *, (SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date
+								FROM $table zc where 
+					(
+					(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+					and 
+					zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')
+					) 
+					or  
+					(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') 
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+					and 
+					zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')
+					) 
+					or
+					(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+					and 
+					zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
+					)
+					)
+   ");
+       foreach($Disinterested as $cust_type4)
+		{
+			    $condition_disinterested="CUSTOMERID='".$cust_type4['CUSTOMERID']."'";			    
+				$array_update_disinterested=array('last_called'=>$cust_type4['date'],'customet_type'=>4);
+				$this->model->update($table,$array_update_disinterested,$condition_disinterested);
+			
+		}
+	}
+	function highlyengaged_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highlyengaged1		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes' $condition ) 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes' $condition )
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes' $condition ) 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes' $condition )");
+		return $highlyengaged1;
+	}
+	function periodic_update_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure'; 
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$periodic_update		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=14  and answer='Yes' $condition ) 
+		");
+		return $periodic_update;
+	}
+	function periodic_feedback_to_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$periodic_feedback		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=15  and answer='Yes' $condition ) 
+		");
+		return $periodic_feedback;
+	}
+	function attempt_to_gather_knowledge_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$attempt_to_gather_knowledge		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=13  and answer='Yes' $condition ) 
+		");
+		return $attempt_to_gather_knowledge;
+	}
+	function willingness_to_refer_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$willingness_to_refer		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes' $condition ) 
+		");
+		return $willingness_to_refer;
+	}
+	function get_support_on_time_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$get_support_on_time		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=11  and answer='Yes' $condition ) 
+		");
+		return $get_support_on_time;
+	}
+	function made_right_choice_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$made_right_choice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=10  and answer='Yes' $condition ) 
+		");
+		return $made_right_choice;
+	}
+	function share_positive_experience_customer($schedulecampaign,$fromDate,$toDate){
+     switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$share_positive_experience		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=9  and answer='Yes' $condition ) 
+		");
+		return $share_positive_experience;
+	}
+	function disengaged_under_AMC_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$disengaged_under_AMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=4 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes' $condition ) 
+		");
+		return $disengaged_under_AMC;
+	}
+	function poor_service_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$poor_service		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=4 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=8  and answer='Poor service experience' $condition ) 
+		");
+		return $poor_service;
+	}
+	function negative_expirence_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$negativeexpirence		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=4 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=8  and answer='Negative product experience' $condition ) 
+		");
+		return $negativeexpirence;
+	}
+	function will_call_when_required_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$will_call_when_required		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=4 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=8  and answer='Will call when service needed' $condition ) 
+		");
+		return $will_call_when_required;
+	}
+	function service_not_required_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$service_not_required		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where zc.customet_type=4 and  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=8  and answer='Service not required' $condition ) 
+		");
+		return $service_not_required;
+	}
+	function highly_engaged_last_paid_service_6month_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$highly_engaged_last_paid_service_6month		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1  and answer='Less than 6 months' $condition ) 
+		");
+		return $highly_engaged_last_paid_service_6month;
+	}
+	function highly_engaged_last_paid_service_1year_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$highly_engaged_last_paid_service_1year		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1  and answer='Less than 1 year' $condition ) 
+		");
+		return $highly_engaged_last_paid_service_1year;
+	}
+	function highly_engaged_under_AMC_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_under_AMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes' $condition ) 
+		");
+		return $highly_engaged_under_AMC;
+	}
+	function highly_engaged_withtimeline_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_withtimeline		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes' $condition ) 
+		");
+		return $highly_engaged_withtimeline;
+	}
+	function highly_engaged_withquality_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_withquality		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes' $condition ) 
+		");
+		return $highly_engaged_withquality;
+	}
+	function highly_engaged_feedbackservice_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_feedbackservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5  and answer='Yes' $condition ) 
+		");
+		return $highly_engaged_feedbackservice;
+	}
+	function highly_engaged_requiredservice_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_requiredservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=17  and answer='Yes' $condition ) 
+		");
+		return $highly_engaged_requiredservice;
+	}
+	function highly_engaged_requestAMC_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_requestAMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=19  and answer='Yes' $condition ) 
+		");
+		return $highly_engaged_requestAMC;
+	}
+	function highly_engaged_wishUpgrade_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_wishUpgrade		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=21  and answer='Yes' $condition ) 
+		");
+		return $highly_engaged_wishUpgrade;
+	}
+	
+	function engaged_last_paid_service_6month_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+					case 1:
+					$table		=	'livpure';
+					$titlename1='Livpure';
+					$brand_img="logo_livpure_yapnaa.png";
+					
+					
+					break;
+					case 2:
+					$table		=	'zerob_consol1';
+					$titlename1='Zero B';
+					$brand_img="logo_livpure_yapnaa.png";			
+					break;
+					case 3:
+					$table		=	'livpure_tn_kl';
+					$titlename1='Livpure - TN/KL';
+					$brand_img="logo_livpure_yapnaa.png";			
+					break;			
+				} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$engaged_last_paid_service_6month		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1  and answer='Less than 6 months' $condition ) 
+		");
+		return $engaged_last_paid_service_6month;
+	}
+	function engaged_last_paid_service_1year_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$engaged_last_paid_service_1year		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1  and answer='Less than 1 year' $condition ) 
+		");
+		return $engaged_last_paid_service_1year;
+	}
+	function engaged_under_AMC_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_under_AMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes' $condition ) 
+		");
+		return $engaged_under_AMC;
+	}
+	function engaged_withtimeline_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_withtimeline		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes' $condition ) 
+		");
+		return $engaged_withtimeline;
+	}
+	function engaged_withquality_customer($schedulecampaign,$fromDate,$toDate){
+	switch($schedulecampaign){
+				case 1:
+				$table		=	'livpure';
+				$titlename1='Livpure';
+				$brand_img="logo_livpure_yapnaa.png";
+				
+				
+				break;
+				case 2:
+				$table		=	'zerob_consol1';
+				$titlename1='Zero B';
+				$brand_img="logo_livpure_yapnaa.png";			
+				break;
+				case 3:
+				$table		=	'livpure_tn_kl';
+				$titlename1='Livpure - TN/KL';
+				$brand_img="logo_livpure_yapnaa.png";			
+				break;			
+			} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_withquality		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes' $condition ) 
+		");
+		return $engaged_withquality;
+	}
+	function engaged_feedbackservice_customer($schedulecampaign,$fromDate,$toDate){
+	switch($schedulecampaign){
+				case 1:
+				$table		=	'livpure';
+				$titlename1='Livpure';
+				$brand_img="logo_livpure_yapnaa.png";
+				
+				
+				break;
+				case 2:
+				$table		=	'zerob_consol1';
+				$titlename1='Zero B';
+				$brand_img="logo_livpure_yapnaa.png";			
+				break;
+				case 3:
+				$table		=	'livpure_tn_kl';
+				$titlename1='Livpure - TN/KL';
+				$brand_img="logo_livpure_yapnaa.png";			
+				break;			
+			} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_feedbackservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5  and answer='Yes' $condition ) 
+		");
+		return $engaged_feedbackservice;
+	}
+	function engaged_requiredservice_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_requiredservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=17  and answer='Yes' $condition ) 
+		");
+		return $engaged_requiredservice;
+	}
+	function engaged_requestAMC_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_requestAMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=19  and answer='Yes' $condition ) 
+		");
+		return $engaged_requestAMC;
+	}
+	function engaged_wishUpgrade_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_wishUpgrade		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=21  and answer='Yes' $condition ) 
+		");
+		return $engaged_wishUpgrade;
+	}
+	  
+		function partialy_engaged_last_paid_service_6month_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$partialy_engaged_last_paid_service_6month		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1  and answer='Less than 6 months' $condition ) 
+		");
+		return $partialy_engaged_last_paid_service_6month;
+	}
+	function partialy_engaged_last_paid_service_1year_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   } 
+		$partialy_engaged_last_paid_service_1year		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and  
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=1  and answer='Less than 1 year' $condition ) 
+		");
+		return $partialy_engaged_last_paid_service_1year;
+	}
+	function partialy_engaged_under_AMC_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_under_AMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes' $condition ) 
+		");
+		return $partialy_engaged_under_AMC;
+	}
+	function partialy_engaged_withtimeline_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_withtimeline		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes' $condition ) 
+		");
+		return $partialy_engaged_withtimeline;
+	}
+	function partialy_engaged_withquality_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_withquality		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes' $condition ) 
+		");
+		return $partialy_engaged_withquality;
+	}
+	function partialy_engaged_feedbackservice_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_feedbackservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5  and answer='Yes' $condition ) 
+		");
+		return $partialy_engaged_feedbackservice;
+	}
+	function partialy_engaged_requiredservice_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_requiredservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=17  and answer='Yes' $condition ) 
+		");
+		return $partialy_engaged_requiredservice;
+	}
+	function partialy_engaged_requestAMC_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_requestAMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=19  and answer='Yes' $condition ) 
+		");
+		return $partialy_engaged_requestAMC;
+	}
+	function partialy_engaged_wishUpgrade_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_wishUpgrade		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=21  and answer='Yes' $condition ) 
+		");
+		return $partialy_engaged_wishUpgrade;
+	}   
+	
+	function engaged_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged1		=	$this->model->data_query("SELECT count(*) as users  FROM $table  zc WHERE 
+(zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes' $condition ) AND zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes' $condition ) AND zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12
+AND answer =  'Yes' $condition ) AND  zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =2
+AND answer =  'No' $condition))");
+       return $engaged1;
+	}
+	function partialy_engaged_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partiallyengaged1 = $this->model->data_query("SELECT count(*) as users  FROM $table zc
+WHERE  
+zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes' $condition
+ )AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes' $condition
+ )and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
+			and answer in('No') $condition )AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
+WHERE qst_id =12 AND answer =  'No' $condition
+ )");
+       return $partiallyengaged1;
+	}
+	function disengaged_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		}    
+       if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }		
+		$Disinterested1 = $this->model->data_query("SELECT count(*) as users 
+FROM $table zc where    
+((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' $condition ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' $condition ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' $condition )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' $condition )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes' $condition ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' $condition ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' $condition )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' $condition )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' $condition ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' $condition ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' $condition )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes'  $condition)
+))
+   ");
+       return $Disinterested1;
+	}
+	function notattempted_customer($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		}
+       if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$notattempted = $this->model->data_query("SELECT count(*) as users FROM $table zc where 
+		zc.phone1 not in (select user_phone from user_question_aws_mapping where zc.phone1=user_question_aws_mapping.user_phone $condition)");
+       return $notattempted;
+	}
+	function schedule_campaign1($schedulecampaign){
+		//echo "here";exit;
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		$highlyengaged1		=	$this->model->data_query("SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
+		GROUP by zc.CUSTOMERID) AS users FROM $table zc where (zc.highly_engaged in ('') or(zc.highly_engaged in (2) and CURDATE( ) >= DATE( DATE_ADD( updated_on, INTERVAL 14 DAY ) )))   
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes' )
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes' ) 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes' )");
+		$highlyengaged2		=	$this->model->data_query("SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
+		GROUP by zc.CUSTOMERID) AS users FROM $table zc where zc.highly_engaged in ('',1) and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 14 DAY ) ) 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes') 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes' )
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes' ) 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes' )");
+        if($highlyengaged1 !=NULL){
+		$highlyengaged=$highlyengaged1; 
+		   
+         }
+		 else if($highlyengaged2 !=NULL){
+			 $highlyengaged=$highlyengaged2;
+			
+		 }
 		
-		
+		$count=0;
 		//echo '<pre>';print_r($highlyengaged);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
 		foreach($highlyengaged as $customer_info){
 			$userphone= $customer_info['PHONE1'];
 			$username= $customer_info['CUSTOMER_NAME'];
 			$email= $customer_info['email'];
 			$custid= $customer_info['CUSTOMERID'];
+			$highly_engaged= $customer_info['highly_engaged'];
+			
 			//check customer after 15 days			
 			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
-            if($check15days !=NULL){
-                $brandresult	=	$this->model->update($table,array('highly_engaged'=>1),
-				'CUSTOMERID='.$custid);  
+WHERE user_phone =$userphone AND CURDATE( ) >= DATE( DATE_ADD( DATE, INTERVAL 14 DAY ) ) ");
+            if(($check15days !=NULL) && (($highly_engaged ==2) || ($highly_engaged ==''))){
+               $count=1;
+			    $brandresult	=	$this->model->update($table,array('highly_engaged'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'");
 				 if($email !=''){
 				$brand_img="yapnaa-new-logo.png";		   
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -79,10 +1689,11 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
             
 			//check customer after 30 days			
 			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
-            if($check30days !=NULL){
-				$brandresult	=	$this->model->update($table,array('highly_engaged'=>2),
-				'CUSTOMERID='.$custid);
+WHERE user_phone =$userphone AND CURDATE( ) >= DATE( DATE_ADD( DATE, INTERVAL 29 DAY ) ) ");
+            if(($check30days !=NULL) && (($highly_engaged ==1) || ($highly_engaged ==''))){
+				 $count=2;
+				  $brandresult	=	$this->model->update($table,array('highly_engaged'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'");
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	 		
 				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
@@ -108,11 +1719,13 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 						$this->send_bulk_sms($userphone,$text);
 					}
 			}
+			
 		}
        return true;
 		
 	}
 	function schedule_campaign2($schedulecampaign){
+		//echo"here";
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -125,19 +1738,42 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		}
-		$Engaged  = $this->model->data_query("SELECT * , (SELECT user_phone FROM users WHERE user_phone = zc.phone1
-OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE  (zc.phone1
-IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes') AND zc.phone1 IN (
-SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes' ) AND zc.phone1
+		$Engaged1  = $this->model->data_query("SELECT * , (SELECT user_phone FROM users WHERE user_phone = zc.phone1
+or user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE (zc.engaged in ('') or (zc.engaged in (2) and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 14 DAY ) )))  and
+(zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes' ) AND zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'  ) AND zc.phone1
 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12
-AND answer =  'Yes') AND  zc.phone1 IN (
+AND answer =  'Yes' ) AND  zc.phone1 IN (
 SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =2
 AND answer =  'No'))");
 
+         $Engaged2  = $this->model->data_query("SELECT * , (SELECT user_phone FROM users WHERE user_phone = zc.phone1
+or user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table  zc WHERE    zc.engaged in ('',1)   and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 14 DAY ) ) and
+(zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes' ) AND zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'  ) AND zc.phone1
+IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12
+AND answer =  'Yes' ) AND  zc.phone1 IN (
+SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =2
+AND answer =  'No' ))");
+          if($Engaged1 !=NULL){
+		$Engaged=$Engaged1; 
+		   
+         }
+		 else if($Engaged2 !=NULL){
+			 $Engaged=$Engaged2;
+			 
+		 }
 		
-		
+        $count=0;
 		//echo '<pre>';print_r($Engaged);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
 		foreach($Engaged as $customer_info){
 							
@@ -145,13 +1781,14 @@ AND answer =  'No'))");
 			$username= $customer_info['CUSTOMER_NAME'];
 			$email= $customer_info['email'];
 			$custid= $customer_info['CUSTOMERID'];
+			$engaged= $customer_info['engaged'];
 			//check customer after 15 days			
 			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
-            if($check15days !=NULL){
-				
-                $brandresult	=	$this->model->update($table,array('engaged'=>1),
-				'CUSTOMERID='.$custid);
+WHERE user_phone =$userphone AND CURDATE( ) >= DATE( DATE_ADD( DATE, INTERVAL 14 DAY ) ) ");
+            if(($check15days !=NULL) && (($engaged ==2)|| ($engaged ==''))){				 
+				$count=1;
+				$brandresult	=	$this->model->update($table,array('engaged'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'"); 
 				if($email !=''){
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
@@ -193,11 +1830,11 @@ http://bit.ly/livpure_amc";
             
 			//check customer after 30 days			
 			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
-            if($check30days !=NULL){
- 
-				$brandresult	=	$this->model->update($table,array('engaged'=>2),
-				'CUSTOMERID='.$custid);
+WHERE user_phone =$userphone AND CURDATE( ) >= DATE( DATE_ADD( DATE, INTERVAL 29 DAY ) ) ");
+            if(($check30days !=NULL) && (($engaged ==1)|| ($engaged ==''))){
+				$count=2;
+				 $brandresult	=	$this->model->update($table,array('engaged'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'"); 
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -223,7 +1860,8 @@ http://bit.ly/YapnaaForAndroid";
                 $userphone=array($userphone);				
 				$this->send_bulk_sms($userphone,$text);
 				}
-			}
+			} 
+			 
 		}
        return true;
 		
@@ -241,18 +1879,41 @@ http://bit.ly/YapnaaForAndroid";
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		}
-		 $partiallyengaged = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
+		 $partiallyengaged1 = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
 WHERE user_phone = zc.phone1 OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table zc
-WHERE  zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
-)AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'
-)and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
-			and answer in('No'))AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
+WHERE  (zc.partialy_engaged in ('') or (zc.partialy_engaged in(2) and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 14 DAY ))))   and
+zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
+ )AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'
+ )and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
+			and answer in('No') )AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
 WHERE qst_id =12 AND answer =  'No'
-)"); 
+ )"); 
+         $partiallyengaged2 = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
+WHERE user_phone = zc.phone1 OR user_phone = zc.phone2 GROUP BY zc.CUSTOMERID) AS users FROM $table zc
+WHERE  zc.partialy_engaged in ('',1)   and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 14 DAY ) ) and
+zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer =  'Yes'
+ )AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer =  'Yes'
+ )and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
+			and answer in('No') )AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping
+WHERE qst_id =12 AND answer =  'No'
+ )"); 
+         if($partiallyengaged1 !=NULL){
+		$partiallyengaged=$partiallyengaged1; 
+		   
+         }
+		 else if($partiallyengaged2 !=NULL){
+			 $partiallyengaged=$partiallyengaged2;
+			 
+		 }
 		
-		
+		$count=0;
 		//echo '<pre>';print_r($partiallyengaged);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
 		foreach($partiallyengaged as $customer_info){
 			//echo "here2";
@@ -260,13 +1921,14 @@ WHERE qst_id =12 AND answer =  'No'
 			$username= $customer_info['CUSTOMER_NAME'];
 			$email= $customer_info['email'];
 			$custid= $customer_info['CUSTOMERID'];
+			$partialy_engaged= $customer_info['partialy_engaged'];
 			//check customer after 15 days			
 			$check15days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 15 DAY ) ) ");
-            if($check15days !=NULL){
-				
-                $brandresult	=	$this->model->update($table,array('partialy_engaged'=>1),
-				'CUSTOMERID='.$custid); 
+WHERE user_phone =$userphone AND CURDATE( ) >= DATE( DATE_ADD( DATE, INTERVAL 14 DAY ) ) ");
+            if(($check15days !=NULL) && (($partialy_engaged =='') || ($partialy_engaged ==2))){
+				$count=1;
+                 $brandresult	=	$this->model->update($table,array('partialy_engaged'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'"); 
 				if($email !=''){   
 $text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
 <p style='text-align:left;font-weight:normal;'>Get annual maintenance contract to ensure that your water filter works efficiently!</p>
@@ -309,11 +1971,11 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
             
 			//check customer after 30 days			
 			$check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
-            if($check30days !=NULL){
-				
-				$brandresult	=	$this->model->update($table,array('partialy_engaged'=>2),
-				'CUSTOMERID='.$custid);
+WHERE user_phone =$userphone AND CURDATE( ) >= DATE( DATE_ADD( DATE, INTERVAL 29 DAY ) ) ");
+            if(($check30days !=NULL)  && (($partialy_engaged =='') || ($partialy_engaged ==1))){
+				$count=2;
+                $brandresult	=	$this->model->update($table,array('partialy_engaged'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'");				
 				if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -340,6 +2002,7 @@ http://bit.ly/YapnaaForAndroid";
 				$this->send_bulk_sms($userphone,$text);
 				}
 			}
+			 
 		}
        return true;
 		
@@ -357,26 +2020,96 @@ http://bit.ly/YapnaaForAndroid";
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
             break;			
-		}
-		 $Disinterested = $this->model->data_query("SELECT *, 
+		}  
+		 $Disinterested1 = $this->model->data_query("SELECT *, 
 (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
-FROM $table zc where   
-((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
-or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')) 
-or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
-and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
+FROM $table zc where (zc.disinterested in ('') or (zc.disinterested in(4) and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 7 DAY ) )))  and   
+((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes' )
 ))
-"); 
-		
+   ");
+       $Disinterested2 = $this->model->data_query("SELECT *, 
+(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
+FROM $table zc where zc.disinterested  in ('',1)  and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 7 DAY ) ) and  
+((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes' )
+))
+   ");
+       $Disinterested3 = $this->model->data_query("SELECT *, 
+(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
+FROM $table zc where  zc.disinterested  in ('',2)  and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 7 DAY ) ) and
+((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes' )
+))
+   ");
+      $Disinterested4 = $this->model->data_query("SELECT *, 
+(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users 
+FROM $table zc where   zc.disinterested  in ('',3)  and CURDATE() >= DATE( DATE_ADD(updated_on, INTERVAL 7 DAY ) ) and 
+((zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No' )) 
+or(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No' ) 
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes' )
+))
+   ");   if($Disinterested1 !=NULL){
+		$Disinterested=$Disinterested1; 
+		   
+         }
+		 else if($Disinterested2 !=NULL){
+			 $Disinterested=$Disinterested2;
+			
+		 }
+		  else if($Disinterested3 !=NULL){
+			 $Disinterested=$Disinterested3;
+			 
+		 } 
+		  else if($Disinterested4 !=NULL){
+			 $Disinterested=$Disinterested4;
+			  
+		 }
 		
 		//echo '<pre>';print_r($Disinterested);die;//print_r($highlyengaged);print_r($Engaged);print_r($partiallyengaged);die;	
 		foreach($Disinterested as $customer_info){
@@ -384,20 +2117,23 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 			$username= $customer_info['CUSTOMER_NAME'];
 			$email= $customer_info['email'];
 			$custid= $customer_info['CUSTOMERID'];
+			$disinterested_count= $customer_info['disinterested']; 
 			//check customer after 15 days			
 			$check7days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 7 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE() >= DATE( DATE_ADD(date, INTERVAL 7 DAY ) ) ");
             $check14days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 14 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE() >= DATE( DATE_ADD( date, INTERVAL 14 DAY ) ) ");
             $check21days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 21 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE() >= DATE( DATE_ADD( date, INTERVAL 21 DAY ) ) ");
             $check30days		=	$this->model->data_query("SELECT user_phone FROM user_question_aws_mapping
-WHERE user_phone =$userphone AND CURDATE( ) <= DATE( DATE_ADD( DATE, INTERVAL 30 DAY ) ) ");
+WHERE user_phone =$userphone AND CURDATE() >= DATE( DATE_ADD( date, INTERVAL 29 DAY ) ) ");
             
-            if($check7days !=NULL||$check14days !=NULL || $check21days !=NULL || $check30days !=NULL){
-				//echo "here";
-					if($check30days !=NULL){
+           
+				//echo "here";exit;
+					if(($check30days !=NULL) && (($disinterested_count ==3) || ($disinterested_count ==''))){
 					    $count=4;
+						$brandresult	=	$this->model->update($table,array('disinterested'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'");
 						$brand_img="yapnaa-new-logo.png";
 						if($email !=''){
 						$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
@@ -439,8 +2175,10 @@ style='width:50%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 						$this->send_bulk_sms($userphone,$text);
 					}
 					}
-					if($check21days !=NULL){
+					if(($check21days !=NULL)&& (($disinterested_count ==2) || ($disinterested_count ==''))){
 						$count=3;
+						$brandresult	=	$this->model->update($table,array('disinterested'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'");
 						$brand_img="yapnaa-new-logo.png";
 							if($email !=''){
 				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
@@ -468,8 +2206,10 @@ http://bit.ly/livpure-watertest";
 						$this->send_bulk_sms($userphone,$text);
 					}
 				   }	
-					if($check14days !=NULL){
+					if(($check14days !=NULL) && (($disinterested_count ==1) || ($disinterested_count ==''))){
 						$count=2;
+						$brandresult	=	$this->model->update($table,array('disinterested'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'");
 						if($email !=''){
 				$brand_img="yapnaa-new-logo.png";	 		
 				$text="<p style='font-weight:lighter;'>Dear ".ucfirst($username).",</p> 
@@ -495,9 +2235,11 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 						$this->send_bulk_sms($userphone,$text);
 					}
 					}
-					if($check7days !=NULL){
+					
+					if(($check7days !=NULL) && (($disinterested_count ==4) || ($disinterested_count =='')) ){
 						$count=1;
-						
+						$brandresult	=	$this->model->update($table,array('disinterested'=>$count,'updated_on'=>date('Y-m-d h:i:s')),
+				"CUSTOMERID='".$custid."'");
 				       if($email !=''){
 				$brand_img="yapnaa-new-logo.png";		   
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
@@ -528,13 +2270,232 @@ http://bit.ly/YapnaaForAndroid";
 				}
 		      
 			}
-                $brandresult	=	$this->model->update($table,array('disinterested'=>$count),
-				'CUSTOMERID='.$custid);				  
-            
-		}
+		
        return true;
 		
 	}
+	function schedule_campaign5($schedulecampaign){
+		switch($cust_type){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+       	
+		$result = $this->model->data_query("SELECT *  FROM $table br WHERE br.status in(7,8,9) "); 
+		for($i=0;$i<count($result); $i++)
+		{
+			$userphone[]= $result[$i]['PHONE1'];
+		
+		}		
+		$text="Looking for a home manager that can monitor your appliances, secure your documents, remind you on warranty and can raise service request for your products directly with brand? Then visit yapnaa.com to know more.";	
+	
+		$this->send_bulk_sms($userphone,$text);
+		return true;
+	}
+	function schedule_campaign6($schedulecampaign){
+		switch($cust_type){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+       	
+		$result = $this->model->data_query("SELECT *  FROM $table br WHERE br.status in(7,8,9) "); 
+		for($i=0;$i<count($result); $i++)
+		{
+			$userphone[]= $result[$i]['PHONE1'];
+		
+		}		
+		$text="Manage and secure your home appliances and connect directly with brands for any support and service http://bit.ly/YapnaaForAndroid";	
+		$this->send_bulk_sms($userphone,$text);
+		return true;
+	} 
+	function update_customer_type1($cust_type){
+		switch($cust_type){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		
+		$highlyengaged		=	$this->model->data_query("SELECT *, 
+		(SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date 
+		FROM $table zc where zc.phone1 in
+		(select user_phone from user_question_aws_mapping where qst_id=3  and answer='Yes')
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='Yes')
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12  and answer='Yes') 
+		and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='Yes')" 
+			);
+		//print_r($highlyengaged);exit;  
+		foreach($highlyengaged as $cust_type1)
+		{
+			    $condition_highly="CUSTOMERID='".$cust_type1['CUSTOMERID']."'";
+				$array_update_highly=array('last_called'=>$cust_type1['date'],'customet_type'=>1);
+				$this->model->update($table,$array_update_highly,$condition_highly);
+			
+		}
+	}
+	function update_customer_type2($cust_type){
+		switch($cust_type){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		$engaged		=	$this->model->data_query("SELECT *,
+			(SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date FROM $table zc where 
+			zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='Yes') 
+			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='Yes')
+			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes') 
+			and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  
+			and  answer='No')");
+        foreach($engaged as $cust_type2)
+		{
+			    $condition_engaged="CUSTOMERID='".$cust_type2['CUSTOMERID']."'";			   
+				$array_update_engaged=array('last_called'=>$cust_type2['date'],'customet_type'=>2);
+				$this->model->update($table,$array_update_engaged,$condition_engaged);
+			
+		}
+	}	
+      function update_customer_type3($cust_type){
+        switch($cust_type){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl'; 
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 		  
+        $partiallyengaged = $this->model->data_query("SELECT *,
+			(SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date FROM $table zc WHERE zc.phone1 IN 
+(SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =3 AND answer = 'Yes' )
+AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =4 AND answer = 'Yes' )
+and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer in('No') )
+AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id =12 AND answer = 'No')");
+       foreach($partiallyengaged as $cust_type3)
+		{
+			    $condition_partialy="CUSTOMERID='".$cust_type3['CUSTOMERID']."'";			  
+				$array_update_partialy=array('last_called'=>$cust_type3['date'],'customet_type'=>3);
+				$this->model->update($table,$array_update_partialy,$condition_partialy);
+			
+		}
+	  }
+	  function update_customer_type4($cust_type){
+		  switch($cust_type){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl'; 
+			$titlename1='Livpure - TN/KL';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+      $Disinterested = $this->model->data_query("SELECT *, (SELECT date FROM user_question_aws_mapping WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS date
+								FROM $table zc where 
+					(
+					(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+					and 
+					zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')
+					) 
+					or  
+					(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='Yes') 
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+					and 
+					zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='No')
+					) 
+					or
+					(zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2 and answer='No') 
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3 and answer='No') 
+					and 
+					zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4 and answer='No')
+					and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=12 and answer='Yes')
+					)
+					)
+   ");
+       foreach($Disinterested as $cust_type4)
+		{
+			    $condition_disinterested="CUSTOMERID='".$cust_type4['CUSTOMERID']."'";			    
+				$array_update_disinterested=array('last_called'=>$cust_type4['date'],'customet_type'=>4);
+				$this->model->update($table,$array_update_disinterested,$condition_disinterested);
+			
+		}
+	} 
 	function user_question_select(){
 		
 		$table		=	'yapnaa_questions';	
@@ -542,16 +2503,16 @@ http://bit.ly/YapnaaForAndroid";
 		$condition 	=	"1";				
 		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
 		$quest_arr	=	array();
-		foreach($result as $ques){
+	/* 	foreach($result as $ques){
 			
 			$qust_id=	$ques['id'];
 			$result		=	$this->model->data_query("SELECT y.* FROM yapnaa_answers y LEFT JOIN yap_mapping m ON y.id = m.answer_id WHERE m.question_id =$qust_id");
 			$ques["answers"]	=	$result;
 			$quest_arr[]	=	$ques;
-		}
+		} */
 		
 		//echo '<pre>'.print_r($result);die;
-		return $quest_arr;
+		return $result;
 	}
 	function followup_cron($followuptype){
 		switch($followuptype){
@@ -562,6 +2523,10 @@ http://bit.ly/YapnaaForAndroid";
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename1='Livpure - TN/KL';
             break;			
 		}
 		
@@ -573,11 +2538,11 @@ DAY)";
 		foreach($result as  $key => $value ){
           $followupcustID []=$value['CUSTOMERID'];
 		$datacustomer .="<tr style='height:25px'>
-		<td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
+		<td style='border: 1px solid black;'>".date('d-m-Y h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value['PHONE1']."</td>
-			 <td style='border: 1px solid black;'>".$value['req_follow_up_date']."</td></tr>";
+			 <td style='border: 1px solid black;'>".date('d-m-Y h:i:s',strtotime($value['req_follow_up_date']))."</td></tr>";
 			 
 			
 		}
@@ -638,7 +2603,11 @@ $datacustomer
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename2='Zero B';
-            break;			
+            break;
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename2='Livpure - TN/KL';
+            break;				
 		}
 		
 		$fields		=	'*';
@@ -654,37 +2623,37 @@ $datacustomer
 		foreach($result1 as  $key1 => $value1 ){
              $serviceCustID[]=$value1['CUSTOMERID'];
 			 $datacustomer1 .="<tr style='height:25px'>
-			 <td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
+			 <td style='border: 1px solid black;'>".date('d-m-Y h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td>
-			 <td style='border: 1px solid black;'>".$value1['req_service_date']."</td></tr>";
+			 <td style='border: 1px solid black;'>".date('d-m-Y h:i:s',strtotime($value1['req_service_date']))."</td></tr>";
 			
 		}
 		foreach($result2 as  $key2 => $value2 ){
 			$amcCustID[]=$value2['CUSTOMERID'];
              $datacustomer2 .="<tr style='height:25px'>
-			 <td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
+			 <td style='border: 1px solid black;'>".date('d-m-Y h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td>
-			  <td style='border: 1px solid black;'>".$value2['req_amc_date']."</td></tr>";
+			  <td style='border: 1px solid black;'>".date('d-m-Y h:i:s',strtotime($value2['req_amc_date']))."</td></tr>";
 			
 		}
 		foreach($result3 as  $key3 => $value3 ){
             $upgradeCustID[]=$value3['CUSTOMERID'];
        		$datacustomer3 .="<tr style='height:25px'>
-			<td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
+			<td style='border: 1px solid black;'>".date('d-m-Y h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value3['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value3['PHONE1']."</td>
-			 <td style='border: 1px solid black;'>".$value3['req_upgrade_date']."</td></tr>";
+			 <td style='border: 1px solid black;'>".date('d-m-Y h:i:s',strtotime($value3['req_upgrade_date']))."</td></tr>";
 			
 		}
 		foreach($result4 as  $key4 => $value4 ){
             $escalCustID[]=$value4['CUSTOMERID'];
     		$datacustomer4 .="<tr style='height:25px'>
-			<td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
+			<td style='border: 1px solid black;'>".date('d-m-Y h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value4['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value4['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value4['PHONE1']."</td>
@@ -839,7 +2808,11 @@ $datacustomer4
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename='Zero B';
-            break;			
+            break;	
+            case 3:
+		    $table		=	'livpure_tn_kl';
+			$titlename='Livpure - TN/KL';
+            break;				
 		}
 		
 		$fields		=	'*';
@@ -852,7 +2825,7 @@ $datacustomer4
 		
 		foreach($result1 as  $key1 => $value1 ){
             $noteAmcCustID[]=$value1['CUSTOMERID'];
-    		$datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
+    		$datacustomer1 .="<tr style='height:25px'><td style='border: 1px solid black;'>".date('d-m-Y h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value1['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value1['PHONE1']."</td>
@@ -861,7 +2834,7 @@ $datacustomer4
 		}
 		foreach($result2 as  $key2 => $value2 ){
 			$noteUpgradeCustID[]=$value2['CUSTOMERID'];
-			 $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".date('Y-m-d h:i:s')."</td>
+			 $datacustomer2 .="<tr style='height:25px'><td style='border: 1px solid black;'>".date('d-m-Y h:i:s')."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMERID']."</td>
 			 <td style='border: 1px solid black;'>".$value2['CUSTOMER_NAME']."</td>
 			 <td style='border: 1px solid black;'>".$value2['PHONE1']."</td>
@@ -947,8 +2920,9 @@ $datacustomer2
 		return true;
 	} 
 	 
- function insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
-	date_default_timezone_set('Asia/Kolkata');
+	
+	function insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
+		date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
 	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
 	  
@@ -956,10 +2930,9 @@ $datacustomer2
 	   
 	    $condition_brand="PHONE1=$number";
 	  
-	    	if(!empty($service_requested_date)|| !empty($amc_requested_date) || !empty($wish_upgrade_date) || !empty($follow_up_date) ||  !empty($callbackCust))
-	   {
+	    if(!empty($service_requested_date)|| !empty($amc_requested_date) || !empty($wish_upgrade_date) || !empty($follow_up_date) ||  !empty($callbackCust)){
 	 
-	   $set_array_brand	=	array(
+			$set_array_brand	=	array(
 		                    'status'                        =>3,
 		                    'req_service_date'              =>$service_requested_date,
 		                    'req_amc_date'                  =>$amc_requested_date,
@@ -969,54 +2942,52 @@ $datacustomer2
 							 'highly_engaged'               =>'',
 							'partialy_engaged'              =>'',
 							'engaged'                       =>''
-														
-							
 							);
-			 }else
-			   {
-				   $set_array_brand	=	array(
-									'status'                        =>0 
-									
-									);
-			   }	 		
-            switch( $brandId) 
-			{
-				case 1:
-				$brandtable='livpure';
-				break;
-				case 2:
-				$brandtable='zerob_consol1';
-				break;
-			}
+							
+		}else{
+			$set_array_brand	=	array('status' => 0 );
+		}	
+ 		
+		switch( $brandId) {
+			case 1:
+			$brandtable='livpure';
+			break;
+			case 2:
+			$brandtable='zerob_consol1';
+			break;
+			case 3:
+			$brandtable='livpure_tn_kl';
+			break;
+			case 4:
+			$brandtable='bluestar_b2b';
+			break;
+			case 5:
+			$brandtable='bluestar_b2c';
+			break;
+		}
 		   	
-			$brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
-		
-	   
-        if($check_duplicate !=NULL)
-		{
-			if($userQst==2 || $userQst==3 || $userQst==4 || $userQst==12)
-			{
-				if($answer=='Not sure' || $answer=='Sometimes')
-				{
+		$brandresult	=	$this->model->update($brandtable,$set_array_brand,$condition_brand);
+			   
+        if($check_duplicate !=NULL){
+			if($userQst==2 || $userQst==3 || $userQst==4 || $userQst==12){
+				if($answer=='Not sure' || $answer=='Sometimes'){
 					$answer='No';
 				}
 			}
-           $condition="user_phone=$number and qst_id=$userQst";			
-           $condition_brand="PHONE1=$number";			
-		   $set_array	=	array(
+			$condition="user_phone=$number and qst_id=$userQst";			
+			$condition_brand="PHONE1=$number";			
+			$set_array	=	array(
 		                   
 							'answer'				        =>	$answer,							
 							'date'                          =>date('Y-m-d h:i:s')
 							);
 			
-			$result	=	$this->model->update($table,$set_array,$condition);	
-					
+			$result	=	$this->model->update($table,$set_array,$condition);			
 		}	
+		
 		else{ 
-		    if($userQst==2 || $userQst==3 || $userQst==4 || $userQst==12)
-			{
-				if($answer=='Not sure' || $answer=='Sometimes')
-				{
+		    if($userQst==2 || $userQst==3 || $userQst==4 || $userQst==12){
+				if($answer=='Not sure' || $answer=='Sometimes'){
 					$answer='No';
 				}
 			} 
@@ -1028,7 +2999,7 @@ $datacustomer2
 							'answer'				        =>	$answer,
 							'brand_name'				    =>	$brandName,
 							'brand_id'                      =>  $brandId,
-							'date'                          =>date('Y-m-d h:i:s')
+							'date'                          =>  date('Y-m-d h:i:s')
 							);
 			
 			$result		=	$this->model->insert($table,$arr_input);
@@ -1036,11 +3007,9 @@ $datacustomer2
 		}
 		
 		//external update for schedulcampain 
-		$sql1="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=2";
-	   
+		$sql1="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=2";	   
 	    $check_forupdate1		=	$this->model->data_query($sql1);
-		if($check_forupdate1 ==NULL)
-		{
+		if($check_forupdate1 == NULL){
 			$arr_input1	=	array(
 			               
 							'qst_id'				        =>	2,							
@@ -1053,11 +3022,10 @@ $datacustomer2
 			
 			$this->model->insert($table,$arr_input1);
 		}
-		$sql2="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=3";
-	   
-	    $check_forupdate2		=	$this->model->data_query($sql2);
-		if($check_forupdate2 ==NULL)
-		{
+		
+		$sql2					= "SELECT * FROM $table y where y.user_phone=$number and y.qst_id=3";
+	    $check_forupdate2		= $this->model->data_query($sql2);		
+		if($check_forupdate2 == NULL){
 			$arr_input2	=	array(
 			               
 							'qst_id'				        =>	3,							
@@ -1070,11 +3038,10 @@ $datacustomer2
 			
 			$this->model->insert($table,$arr_input2);
 		}
+		
 		$sql3="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=4";
-	   
 	    $check_forupdate3		=	$this->model->data_query($sql3);
-		if($check_forupdate3 ==NULL)
-		{
+		if($check_forupdate3 ==NULL){
 			$arr_input3	=	array(
 			               
 							'qst_id'				        =>	4,							
@@ -1087,11 +3054,11 @@ $datacustomer2
 			
 			$this->model->insert($table,$arr_input3);
 		}
+		
+		
 		$sql4="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=12";
-	   
 	    $check_forupdate4		=	$this->model->data_query($sql4);
-		if($check_forupdate4 ==NULL)
-		{
+		if($check_forupdate4 ==NULL){
 			$arr_input4	=	array(
 			               
 							'qst_id'				        =>	12,							
@@ -1104,9 +3071,13 @@ $datacustomer2
 			
 			$this->model->insert($table,$arr_input4);
 		}
-   return $result;
 	
- }	
+		return $result;
+	
+	}
+	
+	
+	
 	function insertStatus1
 	($email,$comments,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername){  
 	date_default_timezone_set('Asia/Kolkata');
@@ -1219,18 +3190,19 @@ $datacustomer
 	
 	}
 	function user_answer_select(){
-		$user_answer= array();
+		/* $user_answer= array();
 		$table		=	'yapnaa_questions';	
 		$fields		=	'*';
 		$condition 	=	"1";				
-		$result	=	$this->model->get_Details_condition($table,$fields,$condition);
-		foreach($result as $ques){
-		$qust_id=	$ques['id'];
-		$result		=	$this->model->data_query("SELECT y.* FROM yapnaa_answers y LEFT JOIN yap_mapping m ON y.id = m.answer_id WHERE m.question_id =$qust_id");
-         array_push($user_answer,$result);
-		}
+		$result	=	$this->model->get_Details_condition($table,$fields,$condition); */
+		//foreach($result as $ques){
+		//$qust_id=	$ques['id'];
+		//$result		=	$this->model->data_query("SELECT y.* FROM yapnaa_answers y LEFT JOIN yap_mapping m ON y.id = m.answer_id WHERE m.question_id =$qust_id");
+		$result		=	$this->model->data_query("SELECT * FROM yapnaa_answers WHERE 1");
+        // array_push($user_answer,$result);
+		//}
 		//echo '<pre>';print_r($user_answer);die;
-		return $user_answer;
+		return $result; 
 	}
 	function add_user(){
 		date_default_timezone_set('Asia/Kolkata');
@@ -2711,13 +4683,15 @@ $datacustomer
 	
 	
 	function send_bulk_sms($user_numbers,$message){ 
+	//print_r($user_numbers);echo '<br>'.$message; exit;
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
 		if($user_numbers){
 			for($i=0;$i<count($user_numbers);$i++){
 				if($user_numbers[$i]){
 					$ch = curl_init();
-					$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_numbers[$i])."&message=".urlencode("".$message."");
+				    $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_numbers[$i])."&message=".urlencode("".$message."");
+					
 					curl_setopt( $ch,CURLOPT_URL, $url );
 					curl_setopt( $ch,CURLOPT_POST, false ); 
 					curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
@@ -2738,11 +4712,52 @@ $datacustomer
 		return $result;
 	}
 	
-	function updateAMC($admin_id,$start,$expire,$custID,$comments,$closedBy,$phone1,$phone2,$cust_name,$cust_email)
+	function updateAMC($table,$upgarde_product_message,$paid_service_message,$upgarde_product_date,$paid_service_close_date,$paid_service,$upgarde_product,$admin_id,$start,$expire,$custID,$comments,$closedBy,$phone1,$phone2,$cust_name,$cust_email)
 	{
 		//echo '<script>alert('$_GET['customer_type']')</script>';
+		if($paid_service==1){
+			$set_array	=	array(
+							'amc_updated_by'		=> $admin_id,							
+							'CONTRACT_BY'		    => $closedBy,
+							'last_call_comment'	    => $comments,
+							'action_taken_by'	    => $admin_name,
+							'action_taken_by_id'    => $ar_id,
+							'CUSTOMER_NAME'         => $cust_name,
+							'PHONE1'                => $phone1,
+							'email'                 => $cust_email,
+							'status'			    =>	"8",
+							'req_service_date'  =>	$paid_service_close_date
+						);
+			$condition 	=	"CUSTOMERID='".$custID."'";				
+			$this->model->update($table,$set_array,$condition);	
+             $number = array($phone1);
+			$message = 'Hello '.ucfirst($cust_name).'!'.$paid_service_message;
+			$this->send_bulk_sms($number,$message);
+			return 1;		
+		}
+		if($upgarde_product==1){
+			$set_array	=	array(
+							'amc_updated_by'		=> $admin_id,							
+							'CONTRACT_BY'		    => $closedBy,
+							'last_call_comment'	    => $comments,
+							'action_taken_by'	    => $admin_name,
+							'action_taken_by_id'    => $ar_id,
+							'CUSTOMER_NAME'         => $cust_name,
+							'PHONE1'                => $phone1,
+							'email'                 => $cust_email,
+							'status'			    =>	"9",
+							'req_upgrade_date'  =>	$upgarde_product_date
+						);
+						//print_r($set_array);exit;
+			$condition 	=	"CUSTOMERID='".$custID."'";				
+			$this->model->update($table,$set_array,$condition);
+			 $number = array($phone1);
+			$message = 'Hello '.ucfirst($cust_name).'!'.$upgarde_product_message;
+			$this->send_bulk_sms($number,$message);
+			return 1;
+		}
 		$google_feedback_link="https://goo.gl/forms/D1HvGtyi68EVl11l2";
-		$table		=	'zerob_consol1';
+		
 		$admin_name		= $_SESSION['admin_name'];
 		$ar_id  	        = $_SESSION['ar_id'];
 		if($expire !=NULL && $start !=NULL )
@@ -2776,31 +4791,34 @@ $datacustomer
 						'status'			    =>	"7"
 					);	
 		}
-		$condition 	=	"id='".$custID."'";				
+		$condition 	=	"CUSTOMERID='".$custID."'";				
 		$update_zerob_result		=	$this->model->update($table,$set_array,$condition);
+		//echo $expire.'<br>'.$start;exit;
+		 $number = array($phone1);
+		$message = 'Dear Subscriber, your AMC for '.ucfirst($table).' water purifier has been renewed from '.$expire.' to '.$start.' . Thank you for connecting with yapnaa.com.';
+		$this->send_bulk_sms($number,$message);
 		
-		
-		$table		=	'users';
+		$table1		=	'users';
 		$condition 	=	"user_phone=".$phone1." OR user_phone=".$phone2;	
 	    $fields		=	'*';
 				
-		$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
+		$result1	=	$this->model->get_Details_condition($table1,$fields,$condition);		
 		
 		if($result1){
-		
+		   
 			$sql 		= "SELECT * FROM `users_products` up WHERE `up_product_id` =1 AND up.up_user_id =  ".$result1[0]['user_id']." order by up_created_date asc";
 			
 			$result		=	$this->model->data_query($sql);
 		
 			if($result){
-				//If the zerob water filter is added, update the AMC date and send notification
-				$table			=	"users_products";
+				//If the  water filter is added, update the AMC date and send notification
+				$table2			=	"users_products";
 				$set_array		=	array('up_warranty_start_date' => $start,'up_warranty_end_date'=>$expire,'up_amc_from_date'  => $start,'up_amc_to_date' =>$expire);
 				$condition		=	"up_id = ".$result[0]['up_id'];
-				$update_result	=	$this->model->update($table,$set_array,$condition);
+				$update_result	=	$this->model->update($table2,$set_array,$condition);
 				
 				//echo json_encode($update_result);die;
-				//$message = "AMC for your ZeroB has been updated from ".$start." to ".$expire;
+				//$message = "AMC has been updated from ".$start." to ".$expire;
 				$username=$result1[0]['user_name'];
 				if($username !=NULL)
 				{
@@ -2814,7 +4832,7 @@ $datacustomer
 				}
 				$message = $condition_msg."<p>Thank you for signing up AMC, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
 				$message1 = $condition_msg1."Thank you for signing up AMC, kindly share your feedback on our services in the following link :-\n".$google_feedback_link."";
-				$subject = "AMC for your ZeroB Water Filter has been updated";
+				$subject = "AMC for your ".ucfirst($table)." Water Filter has been updated";
 				
 				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message1,$subject);
 				//print_r($not_status);die;
@@ -2824,7 +4842,7 @@ $datacustomer
 			}
 			else{
 				
-				$condition 			=	"id='".$custID."'";				
+				$condition 			=	"CUSTOMERID='".$custID."'";				
 				$zerob_result		=	$this->model->get_Details_condition($table,'*',$condition);
 				
 				//Add product and send notification
@@ -2838,7 +4856,7 @@ $datacustomer
 											"up_serial_no"				=>		$zerob_result[0]['PRODUCT_SLNO'],
 											"up_date_of_purchase"		=>		$zerob_result[0]['INSTALLATION_DATE'],
 											"up_amc"					=>		"Yes",
-											"up_product_title"			=>		"ZeroB Water Filter"
+											"up_product_title"			=>		ucfirst($table)." Water Filter"
 								);
 				//echo "Here";die;
 				$prod_id	=	$this->add_user_product($prod_details);
@@ -2855,7 +4873,7 @@ $datacustomer
 				}
 				$message = $condition_msg."<p>Thank you for signing up AMC, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
 				$message1 = $condition_msg1."Thank you for signing up AMC, kindly share your feedback on our services in the following link :-\n".$google_feedback_link."";
-				$subject	=	"AMC for your ZeroB Water Filter has been updated";
+				$subject	=	"AMC for your ".ucfirst($table)." Water Filter has been updated";
 				
 				$not_status = $this->sent_notifications(array($result1[0]['user_gcm_id']),$message1,$subject);
 				$to=$result1[0]['user_email_id'];
@@ -2864,8 +4882,8 @@ $datacustomer
 			}
 		}
 		else{
-			$number = array($phone1);
-			$message = 'AMC for your ZeroB Water Filter has been updated. Download the Yapnaa app http://bit.ly/YapnaaForAndroid to maintain services, AMC and bills for your electronic products.';
+			 $number = array($phone1);
+			$message = 'AMC for your '.ucfirst($table).' Water Filter has been updated. Download the Yapnaa app http://bit.ly/YapnaaForAndroid to maintain services, AMC and bills for your electronic products.';
 			$get_amc_list = $this->send_bulk_sms($number,$message);
 			return 1;
 		}
@@ -2982,7 +5000,7 @@ $datacustomer
 		return $result;
 	}
 	function updateStatus($id,$comment,$status,$custType){
-		date_default_timezone_set('Asia/Kolkata');
+		date_default_timezone_set('Asia/Kolkata'); 
 		$admin_name		= $_SESSION['admin_name'];
 		$ar_id  	        = $_SESSION['ar_id'];
 		$today = date("Y-m-d H:i:s");
@@ -3005,8 +5023,11 @@ $datacustomer
 		{			
 		$table		=	'zerob_consol1';
 		}
-		else{
+		if($custType==1){
 		$table		=	'livpure';	
+		}
+		if($custType==3){
+		$table		=	'livpure_tn_kl';	
 		}
 		$condition 	=	"id='".$id."'";	
 	    $fields		=	'*';
@@ -3032,7 +5053,7 @@ $datacustomer
 			if($result){
 				return 1;
 			 }
-			 else{
+			 else{ 
 				return 0;
 			}
 		/*}
@@ -3053,8 +5074,11 @@ $datacustomer
 		{			
 		$table		=	'zerob_consol1';
 		}
-		else{
+		if($custType==1){
 		$table		=	'livpure';	
+		}
+		if($custType==3){
+		$table		=	'livpure_tn_kl';	
 		}
 		$condition 	=	"id='".$id."'";	
 	    $fields		=	'*';
@@ -3243,9 +5267,13 @@ $datacustomer
 							if($custType==2){	
 							$table		=	'zerob_consol1';
 							}
-							else{
-							$table		=	'livpure';	
+							if($custType==1){	
+							$table		=	'livpure';
 							}
+							if($custType==3){	
+							$table		=	'livpure_tn_kl';
+							}
+							
 							$condition 	=	"id='".$id[$i]."'";	
                             $fields		=	'*';							
 							$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
@@ -5177,24 +7205,56 @@ $datacustomer
 		return $arr_log_in;
 		// print_r($arr_log_in );
 
-    }// SEARCH Customer
+    }
+	
+	// SEARCH Customer
 	function get_brand_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
 		$arr_log_in=array();
 		if($_GET['customer_type']==1){
 			$table='livpure';
-		
-		
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
-		
-		} 
-		if($_GET['customer_type']==2){
-			$table='zerob_consol1';
-		
-		
-		$arr_log_in       				 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		
 		}
+        		
+		if($_GET['customer_type']==2){
+			$table='zerob_consol1';
+			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		}
+		
+		if($_GET['customer_type']==3){
+			$table='livpure_tn_kl';
+			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		}
+		
+		if($_GET['customer_type']==4){
+			$table='bluestar_b2b';
+			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		}
+		if($_GET['customer_type']==5){
+			$table='bluestar_b2c';
+			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		}
+		return $arr_log_in;
+
+    }
+	
+	
+	function get_brand_list1111111($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
+    {
+		$arr_log_in=array();
+		
+			$table='livpure';
+		
+		
+		$arr_log_in       				 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		
+		
 		return $arr_log_in;
 		
 
@@ -5217,7 +7277,7 @@ $datacustomer
     } 
 	// SEARCH Customer
 	
-	 function download_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate)
+	 function download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
 		$tag          = $_POST['tag'];
 		$filter           = $_POST['filter'];
@@ -5228,11 +7288,15 @@ $datacustomer
 		$arr_log_in=array();
 		if($_GET['customer_type']==1){
 			$table='livpure';
-		$arr_log_in       				 = 	$this->model->download_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 		if($_GET['customer_type']==2){
 			$table='zerob_consol1';
-		$arr_log_in       				 = 	$this->model->download_brand_list($action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table);
+		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		}
+		if($_GET['customer_type']==3){
+			$table='livpure_tn_kl';
+		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 		$this->download_csv_results($arr_log_in,"yapnaa.csv");
 		
@@ -5252,7 +7316,7 @@ $datacustomer
 		header("Expires: 0");
 
 		$outstream = fopen("php://output", "w");
-
+        
 		foreach($results as $result)
 		{
 			fputcsv($outstream, $result);
@@ -6936,7 +9000,7 @@ could not be delivered,please try again.";
     } else {
         echo "Your message was successfully delivered,you would be contacted shortly.";
         }
-	}
+	} 
 	
 	
 }

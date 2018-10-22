@@ -49,6 +49,7 @@ $options = json_encode($options);
                                 $related_posts->the_post();
 
                                 get_template_part('content', 'post-item');
+						
                             }
                             ?>
                             </div>
