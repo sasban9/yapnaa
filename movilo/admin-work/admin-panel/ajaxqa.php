@@ -25,7 +25,7 @@ if(isset($_SESSION['admin_email_id'])){
 	$flname				= explode(" ",$brand_details['CUSTOMER_NAME']);
 	$brand_details['flname'] = substr($flname[0],0,1)."".substr($flname[1],0,1);
 
-	//echo "<br><pre>"; print_r($timeline_data);die;
+	//echo "<br><pre>"; print_r($getQA);die;
 	
 	$parent_group_result = array();
 	foreach ($getQA as $key1 => $value1) {
@@ -50,6 +50,7 @@ if(isset($_SESSION['admin_email_id'])){
 	// Profile Things
 	
 	include 'profile_calculation.php';
+	//print_r($group_subgroup_result); die;
 	if(!empty($group_subgroup_result)){
 		$profile_cal 							= calculate_profile($group_subgroup_result); 
 		if(!empty($profile_cal)){
@@ -57,13 +58,16 @@ if(isset($_SESSION['admin_email_id'])){
 			$selling_target_engagement_level	= $profile_cal['selling_target_engagement_level'];
 			$digital_customer_category			= $profile_cal['digital_customer_category'];
 			$digital_target_engagement_level	= $profile_cal['digital_target_engagement_level'];
+			$life_time_value					= $profile_cal['life_time_value'];
+			$brand_value						= $profile_cal['brand_value'];
+			$referral_value						= $profile_cal['referral_value'];
 		}
 	}
 	
+	
 	// Response Actions Starts Here	
 	if(isset($_POST['editAMCSubmit'])){
-		//echo "<br><pre>";print_r($_POST);
-					
+		//echo "<br><pre>"; print_r($_POST);die;
 		switch($_POST['brand_id']) {
 			case 1:
 			$brand_name	= 'livpure';
@@ -100,7 +104,6 @@ if(isset($_SESSION['admin_email_id'])){
 		}
 				
 		if(!empty($_POST['req_service_date'])|| !empty($_POST['req_amc_date']) || !empty($_POST['req_upgrade_date']) || !empty($_POST['req_consumable_date'])){
-	 
 			$set_array_brand	=	array(
 											'status'             => 15,
 											'req_service_date'   => $_POST['req_service_date'],
@@ -116,17 +119,34 @@ if(isset($_SESSION['admin_email_id'])){
 											'req_follow_up_date' => $_POST['req_follow_up_date'],
 											'updated_on' 		 => date('Y-m-d')
 										 );
+		}else if(!empty($_POST['req_pm_service_date'])){
+			$set_array_brand	=	array(
+											'status'             => $_POST['status'],
+											'req_pm_service_date' => $_POST['req_pm_service_date'],
+											'updated_on' 		 => date('Y-m-d')
+										 );
 		}else if(!empty($_POST['last_call_comment'])){
 			$set_array_brand	=	array(
 											'status'             => $_POST['status'],
 											'last_call_comment' => $_POST['last_call_comment'],
 											'updated_on' 		 => date('Y-m-d')
 										 );
+		}else if(!empty($_POST['not_interested_reason'])){
+			$set_array_brand	=	array(
+											'status'             	=> $_POST['status'],
+											'not_interested_reason' => $_POST['not_interested_reason'],
+											'updated_on' 		 	=> date('Y-m-d')
+										 );
 		}else{
 			$set_array_brand 	= array('status' =>$_POST['status'],'updated_on' => date('Y-m-d'));
 		}
+				
+		if(!empty($_POST['not_interested_reason'])){
+			$sliced_arr 	= array_slice($_POST, 0, -16, true);
+		}else{
+			$sliced_arr 	= array_slice($_POST, 0, -15, true);
+		}
 		
-		$sliced_arr 	= array_slice($_POST, 0, -12, true);
 		$insert_data	= "";
 		$sql 			= "";
 		$data1 			= array();
@@ -222,6 +242,7 @@ if(isset($_SESSION['admin_email_id'])){
 												'tm_agent_comment'		=> $_POST['last_call_comment'],
 												'tm_movement_from'		=> $existing_category,
 												'tm_movement_to'		=> $selling_customer_category,
+												'tm_transaction_type'	=> 'User has given escalation message about AMC',
 												'tm_created_date'		=> date('Y-m-d')
 												);
 					$timeline_response 	= $control->insert_timeline_data($data);
@@ -261,6 +282,7 @@ if(isset($_SESSION['admin_email_id'])){
 												'tm_agent_comment'		=> $_POST['last_call_comment'],
 												'tm_movement_from'		=> $existing_category,
 												'tm_movement_to'		=> $selling_customer_category,
+												'tm_transaction_type'	=> 'User has given escalation message about product upgrade',
 												'tm_created_date'		=> date('Y-m-d')
 												);
 					$timeline_response 	= $control->insert_timeline_data($data);
@@ -300,6 +322,7 @@ if(isset($_SESSION['admin_email_id'])){
 												'tm_agent_comment'		=> $_POST['last_call_comment'],
 												'tm_movement_from'		=> $existing_category,
 												'tm_movement_to'		=> $selling_customer_category,
+												'tm_transaction_type'	=> 'User has given escalation message about service provider',
 												'tm_created_date'		=> date('Y-m-d')
 												);
 					$timeline_response 	= $control->insert_timeline_data($data);
@@ -340,10 +363,11 @@ if(isset($_SESSION['admin_email_id'])){
 											'tm_brand_name'   		=> $brand_name,
 											'tm_brand_user_phone'   => $_POST['user_phone'],
 											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Change Product',
+											'tm_interaction'		=> 'Product Change',
 											'tm_interaction_type'	=> 4,
 											'tm_movement_from'		=> $existing_category,
 											'tm_movement_to'		=> $selling_customer_category,
+											'tm_transaction_type'	=> 'Customer changed the product',
 											'tm_created_date'		=> date('Y-m-d')
 											);
 				$timeline_response 	= $control->insert_timeline_data($data);
@@ -382,7 +406,7 @@ if(isset($_SESSION['admin_email_id'])){
 											'tm_interaction'		=> 'Callback',
 											'tm_interaction_type'	=> 2,
 											'tm_transaction_date'	=> $_POST['req_follow_up_date'],
-											'tm_transaction_type'	=> 'Follow up date',
+											'tm_transaction_type'	=> 'Customer has given follow up date on '.$_POST['req_follow_up_date'].'',
 											'tm_movement_from'		=> $existing_category,
 											'tm_movement_to'		=> $selling_customer_category,
 											'tm_created_date'		=> date('Y-m-d')
@@ -420,10 +444,11 @@ if(isset($_SESSION['admin_email_id'])){
 											'tm_brand_name'   		=> $brand_name,
 											'tm_brand_user_phone'   => $_POST['user_phone'],
 											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Not interested in Service',
+											'tm_interaction'		=> 'Not interested',
 											'tm_interaction_type'	=> 3,
 											'tm_movement_from'		=> $existing_category,
 											'tm_movement_to'		=> $selling_customer_category,
+											'tm_transaction_type'	=> 'Customer is not interested in service',
 											'tm_created_date'		=> date('Y-m-d')
 											);
 				$timeline_response 	= $control->insert_timeline_data($data);
@@ -463,6 +488,7 @@ if(isset($_SESSION['admin_email_id'])){
 											'tm_interaction_type'	=> 5,
 											'tm_movement_from'		=> $existing_category,
 											'tm_movement_to'		=> $selling_customer_category,
+											'tm_transaction_type'	=> 'Customer wants to change the service provider',
 											'tm_created_date'		=> date('Y-m-d')
 											);
 				$timeline_response 	= $control->insert_timeline_data($data);
@@ -502,6 +528,7 @@ if(isset($_SESSION['admin_email_id'])){
 											'tm_interaction_type'	=> 6,
 											'tm_movement_from'		=> $existing_category,
 											'tm_movement_to'		=> $selling_customer_category,
+											'tm_transaction_type'	=> 'No response from customer',
 											'tm_created_date'		=> date('Y-m-d')
 											);
 				$timeline_response 	= $control->insert_timeline_data($data);
@@ -541,6 +568,7 @@ if(isset($_SESSION['admin_email_id'])){
 											'tm_interaction_type'	=> 7,
 											'tm_movement_from'		=> $existing_category,
 											'tm_movement_to'		=> $selling_customer_category,
+											'tm_transaction_type'	=> 'Customer is not reachable',
 											'tm_created_date'		=> date('Y-m-d')
 											);
 				$timeline_response 	= $control->insert_timeline_data($data);
@@ -579,7 +607,7 @@ if(isset($_SESSION['admin_email_id'])){
 											'tm_interaction'		=> 'To be contacted',
 											'tm_interaction_type'	=> 8,
 											'tm_transaction_date'	=> $_POST['req_follow_up_date'],
-											'tm_transaction_type'	=> 'Follow up date',
+											'tm_transaction_type'	=> 'Customer has given follow up date on '.$_POST['req_follow_up_date'].'',
 											'tm_movement_from'		=> $existing_category,
 											'tm_movement_to'		=> $selling_customer_category,
 											'tm_created_date'		=> date('Y-m-d')
@@ -621,7 +649,7 @@ if(isset($_SESSION['admin_email_id'])){
 												'tm_interaction'		=> 'Interested in Service',
 												'tm_interaction_type'	=> 9,
 												'tm_transaction_date'	=> $_POST['req_service_date'],
-												'tm_transaction_type'	=> 'Service Date Request',
+												'tm_transaction_type'	=> 'Service request received of '.$_POST['req_service_date'].'',
 												'tm_movement_from'		=> $existing_category,
 												'tm_movement_to'		=> $selling_customer_category,
 												'tm_created_date'		=> date('Y-m-d')
@@ -661,7 +689,7 @@ if(isset($_SESSION['admin_email_id'])){
 												'tm_interaction'		=> 'Interested in Service',
 												'tm_interaction_type'	=> 9,
 												'tm_transaction_date'	=> $_POST['req_amc_date'],
-												'tm_transaction_type'	=> 'AMC Date Request',
+												'tm_transaction_type'	=> 'AMC date request raised on '.$_POST['req_amc_date'].'',
 												'tm_movement_from'		=> $existing_category,
 												'tm_movement_to'		=> $selling_customer_category,
 												'tm_created_date'		=> date('Y-m-d')
@@ -701,7 +729,7 @@ if(isset($_SESSION['admin_email_id'])){
 												'tm_interaction'		=> 'Interested in Service',
 												'tm_interaction_type'	=> 9,
 												'tm_transaction_date'	=> $_POST['req_upgrade_date'],
-												'tm_transaction_type'	=> 'Upgrade Date Rquest',
+												'tm_transaction_type'	=> 'Upgrade date rquest raised on '.$_POST['req_upgrade_date'].'',
 												'tm_movement_from'		=> $existing_category,
 												'tm_movement_to'		=> $selling_customer_category,
 												'tm_created_date'		=> date('Y-m-d')
@@ -729,7 +757,6 @@ if(isset($_SESSION['admin_email_id'])){
 						
 						$ph_response						= $control->insert_profile_history($pfl_data);
 					}
-				
 				}
 				if(!empty($_POST['req_consumable_date']) ){
 					$data 				= array(
@@ -741,7 +768,7 @@ if(isset($_SESSION['admin_email_id'])){
 												'tm_interaction'		=> 'Interested in Service',
 												'tm_interaction_type'	=> 9,
 												'tm_transaction_date'	=> $_POST['req_consumable_date'],
-												'tm_transaction_type'	=> 'Consumable Date Request',
+												'tm_transaction_type'	=> 'Consumable date request raised on '.$_POST['req_consumable_date'].'',
 												'tm_movement_from'		=> $existing_category,
 												'tm_movement_to'		=> $selling_customer_category,
 												'tm_created_date'		=> date('Y-m-d')
@@ -769,16 +796,109 @@ if(isset($_SESSION['admin_email_id'])){
 						
 						$ph_response						= $control->insert_profile_history($pfl_data);
 					}
-				
 				}
 			}
 			
+			if($_POST['status'] == 19){ // Need to be add after sattus updated
+				$data 				= array(
+											'tm_brand_user_id' 		=> $_POST['user_id'],
+											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
+											'tm_brand_name'   		=> $brand_name,
+											'tm_brand_user_phone'   => $_POST['user_phone'],
+											'tm_brand_id'   		=> $_POST['brand_id'],
+											'tm_interaction'		=> 'PM Service Enqiry',
+											'tm_interaction_type'	=> 21,
+											'tm_transaction_date'	=> $_POST['req_pm_service_date'],
+											'tm_transaction_type'	=> 'Customer has given pm service enquiry date on '.$_POST['req_pm_service_date'].'',
+											'tm_movement_from'		=> $existing_category,
+											'tm_movement_to'		=> $selling_customer_category,
+											'tm_created_date'		=> date('Y-m-d')
+											);
+				$timeline_response 	= $control->insert_timeline_data($data);
+				
+				foreach($sliced_arr as $key1=>$value1){
+					$pfl_data 							= array();
+					$value_split						= explode("_",$value1);
+					$pfl_data['ph_qid']					= end(explode("_",$key1));
+					$pfl_data['ph_answer']				= $value_split[0];
+					$pfl_data['ph_weightage']			= $value_split[1];
+					$pfl_data['ph_timeline_id']			= $timeline_response;
+					$pfl_data['ph_user_id']				= $_POST['user_id'];
+					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
+					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
+					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
+					$pfl_data['ph_brand_name']  		= $brand_name;
+					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
+					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
+					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
+					$pfl_data['ph_email']				= $brand_details['email'];
+					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
+					$pfl_data1[] 						= $pfl_data;	
+					
+					$ph_response						= $control->insert_profile_history($pfl_data);
+				}
+				
+			}
+			
+			if($_POST['status'] == 20){
+				$data 				= array(
+											'tm_brand_user_id' 		=> $_POST['user_id'],
+											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
+											'tm_brand_name'   		=> $brand_name,
+											'tm_brand_user_phone'   => $_POST['user_phone'],
+											'tm_brand_id'   		=> $_POST['brand_id'],
+											'tm_interaction'		=> 'Wrong Number',
+											'tm_interaction_type'	=> 22,
+											'tm_movement_from'		=> $existing_category,
+											'tm_movement_to'		=> $selling_customer_category,
+											'tm_transaction_type'	=> 'We got wrong number of this customer',
+											'tm_created_date'		=> date('Y-m-d')
+											);
+				$timeline_response 	= $control->insert_timeline_data($data);
+				
+				foreach($sliced_arr as $key1=>$value1){
+					$pfl_data 							= array();
+					$value_split						= explode("_",$value1);
+					$pfl_data['ph_qid']					= end(explode("_",$key1));
+					$pfl_data['ph_answer']				= $value_split[0];
+					$pfl_data['ph_weightage']			= $value_split[1];
+					$pfl_data['ph_timeline_id']			= $timeline_response;
+					$pfl_data['ph_user_id']				= $_POST['user_id'];
+					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
+					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
+					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
+					$pfl_data['ph_brand_name']  		= $brand_name;
+					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
+					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
+					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
+					$pfl_data['ph_email']				= $brand_details['email'];
+					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
+					$pfl_data1[] 						= $pfl_data;	
+					
+					$ph_response						= $control->insert_profile_history($pfl_data);
+				}
+				
+			}
+			
 			// Update Profile-Type in Brand Table
-			$set_array_brand = array('profile_type' => $selling_customer_category);
+			$set_array_brand = array('profile_type' => $selling_customer_category,'email' => $_POST['email']);
 			$response2  = $control->updateProfileInBrand($brand_name,$set_array_brand,$_POST['brand_customer_id'],$_POST['user_id']);
-		
+			
+			// Update Call Status = 1 in daily_call_schedule table
+			$updated_data    = array('status' => 1, 'updated_date' => date('Y-m-d H:i:s'));
+			$call_status 	 = $control->updateCallStatusInDailyCallSchedule($updated_data,$_POST['call_id']);
+			
+			// Success SMS will go to this customer
+			if($brand_details['status'] == 0){
+				if(!empty($_POST['user_phone'])){
+					$message 				= 'Thank you for interacting with Yapnaa.</br>Yapnaa : Single point for all brand support.</br>Website : <a href="www.yapnaa.com">Yapnaa</a></br>Mobile App : <a href="https://play.google.com/store/apps/details?id=movilo.com.developeronrent&hl=en_IN">Yapnaa Mobile</a>';
+					$send_success_sms		= $control->send_lifecycle_sms($_POST['user_phone'],$message); 
+				}
+			}
+			
 		}
 
+		
 		if($response || $response1 == 1){
 			$_POST = array();
 			echo "<script>alert('Updated successfully');</script>";
@@ -799,9 +919,7 @@ if(isset($_SESSION['admin_email_id'])){
 		if(empty($_POST['newAMCEnd'])){
 			$_POST['newAMCEnd'] 	= '';
 		}
-		/*if($_POST['closedBy'] == 'Yapnaa'){
-			$helper_response		= $helper->send_transaction_sms($_GET['user_phone']);
-		}*/
+		
 		switch($_GET['customer_type']){
 			case 1:
 			$table='livpure';
@@ -820,7 +938,7 @@ if(isset($_SESSION['admin_email_id'])){
 			break;
 		}
 		
-		$get_amc_list 			= $control->updateAmcData($table,$_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['userid'],$_POST['comments'],$_POST['closedBy']);
+		$get_amc_list 			= $control->updateAmcData($table,$_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['userid'],$_POST['comments'],$_POST['closedBy'],$_POST['transaction_status']);
 		
 		$existing_profile_status		 	= $control->get_existing_profile_status_of_customer($table,$_POST['userid']);
 		$existing_category  	 			= $existing_profile_status['profile_type'];
@@ -835,7 +953,7 @@ if(isset($_SESSION['admin_email_id'])){
 										'tm_interaction'		=> 'AMC update',
 										'tm_interaction_type'	=> 18,
 										'tm_transaction_date'	=> $_POST['newAMCStart'],
-										'tm_transaction_type'	=> 'AMC Start Date',
+										'tm_transaction_type'	=> 'Customer has given AMC startdate of '.$_POST['newAMCStart'].'',
 										'tm_movement_from'		=> $existing_category,
 										'tm_movement_to'		=> $existing_category,
 										'tm_created_date'		=> date('Y-m-d')
@@ -850,10 +968,11 @@ if(isset($_SESSION['admin_email_id'])){
 										'tm_brand_name'   		=> $table,
 										'tm_brand_user_phone'   => $_GET['user_phone'],
 										'tm_brand_id'   		=> $_GET['customer_type'],
-										'tm_interaction'		=> 'Purchased With yapnaa',
+										'tm_interaction'		=> 'Purchased With Yapnaa',
 										'tm_interaction_type'	=> 19,
 										'tm_movement_from'		=> $existing_category,
 										'tm_movement_to'		=> $existing_category,
+										'tm_transaction_type'	=> 'Customer purchased with Yapnaa',
 										'tm_created_date'		=> date('Y-m-d')
 										);
 			$timeline_response 	= $control->insert_timeline_data($data);
@@ -870,6 +989,7 @@ if(isset($_SESSION['admin_email_id'])){
 										'tm_interaction_type'	=> 20,
 										'tm_movement_from'		=> $existing_category,
 										'tm_movement_to'		=> $existing_category,
+										'tm_transaction_type'	=> 'Customer purchased with its Brand',
 										'tm_created_date'		=> date('Y-m-d')
 										);
 			$timeline_response 	= $control->insert_timeline_data($data);
@@ -928,6 +1048,10 @@ if(isset($_SESSION['admin_email_id'])){
 		
 		.form-check {
 			margin-top: 10px;
+		}
+		
+		.modal-answers {
+			color: #ff6010;
 		}
 		
 	</style>
@@ -1155,7 +1279,13 @@ if(isset($_SESSION['admin_email_id'])){
 										<input type="hidden" name="user_phone" value="<?php echo $_GET['user_phone'];?>" />
 										<input type="hidden" name="user_id" value="<?php echo $_GET['user_id'];?>" />
 										<input type="hidden" name="brand_customer_id" value="<?php echo $_GET['brand_customer_id'];?>" />
-									
+										<input type="hidden" name="call_id" value="<?php echo $_GET['call_id'];?>" />
+										
+										<div class="row" style="float:right;margin-top: -35%;margin-right: 8%;width:20%">
+											<label for="sel1">Email:</label>
+											<input type="email" class="form-control" name="email" value="<?php echo $brand_details['email'];?>" />
+										</div>
+										
 										<div class="row" style="float:right;margin-top: -30%;margin-right: 11%;">
 											<div class="form-group">
 												<label for="sel1">Select Status:</label>
@@ -1168,7 +1298,9 @@ if(isset($_SESSION['admin_email_id'])){
 													<option value="12" <?php if($brand_details['status'] == 12){echo 'Selected';} ?>>No Response</option>
 													<option value="13" <?php if($brand_details['status'] == 13){echo 'Selected';} ?>>Not reachable</option>
 													<option value="14" <?php if($brand_details['status'] == 14){echo 'Selected';} ?>>To be contacted</option>
+													<option value="20" <?php if($brand_details['status'] == 20){echo 'Selected';} ?>>Wrong Number</option>
 													<option value="15" <?php if($brand_details['status'] == 15){echo 'Selected';} ?>>Interested in Service</option>
+													<option value="19" <?php if($brand_details['status'] == 19){echo 'Selected';} ?>>PM Service Enquiry</option>
 													<option value="16" <?php if($brand_details['status'] == 16){echo 'Selected';} ?>>AMC Escalation</option>
 													<option value="17" <?php if($brand_details['status'] == 17){echo 'Selected';} ?>>Product Escalation</option>
 													<option value="18" <?php if($brand_details['status'] == 18){echo 'Selected';} ?>>Service Escalation</option>
@@ -1177,7 +1309,6 @@ if(isset($_SESSION['admin_email_id'])){
 										</div>
 										
 										<div class="row" id="interested_service_status" style="float:right;margin-top: -24%;margin-right: 9%;">
-											
 											<div class="form-check">
 												<input type="checkbox" class="form-check-input" id="interested_service">
 												<label class="form-check-label" for="interested_service">Service</label>
@@ -1206,7 +1337,6 @@ if(isset($_SESSION['admin_email_id'])){
 													<input type="date" class="form-control" name="req_consumable_date" id="consumable_date">
 												</div>
 											</div>
-											
 										</div>
 										
 										<div class="row" id="callback_service_status" style="float:right;margin-top: -24%;margin-right: 9%;">
@@ -1216,6 +1346,76 @@ if(isset($_SESSION['admin_email_id'])){
 												<div class="inline" style="margin-left: 30px;">
 													<input type="date" class="form-control" name="req_follow_up_date" id="follow_up_date">
 												</div>
+											</div>
+										</div>
+										
+										<div class="row" id="pm_enquiry_service_status" style="float:right;margin-top: -24%;margin-right: 4%;">
+											<div class="form-check">
+												<input type="checkbox" class="form-check-input" id="interested_pm_service">
+												<label class="form-check-label" for="interested_pm_service">PM Service Enquiry</label>
+												<div class="inline" style="margin-left: 30px;">
+													<input type="date" class="form-control" name="req_pm_service_date" id="pm_service_date">
+												</div>
+											</div>
+										</div>
+										
+										<div class="row" id="not_interested_service_status" style="float:right;margin-top: -24%;margin-right: 9%;">
+											<label>Reason of Not interested in service</label>
+											<div class="form-check">
+												<label>
+													<input type="radio" value="1" name="not_interested_reason" <?php 
+														echo !empty($brand_details['not_interested_reason'])?(($brand_details['not_interested_reason']==1)?"checked":""):"";
+														?> >
+													<span id="sansq1" class="label-text">Dissatisfied with service</span>
+												</label>
+											</div>
+											<div class="form-check">
+												<label>
+													<input type="radio" value="2" name="not_interested_reason" <?php 
+														echo !empty($brand_details['not_interested_reason'])?(($brand_details['not_interested_reason']==2)?"checked":""):"";
+														?> >
+													<span id="sansq1" class="label-text">Unreliable support after taking contract</span>
+												</label>
+											</div>
+											<div class="form-check">
+												<label>
+													<input type="radio" value="3" name="not_interested_reason" <?php 
+														echo !empty($brand_details['not_interested_reason'])?(($brand_details['not_interested_reason']==3)?"checked":""):"";
+														?> >
+													<span id="sansq1" class="label-text">Technician do not respond</span>
+												</label>
+											</div>	
+											<div class="form-check">
+												<label>
+													<input type="radio" value="4" name="not_interested_reason" <?php 
+														echo !empty($brand_details['not_interested_reason'])?(($brand_details['not_interested_reason']==4)?"checked":""):"";
+														?> >
+													<span id="sansq1" class="label-text">Price high</span>
+												</label>
+											</div>
+											<div class="form-check">
+												<label>
+													<input type="radio" value="5" name="not_interested_reason" <?php 
+														echo !empty($brand_details['not_interested_reason'])?(($brand_details['not_interested_reason']==5)?"checked":""):"";
+														?> >
+													<span id="sansq1" class="label-text">No value for money</span>
+												</label>
+											</div>
+											<div class="form-check">
+												<label>
+													<input type="radio" value="6" name="not_interested_reason" <?php 
+														echo !empty($brand_details['not_interested_reason'])?(($brand_details['not_interested_reason']==6)?"checked":""):"";
+														?> >
+													<span id="sansq1" class="label-text">Escalation but problem exist</span>
+												</label>
+											</div>
+											<div class="form-check">
+												<label>
+													<input type="radio" value="7" name="not_interested_reason" <?php 
+														echo !empty($brand_details['not_interested_reason'])?(($brand_details['not_interested_reason']==7)?"checked":""):"";
+														?> >
+													<span id="sansq1" class="label-text">Will decide later</span>
+												</label>
 											</div>
 										</div>
 										
@@ -1257,18 +1457,17 @@ if(isset($_SESSION['admin_email_id'])){
 													
 													<span class="lt-arrow" style="left: 446px;">&#10510;</span>
 													
-													<div class="vertical-timeline-content vertical-timeline-lt bg-green">
+													<div class="vertical-timeline-content vertical-timeline-lt bg-green" style="margin-left: 117px;">
 														<span class="span-style-lt" style="font-size: 15px;"><?php echo $timeline_data[$i]['tm_interaction']; ?></span>
 													</div>
-													<div class="vertical-timeline-content-lt">
-														<h2><?php echo $timeline_data[$i]['tm_transaction_type']; ?></h2>
-														<p style="clear: both;float: left;">Profile from <?php echo $timeline_data[$i]['tm_movement_from']; ?> to <?php echo $timeline_data[$i]['tm_movement_to']; ?></p>
+													<div class="vertical-timeline-content-lt" style="width: 220px;">
+														<h4><?php echo $timeline_data[$i]['tm_transaction_type']; ?></h4>
 													</div>
 												</div>
 												
 											<?php } else { ?>
 											
-												<div class="vertical-timeline-block v-t-rt dis-in-flex" style="margin-right: 10px;">
+												<div class="vertical-timeline-block v-t-rt dis-in-flex" style="margin-right: 130px;">
 													<div class="vertical-timeline-icon mg-lt-85">
 														<span class="v-t-i-date"><?php echo $timeline_data[$i]['tm_created_date']; ?></span>
 													</div>	
@@ -1284,9 +1483,9 @@ if(isset($_SESSION['admin_email_id'])){
 													<div class="vertical-timeline-content vertical-timeline-rt bg-yellow" style="width: 110px;">
 														<span class="span-style-lt" style="font-size: 15px;"><?php echo $timeline_data[$i]['tm_interaction']; ?></span>
 													</div>
-													<div class="vertical-timeline-content-rt" style="width: 340px;">
-														<h2><?php echo $timeline_data[$i]['tm_transaction_type']; ?></h2>
-														<p>Profile from <?php echo $timeline_data[$i]['tm_movement_from']; ?> to <?php echo $timeline_data[$i]['tm_movement_to']; ?></p>																	
+													<div class="vertical-timeline-content-rt" style="width: 220px;">
+														<h4><?php echo $timeline_data[$i]['tm_transaction_type']; ?></h4>
+																													
 													</div>										
 												</div>
 												
@@ -1297,8 +1496,7 @@ if(isset($_SESSION['admin_email_id'])){
 								</div>
 							</div>
 						</div>
-						
-						
+												
 						<div role="tabpanel" class="tab-pane" id="addamc">										
 							<div class="row">
 								<form action="" name="add_amc_form" id="add_amc_form" method="POST">
@@ -1316,6 +1514,25 @@ if(isset($_SESSION['admin_email_id'])){
 												</div>
 											</div>
 											
+											<div class="row" style="">
+												<div class="col-lg-3"><label>Select Status</label></div>
+												<div class="col-lg-3">
+													<div class="form-group">
+														<select class="form-control" name="transaction_status" id="transaction_status">
+															<option value="0">Select</option>
+															<option value="1" <?php if($brand_details['transaction_status'] == 1){echo 'Selected';} ?> >Service Request Open</option>
+															<option value="2" <?php if($brand_details['transaction_status'] == 2){echo 'Selected';} ?>>Service Request Close</option>
+															<option value="3" <?php if($brand_details['transaction_status'] == 3){echo 'Selected';} ?>>AMC Request Open</option>
+															<option value="4" <?php if($brand_details['transaction_status'] == 4){echo 'Selected';} ?>>AMC Request Close</option>
+															<option value="5" <?php if($brand_details['transaction_status'] == 5){echo 'Selected';} ?>>Escalation Request Open</option>
+															<option value="6" <?php if($brand_details['transaction_status'] == 6){echo 'Selected';} ?>>Escalation Request Close</option>
+															<option value="7" <?php if($brand_details['transaction_status'] == 7){echo 'Selected';} ?>>Upgrade Request Open</option>
+															<option value="8" <?php if($brand_details['transaction_status'] == 8){echo 'Selected';} ?>>Upgrade Request Close</option>
+														</select>
+													</div>
+												</div>
+											</div>
+												
 											<div class="row" style="margin-top:5%;margin-bottom:5%;">
 												<label>Deal closed by?</label>
 												<div class="form-check">
@@ -1336,12 +1553,8 @@ if(isset($_SESSION['admin_email_id'])){
 														<span id="sansq2" class="label-text">By Brand</span>
 													</label>
 												</div>
-												
-												<!-- <input type="radio" name="closedBy" value="Yapnaa" checked>Yapnaa
-												<input type="radio" name="closedBy" value="Others" >3rd Party -->
-												
 											</div>
-												
+											
 											<div class="row" style="margin-top:2%;">
 												<i class="fa fa-comments" style="margin-right:1%;"></i><label>Customers Comments:</label></br>
 												<textarea rows="5" cols="70" id="comments" name="comments" class="maincls form-control" style="width:82%;" ></textarea>
@@ -1355,9 +1568,7 @@ if(isset($_SESSION['admin_email_id'])){
 									<div class="row text-center" style="margin-top: 20px;margin-bottom: 20px;">
 										<input type="submit" id="addAMCSubmit" name="addAMCSubmit" class="btn btn-info" value="Save">	
 									</div>
-									
-								</form>	
-						
+								</form>
 							</div>								
 						</div>
 						
@@ -1368,158 +1579,444 @@ if(isset($_SESSION['admin_email_id'])){
 		
 	</div>
 	
-	<!-- Modal -->
+	<!-- Profile Modal -->
 	
-	<div class="modal fade" id="profiledetails" role="dialog">
+	<div class="modal fade" id="profiledetails" role="dialog" style="">
 		<div class="modal-dialog" style="width: 75%;margin-top:10px;">
-			<div class="modal-content" style="height: 770px;">
-				<div class="modal-header text-center">
+			<div class="modal-content" style="height: 1100px;">
+				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h3 class="modal-title" style="float:left;margin-right: -13%;margin-top: -1%;"> Category : <?php echo $selling_customer_category; ?></h3>
-					<h3 class="modal-title" style="float:left;margin-right: -13%;margin-top: 1%;"> Loyality : <?php echo $digital_customer_category; ?></h3>
-					<h4 class="modal-title">Profile Details</h4>
-					<h3 class="modal-title" style="float:right;margin-right: 5%;margin-top: -2%;"> Name : <?php if(!empty($brand_details['CUSTOMER_NAME'])){echo $brand_details['CUSTOMER_NAME'];} ?></h3>
+					<div class="clear" style="clear: both;"></div>
+					<div class="row">
+						<div class="col-lg-4" style="">
+							<div class="row" style="">
+								<h3 class="modal-title text-left" style="padding-left:15px;">Customer Category : <?php echo $selling_customer_category; ?></h3>
+							</div>
+							<div class="row" style="">	
+								<h3 class="modal-title text-left" style="padding-left:15px;">Customer Status : 
+									<?php 
+										if($brand_details['status'] == 0){
+											echo 'Fresh/Not called';
+										} 
+										if($brand_details['status'] == 1){
+											echo 'Callback';
+										}
+										if($brand_details['status'] == 2){
+											echo 'Not Interested in Service';
+										}
+										if($brand_details['status'] == 3){
+											echo 'Appointment set';
+										}
+										if($brand_details['status'] == 4){
+											echo 'Registered in app';
+										}
+										if($brand_details['status'] == 5){
+											echo 'App SMS sent';
+										}
+										if($brand_details['status'] == 6){
+											echo 'Expiry SMS sent';
+										}
+										if($brand_details['status'] == 7){
+											echo 'AMC Renewed';
+										}
+										if($brand_details['status'] == 8){
+											echo 'Paid service';
+										}
+										if($brand_details['status'] == 9){
+											echo 'Upgrade';
+										}
+										if($brand_details['status'] == 10){
+											echo 'Change Product';
+										}
+										if($brand_details['status'] == 11){
+											echo 'Change Service Provider';
+										}
+										if($brand_details['status'] == 12){
+											echo 'No Response';
+										}
+										if($brand_details['status'] == 13){
+											echo 'Not reachable';
+										}
+										if($brand_details['status'] == 14){
+											echo 'To be contacted';
+										}
+										if($brand_details['status'] == 15){
+											echo 'Interested in Service';
+										}
+										if($brand_details['status'] == 16){
+											echo 'AMC Escalation';
+										}
+										if($brand_details['status'] == 17){
+											echo 'Product Escalation';
+										}
+										if($brand_details['status'] == 18){
+											echo 'Service Escalation';
+										}
+									?>
+								</h3>
+							</div>	
+						</div>
+						<div class="col-lg-4">
+							<div class="row">	
+								<h4 class="modal-title" style="padding-left: 20px;">Profile Details</h4>
+							</div>	
+						</div>
+						<div class="col-lg-4">
+							<div class="row">	
+								<h3 class="modal-title" style="padding-left: 10px;"> Name : <?php if(!empty($brand_details['CUSTOMER_NAME'])){echo $brand_details['CUSTOMER_NAME'];} ?></h3>
+							</div>
+								
+						</div>
+					</div>
 				</div>
 				
 				<div class="modal-body">
-					<div class="row">
-					
-						<div class="col-lg-6" style="border-right: 1px solid #e5e5e5;">			
-							<h2 style="color:#ff6010;font-weight: 400;font-size: 19px;">Customer Categoty</h2>
-							<div>
-								<h3 style="display: inline;">Customer Profile:</h3>
-								<p style="display: inline;margin-left: 4px;color: #9acd32;font-size: 15px;"><?php echo $selling_customer_category; ?></p>
-							</div>
-							<div style="margin-top: 6px;display:none;">
-								<h3 style="display: inline;">Digital Engagement:</h3>
-								<p style="display: inline;margin-left: 4px;"><?php echo $digital_customer_category; ?></p>
-							</div>
-							
-							<h4 style="color:#23c6c8;font-weight: 400;margin-top: 3%;">Contact Details</h4>
-							<div><label>Name: </label> <p style="display:inline;"><?php if(!empty($brand_details['CUSTOMER_NAME'])){echo $brand_details['CUSTOMER_NAME'];} ?></p></div>
-							<div><label>Mobile: </label> <p style="display:inline;"><?php if(!empty($brand_details['PHONE1'])){echo $brand_details['PHONE1'];} else{echo "No Phone";} ?></p></div>
-							<div><label>Email: </label> <p style="display:inline;"><?php if(!empty($brand_details['email'])){echo $brand_details['email'];} else{echo "No Email";} ?></p></div>
-							<div><label>Address: </label> <p style="display:inline;"><?php if(!empty($brand_details['CUSTOMER_AREA'])){echo $brand_details['CUSTOMER_AREA'];} else{echo "No Address";} ?></p></div>
-							
-							</br>
-							
-							<h4 style="color:#23c6c8;font-weight: 400;">Satisfaction</h4>
-							<div>
-								<label>Response time: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Service'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Service'][0][$group_subgroup_result['Customer Satisfaction Index']['Service'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Quality of Service: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Service'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Service'][1][$group_subgroup_result['Customer Satisfaction Index']['Service'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Brand Cummunication : </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Product'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Product'][0][$group_subgroup_result['Customer Satisfaction Index']['Product'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Overall Product Experience: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Product'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Product'][1][$group_subgroup_result['Customer Satisfaction Index']['Product'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							
-							</br>
-							
-							<h4 style="color:#23c6c8;font-weight: 400;">Purchases</h4>
-							<div>
-								<label>Installation Date: </label> <p style="display:inline;"><?php if(!empty($brand_details['INSTALLATION_DATE'])){echo $brand_details['INSTALLATION_DATE'];} else {echo 'N/A';} ?></p>
-							</div>
-							<div>
-								<label>Last Service: </label> <p style="display:inline;"><?php if(!empty($brand_details['last_service_date'])){echo $brand_details['last_service_date'];} else {echo 'N/A';} ?></p>
-							</div>
-							<div>
-								<label>AMC Due Date : </label> <p style="display:inline;"><?php if(!empty($brand_details['req_amc_date'])){echo $brand_details['req_amc_date'];} else {echo 'N/A';} ?></p>
-							</div>
-							<div>
-								<label>3rd party Service: </label> <p style="display:inline;"><?php if(!empty($brand_details['CONTRACT_BY'])){echo $brand_details['CONTRACT_BY'];} else {echo 'N/A';} ?></p>
-							</div>
-							
-							</br>
-							
-							<h2 style="color:#ff6010;font-weight: 400;font-size: 19px;">Life Time Value</h2>
-							<div><label>Service Request: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Status: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Escalations: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>AMC Enquiry: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>New Product Enquiry: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>New Product Installation: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Information Request: </label> <p style="display:inline;">N/A</p></div>
-							
-						</div>
-						
-						<div class="col-lg-6" style="padding-left: 29px;">			
-							<h2 style="color:#ff6010;font-weight: 400;font-size: 19px;">Target Customer Elevation</h2>
-							<div>
-								<h3 style="display: inline;">Customer Profile:</h3>
-								<p style="display: inline;margin-left: 4px;color: #9acd32;font-size: 15px;"><?php echo $selling_target_engagement_level; ?></p>
-							</div>
-							<div style="margin-top: 6px;display:none;">
-								<h3 style="display: inline;">Digital Engagement:</h3>
-								<p style="display: inline;margin-left: 4px;"><?php echo $digital_target_engagement_level; ?></p>
-							</div>
-							
-							<h4 style="color:#23c6c8;font-weight: 400;margin-top: 3%;">Recall</h4>
-							<div>
-								<label>Awareness: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Recall'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Recall'][0][$group_subgroup_result['Customer Brand Engagement Index']['Recall'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Familiar with offerings: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Recall'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Recall'][1][$group_subgroup_result['Customer Brand Engagement Index']['Recall'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							
-							</br>
-							
-							<h4 style="color:#23c6c8;font-weight: 400;">Brand loyalty</h4>
-							<div>
-								<label>Refer: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0][$group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Purchase intent: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1][$group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							
-							</br>
-							
-							<h4 style="color:#23c6c8;font-weight: 400;">Additional insight</h4>
-							<div>
-								<label>Upgrade: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1][$group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							
-							</br>
-							
-							<h2 style="color:#ff6010;font-weight: 400;font-size: 19px;">Brand Value</h2>
-							<div><label>Last Action: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Next Action: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Call count: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>SMS count: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Email count: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Enquiry: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Escalation: </label> <p style="display:inline;">N/A</p></div>
-							<div><label>Yapnaa registered: </label> <p style="display:inline;">N/A</p></div>
-							
-						</div>
-						
-						<div class="col-lg-4" style="padding-left: 29px; display:none;">
-							<h2 style="color:#ff6010;font-weight: 400;font-size: 19px;">Yapnaa Loyalty Points</h2><h3></h3>
-							
-							<h4 style="color:#23c6c8;font-weight: 400;">Referral</h4>
-							<div>
-								<label>Shares opinion: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Referal Value Index']['Potential'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Referal Value Index']['Potential'][0][$group_subgroup_result['Customer Referal Value Index']['Potential'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Influence: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Referal Value Index']['Potential'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Referal Value Index']['Potential'][1][$group_subgroup_result['Customer Referal Value Index']['Potential'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Referral interest: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Referal Value Index']['Interest'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Referal Value Index']['Interest'][0][$group_subgroup_result['Customer Referal Value Index']['Interest'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
-							</div>
-							<div>
-								<label>Provides Feedback: </label> <p style="display:inline;"><?php if(!empty($group_subgroup_result['Customer Referal Value Index']['Interest'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Referal Value Index']['Interest'][1][$group_subgroup_result['Customer Referal Value Index']['Interest'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+				
+					<div class="row" style="margin-top: -17px;">
+						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;">
+							<div class="row">
+								<h2 style="display:inline;color:#ff6010;font-weight:400;font-size:13px;">Customer Categoty</h2>
+								<p style="display: inline;margin-left: 4px;color: #9acd32;font-size: 13px;"><?php echo $selling_customer_category; ?></p>
 							</div>
 						</div>
 						
+						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;padding-left: 29px;">
+							<div class="row">
+								<h2 style="display: inline;color:#ff6010;font-weight:400;font-size:13px;">Target Customer</h2>
+								<p style="display: inline;margin-left: 4px;color: #9acd32;font-size: 13px;"><?php echo $selling_target_engagement_level; ?></p>
+							</div>
+						</div>
+						
+						<div class="col-lg-4" style="padding-left: 29px;">
+							<div class="row">
+								<h2 style="display: inline;color:#ff6010;font-weight:400;font-size:13px;">Yapnaa Loyalty Points</h2>
+								<p style="display: inline;margin-left: 4px;color: #9acd32;font-size: 13px;">0</p>
+							</div>
+						</div>
 					</div>
+					
+					<hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -30px;margin-top: 10px;">
+				
+					<div class="row" style="margin-top: -20px;">
+						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;">
+							
+							<div class="row" style="margin-top: 5%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Contact Details</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Name: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['CUSTOMER_NAME'])){echo $brand_details['CUSTOMER_NAME'];} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>Mobile: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['PHONE1'])){echo $brand_details['PHONE1'];} else{echo "No Phone";} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>Email: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['email'])){echo $brand_details['email'];} else{echo "No Email";} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>Address: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['CUSTOMER_AREA'])){echo $brand_details['CUSTOMER_AREA'];} else{echo "No Address";} ?></p>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row" style="margin-top: 5%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Satisfaction</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									<div style="display:-webkit-inline-box;">
+										<label>Response time: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Service'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Service'][0][$group_subgroup_result['Customer Satisfaction Index']['Service'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+									<div style="display:-webkit-inline-box;">
+										<label>Quality of Service: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Service'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Service'][1][$group_subgroup_result['Customer Satisfaction Index']['Service'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+									<div style="display:-webkit-inline-box;">
+										<label>Brand Cummunication: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Product'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Product'][0][$group_subgroup_result['Customer Satisfaction Index']['Product'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+									<div style="display:-webkit-inline-box;">
+										<label>Overall Product Experience: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Product'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Product'][1][$group_subgroup_result['Customer Satisfaction Index']['Product'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row" style="margin-top: 5%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Purchases</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Installation Date: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['INSTALLATION_DATE'])){echo $brand_details['INSTALLATION_DATE'];} else {echo 'N/A';} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>Last Service: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['last_service_date'])){echo $brand_details['last_service_date'];} else {echo 'N/A';} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>AMC Due Date: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['req_amc_date'])){echo $brand_details['req_amc_date'];} else {echo 'N/A';} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>3rd party Service: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['CONTRACT_BY'])){echo $brand_details['CONTRACT_BY'];} else {echo 'N/A';} ?></p>
+									</div>
+								</div>
+							</div>
+							
+							<!-- <hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -15px;"> -->
+						</div>
+												
+						<div class="col-lg-4" style="border-right:1px solid #e5e5e5;padding-left: 29px;">					
+							<div class="row" style="margin-top: 5%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Recall</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Awareness: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Recall'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Recall'][0][$group_subgroup_result['Customer Brand Engagement Index']['Recall'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>Familiar with offerings: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Recall'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Recall'][1][$group_subgroup_result['Customer Brand Engagement Index']['Recall'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row" style="margin-top: 20%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Brand Loyalty</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Refer: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0][$group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>Purchase intent: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1][$group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row" style="margin-top: 48%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Additional insight</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -7%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Upgrade: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1][$group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="col-lg-4" style="padding-left: 29px;">
+							
+							<div class="row" style="margin-top: 5%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Referral</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Shares opinion: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Influence: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Referral interest: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Provides Feedback: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					
+					<hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -30px;">
+					
+					<div class="row">
+						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;">
+							<div class="row" style="margin-top: -5%;">
+								<h2 style="display:inline;color:#ff6010;font-weight: 400;font-size: 13px;">Life Time Value</h2>
+								<p class="modal-answers" style="display:inline;margin-left: 4px;color: #9acd32;font-size: 13px;"><?php echo $life_time_value; ?></p>
+							</div>
+						</div>
+						
+						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;padding-left: 29px;">
+							<div class="row" style="margin-top: -5%;">
+								<h2 style="display: inline;color:#ff6010;font-weight: 400;font-size: 13px;">Brand Value</h2>
+								<p class="modal-answers" style="display: inline;margin-left: 4px;color: #9acd32;font-size: 13px;"><?php echo $brand_value; ?></p>
+							</div>
+						</div>
+						
+						<div class="col-lg-4" style="padding-left: 29px;">
+							<div class="row" style="margin-top: -5%;">
+								<h2 style="display: inline;color:#ff6010;font-weight: 400;font-size: 13px;">Referral Value</h2>
+								<p class="modal-answers" style="display: inline;margin-left: 4px;color: #9acd32;font-size: 13px;"><?php echo $referral_value; ?></p>
+							</div>
+						</div>
+					</div>
+					
+					<hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -30px;margin-top:8px;">
+					
+					<div class="row" style="margin-top: -20px;">
+						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;">
+							<div class="row" style="margin-top: 3%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Transaction</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Service Request: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($brand_details['req_service_date'])){echo $brand_details['req_service_date'];} else {echo 'N/A';} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>Status: </label> 
+										<p class="modal-answers" style="display:table-cell;">
+											<?php 
+												if($brand_details['transaction_status'] == 0){
+													echo 'N/A';
+												} 
+												if($brand_details['transaction_status'] == 1){
+													echo 'Service Request Open';
+												}
+												if($brand_details['transaction_status'] == 2){
+													echo 'Service Request Close';
+												}
+												if($brand_details['transaction_status'] == 3){
+													echo 'AMC Request Open';
+												}
+												if($brand_details['transaction_status'] == 4){
+													echo 'AMC Request Close';
+												}
+												if($brand_details['transaction_status'] == 5){
+													echo 'Escalation Request Open';
+												}
+												if($brand_details['transaction_status'] == 6){
+													echo 'Escalation Request Close';
+												}
+												if($brand_details['transaction_status'] == 7){
+													echo 'Upgrade Request Open';
+												}
+												if($brand_details['transaction_status'] == 8){
+													echo 'Upgrade Request Close';
+												}
+											?>
+										</p>
+									</div>
+									<div style="display:table-cell;">
+										<label>Escalations: </label> <p class="modal-answers" style="display:table-cell;"><?php if($brand_details['status'] == 16){echo 'Yes';} else {echo 'No';} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>AMC Enquiry: </label> <p class="modal-answers" style="display:table-cell;"><?php if(!empty($brand_details['req_amc_date'])){echo $brand_details['req_amc_date'];} else {echo 'N/A';} ?></p>
+									</div>
+									<div style="display:table;">
+										<label>New Product Enquiry: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table-cell;">
+										<label>New Product Installation: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Information Request: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;padding-left: 29px;">
+							<div class="row" style="margin-top: 3%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Yapnaa Activities</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -10%;margin-top: 2%;">
+									<div style="display:table;">
+										<label>Last Action: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Next Action: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table-cell;">
+										<label>Call count: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>SMS count: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Email count: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table-cell;">
+										<label>Enquiry: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Escalation: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+									<div style="display:table;">
+										<label>Yapnaa registered: </label> <p class="modal-answers" style="display:table-cell;">N/A</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-4" style="padding-left: 29px;">
+							<div class="row" style="margin-top: 3%;">
+								<div class="col-lg-5">
+									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Other Products</h4>
+								</div>
+								<div class="col-lg-7" style="margin-left: -10%;margin-top: 2%;">
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div><div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+									<div style="display:table;">
+										<label></label> <p style="display:table-cell;"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -30px;">
+					
+					<div class="row" style="">
+						<div class="col-lg-8" style="">
+							<div class="form-group">
+								<label for="comment">Customer Comment:</label>
+								<textarea class="form-control" rows="3" name="customer_comment" id="customer_comment"><?php if(!empty($brand_details['customer_comment'])){echo $brand_details['customer_comment'];} ?></textarea>
+							</div>
+						</div>
+						<div class="col-lg-8" style="">
+							<div class="form-group">
+								<label for="comment">Customer Social Activities:</label>
+								<textarea class="form-control" rows="3" name="customer_social_activities" id="customer_social_activities"><?php if(!empty($brand_details['customer_social_activities'])){echo $brand_details['customer_social_activities'];} ?></textarea>
+							</div>
+						</div>
+						<div class="col-lg-4" style="margin-top:3%;">
+							<button type="button" class="btn btn-success" style="background-color:#5cb85c;border-color:#5cb85c" id="customer_comment_button">SUBMIT</button>
+							<div style="margin-top:10px;color:#dd4e4e;"><span id="comment_msg"></span></div>
+						</div>
+					</div>
+					
 				</div>
 				
 			</div>
 		</div>
-	</div>
+	</div>	
 	
 	<!-- Modal End -->
 	
@@ -1623,9 +2120,37 @@ if(isset($_SESSION['admin_email_id'])){
 	<!-- Custom and plugin javascript -->
 	<script src="js/inspinia.js"></script>
 	<script src="js/plugins/pace/pace.min.js"></script>
-
 	<!-- Peity -->
 	<script src="js/demo/peity-demo.js"></script>
+	
+	<script>
+	
+		$('#customer_comment_button').on('click',function(event) {
+			var customer_comment  			= $('#customer_comment').val();
+			var customer_social_activities  = $('#customer_social_activities').val();
+			var brand_name					= '<?php echo $_GET['customer_type'];?>';
+			var user_id						= '<?php echo $_GET['user_id'];?>';
+			var brand_customer_id			= '<?php echo $_GET['brand_customer_id'];?>';
+			
+			$.ajax({
+				type: 'POST',
+				dataType: "json",
+				url: 'smsActions.php?saveCustomerComment=submit',
+				data: "customer_comment="+customer_comment+'&customer_social_activities='+customer_social_activities+'&brand_name='+brand_name+'&user_id='+user_id+'&brand_customer_id='+brand_customer_id,
+				
+				success: function (response) {
+					if(response == true){
+						$('#comment_msg').html('Customer Comment Updated Successfully');
+						$('#comment_msg').show();
+						$('#comment_msg').fadeOut(7000);
+						location.reload();
+					}
+				}
+			});
+			event.preventDefault();
+		});
+	
+	</script>
 	
 	<script>
 	
@@ -1638,6 +2163,8 @@ if(isset($_SESSION['admin_email_id'])){
 			var req_consumable_date = "<?php echo $brand_details['req_consumable_date'];?>";
 			var req_follow_up_date  = "<?php echo $brand_details['req_follow_up_date'];?>";
 			var last_call_comment  	= "<?php echo $brand_details['last_call_comment'];?>";
+			var req_pm_service_date = "<?php echo $brand_details['req_pm_service_date'];?>";
+			var not_interested_reason 	= "<?php echo $brand_details['not_interested_reason'];?>";
 			
 			if(selected_status == 15){
 				document.getElementById('interested_service_status').style.visibility = "visible";
@@ -1665,8 +2192,7 @@ if(isset($_SESSION['admin_email_id'])){
 				document.getElementById('upgrade_date').style.visibility = "hidden";   
 				document.getElementById('consumable_date').style.visibility = "hidden"; 
 			}
-			
-			
+						
 			if(selected_status == 16 || selected_status == 17 || selected_status == 18){
 				document.getElementById('escalation_service_status').style.visibility = "visible"; 
 				if(last_call_comment != ""){
@@ -1687,13 +2213,32 @@ if(isset($_SESSION['admin_email_id'])){
 				document.getElementById('callback_service_status').style.visibility   = "hidden";
 				document.getElementById('follow_up_date').style.visibility 			  = "hidden"; 
 			}
-		  
+			
+			// For PM Service request date
+			if(selected_status == 19){
+				document.getElementById('pm_enquiry_service_status').style.visibility   = "visible";
+				if(req_pm_service_date != ""){
+					document.getElementById("interested_pm_service").checked 			= true;
+					document.getElementById('pm_service_date').value = "<?php echo $brand_details['req_pm_service_date'];?>";
+				}
+			}else{
+				document.getElementById('pm_enquiry_service_status').style.visibility   = "hidden";
+				document.getElementById('pm_service_date').style.visibility 			= "hidden"; 
+			}
+			
+			// Not interested service 
+			if(selected_status == 2){
+				document.getElementById('not_interested_service_status').style.visibility   = "visible";
+			}else{
+				document.getElementById('not_interested_service_status').style.visibility   = "hidden";
+			}
+			
 			
 			$("#question_answer_form").on('change', '#status', function(e){
-				
 				e.preventDefault(); 
 				//var conceptName 	= $(this).children(":selected").text();
 				var selected_value  = $(this).val();
+				//alert(selected_value);
 				if(selected_value == 15){
 					document.getElementById('interested_service_status').style.visibility = "visible";
 				}else{
@@ -1710,6 +2255,18 @@ if(isset($_SESSION['admin_email_id'])){
 					document.getElementById('escalation_service_status').style.visibility   = "visible";
 				}else{
 					document.getElementById('escalation_service_status').style.visibility   = "hidden";
+				}
+				
+				if(selected_value == 19){
+					document.getElementById('pm_enquiry_service_status').style.visibility   = "visible";
+				}else{
+					document.getElementById('pm_enquiry_service_status').style.visibility   = "hidden";
+				}
+				
+				if(selected_value == 2){
+					document.getElementById('not_interested_service_status').style.visibility   = "visible";
+				}else{
+					document.getElementById('not_interested_service_status').style.visibility   = "hidden";
 				}
 				
 			});
@@ -1747,11 +2304,16 @@ if(isset($_SESSION['admin_email_id'])){
 					document.getElementById('follow_up_date').style.visibility = "hidden";
 				}
 				
+				if($("#interested_pm_service").prop('checked') == true){
+					document.getElementById('pm_service_date').style.visibility = "visible";
+				}else{
+					document.getElementById('pm_service_date').style.visibility = "hidden";
+				}
+				
 			});
 			
 		});		
-		
-	
+			
 	</script>
 	
 	
@@ -1802,10 +2364,6 @@ if(isset($_SESSION['admin_email_id'])){
 </body>
 
 </html>
-
-
-
-
 
 
 

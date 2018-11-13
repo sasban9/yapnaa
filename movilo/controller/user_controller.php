@@ -3265,7 +3265,7 @@ function checkout_user_login(){
             $arr_result   = $this->model->insert($table_log_in, $fields_reg); 
 			$subject1	=	"AMC Requested";		
 	
-		    $to                  = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com"; 
+		    $to                  = "sriramm@moviloglobal.com"; 
 		
 	  
             $subject = "$subject1";
@@ -4206,7 +4206,6 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 		return $response;
 	}
 	
-	
 	// Delete digilocker file from API
 	function delete_digilocker_file(){
 		
@@ -4222,19 +4221,20 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
         $condition_log_in				 = "user_token    =$dl_user_token_key and user_id= $dl_user_id";
         $arr_log_in      	 			 = $this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
 		
-		//print_r($arr_log_in);
+		//print_r($arr_log_in);die;
 		if($arr_log_in){
 			$device_type				 = $arr_log_in[0]['user_login_device']; 
 			$user_gcm_id				 = $arr_log_in[0]['user_gcm_id']; 
 			
 			$condition				 	 = "dl_id='$dl_id'";
-			$res					 	 = $this->model->delete_row_data('users_digilocker',$condition);
+			$res						 = $this->model->delete_row_data('users_digilocker',$condition);
 			return $res;
 			
 		}else{
-			return $arr_log_in			 = 1;
+			return $arr_log_in			 = 0;
 		}
     }
+	
 	
 	// User AMC Request from landing page
 	function bluestar_lead_generation($postData){
@@ -4261,7 +4261,7 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 			$apptDate 			= NULL;
 		}
 
-		$to             = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com,vineet@moviloglobal.com"; 
+		$to             = "sriramm@moviloglobal.com,vineet@moviloglobal.com"; 
 	
 		$subject 		= "$subject1";
 
@@ -4321,6 +4321,7 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 			return 0;
 		}
 	}
+	
 	
 	// Function for update Service Request Date in DB
 	function update_service_date_in_brand($req_service_date,$table,$user_id){

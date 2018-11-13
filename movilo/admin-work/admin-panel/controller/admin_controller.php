@@ -7469,7 +7469,10 @@ $datacustomer
 		return $arr_log_in;
 		// print_r($arr_log_in );
 
-    }// SEARCH Customer
+    }
+	
+	
+	// SEARCH Customer
 	function get_brand_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
 		$arr_log_in=array();
@@ -9273,8 +9276,8 @@ could not be delivered,please try again.";
 		return $result;
 	}
 	
-	function getDataFromMasterTableByCondition($brandname,$total){
-		$result		= $this->model->getDataFromMasterTableByCondition($brandname,$total);
+	function getDataFromMasterTableByCondition($brandname,$total,$status){
+		$result		= $this->model->getDataFromMasterTableByCondition($brandname,$total,$status);
 		if($result){
 			return $result;
 		}else{
@@ -9282,7 +9285,8 @@ could not be delivered,please try again.";
 		}	
 	}	
 	
-	function setCustomerListToTable($value,$value1){
+	
+	/* function setCustomerListToTable($value,$value1){
 		$table		= 'daily_call_schedule_2';
 		$arr_input	= array(
 							'brandname'				=> $value['brandname'],
@@ -9296,7 +9300,27 @@ could not be delivered,please try again.";
 		//echo "<br><pre>"; print_r($arr_input); die;				
 		$result		=	$this->model->insert($table,$arr_input);
 		return $result;
+	} */
+	
+	function setCustomerListToTable($value,$get_customer_list){
+		$table		= 'daily_call_schedule_2';
+		foreach($get_customer_list as $key1 => $value1){
+			$arr_input	= array(
+							'brandname'				=> $value['brandname'],
+							'admin_id'				=> $value['admin_id'],
+							'customer_id'			=> $value1['id'],
+							'status'				=> 0,  
+							'created_date'			=> date('Y-m-d H:i:s'),
+							'updated_date'			=> date('Y-m-d H:i:s'),
+							'tag'					=> $value1['tag']	
+						);
+						
+			//echo "<br><pre>";print_r($arr_input);die;		
+			$result		=	$this->model->insert($table,$arr_input);			
+		}
+		return $result;
 	}
+	
 	
 	function get_brand_name($admin_id){
 		$result		= $this->model->get_brand_name($admin_id);
@@ -9410,7 +9434,7 @@ could not be delivered,please try again.";
 	}
 		
 	// Update AMC Status 
-	function updateAmcData($table,$admin_id,$start,$expire,$userid,$comments,$closedBy){
+	function updateAmcData($table,$admin_id,$start,$expire,$userid,$comments,$closedBy,$transaction_status){
 		$admin_name				= 	$_SESSION['admin_name'];
 		$ar_id  	       	 	= 	$_SESSION['ar_id'];
 		
@@ -9423,7 +9447,8 @@ could not be delivered,please try again.";
 										'last_call_comment'	    => $comments,
 										'action_taken_by'	    => $admin_name,
 										'action_taken_by_id'    => $ar_id,
-										'status'			    =>	"7",
+										'status'			    => "7",
+										'transaction_status'	=> $transaction_status,
 										'updated_on'			=> date('Y-m-d')
 									);
 		}
@@ -9436,6 +9461,7 @@ could not be delivered,please try again.";
 										'action_taken_by'	    => $admin_name,
 										'action_taken_by_id'    => $ar_id,
 										'status'			    =>	"0",
+										'transaction_status'	=> $transaction_status,
 										'updated_on'			=> date('Y-m-d')
 									);	
 		}
@@ -9443,8 +9469,14 @@ could not be delivered,please try again.";
 		$condition 				= 	"id='".$userid."'";				
 		$update_zerob_result	= 	$this->model->update($table,$set_array,$condition);
 		
-		return 1;
-		
+		return 1;	
+	}
+	
+	
+	function updateCustomerCommentInBrand($table,$update_data,$brand_customer_id,$user_id){
+		$condition		= "id = '".$user_id."' ";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
 	}
 	
 	
@@ -9829,7 +9861,7 @@ could not be delivered,please try again.";
 	}
 	
 	
-	// Profilke history data for a customer
+	// Profile history data for a customer
 	function get_profile_history_data($brand,$user_id,$tm_id){
 		$result 	= $this->model->get_profile_history_data($brand,$user_id,$tm_id);
 		if($result){
@@ -9840,6 +9872,13 @@ could not be delivered,please try again.";
 	}
 	
 	
+	// Update call status afetr calling in daily_call_schedule table
+	function updateCallStatusInDailyCallSchedule($update_data,$call_id){
+		$condition		= "id = '".$call_id."' ";			   
+		$result 		= $this->model->update('daily_call_schedule_2',$update_data,$condition);
+		return $result;
+	}
+		
 	// Welcome Promotional message
 	function promotional_welcome_sms($customer_type){
 		switch($customer_type){
@@ -9897,7 +9936,6 @@ could not be delivered,please try again.";
 		}
 	}
 	
-
 	// Livpure AMC 
 	function amc_cron($customer_type){
 		switch($customer_type){
@@ -9973,8 +10011,7 @@ could not be delivered,please try again.";
 		curl_close($ch);  
 		return $data;  
 	}
-	
-	
+		
 	function send_lifecycle_sms($user_numbers,$message){ 
 		date_default_timezone_set('Asia/Kolkata');
 		$today = date("Y-m-d H:i:s");
@@ -10019,7 +10056,50 @@ could not be delivered,please try again.";
 	}
 	
 	
+	// Dashboard For pie chart
+	function get_dashboard_data_by_brand_status($table){
+		$result 	= $this->model->get_dashboard_data_by_brand_status($table);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
 	
+	function get_dashboard_data_by_brand_profile_type($table){
+		$result 	= $this->model->get_dashboard_data_by_brand_profile_type($table);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_dashboard_data_by_brand_not_interested($table){
+		$result 	= $this->model->get_dashboard_data_by_brand_not_interested($table);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// By Suman and for telecaller
+	function add_telecaller($arr_input){
+		$table		= 'admin_login';
+		$result		= $this->model->insert($table,$arr_input);
+		return $result;
+	}
+	
+	function get_telecaller_list(){
+		$result 	= $this->model->get_telecaller_list();
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
 	
 		
 }

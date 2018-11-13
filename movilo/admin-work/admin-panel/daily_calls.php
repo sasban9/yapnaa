@@ -140,6 +140,7 @@ if(isset($_SESSION['admin_email_id'])){
 	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 </head>
 
+
 <body>
     <div id="wrapper">
        <?php include "header.php";?>
@@ -164,11 +165,11 @@ if(isset($_SESSION['admin_email_id'])){
 					<label>Search Keyword</label>
 					<input type="text" id="searchBox" class="maincls form-control" value="<?php echo($_POST['search']==0)?$_POST['search']:"";?>"  maxlength="60" name="search" placeholder="Enter name, number or area">
 				</div>
-				<div class="col-lg-2 "  > 
+				<div class="col-lg-2"> 
 					<label class="new">Updated From</label>
 					<input type="date" class="form-control" id="fromDate" name="fromDate" value="<?php echo(isset($_POST['fromDate']))?$_POST['fromDate']:"";?>">
 				</div>
-				<div class="col-lg-2"  >
+				<div class="col-lg-2">
 					<label class="new">Updated To</label>
 					<input type="date" class="form-control"  id="toDate" name="toDate" value="<?php echo(isset($_POST['toDate']))?$_POST['toDate']:"";?>">
 				</div>
@@ -188,10 +189,11 @@ if(isset($_SESSION['admin_email_id'])){
 							<table class="table table-striped table-bordered table-hover dataTables-example" >
 								<thead>
 									<tr>
-										<th><!--input type="checkbox" name="" id="selectAll" /--></th>
+										<!-- <th></th> -->
 										<th>Yapnaa ID</th>
-										<th>BRAND ID</th>
-										<th>BRAND NAME</th>
+										<th>Call assigned date</th>
+										<th>Brand id</th>
+										<th>Brand name</th>
 										<th>Phone </th>
 										<th>Name</th>
 										<th>AMC From & To</th>
@@ -237,8 +239,9 @@ if(isset($_SESSION['admin_email_id'])){
 										
 									?>
 									<tr>
-										<td><input  type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
+										<!-- <td><input  type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td> -->
 										<td><?php echo $get_amc_list[$i]['id'];?></td>
+										<td><?php echo date('d M Y',strtotime($get_amc_list[$i]['created_date']));?></td>
 										<td><?php echo $get_amc_list[$i]['CUSTOMERID'];?></td>
 										<td><?php echo $get_amc_list[$i]['brandname'];?></td>
 										<td><?php echo $get_amc_list[$i]['PHONE1']; ?></a></td>
@@ -329,7 +332,7 @@ if(isset($_SESSION['admin_email_id'])){
 												
 											?>
 											
-											<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa.php?customer_type=<?php echo $_GET['customer_type']?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>')"><i class="fa fa-ellipsis-v"></i></button>
+											<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa.php?customer_type=<?php echo $_GET['customer_type']?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>&call_id=<?php echo $get_amc_list[$i]['call_id']; ?>')"><i class="fa fa-ellipsis-v"></i></button>
 											
 										</td>   
 										 

@@ -217,9 +217,14 @@ if(isset($_SESSION['admin_email_id'])){
 				<div class="col-lg-2 new" >
 					<label>Filter By</label>
 					<select id="filterByAttempt" class="form-control" name="filterByAttempt">
-						<option value="0"<?php echo($_POST['filterByAttempt']==0)?"selected":"";?>>Filter</option>
-						<option value="1" <?php echo($_POST['filterByAttempt']==1)?"selected":"";?>>Not Attempted Customer</option>						 
-						
+						<option value=""<?php echo($_POST['filterByAttempt']==0)?"selected":"";?>>Filter</option>					
+						<option value="" <?php echo($_POST['filterByAttempt']==1)?"selected":"";?>>Call back</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==12)?"selected":"";?>>No response</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==13)?"selected":"";?>>Not Reachable</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==2)?"selected":"";?>>Not interested</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==16)?"selected":"";?>>AMC Escalation</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==17)?"selected":"";?>>Product Escalation</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==18)?"selected":"";?>>Service Escalation</option>
 					</select>
 				</div>
 				<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>

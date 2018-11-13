@@ -1033,7 +1033,7 @@ if(isset($_SESSION['admin_email_id'])){
 											 <span id="sansq58"></span>
 										 </div>
 										 <div class="col-lg-3" > 
-											<input type="radio" class="chk" id="ansq58" data-qid="21" value="" name="21"	> 
+											<input type="radio" class="chk" id="ansq59" data-qid="21" value="" name="21"	> 
 											 <span id="sansq59"></span>
 										 </div>
 									
@@ -1065,7 +1065,7 @@ if(isset($_SESSION['admin_email_id'])){
 											 <span id="sansq62"></span>
 										 </div>
 										 <div class="col-lg-3" > 
-											<input type="radio" class="chk" id="63" data-qid="23" value="" name="23"	> 
+											<input type="radio" class="chk" id="ansq63" data-qid="23" value="" name="23"	> 
 											 <span id="sansq63"></span>
 										 </div>
 									
@@ -1079,7 +1079,7 @@ if(isset($_SESSION['admin_email_id'])){
 											 <span id="sansq64"></span>
 										 </div>
 										 <div class="col-lg-3" > 
-											<input type="radio" class="chk" id="65" data-qid="24" value="" name="24"	> 
+											<input type="radio" class="chk" id="ansq65" data-qid="24" value="" name="24"	> 
 											 <span id="sansq65"></span>
 										 </div>
 									
@@ -1687,47 +1687,49 @@ if(isset($_SESSION['admin_email_id'])){
 			$("#cust_email").val($('.actionBox').attr('data-email'));
            
  		    $("#cust_reply").click(function(){
+				
+				if(custType != 4){
 					$.ajax({
-							url:"smsActions.php?sendSms",
-							type:"POST",
-							data:{number:custmobile,brandName:brandName,customername:namecust},
-							success:function(response){
-								console.log(response);
-								
-							},
-							error:function(error){
-								//alert(JSON.stringify(error));
-							}    
+						url:"smsActions.php?sendSms",
+						type:"POST",
+						data:{number:custmobile,brandName:brandName,customername:namecust},
+						success:function(response){
+							console.log(response);
+						},
+						error:function(error){
+							//alert(JSON.stringify(error));
+						}    
 					});	
+				}
+				
+				$("input:radio[class=chk]:checked").each(function () {
+					var quest = $(this).data("qid");	
+					var ans = $(this).val();
+					var callback=$("#comments").val();						
+					var follow_up_date = $('#follow_up_date').val();	
+					var wish_upgrade_date = $('#wish_upgrade_date').val();
+					var amc_requested_date = $('#amc_requested_date').val();	
+					var service_requested_date = $('#service_requested_date').val();						
+					var mob=	custmobile;
+					var customerid=	idcust;
+					var customername=	namecust;						
+					var brandId=custType; 
+					  
+					$.ajax({
+						url:"smsActions.php?custResponse=submit",
+						type:"POST",
+						data:{callbackCust:callback,userQst:quest,answer:ans,number:mob,brandId:brandId,brandName:brandName,customerid:customerid,customername:customername,follow_up_date:follow_up_date,wish_upgrade_date:wish_upgrade_date,amc_requested_date:amc_requested_date,service_requested_date:service_requested_date},
+						success:function(response){
+							console.log(response);
+						},
+						error:function(error){
+							//alert(JSON.stringify(error));
+						}
+					});  								
+				});
 					
-					$("input:radio[class=chk]:checked").each(function () {
-						var quest = $(this).data("qid");	
-						var ans = $(this).val();
-						var callback=$("#comments").val();						
-                        var follow_up_date = $('#follow_up_date').val();	
-						var wish_upgrade_date = $('#wish_upgrade_date').val();
-						var amc_requested_date = $('#amc_requested_date').val();	
-						var service_requested_date = $('#service_requested_date').val();						
-					    var mob=	custmobile;
-					    var customerid=	idcust;
-					    var customername=	namecust;						
-						var brandId=custType; 
-						  
-						$.ajax({
-							url:"smsActions.php?custResponse=submit",
-							type:"POST",
-							data:{callbackCust:callback,userQst:quest,answer:ans,number:mob,brandId:brandId,brandName:brandName,customerid:customerid,customername:customername,follow_up_date:follow_up_date,wish_upgrade_date:wish_upgrade_date,amc_requested_date:amc_requested_date,service_requested_date:service_requested_date},
-							success:function(response){
-								console.log(response);
-							},
-							error:function(error){
-								//alert(JSON.stringify(error));
-							}
-						});  								
-					});
-				    	
 				alert("Customer response saved successfully.");
-					location.reload();
+				location.reload();
 			});	
 			
 			

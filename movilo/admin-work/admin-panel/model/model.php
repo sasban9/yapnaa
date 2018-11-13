@@ -117,7 +117,7 @@ class model {
 		}
 		$set 		= implode(', ', $updates);
 		$sql		= "UPDATE $table SET $set WHERE $condition"; 
-		 
+		
 		$qry	=	connection()->query($sql);
 		return $qry;
 		
@@ -604,6 +604,11 @@ class model {
 			$condition = " and (STR_TO_DATE(CONTRACT_FROM,'%d-%m-%Y') >= '$amc_fromDate' and STR_TO_DATE(CONTRACT_TO,'%d-%m-%Y') <='$amc_toDate')";
 		} 
 		
+		if($filterByAttempt != null || $filterByAttempt != ''){
+			$condition = " and zc.status = ".$filterByAttempt." ";
+		} 
+		
+		
 		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc"; 
 		
 		if($filter == 7){
@@ -641,7 +646,7 @@ class model {
 		} 
 		
 		$qry	=	connection()->query($sql);
-		if($filterByAttempt==1){
+		/* if($filterByAttempt==1){
 			$sql = "SELECT *, 
 			(SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 
 			GROUP by zc.CUSTOMERID) AS users FROM $table zc where 
@@ -649,7 +654,8 @@ class model {
 			
 			$qry	=	connection()->query($sql);
 				
-		}	
+		}*/
+		
 		//echo $sql;die;
 		$ret		= array();
 		$row		= mysqli_fetch_all($qry,MYSQLI_ASSOC);
@@ -843,24 +849,49 @@ class model {
 		return $ret;
 	}
 	
+	
+	
 	/* By Suman */
 	
 	// Get Data from brand table for call-agencies
-	function getDataFromMasterTableByCondition($brandname,$total){
+	function getDataFromMasterTableByCondition($brandname,$total,$status){
 		$current_date = date('Y-m-d');
-		$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status IN (0,1,13,14) ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
-		//echo $sql; die;
+		if($status == 'new-data'){
+			$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status = 0 ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
+		}
+		if($status == 'escalation-related'){
+			$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status IN (16,17,18) ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
+		}
+		if($status == 'no-response'){
+			$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status = 12 ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
+		}
+		if($status == 'not-reachable'){
+			$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status = 13 ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
+		}
+		if($status == 'call-back'){
+			$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status = 1 ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
+		}
+		if($status == 'not-interested'){
+			$sql 		= "SELECT ".$brandname.".id,tag,PHONE1 FROM ".$brandname." WHERE ".$brandname.".id NOT IN (SELECT customer_id FROM daily_call_schedule_2 WHERE DATE(created_date) = '".$current_date."') AND ".$brandname.".status = 2 ORDER BY ".$brandname.".id DESC LIMIT ".$total." ";
+		}
+		
+		//echo $sql;die;
 		$qry		= connection()->query($sql);
 		$ret		= array();
 		
 		$row		= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
 		$ret 		= array();
 		$ret1 		= array();
-		foreach($row as $key => $value){
-			$ret['id']  = $value['id'];
-			$ret['tag'] = $value['tag'];
-			$ret['PHONE1'] = $value['PHONE1'];
-			$ret1[]		= $ret;
+		if(!empty($row)){
+			foreach($row as $key => $value){
+				$ret['id']  = $value['id'];
+				$ret['tag'] = $value['tag'];
+				$ret['PHONE1'] = $value['PHONE1'];
+				$ret1[]		= $ret;
+			}
+		}else{
+			$ret1 	= array();
 		}
 		//echo "<br><pre>"; print_r($ret1); die;
 		return $ret1; 
@@ -888,7 +919,7 @@ class model {
 			$condition 		.= " and DATE(ca.created_date) BETWEEN '$fromDate' AND '$todate' ";
 		}
 		
-		$sql 				= "SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name."' ".$condition." ";
+		$sql 				= "SELECT ca.brandname,ca.id AS call_id,ca.created_date,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND ca.status = 0 AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name."' ".$condition." ";
 		//echo $sql;
 		$qry				= connection()->query($sql);
 		$ret 				= array();
@@ -919,7 +950,7 @@ class model {
 		
 		if($fromDate != null && $toDate != null){
 			$condition 		.= " and DATE(ca.created_date) BETWEEN '$fromDate' AND '$todate' ";
-			$sql 			= "SELECT ca.brandname,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name."' ".$condition." ";
+			$sql 			= "SELECT ca.brandname,ca.id AS call_id,ca.created_date,bn.* FROM daily_call_schedule_2 ca LEFT JOIN ".$join_table_name." bn ON ca.customer_id = bn.id where ca.admin_id = ".$admin_id." AND ca.status = 0 AND bn.status IN (0,1,13,14) AND ca.brandname = '".$join_table_name."' ".$condition." ";
 		}
 		
 		$qry				= connection()->query($sql);
@@ -930,6 +961,7 @@ class model {
 		//echo '<br><pre>'.print_r($ret);die;
 		return $ret;
 	}
+	
 	
 	function get_q_a($brand,$user_id){
 		//$sql 				= "SELECT qa.* FROM question_and_answer qa WHERE qa.brand = '".$brand."' ";echo $sql;
@@ -1144,13 +1176,13 @@ class model {
 	
 	function promotional_welcome_sms($table){
 		if($table == 'livpure' || 'livpure_tn_kl'){
-			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND  CURDATE() = DATE( DATE_ADD(dc.updated_date, INTERVAL 0 DAY )) ";
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 0 DAY )) ";
 		}
 		if($table == 'bluestar_b2b' || 'bluestar_b2c'){
-			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND CURDATE() = DATE( DATE_ADD(dc.updated_date, INTERVAL 0 DAY )) ";
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 0 DAY )) ";
 		}
 		if($table == 'zerob_consol1'){
-			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND CURDATE() = DATE( DATE_ADD(dc.updated_date, INTERVAL 5 DAY )) ";
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 5 DAY )) ";
 		}
 		
 		$qry				= connection()->query($sql);
@@ -1162,7 +1194,8 @@ class model {
 			return array();
 		}
 	}
-		
+	
+	
 		
 	function amc_cron($table){
 		if($table == 'livpure' || 'livpure_tn_kl'){
@@ -1184,6 +1217,160 @@ class model {
 			return array();
 		}
 	}	
+	
+	
+	// Function for dahboard pie chart
+	function get_dashboard_data_by_brand_status($table){
+		$sql  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 15 ";
+		$qry	= connection()->query($sql);
+		$row	= mysqli_fetch_assoc($qry);
+		$customer_requests 		= $row['total_user'];
+		
+		$sql1  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 ";
+		$qry1	= connection()->query($sql1);
+		$row1	= mysqli_fetch_assoc($qry1);
+		$not_interested 		= $row1['total_user'];
+		
+		$sql2  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 1 OR br.status = 14 ";
+		$qry2	= connection()->query($sql2);
+		$row2	= mysqli_fetch_assoc($qry2);
+		$request_to_reconnect 	= $row2['total_user'];
+		
+		$sql3  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 19 ";
+		$qry3	= connection()->query($sql3);
+		$row3	= mysqli_fetch_assoc($qry3);
+		$requesting_pm_service 	= $row3['total_user'];
+		
+		$sql4 = "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 12 OR br.status = 13 OR br.status = 20 ";
+		$qry4	= connection()->query($sql4);
+		$row4	= mysqli_fetch_assoc($qry4);
+		$not_responsive 		= $row4['total_user'];
+	
+		$return_arr 	= array(
+								'customer_requests' 	=> $customer_requests,
+								'not_interested' 		=> $not_interested,
+								'request_to_reconnect' 	=> $request_to_reconnect,
+								'requesting_pm_service' => $requesting_pm_service,
+								'not_responsive' 		=> $not_responsive
+								);
+								
+		return $return_arr;						
+	}
+	
+	
+	function get_dashboard_data_by_brand_profile_type($table){
+		$sql  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'True Loyalists' ";
+		$qry	= connection()->query($sql);
+		$row	= mysqli_fetch_assoc($qry);
+		$true_loyalists 		= $row['total_user'];
+		
+		$sql1  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'Acquaintences' ";
+		$qry1	= connection()->query($sql1);
+		$row1	= mysqli_fetch_assoc($qry1);
+		$acquaintences 			= $row1['total_user'];
+		
+		$sql2  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'Strangers' ";
+		$qry2	= connection()->query($sql2);
+		$row2	= mysqli_fetch_assoc($qry2);
+		$strangers 				= $row2['total_user'];
+		
+		$sql3  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'Poor Patrons' ";
+		$qry3	= connection()->query($sql3);
+		$row3	= mysqli_fetch_assoc($qry3);
+		$poor_patrons 			= $row3['total_user'];
+		
+		$sql4 = "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'Enthusiasts' ";
+		$qry4	= connection()->query($sql4);
+		$row4	= mysqli_fetch_assoc($qry4);
+		$enthusiasts 			= $row4['total_user'];
+		
+		$sql5 = "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'Admirers' ";
+		$qry5	= connection()->query($sql5);
+		$row5	= mysqli_fetch_assoc($qry5);
+		$admirers 				= $row5['total_user'];
+		
+		$sql6 = "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'Benchwarmers' ";
+		$qry6	= connection()->query($sql6);
+		$row6	= mysqli_fetch_assoc($qry6);
+		$benchwarmers 			= $row6['total_user'];
+		
+		$sql7 = "SELECT count(id) AS total_user FROM ".$table." br WHERE br.profile_type = 'Opportunists' ";
+		$qry7	= connection()->query($sql7);
+		$row7	= mysqli_fetch_assoc($qry7);
+		$opportunists 			= $row7['total_user'];
+		
+		$return_arr 	= array(
+								'true_loyalists' => $true_loyalists,
+								'acquaintences'  => $acquaintences,
+								'strangers' 	 => $strangers,
+								'poor_patrons' 	 => $poor_patrons,
+								'enthusiasts' 	 => $enthusiasts,
+								'admirers' 		 => $admirers,
+								'benchwarmers' 	 => $benchwarmers,
+								'opportunists' 	 => $opportunists
+								);
+								
+		return $return_arr;						
+	}
+	
+	
+	function get_dashboard_data_by_brand_not_interested($table){
+		$sql  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 AND br.not_interested_reason = 1 ";
+		$qry	= connection()->query($sql);
+		$row	= mysqli_fetch_assoc($qry);
+		$dissatisfied_with_service 					= $row['total_user'];
+		
+		$sql1  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 AND br.not_interested_reason = 2 ";
+		$qry1	= connection()->query($sql1);
+		$row1	= mysqli_fetch_assoc($qry1);
+		$unreliable_support_after_taking_contract 	= $row1['total_user'];
+		
+		$sql2  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 AND br.not_interested_reason = 3 ";
+		$qry2	= connection()->query($sql2);
+		$row2	= mysqli_fetch_assoc($qry2);
+		$technician_do_not_respond 					= $row2['total_user'];
+		
+		$sql3  	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 AND br.not_interested_reason = 4 ";
+		$qry3	= connection()->query($sql3);
+		$row3	= mysqli_fetch_assoc($qry3);
+		$price_high 								= $row3['total_user'];
+		
+		$sql4 	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 AND br.not_interested_reason = 5 ";
+		$qry4	= connection()->query($sql4);
+		$row4	= mysqli_fetch_assoc($qry4);
+		$no_value_for_money 						= $row4['total_user'];
+		
+		$sql5 	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 AND br.not_interested_reason = 6 ";
+		$qry5	= connection()->query($sql5);
+		$row5	= mysqli_fetch_assoc($qry5);
+		$escalation_but_problem_exist  				= $row5['total_user'];
+		
+		$sql6 	= "SELECT count(id) AS total_user FROM ".$table." br WHERE br.status = 2 AND br.not_interested_reason = 7 ";
+		$qry6	= connection()->query($sql6);
+		$row6	= mysqli_fetch_assoc($qry6);
+		$will_decide_later 							= $row6['total_user'];
+		
+		$return_arr 	= array(
+								'dissatisfied_with_service' 				=> $dissatisfied_with_service,
+								'unreliable_support_after_taking_contract'  => $unreliable_support_after_taking_contract,
+								'technician_do_not_respond' 	 			=> $technician_do_not_respond,
+								'price_high' 	 							=> $price_high,
+								'no_value_for_money' 	 					=> $no_value_for_money,
+								'escalation_but_problem_exist' 		 		=> $escalation_but_problem_exist,
+								'will_decide_later' 	 					=> $will_decide_later
+								);
+								
+		return $return_arr;						
+	}
+	
+	
+	// By Suman and for telecaller
+	function get_telecaller_list(){
+		$sql  	= "SELECT al.admin_id,al.admin_name,al.admin_email_id FROM admin_login al WHERE al.admin_role_id = 3 ";
+		$qry	= connection()->query($sql);
+		$row	= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		return $row;			
+	}
 	
 	
 	

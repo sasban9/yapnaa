@@ -580,7 +580,7 @@
 	}
 	
 	if(isset($_POST['brand_user_phone'])){
-		print_r($_POST);
+		//print_r($_POST);
 		$sliced_arr 			= array_slice($_POST, 0, 2);
 		
 		foreach($sliced_arr as $key => $value){
@@ -818,6 +818,50 @@
 			
 		<?php } ?>
 		
+		<?php if($_GET['customer_type'] == 2) { ?>
+		
+			<div class="row">
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5> How satisfied are you with the response time to resolve the issue ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="44_answer1_5" name="service_satishfy">Very Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="44_answer2_4" name="service_satishfy">Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="44_answer3_3" name="service_satishfy">Neutral
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="44_answer4_2" name="service_satishfy">Unsatisfied
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="44_answer5_1" name="service_satishfy">Very Unsatisfied
+				</label>
+			  </div>
+			
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5>How satisfied are you with the quality of service provided by the technician ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="45_answer1_5" name="technician_service">Very Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="45_answer2_4" name="technician_service">Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="45_answer3_3" name="technician_service">Neutral
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="45_answer4_2" name="technician_service">Unsatisfied
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="45_answer5_1" name="technician_service">Very Unsatisfied
+				</label>
+			  </div>
+			</div>
+			
+		<?php } ?>
+		
 		<?php if($_GET['customer_type'] == 3) { ?>
 		
 			<div class="row">
@@ -856,6 +900,94 @@
 				</label>
 				<label class="radio-inline hunsatisfied">
 				  <input type="radio" value="62_answer5_1" name="technician_service">Very Unsatisfied
+				</label>
+			  </div>
+			</div>
+			
+		<?php } ?>
+		
+		<?php if($_GET['customer_type'] == 4) { ?>
+		
+			<div class="row">
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5> How satisfied are you with the response time to resolve the issue ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="4_answer1_5" name="service_satishfy">Very Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="4_answer2_4" name="service_satishfy">Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="4_answer3_3" name="service_satishfy">Neutral
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="4_answer4_2" name="service_satishfy">Unsatisfied
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="4_answer5_1" name="service_satishfy">Very Unsatisfied
+				</label>
+			  </div>
+			
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5>How satisfied are you with the quality of service provided by the technician ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="7_answer1_5" name="technician_service">Very Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="7_answer2_4" name="technician_service">Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="7_answer3_3" name="technician_service">Neutral
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="7_answer4_2" name="technician_service">Unsatisfied
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="7_answer5_1" name="technician_service">Very Unsatisfied
+				</label>
+			  </div>
+			</div>
+			
+		<?php } ?>
+		
+		<?php if($_GET['customer_type'] == 5) { ?>
+		
+			<div class="row">
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5> How satisfied are you with the response time to resolve the issue ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="78_answer1_5" name="service_satishfy">Very Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="78_answer2_4" name="service_satishfy">Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="78_answer3_3" name="service_satishfy">Neutral
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="78_answer4_2" name="service_satishfy">Unsatisfied
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="78_answer5_1" name="service_satishfy">Very Unsatisfied
+				</label>
+			  </div>
+			
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5>How satisfied are you with the quality of service provided by the technician ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="79_answer1_5" name="technician_service">Very Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="79_answer2_4" name="technician_service">Satisfied
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="79_answer3_3" name="technician_service">Neutral
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="79_answer4_2" name="technician_service">Unsatisfied
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="79_answer5_1" name="technician_service">Very Unsatisfied
 				</label>
 			  </div>
 			</div>

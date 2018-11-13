@@ -12,12 +12,17 @@ if(isset($_SESSION['admin_email_id'])) {
 	$control				= new admin();
 	//echo "<br><pre>";print_r($_SESSION);exit;
 	
-	/* if(isset($_REQUEST['getCityFromBrand'])){
-		$get_amc_list = $control->get_city_from_brand();
-		print_r($get_amc_list);die;
-	} */
 	
 	if(isset($_POST['brandname']) || !empty($_POST['brandname'])){
+		$adminid 			= explode('_',$_POST['agentname']);
+		$_POST['admin_id'] 	= $adminid[1];
+		//echo "<br><pre>";print_r($_POST);
+		$get_customer_list 	= $control->getDataFromMasterTableByCondition($_POST['brandname'],$_POST['number'],$_POST['status']);
+		$set_customer_list 	= $control->setCustomerListToTable($_POST,$get_customer_list);
+	}
+	
+	
+	/* if(isset($_POST['brandname']) || !empty($_POST['brandname'])){
 		//echo "<br><pre>";print_r($_POST);die;
 		$inp 		= file_get_contents('daily_call_schedule.json');
 		$tempArray  = json_decode($inp,true);
@@ -36,7 +41,6 @@ if(isset($_SESSION['admin_email_id'])) {
 			$jsonData   		= json_encode($_POST);
 			file_put_contents('daily_call_schedule.json', $jsonData);
 		}
-		
 	}
 	
 	//Now from direct url . Later have to add in CRON OR a refresh button
@@ -45,15 +49,22 @@ if(isset($_SESSION['admin_email_id'])) {
 	if($_GET['getCallAgencyData']){
 		$str 						= file_get_contents('daily_call_schedule.json');
 		$data 						= json_decode($str,true);
+		//echo "<br><pre>";print_r($data);die;
+		//$get_customer_list1 		= array();
 		foreach($data as $key => $value){
 			$total 					= $value['number']; 
 			$get_customer_list 		= $control->getDataFromMasterTableByCondition($value['brandname'],$total);
+			
 			foreach($get_customer_list as $key1 => $value1){
+				//echo "<br><pre>";print_r($value1);die;
 				//For Inserting Data
-				$set_customer_list 	= $control->setCustomerListToTable($value,$value1);
+				//$set_customer_list 	= $control->setCustomerListToTable($value,$value1);
 			}
-		}	
-	}
+			
+			// Foreach in controller
+			//$set_customer_list 	= $control->setCustomerListToTable($value,$get_customer_list);
+		}
+	} */
 	
 	
 ?>
@@ -161,13 +172,13 @@ if(isset($_SESSION['admin_email_id'])) {
 					<label>Status</label>
 					<select id="agentname" class="form-control" name="status">
 						<option value="">SELECT</option>
-						<option value="Newdata">Newdata</option>
-						<option value="Escalation Related">Escalation Related</option>
-						<option value="No response">No response</option>
-						<option value="Not Reachable">Not Reachable</option>
-						<option value="Callback">Callback</option>
-						<option value="Not interested">Not interested</option>
-						<option value="By installation date">By installation date</option>
+						<option value="new-data">New data</option>
+						<option value="escalation-related">Escalation Related</option>
+						<option value="no-response">No response</option>
+						<option value="not-reachable">Not Reachable</option>
+						<option value="call-back">Call back</option>
+						<option value="not-interested">Not interested</option>
+						<option value="by-installation-date">By installation date</option>
 					</select>
 				</div>
 				
@@ -181,43 +192,13 @@ if(isset($_SESSION['admin_email_id'])) {
 				</div>
 			</div>	
 			
-			<!-- <div class="row" style="margin-top: 20px;">
-				<div class="col-lg-2 new" >
-					<label>Not Reachable</label>
-					<input type="number" class="form-control" value="" id="notreachable" name="notreachable" placeholder="Enter number">
-				</div>
-			
-				<div class="col-lg-2 new" >
-					<label>Call Back</label>
-					<input type="number" class="form-control" value="" id="callback" name="callback" placeholder="Enter number">
-				</div>
-				
-				<div class="col-lg-2 new" >
-					<label>Collect Feedback</label>
-					<input type="number" class="form-control" value="" id="collectfeedback" name="collectfeedback" placeholder="Enter number">
-				</div>
-				
-				<div class="col-lg-2 new" >
-					<label>Called By Agent</label>
-					<input type="number" class="form-control" value="" id="calledbyagent" name="calledbyagent" placeholder="Enter number">
-				</div>
-				
-				<div class="col-lg-2 new" >
-					<label>Escalate Feedback</label>
-					<input type="number" class="form-control" value="" id="escalatefeedback" name="escalatefeedback" placeholder="Enter number">
-				</div>
-				
-				<div class="col-lg-2" style="margin-top: 23px;">
-					<input type="submit" class="btn btn-info " value="Save"  name="submit" >
-				</div>
-			</div> -->
-			
 		</form>
 	</div>
 	
-	<div class="row">
+	<div class="row" style="display:none;">
 		<div class="col-lg-2 new" >
-			<input type="button" onClick="parent.location='/movilo/admin-work/admin-panel/daily_call_setting.php?getCallAgencyData=1'" class="btn btn-info " value="Refresh"  name="Refresh" >
+			<!-- <input type="button" onClick='window.open("/movilo/admin-work/admin-panel/daily_call_setting.php?getCallAgencyData=1")' class="btn btn-info " value="Refresh"  name="Refresh" > -->
+			<input type="button" class="btn btn-info" id="refresh_button" value="Refresh"  name="Refresh" > 
 		</div>
 	</div>
 		   
@@ -230,17 +211,13 @@ if(isset($_SESSION['admin_email_id'])) {
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
 	
 	<script>
-		/* $("#brandname").on('change',function(){
-			var selectedBrand 	= $("#brandname").val();
-			$.ajax({
-				url:"call_agencies.php?getCityFromBrand",
-				type:"POST",
-				data:{selectedBrand:selectedBrand},
-				success:function(response){
-					
-				} 
-			});
-		}); */
+		
+		$('#refresh_button').on('click',function(){
+			window.open('/movilo/admin-work/admin-panel/daily_call_setting.php?getCallAgencyData=1','_blank');
+			/* setTimeout(function(){ 
+				window.history.go(-1); return false;"
+			}, 3000); */
+		});
 	
 	</script>	
     

@@ -43,7 +43,7 @@ if(isset($_POST['admin_login']))
 					echo  '<script>window.location.assign("admin-panel/index.php"); </script>';
 					break;
 			case 3: 
-					echo  '<script>window.location.assign("admin-panel/index.php"); </script>';
+					echo  '<script>window.location.assign("admin-panel/daily_calls.php"); </script>';
 					break;
 			case 4: 
 					echo  '<script>window.location.assign("admin-panel/index.php"); </script>';

@@ -80,6 +80,7 @@ require_once('controller/admin_controller.php');
 		$control->escalation_lifecycle($customer_type);
 	}
 	
+	
 	// Cron for AMC after 120 days of AMC start days
 	if(isset($_REQUEST['amc_message'])){
 		$customer_type		= $_REQUEST['amc_message'];

@@ -622,6 +622,79 @@ color: #777;
 			
 		<?php } ?>
 		
+		<?php if($_GET['customer_type'] == 2) { ?>
+		
+			<div class="row">
+			  <div class="col-md-12">
+				<h5>Who performed the service ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="41_answer1_0" name="service_source">Retailer who sold you product
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="41_answer2_0" name="service_source">Brand Representative/ Technician
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="41_answer3_0" name="service_source">Third Party/ local repair shop
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="41_answer4_0" name="service_source">Online, Website, Forum
+				</label>
+			  </div>
+			
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="42_answer1_0" name="last_service">Less than 3 months
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="42_answer2_0" name="last_service">Between 3 to 6 months
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="42_answer3_0" name="last_service">6 months to 1 year
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="42_answer4_0" name="last_service">More than 1 year
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="42_answer5_0" name="last_service">Never
+				</label>
+			  </div>
+			 
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="52_answer1_5" name="loyality_recommend">Definetly yes
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="52_answer2_4" name="loyality_recommend">Probably yes
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="52_answer3_3" name="loyality_recommend">May be or may be not
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="52_answer4_2" name="loyality_recommend">Probably not
+				</label>
+				<label class="radio-inline hunsatisfied">
+				  <input type="radio" value="52_answer5_1" name="loyality_recommend">Definetily Not
+				</label>
+			  </div>
+			
+			  <div class="col-md-12" style="margin-top: 2%;">
+				<h5>How interested you would be in knowing more about referral/reward programs of Bluestar products ?</h5>
+				<label class="radio-inline">
+				  <input type="radio" value="56_answer1_5" name="referral_interest">Very Interested
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" value="56_answer2_3" name="referral_interest">May be depends on program
+				</label>
+				<label class="radio-inline unsatisfied">
+				  <input type="radio" value="56_answer3_1" name="referral_interest">Not interested
+				</label>
+			  </div>
+			</div>
+			
+		<?php } ?>
+		
 		<?php if($_GET['customer_type'] == 3) { ?>
 			
 			<div class="row">
@@ -734,7 +807,7 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<h5>How likley are you to recommned this product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="14_answer1_5" name="loyality_recommend">Definetly yes
 				</label>
@@ -753,7 +826,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How interested you would be in knowing more about referral/reward programs of Bluestar products ?</h5>
+				<h5>How interested you would be in knowing more about referral/reward programs of this products ?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="18_answer1_5" name="referral_interest">Very Interested
 				</label>

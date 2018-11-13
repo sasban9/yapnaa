@@ -85,10 +85,11 @@
 										'tm_customer_comment' 	=> $_POST['transaction_comment'],
 										'tm_movement_from' 		=> $existing_category,
 										'tm_movement_to' 		=> $selling_customer_category,
+										'tm_transaction_type' 	=> 'Customer feedback received',
 										'tm_created_date' 		=> date('Y-m-d')
 										);
 			
-			$response 			= $obj_user->insert_transaction_lifecycle_data($timeline_data);			
+			$response 			= $obj_user->insert_transaction_lifecycle_data($timeline_data);
 			
 			// Profile History Data Insertion
 			
@@ -98,7 +99,8 @@
 				$pfl_data['ph_qid']					= $tse_arr[0];
 				$pfl_data['ph_answer']				= $tse_arr[1];
 				$pfl_data['ph_weightage']			= $tse_arr[2];
-				$pfl_data['ph_timeline_id']			= 100;//$response;
+				//$pfl_data['ph_timeline_id']			= 100;//$response;
+				$pfl_data['ph_timeline_id']			= $response;
 				$pfl_data['ph_user_id']				= $_POST['tm_brand_user_id'];
 				$pfl_data['ph_brand_id']			= $_POST['tm_brand_id'];
 				$pfl_data['ph_user_phone']			= $_POST['tm_brand_user_phone'];
@@ -117,7 +119,8 @@
 				$pfl_data2['ph_qid']				= $value3['cqa_qid'];
 				$pfl_data2['ph_answer']				= $value3['cqa_answer'];
 				$pfl_data2['ph_weightage']			= $value3['cqa_weightage'];
-				$pfl_data2['ph_timeline_id']		= 100;//$response;
+				//$pfl_data2['ph_timeline_id']		= 100;//$response;
+				$pfl_data2['ph_timeline_id']		= $response;
 				$pfl_data2['ph_user_id']			= $_POST['tm_brand_user_id'];
 				$pfl_data2['ph_brand_id']			= $_POST['tm_brand_id'];
 				$pfl_data2['ph_user_phone']			= $_POST['tm_brand_user_phone'];

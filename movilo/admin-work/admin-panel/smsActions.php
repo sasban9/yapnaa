@@ -298,6 +298,39 @@ if(isset($_SESSION['admin_email_id'])){
 		echo json_encode($data_arr);
 		exit;
 	}
+	
+	
+	if(isset($_REQUEST['saveCustomerComment'])){
+		
+		switch($_POST['brand_name']){
+			case 1:
+		    $table			= 'livpure';
+            break;
+			
+			case 2:
+		    $table			= 'zerob_consol1';			
+            break;	
+
+			case 3:
+		    $table			= 'livpure_tn_kl';		
+            break;
+			
+			case 4:
+		    $table			= 'bluestar_b2b';		
+            break;
+			
+			case 5:
+		    $table			= 'bluestar_b2c';			
+            break;
+		} 
+		
+		$update_data 		 = array('customer_comment' => $_POST['customer_comment'],'customer_social_activities' => $_POST['customer_social_activities']);
+		$_POST['brand_customer_id'] = '';
+		$update_status  	 = $control->updateCustomerCommentInBrand($table,$update_data,$_POST['brand_customer_id'],$_POST['user_id']);
+		
+		echo json_encode($update_status);
+		exit;
+	}
 		
 	
 }
