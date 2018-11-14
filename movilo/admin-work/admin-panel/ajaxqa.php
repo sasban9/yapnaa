@@ -2166,6 +2166,14 @@ if(isset($_SESSION['admin_email_id'])){
 			var req_pm_service_date = "<?php echo $brand_details['req_pm_service_date'];?>";
 			var not_interested_reason 	= "<?php echo $brand_details['not_interested_reason'];?>";
 			
+			if(selected_status == 0){
+				document.getElementById('interested_service_status').style.visibility = "hidden";
+				document.getElementById('service_date').style.visibility = "hidden";   
+				document.getElementById('amc_date').style.visibility = "hidden";   
+				document.getElementById('upgrade_date').style.visibility = "hidden";   
+				document.getElementById('consumable_date').style.visibility = "hidden"; 
+			}
+			
 			if(selected_status == 15){
 				document.getElementById('interested_service_status').style.visibility = "visible";
 				
