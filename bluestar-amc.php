@@ -570,7 +570,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="25_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -589,7 +589,7 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="35_answer1_5" name="loyality_recommend">Definetly yes
 				</label>
@@ -643,7 +643,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="59_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -662,7 +662,7 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="69_answer1_5" name="loyality_recommend">Definetly yes
 				</label>
@@ -716,7 +716,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="2_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -735,7 +735,7 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="14_answer1_5" name="loyality_recommend">Definetly yes
 				</label>
@@ -789,7 +789,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="76_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -808,7 +808,7 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommend product to your friend on scale of 5 ?</h5>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="86_answer1_5" name="loyality_recommend">Definetly yes
 				</label>

@@ -582,7 +582,7 @@ color: #777;
 		<div class="row">
 			<div class="form-group">
 			  <div class="col-md-12">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5></br>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5></br>
 				<label class="radio-inline">
 				  <input type="radio" value="35_answer1_5_Definetly Yes" name="transaction_brand_experience">Definetly Yes
 				</label>
@@ -654,7 +654,7 @@ color: #777;
 		<div class="row">
 			<div class="form-group">
 			  <div class="col-md-12">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5></br>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5></br>
 				<label class="radio-inline">
 				  <input type="radio" value="52_answer1_5_Definetly Yes" name="transaction_brand_experience">Definetly Yes
 				</label>
@@ -726,7 +726,7 @@ color: #777;
 		<div class="row">
 			<div class="form-group">
 			  <div class="col-md-12">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5></br>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5></br>
 				<label class="radio-inline">
 				  <input type="radio" value="69_answer1_5_Definetly Yes" name="transaction_brand_experience">Definetly Yes
 				</label>
@@ -798,7 +798,7 @@ color: #777;
 		<div class="row">
 			<div class="form-group">
 			  <div class="col-md-12">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5></br>
+				<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5></br>
 				<label class="radio-inline">
 				  <input type="radio" value="14_answer1_5_Definetly Yes" name="transaction_brand_experience">Definetly Yes
 				</label>
@@ -870,7 +870,7 @@ color: #777;
 			<div class="row">
 				<div class="form-group">
 				  <div class="col-md-12">
-					<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5></br>
+					<h5>How likley are you to recommend this product to your friend on scale of 5 ?</h5></br>
 					<label class="radio-inline">
 					  <input type="radio" value="86_answer1_5_Definetly Yes" name="transaction_brand_experience">Definetly Yes
 					</label>

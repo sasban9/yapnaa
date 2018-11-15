@@ -510,7 +510,7 @@ color: #777;
       <div class="col-xs-12 col-md-6 text-center"> <img src="img/connectAsset 3.svg" class="mysvg" alt=""> </div>
       <div class="col-xs-12 col-md-6">
         <div class="about-text">
-          <p>You can reach out to bluestar directly for support and suggestion <a href="#contactForm" style="color: #4F80FF;">on click of a button</a>.</p>
+          <p>You can reach out to Bluestar directly for support and suggestion <a href="#contactForm" style="color: #4F80FF;">on click of a button</a>.</p>
         </div>
       </div>
     </div>
@@ -569,7 +569,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="25_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -588,9 +588,9 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<h5>How likely are you to recommend Bluestar product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
-				  <input type="radio" value="35_answer1_5" name="loyality_recommend">Definetly yes
+				  <input type="radio" value="35_answer1_5" name="loyality_recommend">Definitely yes
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" value="35_answer2_4" name="loyality_recommend">Probably yes
@@ -602,7 +602,7 @@ color: #777;
 				  <input type="radio" value="35_answer4_2" name="loyality_recommend">Probably not
 				</label>
 				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="35_answer5_1" name="loyality_recommend">Definetily Not
+				  <input type="radio" value="35_answer5_1" name="loyality_recommend">Definitely Not
 				</label>
 			  </div>
 			
@@ -642,7 +642,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="42_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -661,9 +661,9 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<h5>How likely are you to recommend Bluestar product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
-				  <input type="radio" value="52_answer1_5" name="loyality_recommend">Definetly yes
+				  <input type="radio" value="52_answer1_5" name="loyality_recommend">Definitely yes
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" value="52_answer2_4" name="loyality_recommend">Probably yes
@@ -675,7 +675,7 @@ color: #777;
 				  <input type="radio" value="52_answer4_2" name="loyality_recommend">Probably not
 				</label>
 				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="52_answer5_1" name="loyality_recommend">Definetily Not
+				  <input type="radio" value="52_answer5_1" name="loyality_recommend">Definitely Not
 				</label>
 			  </div>
 			
@@ -715,7 +715,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="59_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -734,9 +734,9 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned Bluestar product to your friend on scale of 5 ?</h5>
+				<h5>How likely are you to recommend Bluestar product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
-				  <input type="radio" value="69_answer1_5" name="loyality_recommend">Definetly yes
+				  <input type="radio" value="69_answer1_5" name="loyality_recommend">Definitely yes
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" value="69_answer2_4" name="loyality_recommend">Probably yes
@@ -748,7 +748,7 @@ color: #777;
 				  <input type="radio" value="69_answer4_2" name="loyality_recommend">Probably not
 				</label>
 				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="69_answer5_1" name="loyality_recommend">Definetily Not
+				  <input type="radio" value="69_answer5_1" name="loyality_recommend">Definitely Not
 				</label>
 			  </div>
 			
@@ -788,7 +788,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="2_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -807,9 +807,9 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommned this product to your friend on scale of 5 ?</h5>
+				<h5>How likely are you to recommend this product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
-				  <input type="radio" value="14_answer1_5" name="loyality_recommend">Definetly yes
+				  <input type="radio" value="14_answer1_5" name="loyality_recommend">Definitely yes
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" value="14_answer2_4" name="loyality_recommend">Probably yes
@@ -821,7 +821,7 @@ color: #777;
 				  <input type="radio" value="14_answer4_2" name="loyality_recommend">Probably not
 				</label>
 				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="14_answer5_1" name="loyality_recommend">Definetily Not
+				  <input type="radio" value="14_answer5_1" name="loyality_recommend">Definitely Not
 				</label>
 			  </div>
 			
@@ -861,7 +861,7 @@ color: #777;
 			  </div>
 			
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How Satisfied are you with overall brand experience ?</h5>
+				<h5>When was last service performed?</h5>
 				<label class="radio-inline">
 				  <input type="radio" value="76_answer1_0" name="last_service">Less than 3 months
 				</label>
@@ -880,9 +880,9 @@ color: #777;
 			  </div>
 			 
 			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likley are you to recommend product to your friend on scale of 5 ?</h5>
+				<h5>How likely are you to recommend product to your friend on scale of 5 ?</h5>
 				<label class="radio-inline">
-				  <input type="radio" value="86_answer1_5" name="loyality_recommend">Definetly yes
+				  <input type="radio" value="86_answer1_5" name="loyality_recommend">Definitely yes
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" value="86_answer2_4" name="loyality_recommend">Probably yes
@@ -894,7 +894,7 @@ color: #777;
 				  <input type="radio" value="86_answer4_2" name="loyality_recommend">Probably not
 				</label>
 				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="86_answer5_1" name="loyality_recommend">Definetily Not
+				  <input type="radio" value="86_answer5_1" name="loyality_recommend">Definitely Not
 				</label>
 			  </div>
 			
