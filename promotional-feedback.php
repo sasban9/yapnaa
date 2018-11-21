@@ -413,56 +413,80 @@ color: #777;
 	$exploded_arr 		= explode("|",$decrypt_url);
 	$customer_type 		= $exploded_arr[0];
 	$user_id 			= $exploded_arr[1];
+	$brand_customer_id 	= $exploded_arr[2];
+	$user_phone 		= $exploded_arr[3];
+	$user_id 			= 27066;
 	
 	$brand_name 		= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c');
 	$table 				= $brand_name[$customer_type];
 	
 	if(!empty($_POST['brand_user_phone']) ){
-		$sliced_arr 			= array_slice($_POST, 0, -3,true);
-		print_r($sliced_arr); die;
+		//$get_answer_weightage   = $obj_user->get_answer_weightage($value);
+		//$answer_weightage  		= $get_answer_weightage['answer_weightage'];
+		$sliced_arr 				= array_slice($_POST, 0, -3,true);
 		
 		foreach($sliced_arr as $key => $value){
-			print_r($value); die;
+			$get_cqa_data 			= $obj_user->get_question_answer_for_landingpage($user_id,$key);
+			$tse_arr 				= array($key,$value);
 			
-			
-			/* $tse_arr 		 	= explode("_",$value);
-			$get_cqa_data 		= $obj_user->get_question_answer_for_landing_page($_GET['user_id'],$tse_arr[0]);
 			if(!empty($get_cqa_data)){
-				$update_cqa 	= $obj_user->update_customer_question_answer($_GET['user_id'],$tse_arr);
+				$update_cqa 		= $obj_user->update_customer_question_answer_landingpage($user_id,$tse_arr);
 			}else{
-				$update_cqa 	= $obj_user->insert_customer_question_answer($_GET,$tse_arr,$table);
-			} */
+				$update_cqa 		= $obj_user->insert_customer_question_answer_landingpage($user_id,$tse_arr,$customer_type);
+			}
 		}
 		
-		
-		
-		
-		if(!empty($_POST['loyality_recommend'])){
-			$exploded_loy_arr 	= explode("_",$_POST['loyality_recommend']);
-			switch(end($exploded_loy_arr)){
-				case 1:
-				$profile_type	= 'Strangers';
-				break;
-				case 2:
-				$profile_type	= 'Strangers';			
-				break;	
-				case 3:
-				$profile_type	= 'Strangers';		
-				break;
-				case 4:
-				$profile_type	= 'Poor Patrons';			
-				break;
-				case 5:
-				$profile_type	= 'Poor Patrons';			
-				break;
-			} 
-			
-			// Update profile_type in brand table
-			$update_data 		= array('profile_type' => $profile_type);
-			$update_profile_type = $obj_user->updateProfileInBrand($table,$update_data,'',$_GET['user_id']);
-			
+		if(!empty($sliced_arr[2]) || !empty($sliced_arr[12])){
+			if($sliced_arr[2] == 13 || $sliced_arr[12] == 13){
+				$profile_type		= 'True Loyalists';
+			}
+			if($sliced_arr[2] == 14 || $sliced_arr[12] == 14){
+				$profile_type		= 'Acquaintences';
+			}
+			if($sliced_arr[2] == 15 || $sliced_arr[12] == 15){
+				$profile_type		= 'Strangers';
+			}
+			if($sliced_arr[2] == 16 || $sliced_arr[12] == 16){
+				$profile_type		= 'Strangers';
+			}
+			if($sliced_arr[2] == 17 || $sliced_arr[12] == 17){
+				$profile_type		= 'Poor Patrons';
+			}
 		}
 		
+		if(!empty($sliced_arr[8])){
+			if($sliced_arr[8] == 41){
+				$profile_type		= 'Enthusiasts';
+			}
+			if($sliced_arr[8] == 42){
+				$profile_type		= 'Admirers';
+			}
+			if($sliced_arr[8] == 43){
+				$profile_type		= 'Benchwarmers';
+			}
+		}
+		
+		if((!empty($sliced_arr[2]) || !empty($sliced_arr[12])) && !empty($sliced_arr[8])){
+			if($sliced_arr[2] == 13 || $sliced_arr[12] == 13){
+				$profile_type		= 'True Loyalists';
+			}
+			if($sliced_arr[2] == 14 || $sliced_arr[12] == 14){
+				$profile_type		= 'Acquaintences';
+			}
+			if($sliced_arr[2] == 15 || $sliced_arr[12] == 15){
+				$profile_type		= 'Strangers';
+			}
+			if($sliced_arr[2] == 16 || $sliced_arr[12] == 16){
+				$profile_type		= 'Strangers';
+			}
+			if($sliced_arr[2] == 17 || $sliced_arr[12] == 17){
+				$profile_type		= 'Poor Patrons';
+			}
+		}
+		
+		// Update profile_type in brand table
+		$update_data 				= array('profile_type' => $profile_type,'updated_on' => date('Y-m-d'));
+		$update_profile_type 		= $obj_user->updateProfileInBrand($table,$update_data,'',$user_id);
 	}
 	
 ?>

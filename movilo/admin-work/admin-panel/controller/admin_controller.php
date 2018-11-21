@@ -9918,9 +9918,7 @@ could not be delivered,please try again.";
 			
 		} 
        	
-		//include 'encryption_decryption.php';
 		$result 					= $this->model->promotional_welcome_sms($table);
-		//print_r($result); die;
 		$userphone 					= array();
 		$user_detail 				= array();
 		if(!empty($result)){
@@ -9929,7 +9927,7 @@ could not be delivered,please try again.";
 				
 				//$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?customer_type='. $customer_type.'&brand_customer_id='.$result[$i]['CUSTOMERID'].'&user_phone='.$result[$i]["PHONE1"].'&user_id='.$result[$i]["id"].' ');
 				
-				$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?hash='. encryptIt($customer_type."|".$result[$i]["id"]).' ');
+				$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?hash='. encryptIt($customer_type."|".$result[$i]["id"]."|".$result[$i]["CUSTOMERID"]."|".$result[$i]["PHONE1"]).' ');
 				
 				
 				$userphone['id'] 	= $result[$i]['id'];
@@ -9938,7 +9936,7 @@ could not be delivered,please try again.";
 				
 				$user_detail[] 		= $userphone;
 			}	
-			print_r($user_detail);die;
+			
 			foreach($user_detail as $key => $value){
 				$this->send_lifecycle_sms($value['phone'],$value['url']);
 			}

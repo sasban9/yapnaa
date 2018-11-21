@@ -459,7 +459,24 @@ where users_products.up_user_id=$user_id";
 		
 	}
 	
+	function get_answer_weightage($table, $value){
+		$sql 				= "SELECT ya.answer_weightage FROM ".$table." ya WHERE ya.id = ".$value." ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		return $row;
+	}
+	
+	
+	function get_question_answer_for_landingpage($user_id,$question_id){
+		$sql 		= "SELECT cqa.id AS cqaid FROM customer_question_answer_1 cqa WHERE cqa.user_id = ".$user_id." AND cqa.question_id = ".$question_id." ";
+		
+		$qry		= connection()->query($sql);
+		$row		= mysqli_fetch_assoc($qry);
+		return $row;
+	}
 
+	
+	
 	
 	
 }

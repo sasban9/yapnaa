@@ -93,8 +93,7 @@ require_once('controller/admin_controller.php');
 		$customer_type 		= $_REQUEST['promotional_welcome_sms'];
 		$control->promotional_welcome_sms($customer_type);
 	}
-	
-	
+		
 	// Cron for amc
 	if(isset($_REQUEST['amc_cron'])){
 		$customer_type 		= $_REQUEST['amc_cron'];

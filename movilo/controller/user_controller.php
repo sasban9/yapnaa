@@ -4475,6 +4475,59 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 		}
 	}	
 	
+	function get_answer_weightage($value){
+		$table 			= 'yapnaa_answers_1';
+		$arr_result   	= $this->model->get_answer_weightage($table, $value);
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return array('answer_weightage' => 0);
+		}
+	}
+	
+	// Function for getting question and answer for landing page
+	function get_question_answer_for_landingpage($user_id,$question_id){
+		$result 			= $this->model->get_question_answer_for_landingpage($user_id,$question_id);
+		if(!empty($result)){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	// Update custome question and answer
+	function update_customer_question_answer_landingpage($user_id,$tse_arr){
+		$data 				= array('answer_id' => $tse_arr[1]);
+		$condition    	 	= 'user_id = '.$user_id.' AND question_id = '.$tse_arr[0];	
+		
+		$update_cqs    		= $this->model->update('customer_question_answer_1', $data, $condition);
+		if($update_cqs){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	// Insert custome question and answer
+	function insert_customer_question_answer_landingpage($user_id,$tse_arr,$customer_type){
+		$data 				= array(
+									'question_id' => $tse_arr[0],	
+									'user_id' => $user_id,
+									'answer_id' => $tse_arr[1],
+									'brand_id' => $customer_type,
+									'created_date' => date('Y-m-d H:i:s'),
+									'updated_date' => date('Y-m-d H:i:s')	
+									);
+							
+		$arr_result  	 	= $this->model->insert('customer_question_answer_1', $data);
+		if($insert_cqs){
+			return true;
+		}else{
+			return false;
+		}	
+	}
+	
 	
 	
 	
