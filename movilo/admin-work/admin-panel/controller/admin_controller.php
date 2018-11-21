@@ -1,6 +1,9 @@
 <?php 
 require 'PHPMailerAutoload.php';  
 require_once("model/model.php");
+
+include 'encryption_decryption.php';
+
 $obj_model	=new	model; 
 
 //Controller to perform all admin functions
@@ -9881,6 +9884,7 @@ could not be delivered,please try again.";
 		
 	// Welcome Promotional message
 	function promotional_welcome_sms($customer_type){
+		
 		switch($customer_type){
 			case 1:
 		    $table			= 'livpure';
@@ -9914,21 +9918,27 @@ could not be delivered,please try again.";
 			
 		} 
        	
+		//include 'encryption_decryption.php';
 		$result 					= $this->model->promotional_welcome_sms($table);
-		
+		//print_r($result); die;
 		$userphone 					= array();
 		$user_detail 				= array();
 		if(!empty($result)){
 			for($i=0;$i<count($result); $i++){
 				$userphone['phone'] = $result[$i]['PHONE1'];
-				$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?customer_type='. $customer_type.'&brand_customer_id='.$result[$i]['CUSTOMERID'].'&user_phone='.$result[$i]["PHONE1"].'&user_id='.$result[$i]["id"].' ');
+				
+				//$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?customer_type='. $customer_type.'&brand_customer_id='.$result[$i]['CUSTOMERID'].'&user_phone='.$result[$i]["PHONE1"].'&user_id='.$result[$i]["id"].' ');
+				
+				$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?hash='. encryptIt($customer_type."|".$result[$i]["id"]).' ');
+				
+				
 				$userphone['id'] 	= $result[$i]['id'];
 				$userphone['CUSTOMERID'] 	= $result[$i]['CUSTOMERID'];
 				$userphone['profile_type'] 	= $result[$i]['profile_type'];
 				
 				$user_detail[] 		= $userphone;
 			}	
-			
+			print_r($user_detail);die;
 			foreach($user_detail as $key => $value){
 				$this->send_lifecycle_sms($value['phone'],$value['url']);
 			}
@@ -10100,6 +10110,99 @@ could not be delivered,please try again.";
 			return array();
 		}
 	}
+	
+	
+	// New Customer Question Answer Logic
+	function get_qa_data($customer_type,$user_id){
+		switch($customer_type){
+			case 1:
+			$brand	='livpure';
+			break;
+			case 2:
+			$brand	='zerob_consol1';
+			break;
+			case 3:
+			$brand	='livpure_tn_kl';
+			break;
+			case 4:
+			$brand	='bluestar_b2b';
+			break;
+			case 5:
+			$brand	='bluestar_b2c';
+			break;
+		}
+		$brand   	= 1;
+		$result 	= $this->model->get_qa_data($brand,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// New Table Design By Saswata AND Suman
+	function insert_q_a($data){
+		$table 			= 'customer_question_answer_1';
+		$arr_result   	= $this->model->insert($table, $data);
+		
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	function update_q_a($data,$user_id){
+		$result		= $this->model->update_q_a($data,$user_id);
+		return $result; 
+	}
+	
+	function get_question_ids_of_customer($brand_id,$user_id){
+		$result 			= $this->model->get_question_ids_of_customer($brand_id,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_answer_weightage_of_customer($brand_id,$user_id){
+		$result 			= $this->model->get_answer_weightage_of_customer($brand_id,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function update_status_in_brand($table,$update_data,$user_id){
+		$condition		= "id = '".$user_id."' ";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
+	}
+	
+	// Profile history data for a customer
+	function show_profile_history($brand,$user_id,$tm_id){
+		$result 	= $this->model->show_profile_history($brand,$user_id,$tm_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_profile_popup_data($brand,$user_id){
+		$result 	= $this->model->get_profile_popup_data($brand,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
 	
 		
 }

@@ -404,39 +404,39 @@ color: #777;
 <?php 
 
 	require_once(__DIR__.'/'.'movilo/controller/user_controller.php');
+	include 'encryption_decryption.php';
 
-	$obj_user = new users;
+	$obj_user 			= new users;
 	
-	switch($_GET['customer_type']) {
-		case 1:
-		$table	= 'livpure';
-		break;
-		case 2:
-		$table	= 'zerob_consol1';
-		break;
-		case 3:
-		$table	= 'livpure_tn_kl';
-		break;
-		case 4:
-		$table	= 'bluestar_b2b';
-		break;
-		case 5:
-		$table	= 'bluestar_b2c';
-		break;
-	}
+	$_GET['hash'] 		= str_replace(' ', '+', $_GET['hash']);
+	$decrypt_url		= decryptIt($_GET['hash']);
+	$exploded_arr 		= explode("|",$decrypt_url);
+	$customer_type 		= $exploded_arr[0];
+	$user_id 			= $exploded_arr[1];
+	
+	$brand_name 		= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c');
+	$table 				= $brand_name[$customer_type];
 	
 	if(!empty($_POST['brand_user_phone']) ){
-		$sliced_arr 			= array_slice($_POST, 0, 4);
+		$sliced_arr 			= array_slice($_POST, 0, -3,true);
+		print_r($sliced_arr); die;
 		
 		foreach($sliced_arr as $key => $value){
-			$tse_arr 		 	= explode("_",$value);
+			print_r($value); die;
+			
+			
+			/* $tse_arr 		 	= explode("_",$value);
 			$get_cqa_data 		= $obj_user->get_question_answer_for_landing_page($_GET['user_id'],$tse_arr[0]);
 			if(!empty($get_cqa_data)){
 				$update_cqa 	= $obj_user->update_customer_question_answer($_GET['user_id'],$tse_arr);
 			}else{
 				$update_cqa 	= $obj_user->insert_customer_question_answer($_GET,$tse_arr,$table);
-			}
+			} */
 		}
+		
+		
+		
+		
 		if(!empty($_POST['loyality_recommend'])){
 			$exploded_loy_arr 	= explode("_",$_POST['loyality_recommend']);
 			switch(end($exploded_loy_arr)){
@@ -479,25 +479,6 @@ color: #777;
 	  </a> </div>
   </div>
 </nav>
-<!-- Header -->
-<header id="header">
-  <div class="intro">
-    <div class="overlay">
-      <div class="container">
-        <div class="row">
-          <div class="intro-text">
-		   <img src="img/bluestar.png" style="max-width:200px;">
-            <h1>Bluestar partners with Yapnaa</h1>
-            <p>To engage with customers for support, interactions
-                 and feedback of air conditioner </p>
-			<!-- <button type="button" class="btn btn-primary">REQUEST FOR APPOINTMENT</button>	-->
-			<a href="#contactForm" class="btn btn-primary">REQUEST FOR APPOINTMENT</a>			
-         </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
 
 <!-- About Section -->
 <div id="about">
@@ -549,373 +530,97 @@ color: #777;
     
     <div class="col-md-8">
       <form action="" name="sentMessage" id="contactForm" method="POST" novalidate>
-		<?php if($_GET['customer_type'] == 1) { ?>
+	  
+		<div class="row">
+		  <div class="col-md-12">
+			<h5>Who performed the service ?</h5>
+			<label class="radio-inline">
+			  <input type="radio" value="1" name="1">Retailer who sold you product
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="2" name="1">Brand Representative/ Technician
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="3" name="1">Third Party/ local repair shop
+			</label>
+			<label class="radio-inline unsatisfied">
+			  <input type="radio" value="4" name="1">Online, Website, Forum
+			</label>
+		  </div>
 		
-			<div class="row">
-			  <div class="col-md-12">
-				<h5>Who performed the service ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="24_answer1_0" name="service_source">Retailer who sold you product
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="24_answer2_0" name="service_source">Brand Representative/ Technician
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="24_answer3_0" name="service_source">Third Party/ local repair shop
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="24_answer4_0" name="service_source">Online, Website, Forum
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>When was last service performed?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="25_answer1_0" name="last_service">Less than 3 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="25_answer2_0" name="last_service">Between 3 to 6 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="25_answer3_0" name="last_service">6 months to 1 year
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="25_answer4_0" name="last_service">More than 1 year
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="25_answer5_0" name="last_service">Never
-				</label>
-			  </div>
-			 
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likely are you to recommend Bluestar product to your friend on scale of 5 ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="35_answer1_5" name="loyality_recommend">Definitely yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="35_answer2_4" name="loyality_recommend">Probably yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="35_answer3_3" name="loyality_recommend">May be or may be not
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="35_answer4_2" name="loyality_recommend">Probably not
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="35_answer5_1" name="loyality_recommend">Definitely Not
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How interested you would be in knowing more about referral/reward programs of Bluestar products ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="39_answer1_5" name="referral_interest">Very Interested
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="39_answer2_3" name="referral_interest">May be depends on program
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="39_answer3_1" name="referral_interest">Not interested
-				</label>
-			  </div>
-			</div>
-			
-		<?php } ?>
+		  <div class="col-md-12" style="margin-top: 2%;">
+			<h5>How satisfied are you with the response time to resolve the issue?</h5>
+			<label class="radio-inline">
+			  <input type="radio" value="13" name="2">Very Satisfied
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="14" name="2">Satisfied
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="15" name="2">Neutral
+			</label>
+			<label class="radio-inline unsatisfied">
+			  <input type="radio" value="16" name="2">Unsatisfied
+			</label>
+			<label class="radio-inline hunsatisfied">
+			  <input type="radio" value="17" name="2">Very Unsatisfied
+			</label>
+		  </div>
+		  
+		  <div class="col-md-12" style="margin-top: 2%;">
+			<h5>How satisfied overall you are owning this product? Did it meet your expectation?</h5>
+			<label class="radio-inline">
+			  <input type="radio" value="13" name="12">Very Satisfied
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="14" name="12">Satisfied
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="15" name="12">Neutral
+			</label>
+			<label class="radio-inline unsatisfied">
+			  <input type="radio" value="16" name="12">Unsatisfied
+			</label>
+			<label class="radio-inline hunsatisfied">
+			  <input type="radio" value="17" name="12">Very Unsatisfied
+			</label>
+		  </div>
+		 
+		  <div class="col-md-12" style="margin-top: 2%;">
+			<h5>How likely are you to recommend this product to your friend on scale of 5 ?</h5>
+			<label class="radio-inline">
+			  <input type="radio" value="32" name="6">Definitely yes
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="33" name="6">Probably yes
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="34" name="6">May be or may be not
+			</label>
+			<label class="radio-inline unsatisfied">
+			  <input type="radio" value="35" name="6">Probably not
+			</label>
+			<label class="radio-inline hunsatisfied">
+			  <input type="radio" value="36" name="6">Definitely Not
+			</label>
+		  </div>
 		
-		<?php if($_GET['customer_type'] == 2) { ?>
-		
-			<div class="row">
-			  <div class="col-md-12">
-				<h5>Who performed the service ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="41_answer1_0" name="service_source">Retailer who sold you product
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="41_answer2_0" name="service_source">Brand Representative/ Technician
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="41_answer3_0" name="service_source">Third Party/ local repair shop
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="41_answer4_0" name="service_source">Online, Website, Forum
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>When was last service performed?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="42_answer1_0" name="last_service">Less than 3 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="42_answer2_0" name="last_service">Between 3 to 6 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="42_answer3_0" name="last_service">6 months to 1 year
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="42_answer4_0" name="last_service">More than 1 year
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="42_answer5_0" name="last_service">Never
-				</label>
-			  </div>
-			 
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likely are you to recommend Bluestar product to your friend on scale of 5 ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="52_answer1_5" name="loyality_recommend">Definitely yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="52_answer2_4" name="loyality_recommend">Probably yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="52_answer3_3" name="loyality_recommend">May be or may be not
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="52_answer4_2" name="loyality_recommend">Probably not
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="52_answer5_1" name="loyality_recommend">Definitely Not
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How interested you would be in knowing more about referral/reward programs of Bluestar products ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="56_answer1_5" name="referral_interest">Very Interested
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="56_answer2_3" name="referral_interest">May be depends on program
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="56_answer3_1" name="referral_interest">Not interested
-				</label>
-			  </div>
-			</div>
-			
-		<?php } ?>
-		
-		<?php if($_GET['customer_type'] == 3) { ?>
-			
-			<div class="row">
-			  <div class="col-md-12">
-				<h5>Who performed the service ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="58_answer1_0" name="service_source">Retailer who sold you product
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="58_answer2_0" name="service_source">Brand Representative/ Technician
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="58_answer3_0" name="service_source">Third Party/ local repair shop
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="58_answer4_0" name="service_source">Online, Website, Forum
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>When was last service performed?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="59_answer1_0" name="last_service">Less than 3 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="59_answer2_0" name="last_service">Between 3 to 6 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="59_answer3_0" name="last_service">6 months to 1 year
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="59_answer4_0" name="last_service">More than 1 year
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="59_answer5_0" name="last_service">Never
-				</label>
-			  </div>
-			 
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likely are you to recommend Bluestar product to your friend on scale of 5 ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="69_answer1_5" name="loyality_recommend">Definitely yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="69_answer2_4" name="loyality_recommend">Probably yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="69_answer3_3" name="loyality_recommend">May be or may be not
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="69_answer4_2" name="loyality_recommend">Probably not
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="69_answer5_1" name="loyality_recommend">Definitely Not
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How interested you would be in knowing more about referral/reward programs of Bluestar products ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="73_answer1_5" name="referral_interest">Very Interested
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="73_answer2_3" name="referral_interest">May be depends on program
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="73_answer3_1" name="referral_interest">Not interested
-				</label>
-			  </div>
-			</div>
-			
-		<?php } ?>
-		
-		<?php if($_GET['customer_type'] == 4) { ?>
-		
-			<div class="row">
-			  <div class="col-md-12">
-				<h5>Who performed the service ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="1_answer1_0" name="service_source">Retailer who sold you product
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="1_answer2_0" name="service_source">Brand Representative/ Technician
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="1_answer3_0" name="service_source">Third Party/ local repair shop
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="1_answer4_0" name="service_source">Online, Website, Forum
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>When was last service performed?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="2_answer1_0" name="last_service">Less than 3 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="2_answer2_0" name="last_service">Between 3 to 6 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="2_answer3_0" name="last_service">6 months to 1 year
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="2_answer4_0" name="last_service">More than 1 year
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="2_answer5_0" name="last_service">Never
-				</label>
-			  </div>
-			 
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likely are you to recommend this product to your friend on scale of 5 ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="14_answer1_5" name="loyality_recommend">Definitely yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="14_answer2_4" name="loyality_recommend">Probably yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="14_answer3_3" name="loyality_recommend">May be or may be not
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="14_answer4_2" name="loyality_recommend">Probably not
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="14_answer5_1" name="loyality_recommend">Definitely Not
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How interested you would be in knowing more about referral/reward programs of this products ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="18_answer1_5" name="referral_interest">Very Interested
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="18_answer2_3" name="referral_interest">May be depends on program
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="18_answer3_1" name="referral_interest">Not interested
-				</label>
-			  </div>
-			</div>
-			
-		<?php } ?>
-		
-		<?php if($_GET['customer_type'] == 5) { ?>
-		
-			<div class="row">
-			  <div class="col-md-12">
-				<h5>Who performed the service ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="75_answer1_0" name="service_source">Retailer who sold you product
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="75_answer2_0" name="service_source">Brand Representative/ Technician
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="75_answer3_0" name="service_source">Third Party/ local repair shop
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="75_answer4_0" name="service_source">Online, Website, Forum
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>When was last service performed?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="76_answer1_0" name="last_service">Less than 3 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="76_answer2_0" name="last_service">Between 3 to 6 months
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="76_answer3_0" name="last_service">6 months to 1 year
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="76_answer4_0" name="last_service">More than 1 year
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="76_answer5_0" name="last_service">Never
-				</label>
-			  </div>
-			 
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How likely are you to recommend product to your friend on scale of 5 ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="86_answer1_5" name="loyality_recommend">Definitely yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="86_answer2_4" name="loyality_recommend">Probably yes
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="86_answer3_3" name="loyality_recommend">May be or may be not
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="86_answer4_2" name="loyality_recommend">Probably not
-				</label>
-				<label class="radio-inline hunsatisfied">
-				  <input type="radio" value="86_answer5_1" name="loyality_recommend">Definitely Not
-				</label>
-			  </div>
-			
-			  <div class="col-md-12" style="margin-top: 2%;">
-				<h5>How interested you would be in knowing more about referral/reward programs of Bluestar products ?</h5>
-				<label class="radio-inline">
-				  <input type="radio" value="90_answer1_5" name="referral_interest">Very Interested
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" value="90_answer2_3" name="referral_interest">May be depends on program
-				</label>
-				<label class="radio-inline unsatisfied">
-				  <input type="radio" value="90_answer3_1" name="referral_interest">Not interested
-				</label>
-			  </div>
-			</div>
-			
-		<?php } ?>
-		
+		  <div class="col-md-12" style="margin-top: 2%;">
+			<h5>How interested you would be in knowing more about referral/reward programs of this products ?</h5>
+			<label class="radio-inline">
+			  <input type="radio" value="41" name="8">Very Interested
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" value="42" name="8">May be depends on program
+			</label>
+			<label class="radio-inline unsatisfied">
+			  <input type="radio" value="43" name="8">Not interested
+			</label>
+		  </div>
+		</div>
+	  
 		<br/><br/>
-	   
+	   	   
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -931,7 +636,7 @@ color: #777;
           </div>
 	    </div>
 		
-		<div class="row">  
+		<!-- <div class="row">  
 		  <div class="col-md-6">
             <div class="form-group">
               <label class="checkbox-inline"><input type="checkbox" id="brand_set_appointment" name="brand_set_appointment" value="1">Want to set an appointment</label>
@@ -944,7 +649,8 @@ color: #777;
               <p class="help-block text-danger"></p>
             </div>
           </div>
-        </div>
+        </div> -->
+		
 		</br>
         <div class="form-group">
           <textarea id="brand_user_comment" name="brand_user_comment" class="form-control" rows="4" placeholder="Any valuable input" required></textarea>

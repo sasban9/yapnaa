@@ -230,9 +230,8 @@ if(isset($_SESSION['admin_email_id'])){
 	
 	/* Code By Suman */
 	if(isset($_REQUEST['showProfileHistory'])){
-		//print_r($_POST);die;
 		$get_pfl_hist_data		= $control->get_profile_history_data($_POST['tm_brand_name'],$_POST['tm_brand_user_id'],$_POST['tm_id']);
-		
+		//print_r($get_pfl_hist_data);die;
 		$parent_group_result 	= array();
 		foreach ($get_pfl_hist_data as $key1 => $value1) {
 			$parent_group 		= $value1['qa_parent_group_level'];
@@ -294,6 +293,84 @@ if(isset($_SESSION['admin_email_id'])){
 										'upgrade' 							=> $group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1][$group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_weightage']],
 										);
 		//print_r($data_arr);die;
+		
+		echo json_encode($data_arr);
+		exit;
+	}
+	
+	
+	// New Code for new table
+	if(isset($_REQUEST['show_profile_history'])){
+		//print_r($_POST);die;
+		$get_pfl_hist_data		= $control->show_profile_history($_POST['tm_brand_name'],$_POST['tm_brand_user_id'],$_POST['tm_id']);
+		
+		$parent_group_result = array();
+		foreach ($get_pfl_hist_data as $key1 => $value1) {
+			$parent_group 	= $value1['parent_group_level'];
+			if (!isset($parent_group_result[$parent_group])){ 
+				$parent_group_result[$parent_group] = array();
+			}
+			$parent_group_result[$parent_group][] = $value1;
+		}
+		$group_subgroup_result = array();
+		foreach($parent_group_result as $key2 => $value2){
+			foreach($value2 as $key3 => $value3){
+				$sub_parent_group 	= $value3['group_level'];
+				if (!isset($group_subgroup_result[$key2][$sub_parent_group])){ 
+					$group_subgroup_result[$key2][$sub_parent_group] = array();
+				}
+				$group_subgroup_result[$key2][$sub_parent_group][] = $value3;
+			}
+		}
+		
+		include 'profile_calculation1.php';
+		if(!empty($parent_group_result)){
+			$profile_cal 							= calculate_profile($parent_group_result); 
+			if(!empty($profile_cal)){
+				$selling_customer_category			= $profile_cal['selling_customer_category'];
+				$selling_target_engagement_level	= $profile_cal['selling_target_engagement_level'];
+				$digital_customer_category			= $profile_cal['digital_customer_category'];
+				$digital_target_engagement_level	= $profile_cal['digital_target_engagement_level'];
+			}
+		}
+		
+		$data_arr				= array(
+											'selling_customer_category' 		=> $selling_customer_category,
+											'digital_customer_category' 		=> $digital_customer_category,
+											'selling_target_engagement_level' 	=> $selling_target_engagement_level,
+											'digital_target_engagement_level' 	=> $digital_target_engagement_level,
+										);
+		
+		$data_arr 				= array(
+										'selling_customer_category' 		=> $selling_customer_category,
+										'digital_customer_category' 		=> $digital_customer_category,
+										'selling_target_engagement_level' 	=> $selling_target_engagement_level,
+										'digital_target_engagement_level' 	=> $digital_target_engagement_level,
+										
+										'customer_name' 					=> $group_subgroup_result['Customer Satisfaction Index']['Service'][1]['ph_customer_name'],
+										
+										'customer_email' 					=> $group_subgroup_result['Customer Satisfaction Index']['Service'][1]['ph_email'],
+										
+										'customer_address' 					=> $group_subgroup_result['Customer Satisfaction Index']['Service'][1]['ph_customer_area'],
+										
+										'response_time' 					=> $group_subgroup_result['Customer Satisfaction Index']['Service'][0]['answer_type'],
+										
+										'quality_of_service' 				=> $group_subgroup_result['Customer Satisfaction Index']['Service'][1]['answer_type'],
+										
+										'brand_communication' 				=> $group_subgroup_result['Customer Satisfaction Index']['Product'][0]['answer_type'],
+										
+										'overall_product_experience' 		=> $group_subgroup_result['Customer Satisfaction Index']['Product'][1]['answer_type'],
+										
+										'awareness' 						=> $group_subgroup_result['Customer Brand Engagement Index']['Recall'][0]['answer_type'],
+										
+										'familiar_with_offerings' 			=> $group_subgroup_result['Customer Brand Engagement Index']['Recall'][1]['answer_type'],
+										
+										'refer' 							=> $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0]['answer_type'],
+										
+										'purchase_intent' 					=> $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1]['answer_type'],
+										
+										'upgrade' 							=> $group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_type'],
+										);
 		
 		echo json_encode($data_arr);
 		exit;

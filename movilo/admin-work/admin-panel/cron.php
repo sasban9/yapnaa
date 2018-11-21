@@ -95,13 +95,14 @@ require_once('controller/admin_controller.php');
 	}
 	
 	
-	// Cron for livepure amc
+	// Cron for amc
 	if(isset($_REQUEST['amc_cron'])){
 		$customer_type 		= $_REQUEST['amc_cron'];
 		$control->amc_cron($customer_type);
 	}
 	
 
+	
 	
 		
 ?>

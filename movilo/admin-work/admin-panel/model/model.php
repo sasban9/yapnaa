@@ -1184,7 +1184,7 @@ class model {
 		if($table == 'zerob_consol1'){
 			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 5 DAY )) ";
 		}
-		
+		//print_r($sql); die;
 		$qry				= connection()->query($sql);
 		if(!empty($qry)){
 			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
@@ -1193,10 +1193,9 @@ class model {
 		else{
 			return array();
 		}
-	}
+	}	
 	
 	
-		
 	function amc_cron($table){
 		if($table == 'livpure' || 'livpure_tn_kl'){
 			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM ".$table." br WHERE br.status != 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 15 DAY )) ";
@@ -1373,20 +1372,70 @@ class model {
 	}
 	
 	
-	
-	/*function get_qa_data($brand_customer_id,$user_phone){
-		$sql 				= "SELECT cqa.id,cqa.user_id,cqa.brand_customer_id,cqa.answer,cqa.brand_id,cqa.brand_name,cqa.user_phone,cqa.weightage,
-		CONCAT_WS('_', 'qid', cqa.qid) AS qid, CONCAT_WS('_', cqa.answer, cqa.weightage) AS answer_weightage  FROM customer_question_answer cqa WHERE cqa.brand_customer_id = ".$brand_customer_id." AND cqa.user_phone = '".$user_phone."' ";
+	function get_qa_data($brand,$user_id){
+		$sql 	= "SELECT ym.id AS mapping_id,ym.answer_id,yq.id AS question_id,yq.questions,yq.group_level,yq.parent_group_level,yq.brand,ya.answer_type,ya.answer_weightage, (SELECT cqa.answer_id FROM customer_question_answer_1 WHERE cqa.question_id = question_id AND cqa.user_id = ".$user_id.") AS answer_given FROM yap_mapping_1 ym LEFT JOIN yapnaa_questions_1 yq ON ym.question_id = yq.id LEFT JOIN yapnaa_answers_1 ya ON ym.answer_id = ya.id LEFT JOIN customer_question_answer_1 cqa ON cqa.question_id = yq.id WHERE yq.brand = ".$brand." ";
 		
-		$sql 				= "SELECT qa.id as qaid,cqa.id AS cqa_id,cqa.brand_customer_id,cqa.answer,cqa.brand_id,cqa.brand_name,cqa.user_phone,cqa.weightage,CONCAT_WS('_', 'qid', cqa.qid) AS qid, CONCAT_WS('_', cqa.answer, cqa.weightage) AS answer_weightage FROM question_and_answer qa INNER JOIN customer_question_answer cqa ON qa.id = cqa.qid WHERE cqa.brand_customer_id = '1341250' AND cqa.user_phone = '9844459216'";
+		//echo $sql; die;
+		$qry	= connection()->query($sql);
+		$row	= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		return $row;
+	}
+	
+	function get_question_ids_of_customer($brand_id,$user_id){
+		$sql 				= "SELECT cqa.question_id AS qid FROM customer_question_answer_1 cqa WHERE cqa.user_id = ".$user_id." AND cqa.brand_id = ".$brand_id." ";
+
+		$qry				= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			$qidArr			= array();
+			foreach($row as $key => $value){
+				$qidArr[]	= $value['qid'];		 
+			}
+			return $qidArr;
+		}
+		else{
+			return array();
+		}
+	}
+	
+	function update_q_a($data,$user_id){
+		$update_qry 	= "UPDATE customer_question_answer_1 SET user_id = '".$data['user_id']."' , question_id = '".$data['question_id']."' , answer_id = '".$data['answer_id']."' , brand_id = '".$data['brand_id']."' , updated_date = '".$data['updated_date']."' WHERE question_id = ".$data['question_id']." AND user_id = ".$user_id." AND brand_id = ".$data['brand_id']." ";
+		$qry			= connection()->query($update_qry);
+		return $qry;
+	}
+	
+	
+	function get_answer_weightage_of_customer($brand_id,$user_id){
+		$sql 			= "SELECT cqa.question_id,cqa.answer_id,yq.parent_group_level,ya.answer_weightage FROM customer_question_answer_1 cqa LEFT JOIN yapnaa_questions_1 yq ON cqa.question_id = yq.id LEFT JOIN yapnaa_answers_1 ya ON cqa.answer_id = ya.id WHERE cqa.user_id = ".$user_id." AND cqa.brand_id =".$brand_id." ";
 		
-		$qry				= connection()->query($sql);		
-		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
-		//print_r($row);die;
-		return $row;			
-	}*/
+		$qry			= connection()->query($sql);
+		if(!empty($qry)){
+			$row			= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+			return $row;
+		}
+		else{
+			return array();
+		}	
+	}
 	
 	
+	function show_profile_history($brand,$user_id,$tm_id){
+		
+		$sql 	= "SELECT ph.ph_qid,ph.ph_answer AS answer_given,ph.ph_customer_name,ph.ph_email,ph.ph_customer_area,yq.parent_group_level,yq.group_level,ya.answer_type,ya.answer_weightage FROM profile_history ph LEFT JOIN yapnaa_questions_1 yq ON ph.ph_qid = yq.id LEFT JOIN yapnaa_answers_1 ya ON ph.ph_answer = ya.id WHERE ph.ph_user_id = ".$user_id." AND ph.ph_timeline_id = ".$tm_id." AND ph.ph_brand_id =".$brand." ";
+		
+		$qry	= connection()->query($sql);
+		$row	= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		return $row;
+	}
+	
+	function get_profile_popup_data($brand,$user_id){
+		$sql 	= "SELECT yq.id,ya.answer_type FROM customer_question_answer_1 cqa LEFT JOIN yapnaa_answers_1 ya ON cqa.answer_id = ya.id LEFT JOIN yapnaa_questions_1 yq ON cqa.question_id = yq.id WHERE yq.id IN (2,3,5,6,7,8,11,12,13,14,15,16,17) AND cqa.user_id = ".$user_id." AND cqa.brand_id = ".$brand."  ORDER BY yq.id ASC ";
+		
+		$qry	= connection()->query($sql);
+		$row	= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		return $row;
+	}
+
 	
 	
 	
