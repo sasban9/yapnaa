@@ -142,6 +142,8 @@ if(isset($_SESSION['admin_email_id'])) {
 						<option value="">SELECT</option>
 						<option value="livpure">Livepure KA</option>
 						<option value="livpure_tn_kl">Livepure TN</option>
+						<option value="livpure_ap">Livepure AP</option>
+						<option value="livpure_ts">Livepure TS</option>
 						<option value="zerob_consol1">Zero B KA</option>
 						<option value="bluestar_b2b">Bluestar B2B</option>
 						<option value="bluestar_b2c">Bluestar B2C</option>

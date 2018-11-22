@@ -34,6 +34,13 @@ if(isset($_SESSION['admin_email_id'])){
 			case 5:
 			$table='bluestar_b2c';
 			break;
+			
+			case 6:
+			$table	= 'livpure_ap';
+			break;
+			case 7:
+			$table	= 'livpure_ts';
+			break;
 		}
 		
 		$get_amc_list = $control->updateAMC($table,$upgarde_product_message,$paid_service_message,$upgarde_product_date,$paid_service_close_date,$paid_service,$upgarde_product,$_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['custID'],$_POST['comments'],$_POST['closedBy'],$_POST['phone1'],$_POST['phone2'],$_POST['cust_name'],$_POST['cust_email']);
@@ -99,6 +106,7 @@ if(isset($_SESSION['admin_email_id'])){
 			$control->download_brand_list($filterByAttempt,$action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 	}
+	
 	
 	$std_comments = $control->get_standard_comments(); 
 	
@@ -175,6 +183,13 @@ if(isset($_SESSION['admin_email_id'])){
 						break;
 						case 5:
 						$customer='Bluestar B2C';
+						break;
+						
+						case 6:
+						$customer	= 'livpure_ap';
+						break;
+						case 7:
+						$customer	= 'livpure_ts';
 						break;
 					}
 				}else{
@@ -1666,6 +1681,12 @@ if(isset($_SESSION['admin_email_id'])){
 				break;
 				case 5:
 				var brandName='Bluestar B2C';
+				break;
+				case 6:
+				var brandName	= 'livpure_ap';
+				break;
+				case 7:
+				var brandName	= 'livpure_ts';
 				break;
 			}
 			

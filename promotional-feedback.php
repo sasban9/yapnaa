@@ -415,7 +415,7 @@ color: #777;
 	$user_id 			= $exploded_arr[1];
 	$brand_customer_id 	= $exploded_arr[2];
 	$user_phone 		= $exploded_arr[3];
-	$user_id 			= 27066;
+	//$user_id 			= 27066;
 	
 	$brand_name 		= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c');
 	$table 				= $brand_name[$customer_type];

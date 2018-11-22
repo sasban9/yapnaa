@@ -103,7 +103,7 @@ if(isset($_SESSION['admin_email_id'])){
 			$_POST['brand_customer_id'] = '';
 		}
 		
-		$brand_name 			= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c');
+		$brand_name 			= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c','livpure_ap','livpure_ts');
 		$brand_name 			= $brand_name[$_POST['brand_id']];
 		
 		// Update Status In Brand Table
@@ -367,7 +367,6 @@ if(isset($_SESSION['admin_email_id'])){
 					$send_success_sms		= $control->send_lifecycle_sms($_POST['user_phone'],$message); 
 				}
 			}
-			
 		}
 		
 		if($response || $response1 == 1){
@@ -393,7 +392,7 @@ if(isset($_SESSION['admin_email_id'])){
 			$_POST['newAMCEnd'] 	= '';
 		}
 		
-		$brand_name 				= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c');
+		$brand_name 				= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c','livpure_ap','livpure_ts');
 		$table 						= $brand_name[$_GET['customer_type']];
 		
 		$get_amc_list 				= $control->updateAmcData($table,$_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['userid'],$_POST['comments'],$_POST['closedBy'],$_POST['transaction_status']);

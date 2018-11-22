@@ -86,6 +86,14 @@ if(isset($_SESSION['admin_email_id'])){
 					<span>
 						<img alt="image" src="img/bluestar.png" style="width:28%;margin-left:36%;margin-bottom:5%;"/>
 					</span>
+				<?php } else if($_GET['brand_name'] == 'livpure_ap'){ ?>
+					<span>
+						<img alt="image" src="img/livpure.jpg" style="width:28%;margin-left:36%;margin-bottom:5%;"/>
+					</span>
+				<?php } else if($_GET['brand_name'] == 'livpure_ts'){ ?>
+					<span>
+						<img alt="image" src="img/livpure.jpg" style="width:28%;margin-left:36%;margin-bottom:5%;"/>
+					</span>
 				<?php } else { ?>
 					<span>
 						<img alt="image" src="img/logo.png" style="width:28%;margin-left:30%;margin-bottom:5%;"/>
@@ -107,6 +115,8 @@ if(isset($_SESSION['admin_email_id'])){
 							<option value="livpure_tn_kl" <?php if($_GET['brand_name'] == 'livpure_tn_kl'){echo 'selected';} ?> >Livpure TN </option>						
 							<option value="bluestar_b2b" <?php if($_GET['brand_name'] == 'bluestar_b2b'){echo 'selected';} ?> >Bluestar B2B</option>
 							<option value="bluestar_b2c" <?php if($_GET['brand_name'] == 'bluestar_b2c'){echo 'selected';} ?> >Bluestar B2C</option>
+							<option value="livpure_ap" <?php if($_GET['brand_name'] == 'livpure_ap'){echo 'selected';} ?> >Livpure AP</option>
+							<option value="livpure_ts" <?php if($_GET['brand_name'] == 'livpure_ts'){echo 'selected';} ?> >Livpure TS</option>
 						</select>
 					</div>
 					
@@ -134,6 +144,14 @@ if(isset($_SESSION['admin_email_id'])){
 						<div class="col-lg-2" style="margin-top: 23px;margin-left: -7%;">
 							<input type="button" id="customer_list"  class="btn btn-info " value="Dashboard" name="submit" onClick='window.open("brand_customers.php?customer_type=5")' >
 						</div>
+					<?php } else if($_GET['brand_name'] == 'livpure_ap') { ?>
+						<div class="col-lg-2" style="margin-top: 23px;margin-left: -7%;">
+							<input type="button" id="customer_list"  class="btn btn-info " value="Dashboard" name="submit" onClick='window.open("brand_customers.php?customer_type=6")' >
+						</div>
+					<?php } else if($_GET['brand_name'] == 'livpure_ts') { ?>		
+						<div class="col-lg-2" style="margin-top: 23px;margin-left: -7%;">
+							<input type="button" id="customer_list"  class="btn btn-info " value="Dashboard" name="submit" onClick='window.open("brand_customers.php?customer_type=7")' >
+						</div>
 					<?php } else { ?>
 						<div class="col-lg-2" style="margin-top: 23px;">
 							<input type="button" id="customer_list"  class="btn btn-info " value="Dashboard" name="submit" style="display:none;" >
@@ -143,6 +161,7 @@ if(isset($_SESSION['admin_email_id'])){
 				</div>
 			</form>
 		</div>
+		
 		
 		<div id="container" style="height: 400px;padding:20px;"></div>
 		<div id="container1" style="height: 400px;padding:20px;"></div>

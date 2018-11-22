@@ -607,8 +607,7 @@ class model {
 		if($filterByAttempt != null || $filterByAttempt != ''){
 			$condition = " and zc.status = ".$filterByAttempt." ";
 		} 
-		
-		
+				
 		$sql = "SELECT *, (SELECT user_phone FROM users WHERE user_phone = zc.phone1 or user_phone = zc.phone2 GROUP by zc.CUSTOMERID) AS users FROM $table zc where tag like '%$param%' ".$condition." ".$action_taken_by." order by last_called desc"; 
 		
 		if($filter == 7){
@@ -1040,6 +1039,13 @@ class model {
 			case 5:
 			$brand_name	= 'bluestar_b2c';
 			break;
+			
+			case 6:
+			$brand_name	= 'livpure_ap';
+			break;
+			case 7:
+			$brand_name	= 'livpure_ts';
+			break;
 		}
 		
 		//$sql 				= "SELECT b.CUSTOMERID,b.CUSTOMER_NAME,b.CUSTOMER_AREA,b.PHONE1,b.PRODUCT,b.PRODUCT_SLNO,b.email,b.status FROM ".$brand_name." b WHERE b.id = ".$user_id." ";
@@ -1175,7 +1181,7 @@ class model {
 	
 	
 	function promotional_welcome_sms($table){
-		if($table == 'livpure' || 'livpure_tn_kl'){
+		if($table == 'livpure' || 'livpure_tn_kl' || 'livpure_ts' || 'livpure_ap'){
 			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 0 DAY )) ";
 		}
 		if($table == 'bluestar_b2b' || 'bluestar_b2c'){
@@ -1197,7 +1203,7 @@ class model {
 	
 	
 	function amc_cron($table){
-		if($table == 'livpure' || 'livpure_tn_kl'){
+		if($table == 'livpure' || 'livpure_tn_kl' || 'livpure_ts' || 'livpure_ap'){
 			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM ".$table." br WHERE br.status != 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 15 DAY )) ";
 		}
 		if($table == 'bluestar_b2b' || 'bluestar_b2c'){

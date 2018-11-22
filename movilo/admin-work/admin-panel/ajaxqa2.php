@@ -10,49 +10,64 @@ if(isset($_SESSION['admin_email_id'])){
 	require_once('controller/admin_controller.php');
 	$control			= new admin();	
 	
-	require_once('helper/sms_helper.php');
-	$helper 			= new helper();
-	
 	$brand_customer_id 	= $_GET['brand_customer_id'];
 	$user_phone 		= $_GET['user_phone'];
 	$user_id 			= $_GET['user_id'];
 	
-	$getQA 				= $control->getQA($_GET['customer_type'],$user_id);
-	$get_qa_ids 		= $control->get_qa_ids_of_customer($_GET['customer_type'],$user_id);
+	// Brand Details
 	$brand_details 		= $control->get_brand_details_of_customer($_GET['customer_type'],$user_id);
-	$timeline_data 		= $control->get_timeline_detail_of_customer($_GET['customer_type'],$user_id);
-	
 	$flname				= explode(" ",$brand_details['CUSTOMER_NAME']);
 	$brand_details['flname'] = substr($flname[0],0,1)."".substr($flname[1],0,1);
-
-	//echo "<br><pre>"; print_r($getQA);die;
 	
+	$get_qa_ids 		= $control->get_question_ids_of_customer($_GET['customer_type'],$user_id);
+	
+	// Question and Answers
+	$get_qa_data		= $control->get_qa_data($_GET['customer_type'],$user_id);
+	//echo "<br><pre>"; print_r($get_qa_data);die;
 	$parent_group_result = array();
-	foreach ($getQA as $key1 => $value1) {
-		$parent_group 	= $value1['qa_parent_group_level'];
+	foreach ($get_qa_data as $key1 => $value1) {
+		$parent_group 	= $value1['parent_group_level'];
 		if (!isset($parent_group_result[$parent_group])){ 
 			$parent_group_result[$parent_group] = array();
 		}
 		$parent_group_result[$parent_group][] = $value1;
 	}
-	
 	$group_subgroup_result = array();
 	foreach($parent_group_result as $key2 => $value2){
 		foreach($value2 as $key3 => $value3){
-			$sub_parent_group 	= $value3['qa_group_level'];
+			$sub_parent_group 	= $value3['group_level'];
 			if (!isset($group_subgroup_result[$key2][$sub_parent_group])){ 
 				$group_subgroup_result[$key2][$sub_parent_group] = array();
 			}
 			$group_subgroup_result[$key2][$sub_parent_group][] = $value3;
 		}
 	}
-
-	// Profile Things
+	$final_arr 		= array();
+	foreach($group_subgroup_result as $key => $value){
+		foreach($value as $key1 => $value1){
+			foreach($value1 as $key2 => $value2){
+				$questions 		= $value2['questions'];
+				$final_arr[$key][$key1][$questions][] = $value2;
+			}
+		}	
+	}
 	
-	include 'profile_calculation.php';
-	//print_r($group_subgroup_result); die;
-	if(!empty($group_subgroup_result)){
-		$profile_cal 							= calculate_profile($group_subgroup_result); 
+	// Profile Things
+	$answer_weightage		= $control->get_answer_weightage_of_customer($_GET['customer_type'],$user_id);
+	$parent_group_level		= array();
+	if(!empty($answer_weightage)){
+		foreach ($answer_weightage as $key4 => $value4) {
+			$parent_group_res 		= $value4['parent_group_level'];
+			/* if (!isset($parent_group_level[$parent_group])){ 
+				$parent_group_level[$parent_group_res] 	= array();
+			} */
+			$parent_group_level[$parent_group_res][] 	= $value4;
+		}
+	}
+	
+	include 'profile_calculation1.php';
+	if(!empty($parent_group_level)){
+		$profile_cal 		= calculate_profile($parent_group_level); 	
 		if(!empty($profile_cal)){
 			$selling_customer_category			= $profile_cal['selling_customer_category'];
 			$selling_target_engagement_level	= $profile_cal['selling_target_engagement_level'];
@@ -64,30 +79,95 @@ if(isset($_SESSION['admin_email_id'])){
 		}
 	}
 	
+	$timeline_data 			= $control->get_timeline_detail_of_customer($_GET['customer_type'],$user_id);
+	
+	// Fetching Data for Profile Modal
+	$profile_popup_data 	= $control->get_profile_popup_data($_GET['customer_type'],$user_id);	
+	$question_array 		= array(2,3,5,6,7,8,11,12,13,14,15,16,17);
+	$profile_data_popup  	= array();
+	$profile_data_modal  	= array();
+	foreach($profile_popup_data as $key => $value){
+		$profile_data_popup[$value['id']] = $value['answer_type']; 
+	}
+	$missing 				= array_diff_key(array_flip($question_array), $profile_data_popup);
+	if(!empty($missing)){
+		$missingarray 		= array_fill_keys(array_keys($missing), 'No answer');
+		$profile_data_modal = $profile_data_popup+$missingarray;
+	}
+	//echo "<br><pre>"; print_r($profile_data_modal);die;
+	
 	
 	// Response Actions Starts Here	
 	if(isset($_POST['editAMCSubmit'])){
-		//echo "<br><pre>"; print_r($_POST);die;
-		switch($_POST['brand_id']) {
-			case 1:
-			$brand_name	= 'livpure';
-			break;
-			case 2:
-			$brand_name	= 'zerob_consol1';
-			break;
-			case 3:
-			$brand_name	= 'livpure_tn_kl';
-			break;
-			case 4:
-			$brand_name	= 'bluestar_b2b';
-			break;
-			case 5:
-			$brand_name	= 'bluestar_b2c';
-			break;
+		if(empty($_POST['brand_customer_id'])){
+			$_POST['brand_customer_id'] = '';
 		}
 		
+		$brand_name 			= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c','livpure_ap','livpure_ts');
+		$brand_name 			= $brand_name[$_POST['brand_id']];
 		
-		$data 					= array(
+		// Update Status In Brand Table
+		$set_array_brand		= array('status' => $_POST['status'],'updated_on' => date('Y-m-d') );
+		if(!empty($_POST['req_service_date'])|| !empty($_POST['req_amc_date']) || !empty($_POST['req_upgrade_date']) || !empty($_POST['req_consumable_date'])){
+			
+			$set_array_brand['req_service_date']	= $_POST['req_service_date'];
+			$set_array_brand['req_amc_date']		= $_POST['req_amc_date'];
+			$set_array_brand['req_upgrade_date']	= $_POST['req_upgrade_date'];
+			$set_array_brand['req_consumable_date']	= $_POST['req_consumable_date'];
+			
+		}else if(!empty($_POST['req_follow_up_date'])){
+			$set_array_brand['req_follow_up_date']	= $_POST['req_follow_up_date'];
+			
+		}else if(!empty($_POST['req_pm_service_date'])){
+			$set_array_brand['req_pm_service_date']	= $_POST['req_pm_service_date'];
+			
+		}else if(!empty($_POST['last_call_comment'])){
+			$set_array_brand['last_call_comment']	= $_POST['last_call_comment'];
+			
+		}else if(!empty($_POST['not_interested_reason'])){
+			$set_array_brand['not_interested_reason'] = $_POST['not_interested_reason'];
+			
+		}else{
+			$set_array_brand 						= $set_array_brand;
+		}
+		
+		if(!empty($_POST['not_interested_reason'])){
+			$sliced_arr 		= array_slice($_POST, 0, -16, true);
+		}else{
+			$sliced_arr 		= array_slice($_POST, 0, -15, true);
+		}	
+		$sliced_arr_values   	= array_values($sliced_arr);
+		$sliced_arr_keys   		= array_keys($sliced_arr);
+		
+		foreach($sliced_arr as $key=>$value){
+			if(empty(array_search($key,$get_qa_ids)) &&  array_search($key,$get_qa_ids) <= -1){
+				//echo "insert loop - ".$value."<br>";die;
+				$data['question_id']	= $key;
+				$data['answer_id']		= $value;
+				$data['user_id']		= $_POST['user_id'];
+				$data['brand_id']		= $_POST['brand_id'];
+				$data['created_date']  	= date('Y-m-d H:i:s');
+				$data['updated_date']  	= date('Y-m-d H:i:s');
+				
+				$response 				= $control->insert_q_a($data); 
+			}
+			
+			else{
+				//echo "update loop - ".$value."<br>";die;
+				$data['question_id']	= $key;
+				$data['answer_id']		= $value;
+				$data['user_id']		= $_POST['user_id'];
+				$data['brand_id']		= $_POST['brand_id'];
+				$data['updated_date']  	= date('Y-m-d H:i:s');
+				
+				$response 				= $control->update_q_a($data,$_POST['user_id']);
+			}
+		}
+		$response1  				= $control->update_status_in_brand($brand_name,$set_array_brand,$_POST['user_id']);
+				
+		// Update In Timeline AND Profile History
+		if($response1 == 1){
+			$time_line_data 		= array(
 										'tm_brand_user_id' 		=> $_POST['user_id'],
 										'tm_brand_customer_id'  => $_POST['brand_customer_id'],
 										'tm_brand_name'   		=> $brand_name,
@@ -96,797 +176,189 @@ if(isset($_SESSION['admin_email_id'])){
 										'tm_interaction'		=> 'Call By Agent',
 										'tm_interaction_type'	=> 1,
 										'tm_created_date'		=> date('Y-m-d')
-										);
-		// For adding call by agent to timeline table								
-		$timeline_response 		= $control->insert_timeline_data($data);
-		
-		if(empty($_POST['brand_customer_id'])){
-			$_POST['brand_customer_id'] = '';
-		}
-				
-		if(!empty($_POST['req_service_date'])|| !empty($_POST['req_amc_date']) || !empty($_POST['req_upgrade_date']) || !empty($_POST['req_consumable_date'])){
-			$set_array_brand	=	array(
-											'status'             => 15,
-											'req_service_date'   => $_POST['req_service_date'],
-											'req_amc_date'       => $_POST['req_amc_date'],
-											'req_upgrade_date'   => $_POST['req_upgrade_date'],
-											'req_consumable_date'=> $_POST['req_consumable_date'],
-											'updated_on' 		 => date('Y-m-d')
-										 );
-							
-		}else if(!empty($_POST['req_follow_up_date'])){
-			$set_array_brand	=	array(
-											'status'             => $_POST['status'],
-											'req_follow_up_date' => $_POST['req_follow_up_date'],
-											'updated_on' 		 => date('Y-m-d')
-										 );
-		}else if(!empty($_POST['req_pm_service_date'])){
-			$set_array_brand	=	array(
-											'status'             => $_POST['status'],
-											'req_pm_service_date' => $_POST['req_pm_service_date'],
-											'updated_on' 		 => date('Y-m-d')
-										 );
-		}else if(!empty($_POST['last_call_comment'])){
-			$set_array_brand	=	array(
-											'status'             => $_POST['status'],
-											'last_call_comment' => $_POST['last_call_comment'],
-											'updated_on' 		 => date('Y-m-d')
-										 );
-		}else if(!empty($_POST['not_interested_reason'])){
-			$set_array_brand	=	array(
-											'status'             	=> $_POST['status'],
-											'not_interested_reason' => $_POST['not_interested_reason'],
-											'updated_on' 		 	=> date('Y-m-d')
-										 );
-		}else{
-			$set_array_brand 	= array('status' =>$_POST['status'],'updated_on' => date('Y-m-d'));
-		}
-				
-		if(!empty($_POST['not_interested_reason'])){
-			$sliced_arr 	= array_slice($_POST, 0, -16, true);
-		}else{
-			$sliced_arr 	= array_slice($_POST, 0, -15, true);
-		}
-		
-		$insert_data	= "";
-		$sql 			= "";
-		$data1 			= array();
-		
-		foreach($sliced_arr as $key=>$value){
+										);								
+			$timeline_response 		= $control->insert_timeline_data($time_line_data);
 			
-			if(empty(array_search($key,$get_qa_ids)) &&  array_search($key,$get_qa_ids) <= -1){
-				//echo "insert loop - ".$value."<br>";
-				$data 						= array();
-				$value_split				= explode("_",$value);
-				$data['qid']				= end(explode("_",$key));
-				$data['answer']				= $value_split[0];
-				$data['weightage']			= $value_split[1];
-				$data['user_id']			= $_POST['user_id'];
-				$data['brand_id']			= $_POST['brand_id'];
-				$data['user_phone']			= $_POST['user_phone'];
-				$data['brand_customer_id']  = $_POST['brand_customer_id'];
-				$data['brand_name']  		= $brand_name;
-				$data['created_date']  		= date('Y-m-d H:i:s');
-				
-				$data1[] 					= $data;
-				//echo "<br><pre>";print_r($data);
-				// For adding question and answer of customer
-				$response 	= $control->insertQA($data,$insert_data,$sql,$_POST['user_phone']); 
-				$response1  = $control->updateStatusInBrand($brand_name,$set_array_brand,$_POST['brand_customer_id'],$_POST['user_id']);
-				
-			}
-				
-			// Update Question Answer Data		
-			else{
-				//echo "update loop - ".$value."<br>";
-				$value_split 				= explode("_",$value);
-				$data['qid']				= end(explode("_",$key));
-				$data['answer']				= $value_split[0];
-				$data['weightage']			= $value_split[1];
-				$data['user_id']			= $_POST['user_id'];
-				$data['brand_id']			= $_POST['brand_id'];
-				$data['user_phone']			= $_POST['user_phone'];
-				$data['brand_customer_id']  = $_POST['brand_customer_id'];
-				$data['brand_name']  		= $brand_name;
-				$data['updated_date']  		= date('Y-m-d H:i:s');
-				
-				$data1[] 					= $data;
-				//echo "<br><pre>";print_r($data1); die;
-				// For updating question and answer of customer
-				$response 	= $control->updateQA($data,$insert_data,$_POST['user_id']);
-				$response1  = $control->updateStatusInBrand($brand_name,$set_array_brand,$_POST['brand_customer_id'],$_POST['user_id']);
-				
-			}	
-			 
-		}
-		
-		if($response1 == 1){
-			// Profile Things
-			$getQA 				= $control->getQA($_GET['customer_type'],$user_id);
-			$parent_group_result = array();
-			foreach ($getQA as $key1 => $value1) {
-				$parent_group 	= $value1['qa_parent_group_level'];
-				if (!isset($parent_group_result[$parent_group])){ 
-					$parent_group_result[$parent_group] = array();
-				}
-				$parent_group_result[$parent_group][] = $value1;
-			}
-			$group_subgroup_result = array();
-			foreach($parent_group_result as $key2 => $value2){
-				foreach($value2 as $key3 => $value3){
-					$sub_parent_group 	= $value3['qa_group_level'];
-					if (!isset($group_subgroup_result[$key2][$sub_parent_group])){ 
-						$group_subgroup_result[$key2][$sub_parent_group] = array();
-					}
-					$group_subgroup_result[$key2][$sub_parent_group][] = $value3;
+			
+			$answer_weightage		= $control->get_answer_weightage_of_customer($_GET['customer_type'],$user_id);
+			$parent_group_level		= array();
+			if(!empty($answer_weightage)){
+				foreach ($answer_weightage as $key4 => $value4) {
+					$parent_group_res 		= $value4['parent_group_level'];
+					$parent_group_level[$parent_group_res][] 	= $value4;
 				}
 			}
-				
-			$existing_profile_status		 	= $control->get_existing_profile_status_of_customer($brand_name,$user_id);
-			$existing_category  	 			= $existing_profile_status['profile_type'];
-			$profile_cal 						= calculate_profile($group_subgroup_result); 
-			$selling_customer_category			= $profile_cal['selling_customer_category'];
+			
+			$existing_profile_status	= $control->get_existing_profile_status_of_customer($brand_name,$user_id);
+			$existing_category  	 	= $existing_profile_status['profile_type'];
+			$profile_cal 				= calculate_profile($parent_group_level); 
+			$selling_customer_category	= $profile_cal['selling_customer_category'];
+			
+			$time_line_data 			= array(
+												'tm_brand_user_id' 		=> $_POST['user_id'],
+												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
+												'tm_brand_name'   		=> $brand_name,
+												'tm_brand_user_phone'   => $_POST['user_phone'],
+												'tm_brand_id'   		=> $_POST['brand_id'],
+												'tm_movement_from'		=> $existing_category,
+												'tm_movement_to'		=> $selling_customer_category,
+												'tm_created_date'		=> date('Y-m-d')
+												);
 			
 			if(($_POST['status'] == 16 || $_POST['status'] == 17 || $_POST['status'] == 18)){
-				$message 			= 'Sorry to hear that you have bad feedback on your product. We will try to serve best for you';
-				$msg_response 		= $control->send_lifecycle_sms($brand_details['PHONE1'],$message);
+				$message 				= 'Sorry to hear that you have bad feedback on your product. We will try to serve best for you';
+				$msg_response 			= $control->send_lifecycle_sms($brand_details['PHONE1'],$message);
 				
 				if($_POST['status'] == 16){
-					$data 				= array(
-												'tm_brand_user_id' 		=> $_POST['user_id'],
-												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-												'tm_brand_name'   		=> $brand_name,
-												'tm_brand_user_phone'   => $_POST['user_phone'],
-												'tm_brand_id'   		=> $_POST['brand_id'],
-												'tm_interaction'		=> 'AMC Related Escalation',
-												'tm_interaction_type'	=> 10,
-												'tm_agent_comment'		=> $_POST['last_call_comment'],
-												'tm_movement_from'		=> $existing_category,
-												'tm_movement_to'		=> $selling_customer_category,
-												'tm_transaction_type'	=> 'User has given escalation message about AMC',
-												'tm_created_date'		=> date('Y-m-d')
-												);
-					$timeline_response 	= $control->insert_timeline_data($data);
-					
-					foreach($sliced_arr as $key1=>$value1){
-						$pfl_data 							= array();
-						$value_split						= explode("_",$value1);
-						$pfl_data['ph_qid']					= end(explode("_",$key1));
-						$pfl_data['ph_answer']				= $value_split[0];
-						$pfl_data['ph_weightage']			= $value_split[1];
-						$pfl_data['ph_timeline_id']			= $timeline_response;
-						$pfl_data['ph_user_id']				= $_POST['user_id'];
-						$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-						$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-						$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-						$pfl_data['ph_brand_name']  		= $brand_name;
-						$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-						$pfl_data['ph_email']				= $brand_details['email'];
-						$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-						$pfl_data1[] 						= $pfl_data;	
-						
-						$ph_response						= $control->insert_profile_history($pfl_data);
-					}
+					$time_line_data['tm_interaction']		= 'AMC Related Escalation';
+					$time_line_data['tm_interaction_type']	= 10;
+					$time_line_data['tm_agent_comment']		= $_POST['last_call_comment'];
+					$time_line_data['tm_transaction_type']	= 'User has given escalation message about AMC';
+					$timeline_response 						= $control->insert_timeline_data($time_line_data);
 				}
 				if($_POST['status'] == 17){
-					$data 				= array(
-												'tm_brand_user_id' 		=> $_POST['user_id'],
-												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-												'tm_brand_name'   		=> $brand_name,
-												'tm_brand_user_phone'   => $_POST['user_phone'],
-												'tm_brand_id'   		=> $_POST['brand_id'],
-												'tm_interaction'		=> 'Product Upgrade Escalation',
-												'tm_interaction_type'	=> 11,
-												'tm_agent_comment'		=> $_POST['last_call_comment'],
-												'tm_movement_from'		=> $existing_category,
-												'tm_movement_to'		=> $selling_customer_category,
-												'tm_transaction_type'	=> 'User has given escalation message about product upgrade',
-												'tm_created_date'		=> date('Y-m-d')
-												);
-					$timeline_response 	= $control->insert_timeline_data($data);
-					
-					foreach($sliced_arr as $key1=>$value1){
-						$pfl_data 							= array();
-						$value_split						= explode("_",$value1);
-						$pfl_data['ph_qid']					= end(explode("_",$key1));
-						$pfl_data['ph_answer']				= $value_split[0];
-						$pfl_data['ph_weightage']			= $value_split[1];
-						$pfl_data['ph_timeline_id']			= $timeline_response;
-						$pfl_data['ph_user_id']				= $_POST['user_id'];
-						$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-						$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-						$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-						$pfl_data['ph_brand_name']  		= $brand_name;
-						$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-						$pfl_data['ph_email']				= $brand_details['email'];
-						$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-						$pfl_data1[] 						= $pfl_data;	
-						
-						$ph_response						= $control->insert_profile_history($pfl_data);
-					}
-					
+					$time_line_data['tm_interaction']		= 'Product Upgrade Escalation';
+					$time_line_data['tm_interaction_type']	= 11;
+					$time_line_data['tm_agent_comment']		= $_POST['last_call_comment'];
+					$time_line_data['tm_transaction_type']	= 'User has given escalation message about product upgrade';
+					$timeline_response 						= $control->insert_timeline_data($time_line_data);
 				}
 				if($_POST['status'] == 18){
-					$data 				= array(
-												'tm_brand_user_id' 		=> $_POST['user_id'],
-												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-												'tm_brand_name'   		=> $brand_name,
-												'tm_brand_user_phone'   => $_POST['user_phone'],
-												'tm_brand_id'   		=> $_POST['brand_id'],
-												'tm_interaction'		=> 'Service Provider Escalation',
-												'tm_interaction_type'	=> 12,
-												'tm_agent_comment'		=> $_POST['last_call_comment'],
-												'tm_movement_from'		=> $existing_category,
-												'tm_movement_to'		=> $selling_customer_category,
-												'tm_transaction_type'	=> 'User has given escalation message about service provider',
-												'tm_created_date'		=> date('Y-m-d')
-												);
-					$timeline_response 	= $control->insert_timeline_data($data);
-					
-					foreach($sliced_arr as $key1=>$value1){
-						$pfl_data 							= array();
-						$value_split						= explode("_",$value1);
-						$pfl_data['ph_qid']					= end(explode("_",$key1));
-						$pfl_data['ph_answer']				= $value_split[0];
-						$pfl_data['ph_weightage']			= $value_split[1];
-						$pfl_data['ph_timeline_id']			= $timeline_response;
-						$pfl_data['ph_user_id']				= $_POST['user_id'];
-						$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-						$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-						$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-						$pfl_data['ph_brand_name']  		= $brand_name;
-						$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-						$pfl_data['ph_email']				= $brand_details['email'];
-						$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-						$pfl_data1[] 						= $pfl_data;	
-						
-						$ph_response						= $control->insert_profile_history($pfl_data);
-					}
-					
+					$time_line_data['tm_interaction']		= 'Product Upgrade Escalation';
+					$time_line_data['tm_interaction_type']	= 11;
+					$time_line_data['tm_agent_comment']		= $_POST['last_call_comment'];
+					$time_line_data['tm_transaction_type']	= 'User has given escalation message about service provider';
+					$timeline_response 						= $control->insert_timeline_data($time_line_data);
 				}
-			
 			}
 			
 			if($_POST['status'] == 10){
 				$message 			= 'Sorry to hear that you have changed your product. To maintain the product use Yapnaa.';
 				$msg_response 		= $control->send_lifecycle_sms($brand_details['PHONE1'],$message);
 				
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Product Change',
-											'tm_interaction_type'	=> 4,
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_transaction_type'	=> 'Customer changed the product',
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-					
+				$time_line_data['tm_interaction']		= 'Product Change';
+				$time_line_data['tm_interaction_type']	= 4;
+				$time_line_data['tm_transaction_type']	= 'Customer changed the product';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);	
 			}
 			
 			if($_POST['status'] == 1){ // Need to be add after sattus updated
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Callback',
-											'tm_interaction_type'	=> 2,
-											'tm_transaction_date'	=> $_POST['req_follow_up_date'],
-											'tm_transaction_type'	=> 'Customer has given follow up date on '.$_POST['req_follow_up_date'].'',
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'Callback';
+				$time_line_data['tm_interaction_type']	= 2;
+				$time_line_data['tm_transaction_date']	= $_POST['req_follow_up_date'];
+				$time_line_data['tm_transaction_type']	= 'Customer has given follow up date on '.$_POST['req_follow_up_date'].'';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
 			}
 			
 			if($_POST['status'] == 2){
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Not interested',
-											'tm_interaction_type'	=> 3,
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_transaction_type'	=> 'Customer is not interested in service',
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'Not interested';
+				$time_line_data['tm_interaction_type']	= 3;
+				$time_line_data['tm_transaction_type']	= 'Customer is not interested in service';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
 			}
 			
 			if($_POST['status'] == 11){ 
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Change Service Provider',
-											'tm_interaction_type'	=> 5,
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_transaction_type'	=> 'Customer wants to change the service provider',
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'Change Service Provider';
+				$time_line_data['tm_interaction_type']	= 5;
+				$time_line_data['tm_transaction_type']	= 'Customer wants to change the service provider';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
 			}
 			
 			if($_POST['status'] == 12){ 
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'No Response',
-											'tm_interaction_type'	=> 6,
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_transaction_type'	=> 'No response from customer',
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'No Response';
+				$time_line_data['tm_interaction_type']	= 6;
+				$time_line_data['tm_transaction_type']	= 'No response from customer';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
 			}
 			
 			if($_POST['status'] == 13){
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Not reachable',
-											'tm_interaction_type'	=> 7,
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_transaction_type'	=> 'Customer is not reachable',
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'Not reachable';
+				$time_line_data['tm_interaction_type']	= 7;
+				$time_line_data['tm_transaction_type']	= 'Customer is not reachable';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
 			}
 			
 			if($_POST['status'] == 14){ 
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'To be contacted',
-											'tm_interaction_type'	=> 8,
-											'tm_transaction_date'	=> $_POST['req_follow_up_date'],
-											'tm_transaction_type'	=> 'Customer has given follow up date on '.$_POST['req_follow_up_date'].'',
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'To be contacted';
+				$time_line_data['tm_interaction_type']	= 8;
+				$time_line_data['tm_transaction_date']	= $_POST['req_follow_up_date'];
+				$time_line_data['tm_transaction_type']	= 'Customer has given follow up date on '.$_POST['req_follow_up_date'].'';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
 			}
 			
 			if($_POST['status'] == 15){
 				if(!empty($_POST['req_service_date']) ){
-					$data 				= array(
-												'tm_brand_user_id' 		=> $_POST['user_id'],
-												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-												'tm_brand_name'   		=> $brand_name,
-												'tm_brand_user_phone'   => $_POST['user_phone'],
-												'tm_brand_id'   		=> $_POST['brand_id'],
-												'tm_interaction'		=> 'Interested in Service',
-												'tm_interaction_type'	=> 9,
-												'tm_transaction_date'	=> $_POST['req_service_date'],
-												'tm_transaction_type'	=> 'Service request received of '.$_POST['req_service_date'].'',
-												'tm_movement_from'		=> $existing_category,
-												'tm_movement_to'		=> $selling_customer_category,
-												'tm_created_date'		=> date('Y-m-d')
-												);
-					$timeline_response 	= $control->insert_timeline_data($data);						
-					
-					foreach($sliced_arr as $key1=>$value1){
-						$pfl_data 							= array();
-						$value_split						= explode("_",$value1);
-						$pfl_data['ph_qid']					= end(explode("_",$key1));
-						$pfl_data['ph_answer']				= $value_split[0];
-						$pfl_data['ph_weightage']			= $value_split[1];
-						$pfl_data['ph_timeline_id']			= $timeline_response;
-						$pfl_data['ph_user_id']				= $_POST['user_id'];
-						$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-						$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-						$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-						$pfl_data['ph_brand_name']  		= $brand_name;
-						$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-						$pfl_data['ph_email']				= $brand_details['email'];
-						$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-						$pfl_data1[] 						= $pfl_data;	
-						
-						$ph_response						= $control->insert_profile_history($pfl_data);
-					}
-				
+					$time_line_data['tm_interaction']		= 'Interested in Service';
+					$time_line_data['tm_interaction_type']	= 9;
+					$time_line_data['tm_agent_comment']		= $_POST['req_service_date'];
+					$time_line_data['tm_transaction_type']	= 'Service request received of '.$_POST['req_service_date'].'';
+					$timeline_response 	= $control->insert_timeline_data($time_line_data);
 				}
 				if(!empty($_POST['req_amc_date']) ){
-					$data 				= array(
-												'tm_brand_user_id' 		=> $_POST['user_id'],
-												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-												'tm_brand_name'   		=> $brand_name,
-												'tm_brand_user_phone'   => $_POST['user_phone'],
-												'tm_brand_id'   		=> $_POST['brand_id'],
-												'tm_interaction'		=> 'Interested in Service',
-												'tm_interaction_type'	=> 9,
-												'tm_transaction_date'	=> $_POST['req_amc_date'],
-												'tm_transaction_type'	=> 'AMC date request raised on '.$_POST['req_amc_date'].'',
-												'tm_movement_from'		=> $existing_category,
-												'tm_movement_to'		=> $selling_customer_category,
-												'tm_created_date'		=> date('Y-m-d')
-												);
-					$timeline_response 	= $control->insert_timeline_data($data);
-					
-					foreach($sliced_arr as $key1=>$value1){
-						$pfl_data 							= array();
-						$value_split						= explode("_",$value1);
-						$pfl_data['ph_qid']					= end(explode("_",$key1));
-						$pfl_data['ph_answer']				= $value_split[0];
-						$pfl_data['ph_weightage']			= $value_split[1];
-						$pfl_data['ph_timeline_id']			= $timeline_response;
-						$pfl_data['ph_user_id']				= $_POST['user_id'];
-						$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-						$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-						$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-						$pfl_data['ph_brand_name']  		= $brand_name;
-						$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-						$pfl_data['ph_email']				= $brand_details['email'];
-						$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-						$pfl_data1[] 						= $pfl_data;	
-						
-						$ph_response						= $control->insert_profile_history($pfl_data);
-					}
-				
+					$time_line_data['tm_interaction']		= 'Interested in Service';
+					$time_line_data['tm_interaction_type']	= 9;
+					$time_line_data['tm_agent_comment']		= $_POST['req_amc_date'];
+					$time_line_data['tm_transaction_type']	= 'AMC date request raised on '.$_POST['req_amc_date'].'';
+					$timeline_response 	= $control->insert_timeline_data($time_line_data);
 				}
 				if(!empty($_POST['req_upgrade_date']) ){
-					$data 				= array(
-												'tm_brand_user_id' 		=> $_POST['user_id'],
-												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-												'tm_brand_name'   		=> $brand_name,
-												'tm_brand_user_phone'   => $_POST['user_phone'],
-												'tm_brand_id'   		=> $_POST['brand_id'],
-												'tm_interaction'		=> 'Interested in Service',
-												'tm_interaction_type'	=> 9,
-												'tm_transaction_date'	=> $_POST['req_upgrade_date'],
-												'tm_transaction_type'	=> 'Upgrade date rquest raised on '.$_POST['req_upgrade_date'].'',
-												'tm_movement_from'		=> $existing_category,
-												'tm_movement_to'		=> $selling_customer_category,
-												'tm_created_date'		=> date('Y-m-d')
-												);
-					$timeline_response 	= $control->insert_timeline_data($data);
-					
-					foreach($sliced_arr as $key1=>$value1){
-						$pfl_data 							= array();
-						$value_split						= explode("_",$value1);
-						$pfl_data['ph_qid']					= end(explode("_",$key1));
-						$pfl_data['ph_answer']				= $value_split[0];
-						$pfl_data['ph_weightage']			= $value_split[1];
-						$pfl_data['ph_timeline_id']			= $timeline_response;
-						$pfl_data['ph_user_id']				= $_POST['user_id'];
-						$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-						$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-						$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-						$pfl_data['ph_brand_name']  		= $brand_name;
-						$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-						$pfl_data['ph_email']				= $brand_details['email'];
-						$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-						$pfl_data1[] 						= $pfl_data;	
-						
-						$ph_response						= $control->insert_profile_history($pfl_data);
-					}
+					$time_line_data['tm_interaction']		= 'Interested in Service';
+					$time_line_data['tm_interaction_type']	= 9;
+					$time_line_data['tm_agent_comment']		= $_POST['req_upgrade_date'];
+					$time_line_data['tm_transaction_type']	= 'Upgrade date rquest raised on '.$_POST['req_upgrade_date'].'';
+					$timeline_response 	= $control->insert_timeline_data($time_line_data);
 				}
 				if(!empty($_POST['req_consumable_date']) ){
-					$data 				= array(
-												'tm_brand_user_id' 		=> $_POST['user_id'],
-												'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-												'tm_brand_name'   		=> $brand_name,
-												'tm_brand_user_phone'   => $_POST['user_phone'],
-												'tm_brand_id'   		=> $_POST['brand_id'],
-												'tm_interaction'		=> 'Interested in Service',
-												'tm_interaction_type'	=> 9,
-												'tm_transaction_date'	=> $_POST['req_consumable_date'],
-												'tm_transaction_type'	=> 'Consumable date request raised on '.$_POST['req_consumable_date'].'',
-												'tm_movement_from'		=> $existing_category,
-												'tm_movement_to'		=> $selling_customer_category,
-												'tm_created_date'		=> date('Y-m-d')
-												);		
-					$timeline_response 	= $control->insert_timeline_data($data);
-					
-					foreach($sliced_arr as $key1=>$value1){
-						$pfl_data 							= array();
-						$value_split						= explode("_",$value1);
-						$pfl_data['ph_qid']					= end(explode("_",$key1));
-						$pfl_data['ph_answer']				= $value_split[0];
-						$pfl_data['ph_weightage']			= $value_split[1];
-						$pfl_data['ph_timeline_id']			= $timeline_response;
-						$pfl_data['ph_user_id']				= $_POST['user_id'];
-						$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-						$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-						$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-						$pfl_data['ph_brand_name']  		= $brand_name;
-						$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-						$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-						$pfl_data['ph_email']				= $brand_details['email'];
-						$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-						$pfl_data1[] 						= $pfl_data;	
-						
-						$ph_response						= $control->insert_profile_history($pfl_data);
-					}
+					$time_line_data['tm_interaction']		= 'Interested in Service';
+					$time_line_data['tm_interaction_type']	= 9;
+					$time_line_data['tm_agent_comment']		= $_POST['req_consumable_date'];
+					$time_line_data['tm_transaction_type']	= 'Consumable date request on '.$_POST['req_consumable_date'].'';
+					$timeline_response 	= $control->insert_timeline_data($time_line_data);
 				}
 			}
 			
 			if($_POST['status'] == 19){ // Need to be add after sattus updated
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'PM Service Enqiry',
-											'tm_interaction_type'	=> 21,
-											'tm_transaction_date'	=> $_POST['req_pm_service_date'],
-											'tm_transaction_type'	=> 'Customer has given pm service enquiry date on '.$_POST['req_pm_service_date'].'',
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'PM Service Enqiry';
+				$time_line_data['tm_interaction_type']	= 21;
+				$time_line_data['tm_transaction_date']	= $_POST['req_pm_service_date'];
+				$time_line_data['tm_transaction_type']	= 'Customer has given pm service enquiry date on '.$_POST['req_pm_service_date'].'';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
 			}
 			
 			if($_POST['status'] == 20){
-				$data 				= array(
-											'tm_brand_user_id' 		=> $_POST['user_id'],
-											'tm_brand_customer_id'  => $_POST['brand_customer_id'],
-											'tm_brand_name'   		=> $brand_name,
-											'tm_brand_user_phone'   => $_POST['user_phone'],
-											'tm_brand_id'   		=> $_POST['brand_id'],
-											'tm_interaction'		=> 'Wrong Number',
-											'tm_interaction_type'	=> 22,
-											'tm_movement_from'		=> $existing_category,
-											'tm_movement_to'		=> $selling_customer_category,
-											'tm_transaction_type'	=> 'We got wrong number of this customer',
-											'tm_created_date'		=> date('Y-m-d')
-											);
-				$timeline_response 	= $control->insert_timeline_data($data);
-				
-				foreach($sliced_arr as $key1=>$value1){
-					$pfl_data 							= array();
-					$value_split						= explode("_",$value1);
-					$pfl_data['ph_qid']					= end(explode("_",$key1));
-					$pfl_data['ph_answer']				= $value_split[0];
-					$pfl_data['ph_weightage']			= $value_split[1];
-					$pfl_data['ph_timeline_id']			= $timeline_response;
-					$pfl_data['ph_user_id']				= $_POST['user_id'];
-					$pfl_data['ph_brand_id']			= $_POST['brand_id'];
-					$pfl_data['ph_user_phone']			= $_POST['user_phone'];
-					$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
-					$pfl_data['ph_brand_name']  		= $brand_name;
-					$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
-					$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
-					$pfl_data['ph_email']				= $brand_details['email'];
-					$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
-					$pfl_data1[] 						= $pfl_data;	
-					
-					$ph_response						= $control->insert_profile_history($pfl_data);
-				}
-				
+				$time_line_data['tm_interaction']		= 'Wrong Number';
+				$time_line_data['tm_interaction_type']	= 22;
+				$time_line_data['tm_transaction_type']	= 'We got wrong number of this customer';
+				$timeline_response 						= $control->insert_timeline_data($time_line_data);
+			}
+			
+			foreach($sliced_arr as $key1=>$value1){
+				$pfl_data 							= array();
+				$pfl_data['ph_qid']					= $key1;
+				$pfl_data['ph_answer']				= $value1;
+				$pfl_data['ph_timeline_id']			= $timeline_response;
+				$pfl_data['ph_user_id']				= $_POST['user_id'];
+				$pfl_data['ph_brand_id']			= $_POST['brand_id'];
+				$pfl_data['ph_user_phone']			= $_POST['user_phone'];
+				$pfl_data['ph_brand_customer_id']  	= $_POST['brand_customer_id'];
+				$pfl_data['ph_brand_name']  		= $brand_name;
+				$pfl_data['ph_created_date']  		= date('Y-m-d H:i:s');
+				$pfl_data['ph_updated_date']  		= date('Y-m-d H:i:s');
+				$pfl_data['ph_customer_name']		= $brand_details['CUSTOMER_NAME'];
+				$pfl_data['ph_email']				= $brand_details['email'];
+				$pfl_data['ph_customer_area']		= $brand_details['CUSTOMER_AREA'];
+				//$pfl_data['ph_weightage']			= $value_split[1]; // We can write Procedure here
+				$pfl_data1[] 						= $pfl_data;	
+				$ph_response						= $control->insert_profile_history($pfl_data);
 			}
 			
 			// Update Profile-Type in Brand Table
-			$set_array_brand = array('profile_type' => $selling_customer_category,'email' => $_POST['email']);
-			$response2  = $control->updateProfileInBrand($brand_name,$set_array_brand,$_POST['brand_customer_id'],$_POST['user_id']);
+			$set_array_brand 	= array('profile_type' => $selling_customer_category,'email' => $_POST['email']);
+			$response2  		= $control->updateProfileInBrand($brand_name,$set_array_brand,$_POST['brand_customer_id'],$_POST['user_id']);
 			
 			// Update Call Status = 1 in daily_call_schedule table
-			$updated_data    = array('status' => 1, 'updated_date' => date('Y-m-d H:i:s'));
-			$call_status 	 = $control->updateCallStatusInDailyCallSchedule($updated_data,$_POST['call_id']);
+			$updated_data    	= array('status' => 1, 'updated_date' => date('Y-m-d H:i:s'));
+			$call_status 	 	= $control->updateCallStatusInDailyCallSchedule($updated_data,$_POST['call_id']);
 			
 			// Success SMS will go to this customer
 			if($brand_details['status'] == 0){
@@ -895,13 +367,12 @@ if(isset($_SESSION['admin_email_id'])){
 					$send_success_sms		= $control->send_lifecycle_sms($_POST['user_phone'],$message); 
 				}
 			}
-			
 		}
-
 		
 		if($response || $response1 == 1){
 			$_POST = array();
 			echo "<script>alert('Updated successfully');</script>";
+			echo "<meta http-equiv='refresh' content='0'>";
 		}
 		else{
 			$_POST = array();
@@ -909,10 +380,11 @@ if(isset($_SESSION['admin_email_id'])){
 		}
 		
 	}
-		
+	
+	
 	// Update AMC datas
 	if(isset($_POST['addAMCSubmit'])){
-		//echo "<br><pre>";print_r($_POST);die;
+		//echo "<br><pre>"; print_r($_POST);
 		if(empty($_POST['newAMCStart'])){
 			$_POST['newAMCStart'] 	= '';
 		}
@@ -920,84 +392,51 @@ if(isset($_SESSION['admin_email_id'])){
 			$_POST['newAMCEnd'] 	= '';
 		}
 		
-		switch($_GET['customer_type']){
-			case 1:
-			$table='livpure';
-			break;
-			case 2:
-			$table='zerob_consol1';
-			break;
-			case 3:
-			$table='livpure_tn_kl';
-			break;
-			case 4:
-			$table='bluestar_b2b';
-			break;
-			case 5:
-			$table='bluestar_b2c';
-			break;
-		}
+		$brand_name 				= array('', 'livpure', 'zerob_consol1','livpure_tn_kl','bluestar_b2b','bluestar_b2c','livpure_ap','livpure_ts');
+		$table 						= $brand_name[$_GET['customer_type']];
 		
-		$get_amc_list 			= $control->updateAmcData($table,$_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['userid'],$_POST['comments'],$_POST['closedBy'],$_POST['transaction_status']);
+		$get_amc_list 				= $control->updateAmcData($table,$_SESSION['admin_email_id'],$_POST['newAMCStart'],$_POST['newAMCEnd'],$_POST['userid'],$_POST['comments'],$_POST['closedBy'],$_POST['transaction_status']);
 		
-		$existing_profile_status		 	= $control->get_existing_profile_status_of_customer($table,$_POST['userid']);
-		$existing_category  	 			= $existing_profile_status['profile_type'];
+		$existing_profile_status	= $control->get_existing_profile_status_of_customer($table,$_POST['userid']);
+		$existing_category  	 	= $existing_profile_status['profile_type'];
+		
+		$time_line_data 			= array(
+											'tm_brand_user_id' 		=> $_POST['userid'],
+											'tm_brand_customer_id'  => $_GET['brand_customer_id'],
+											'tm_brand_name'   		=> $table,
+											'tm_brand_user_phone'   => $_GET['user_phone'],
+											'tm_brand_id'   		=> $_GET['customer_type'],
+											'tm_movement_from'		=> $existing_category,
+											'tm_movement_to'		=> $existing_category,
+											'tm_created_date'		=> date('Y-m-d'),
+											);		
 		
 		if($get_amc_list && !empty($_POST['newAMCStart']) ){
-			$data 				= array(
-										'tm_brand_user_id' 		=> $_POST['userid'],
-										'tm_brand_customer_id'  => $_GET['brand_customer_id'],
-										'tm_brand_name'   		=> $table,
-										'tm_brand_user_phone'   => $_GET['user_phone'],
-										'tm_brand_id'   		=> $_GET['customer_type'],
-										'tm_interaction'		=> 'AMC update',
-										'tm_interaction_type'	=> 18,
-										'tm_transaction_date'	=> $_POST['newAMCStart'],
-										'tm_transaction_type'	=> 'Customer has given AMC startdate of '.$_POST['newAMCStart'].'',
-										'tm_movement_from'		=> $existing_category,
-										'tm_movement_to'		=> $existing_category,
-										'tm_created_date'		=> date('Y-m-d')
-										);
-			$timeline_response 	= $control->insert_timeline_data($data);
+			$time_line_data['tm_interaction'] 		= 'AMC update';
+			$time_line_data['tm_interaction_type'] 	= 18;
+			$time_line_data['tm_transaction_date'] 	= $_POST['newAMCStart'];
+			$time_line_data['tm_transaction_type'] 	= 'Customer has given AMC startdate of '.$_POST['newAMCStart'].'';
+			$timeline_response 						= $control->insert_timeline_data($time_line_data);
 		}
 		
 		if($get_amc_list && !empty($_POST['closedBy']) && $_POST['closedBy'] == 'Yapnaa'){
-			$data 				= array(
-										'tm_brand_user_id' 		=> $_POST['userid'],
-										'tm_brand_customer_id'  => $_GET['brand_customer_id'],
-										'tm_brand_name'   		=> $table,
-										'tm_brand_user_phone'   => $_GET['user_phone'],
-										'tm_brand_id'   		=> $_GET['customer_type'],
-										'tm_interaction'		=> 'Purchased With Yapnaa',
-										'tm_interaction_type'	=> 19,
-										'tm_movement_from'		=> $existing_category,
-										'tm_movement_to'		=> $existing_category,
-										'tm_transaction_type'	=> 'Customer purchased with Yapnaa',
-										'tm_created_date'		=> date('Y-m-d')
-										);
-			$timeline_response 	= $control->insert_timeline_data($data);
+			$time_line_data['tm_interaction'] 		= 'Purchased With Yapnaa';
+			$time_line_data['tm_interaction_type'] 	= 19;
+			$time_line_data['tm_transaction_type'] 	= 'Customer purchased with Yapnaa';
+			$timeline_response 						= $control->insert_timeline_data($time_line_data);
 		}
 		
 		if($get_amc_list && !empty($_POST['closedBy']) && $_POST['closedBy'] == 'Others'){
-			$data 				= array(
-										'tm_brand_user_id' 		=> $_POST['userid'],
-										'tm_brand_customer_id'  => $_GET['brand_customer_id'],
-										'tm_brand_name'   		=> $table,
-										'tm_brand_user_phone'   => $_GET['user_phone'],
-										'tm_brand_id'   		=> $_GET['customer_type'],
-										'tm_interaction'		=> 'Purchased with Brand',
-										'tm_interaction_type'	=> 20,
-										'tm_movement_from'		=> $existing_category,
-										'tm_movement_to'		=> $existing_category,
-										'tm_transaction_type'	=> 'Customer purchased with its Brand',
-										'tm_created_date'		=> date('Y-m-d')
-										);
-			$timeline_response 	= $control->insert_timeline_data($data);
+			$time_line_data['tm_interaction'] 		= 'Purchased With Brand';
+			$time_line_data['tm_interaction_type'] 	= 20;
+			$time_line_data['tm_transaction_type'] 	= 'Customer purchased with its Brand';
+			$timeline_response 						= $control->insert_timeline_data($time_line_data);
 		}	
 		
 		if($get_amc_list){
 			$_POST = array();
 			echo "<script>alert('Updated successfully');</script>";
+			echo "<meta http-equiv='refresh' content='0'>";
 		}
 		else{
 			$_POST = array();
@@ -1005,8 +444,7 @@ if(isset($_SESSION['admin_email_id'])){
 		}
 	}	
 	
-	$std_comments = $control->get_standard_comments();
-	
+		
 ?>
 
 
@@ -1164,12 +602,12 @@ if(isset($_SESSION['admin_email_id'])){
 						
 						<div role="tabpanel" class="tab-pane active" id="responses">										
 							<div class="row">
+							
 								<div class="col-lg-12">
 									<form action="" name="question_answer_form" id="question_answer_form" method="POST">
 										<div class="row">
-											<?php foreach($group_subgroup_result as $key => $value){ ?>
+											<?php foreach($final_arr as $key => $value){ ?>
 												<div class="col-lg-4 col-sm-4 b-r">
-													
 													<div class="row">
 														<div class="col-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
 															<img src="images/customer-satisfaction.svg" class="img-responsive" alt="cust"/>
@@ -1180,97 +618,37 @@ if(isset($_SESSION['admin_email_id'])){
 													</div>
 													
 													<?php foreach($value as $key1 => $value1){ ?>
-															
+														
 														<div class="col-lg-12" style="margin-top: 35px;">
 															<label class="question-tag"><?php echo $key1; ?></label>
 														</div>
 														
 														<?php foreach($value1 as $key2 => $value2){ ?>
-														
-														<div class="row b-t">
-															<div class="col-lg-12">	
-																<h3><?php echo $key2+1;?><?php echo ".";?> <?php echo $value2['qa_question'] ?></h3>
-															</div>
-															<div class="col-lg-12">
-																<div class="row">
-																	<?php if(!empty($value2['qa_answer1'])) { ?>
-																	<div class="col-md-6">
-																		<div class="form-check">
-																			<label>
-																				<input type="radio" value="answer1_<?php echo $value2['qa_answer1_weightage'];?>" name="qid_<?php echo $value2['qa_id'];?>"
-																				<?php 
-																				echo !empty($value2["answer_weightage"])?(($value2["answer_weightage"]=="qa_answer1")?"checked":""):"";
-																				?> > 
-																				<span id="sansq1" class="label-text"><?php echo $value2['qa_answer1']; ?></span>
-																			</label>
-																		</div>												
-																	</div>
-																	<?php } ?>
-																	
-																	<?php if(!empty($value2['qa_answer2'])) { ?>
-																	<div class="col-md-6">
-																		<div class="form-check">
-																			<label>
-																				<input type="radio" value="answer2_<?php echo $value2['qa_answer2_weightage'];?>" name="qid_<?php echo $value2['qa_id'];?>"
-																				<?php 
-																				echo !empty($value2["answer_weightage"])?(($value2["answer_weightage"]=="qa_answer2")?"checked":""):"";
-																				?> > 
-																				<span id="sansq1" class="label-text"><?php echo $value2['qa_answer2']; ?></span>
-																			</label>
-																		</div>														
-																	</div>
-																	<?php } ?>
-																	
-																	<?php if(!empty($value2['qa_answer3'])) { ?>
-																	<div class="col-md-6">
-																		<div class="form-check">
-																			<label>
-																				<input type="radio" value="answer3_<?php echo $value2['qa_answer3_weightage'];?>" name="qid_<?php echo $value2['qa_id'];?>"
-																				<?php 
-																				echo !empty($value2["answer_weightage"])?(($value2["answer_weightage"]=="qa_answer3")?"checked":""):"";
-																				?> > 
-																				<span id="sansq1" class="label-text"><?php echo $value2['qa_answer3']; ?></span>
-																			</label>
-																		</div>														
-																	</div>
-																	<?php } ?>
-																	
-																	<?php if(!empty($value2['qa_answer4'])) { ?>
-																	<div class="col-md-6">
-																		<div class="form-check">
-																			<label>
-																				<input type="radio" value="answer4_<?php echo $value2['qa_answer4_weightage'];?>" name="qid_<?php echo $value2['qa_id'];?>"
-																				<?php 
-																				echo !empty($value2["answer_weightage"])?(($value2["answer_weightage"]=="qa_answer4")?"checked":""):"";
-																				?> > 
-																				<span id="sansq1" class="label-text"><?php echo $value2['qa_answer4']; ?></span>
-																			</label>
-																		</div>														
-																	</div>
-																	<?php } ?>
-																	
-																	<?php if(!empty($value2['qa_answer5'])) { ?>
-																	<div class="col-md-6">
-																		<div class="form-check">
-																			<label>
-																				<input type="radio" value="answer5_<?php echo $value2['qa_answer5_weightage'];?>" name="qid_<?php echo $value2['qa_id'];?>"
-																				<?php 
-																				echo !empty($value2["answer_weightage"])?(($value2["answer_weightage"]=="qa_answer5")?"checked":""):"";
-																				?> > 
-																				<span id="sansq1" class="label-text"><?php echo $value2['qa_answer5']; ?></span>
-																			</label>
-																		</div>														
-																	</div>
-																	<?php } ?>
-																																
+															<div class="row b-t">
+																<div class="col-lg-12">	
+																	<h3><?php echo $key2; ?></h3>
 																</div>
-															</div>														
-														</div>
-														
+																<div class="col-lg-12">
+																	<div class="row">
+																		<?php for($i=0;$i<count($value2);$i++) { ?>
+																			<div class="col-md-6">
+																				<div class="form-check">
+																					<label>
+																						<input type="radio" value="<?php echo $value2[$i]['answer_id']; ?>" name="<?php echo $value2[$i]['question_id'];?>" <?php 
+																				echo !empty($value2[$i]["answer_given"])?(($value2[$i]["answer_given"]==$value2[$i]["answer_id"])?"checked":""):"";
+																				?> > 
+																						<span id="" class="label-text"><?php echo $value2[$i]['answer_type']; ?></span>
+																						<input type="hidden" value="<?php echo $value2[$i]['answer_weightage']; ?>" name="">
+																					</label>
+																				</div>	
+																			</div>
+																		<?php } ?>	
+																		
+																	</div>
+																</div>														
+															</div>
 														<?php } ?>
-														
 													<?php } ?>
-													
 												</div>
 											<?php } ?>
 										</div>
@@ -1451,7 +829,7 @@ if(isset($_SESSION['admin_email_id'])){
 													
 													<?php if($timeline_data[$i]['tm_movement_from'] != $timeline_data[$i]['tm_movement_to']) { ?>
 														<div class="vertical-timeline-icon" style="margin-top: 52px;">
-															<i class="fa fa-plus-circle" onclick="showProfileHistory(<?php echo $timeline_data[$i]['tm_id'];?>,<?php echo $timeline_data[$i]['tm_brand_user_id'];?>,'<?php echo $timeline_data[$i]['tm_brand_name'];?>');" aria-hidden="true"></i>
+															<i class="fa fa-plus-circle" onclick="showProfileHistory(<?php echo $timeline_data[$i]['tm_id'];?>,<?php echo $timeline_data[$i]['tm_brand_user_id'];?>,'<?php echo $timeline_data[$i]['tm_brand_id'];?>');" aria-hidden="true"></i>
 														</div>
 													<?php } ?>
 													
@@ -1474,7 +852,7 @@ if(isset($_SESSION['admin_email_id'])){
 													
 													<?php if($timeline_data[$i]['tm_movement_from'] != $timeline_data[$i]['tm_movement_to']) { ?>
 														<div class="vertical-timeline-icon" style="margin-top: 52px;">
-															<i class="fa fa-plus-circle" onclick="showProfileHistory(<?php echo $timeline_data[$i]['tm_id'];?>,<?php echo $timeline_data[$i]['tm_brand_user_id'];?>,'<?php echo $timeline_data[$i]['tm_brand_name'];?>');" aria-hidden="true"></i>
+															<i class="fa fa-plus-circle" onclick="showProfileHistory(<?php echo $timeline_data[$i]['tm_id'];?>,<?php echo $timeline_data[$i]['tm_brand_user_id'];?>,'<?php echo $timeline_data[$i]['tm_brand_id'];?>');" aria-hidden="true"></i>
 														</div>
 													<?php } ?>
 													
@@ -1576,7 +954,6 @@ if(isset($_SESSION['admin_email_id'])){
 				</div>
 			</div>
 		</div>
-		
 	</div>
 	
 	<!-- Profile Modal -->
@@ -1696,7 +1073,7 @@ if(isset($_SESSION['admin_email_id'])){
 					</div>
 					
 					<hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -30px;margin-top: 10px;">
-				
+					
 					<div class="row" style="margin-top: -20px;">
 						<div class="col-lg-4" style="border-right: 1px solid #e5e5e5;">
 							
@@ -1725,18 +1102,20 @@ if(isset($_SESSION['admin_email_id'])){
 									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Satisfaction</h4>
 								</div>
 								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
+									
 									<div style="display:-webkit-inline-box;">
-										<label>Response time: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Service'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Service'][0][$group_subgroup_result['Customer Satisfaction Index']['Service'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Response time: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php echo $profile_data_modal[2]; ?></p>
 									</div>
 									<div style="display:-webkit-inline-box;">
-										<label>Quality of Service: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Service'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Service'][1][$group_subgroup_result['Customer Satisfaction Index']['Service'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Quality of Service: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php echo $profile_data_modal[3]; ?></p>
 									</div>
 									<div style="display:-webkit-inline-box;">
-										<label>Brand Cummunication: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Product'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Product'][0][$group_subgroup_result['Customer Satisfaction Index']['Product'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Brand Cummunication: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php echo $profile_data_modal[5]; ?></p>
 									</div>
 									<div style="display:-webkit-inline-box;">
-										<label>Overall Product Experience: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php if(!empty($group_subgroup_result['Customer Satisfaction Index']['Product'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Satisfaction Index']['Product'][1][$group_subgroup_result['Customer Satisfaction Index']['Product'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Overall Product Experience: </label> <p class="modal-answers" style="display:-webkit-inline-box;word-wrap: break-word;"><?php echo $profile_data_modal[6]; ?></p>
 									</div>
+									
 								</div>
 							</div>
 							
@@ -1760,9 +1139,8 @@ if(isset($_SESSION['admin_email_id'])){
 								</div>
 							</div>
 							
-							<!-- <hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -15px;"> -->
 						</div>
-												
+													
 						<div class="col-lg-4" style="border-right:1px solid #e5e5e5;padding-left: 29px;">					
 							<div class="row" style="margin-top: 5%;">
 								<div class="col-lg-5">
@@ -1770,10 +1148,10 @@ if(isset($_SESSION['admin_email_id'])){
 								</div>
 								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
 									<div style="display:table;">
-										<label>Awareness: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Recall'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Recall'][0][$group_subgroup_result['Customer Brand Engagement Index']['Recall'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Awareness: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[7]; ?></p>
 									</div>
 									<div style="display:table;">
-										<label>Familiar with offerings: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Recall'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Recall'][1][$group_subgroup_result['Customer Brand Engagement Index']['Recall'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Familiar with offerings: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[8]; ?></p>
 									</div>
 								</div>
 							</div>
@@ -1784,10 +1162,10 @@ if(isset($_SESSION['admin_email_id'])){
 								</div>
 								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
 									<div style="display:table;">
-										<label>Refer: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0][$group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][0]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Refer: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[11]; ?></p>
 									</div>
 									<div style="display:table;">
-										<label>Purchase intent: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1][$group_subgroup_result['Customer Brand Engagement Index']['Loyalty'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Purchase intent: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[12]; ?></p>
 									</div>
 								</div>
 							</div>
@@ -1798,36 +1176,34 @@ if(isset($_SESSION['admin_email_id'])){
 								</div>
 								<div class="col-lg-7" style="margin-left: -7%;margin-top: 2%;">
 									<div style="display:table;">
-										<label>Upgrade: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php if(!empty($group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_weightage'])){echo $group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1][$group_subgroup_result['Customer Brand Engagement Index']['Additional Information'][1]['answer_weightage']];} else{echo "No Answer Given";} ?></p>
+										<label>Upgrade: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[13]; ?></p>
 									</div>
 								</div>
 							</div>
-							
 						</div>
 						
 						<div class="col-lg-4" style="padding-left: 29px;">
-							
 							<div class="row" style="margin-top: 5%;">
 								<div class="col-lg-5">
 									<h4 style="color:#23c6c8;font-weight: 400;font-size: 12px;margin-left:-14%">Referral</h4>
 								</div>
 								<div class="col-lg-7" style="margin-left: -15%;margin-top: 2%;">
 									<div style="display:table;">
-										<label>Shares opinion: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+										<label>Shares opinion: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[14]; ?></p>
 									</div>
 									<div style="display:table;">
-										<label>Influence: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+										<label>Influence: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[15]; ?></p>
 									</div>
 									<div style="display:table;">
-										<label>Referral interest: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+										<label>Referral interest: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[16]; ?></p>
 									</div>
 									<div style="display:table;">
-										<label>Provides Feedback: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;">N/A</p>
+										<label>Provides Feedback: </label> <p class="modal-answers" style="display:table-cell;word-wrap: break-word;padding-left:5px;"><?php echo $profile_data_modal[17]; ?></p>
 									</div>
 								</div>
 							</div>
-							
 						</div>
+						
 					</div>
 					
 					<hr/ style="border: solid 1px dimgrey;margin-left: -30px;margin-right: -30px;">
@@ -2166,6 +1542,14 @@ if(isset($_SESSION['admin_email_id'])){
 			var req_pm_service_date = "<?php echo $brand_details['req_pm_service_date'];?>";
 			var not_interested_reason 	= "<?php echo $brand_details['not_interested_reason'];?>";
 			
+			if(selected_status == 0){
+				document.getElementById('interested_service_status').style.visibility = "hidden";
+				document.getElementById('service_date').style.visibility = "hidden";   
+				document.getElementById('amc_date').style.visibility = "hidden";   
+				document.getElementById('upgrade_date').style.visibility = "hidden";   
+				document.getElementById('consumable_date').style.visibility = "hidden"; 
+			}
+			
 			if(selected_status == 15){
 				document.getElementById('interested_service_status').style.visibility = "visible";
 				
@@ -2319,12 +1703,11 @@ if(isset($_SESSION['admin_email_id'])){
 	
 	<script>
 	
-		function showProfileHistory(tm_id,tm_brand_user_id,tm_brand_name){
-			//alert(tm_id);
+		function showProfileHistory(tm_id,tm_brand_user_id,tm_brand_id){
 			$.ajax({
-				url:"smsActions.php?showProfileHistory=submit",
+				url:"smsActions.php?show_profile_history=submit",
 				type:"POST",
-				data:{tm_id:tm_id,tm_brand_user_id:tm_brand_user_id,tm_brand_name:tm_brand_name},
+				data:{tm_id:tm_id,tm_brand_user_id:tm_brand_user_id,tm_brand_name:tm_brand_id},
 				dataType:"json",
 				success:function(response){
 					console.log(response);
@@ -2364,6 +1747,7 @@ if(isset($_SESSION['admin_email_id'])){
 </body>
 
 </html>
+
 
 
 <?php

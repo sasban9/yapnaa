@@ -7507,12 +7507,21 @@ $datacustomer
 			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		
 		}
+		if($_GET['customer_type']==6){
+			$table='livpure_ap';
+			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		}
+		if($_GET['customer_type']==7){
+			$table='livpure_ts';
+			$arr_log_in       			 = 	$this->model->get_brand_cust_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		
+		}
 		return $arr_log_in;
 
     }
 	
-	function get_brand_list1111111($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
-    {
+	function get_brand_list1111111($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto){
 		$arr_log_in=array();
 		
 			$table='livpure';
@@ -7546,26 +7555,44 @@ $datacustomer
 	
 	 function download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
-		$tag          = $_POST['tag'];
+		$tag         	 = $_POST['tag'];
 		$filter           = $_POST['filter'];
-	  $fromDate           = $_POST['fromDate'];
+		$fromDate           = $_POST['fromDate'];
 		$toDate           = $_POST['toDate'];
 		$amc_fromDate     = $_POST['amc_fromDate'];
 		$amc_toDate       = $_POST['amc_toDate'];
 		$arr_log_in=array();
 		if($_GET['customer_type']==1){
 			$table='livpure';
-		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+			$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 		if($_GET['customer_type']==2){
 			$table='zerob_consol1';
-		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+			$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
-		$this->download_csv_results($arr_log_in,"yapnaa.csv");
 		if($_GET['customer_type']==3){
 			$table='livpure_tn_kl';
-		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+			$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
+		if($_GET['customer_type']==4){
+			$table='bluestar_b2b';
+			$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		}
+		if($_GET['customer_type']==5){
+			$table='bluestar_b2c';
+			$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		}
+		if($_GET['customer_type']==6){
+			$table='livpure_ap';
+			$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		}
+		if($_GET['customer_type']==7){
+			$table='livpure_ts';
+			$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
+		}
+		
+		$this->download_csv_results($arr_log_in,"yapnaa.csv");
+		
 		exit;
 
     } 
@@ -9370,6 +9397,12 @@ could not be delivered,please try again.";
 			case 5:
 			$brand	='bluestar_b2c';
 			break;
+			case 6:
+			$brand	= 'livpure_ap';
+			break;
+			case 7:
+			$brand	= 'livpure_ts';
+			break;
 		}
 		
 		$result 	= $this->model->get_q_a($brand,$user_id);
@@ -9518,6 +9551,13 @@ could not be delivered,please try again.";
             $brand_img		= "logo_livpure_yapnaa.png";			
             break;
 			
+			case 6:
+			$table			= 'livpure_ap';
+			break;
+			case 7:
+			$table			= 'livpure_ts';
+			break;
+			
 		} 
        	
 		$result 					= $this->model->transaction_lifecycle($table);
@@ -9603,6 +9643,13 @@ could not be delivered,please try again.";
             $brand_img		= "logo_livpure_yapnaa.png";			
             break;
 			
+			case 6:
+			$table			= 'livpure_ap';
+			break;
+			case 7:
+			$table			= 'livpure_ts';
+			break;
+			
 		} 
        	
 		$result 				= $this->model->productchange_lifecycle($table);
@@ -9671,6 +9718,12 @@ could not be delivered,please try again.";
             $brand_img		= "logo_livpure_yapnaa.png";			
             break;
 			
+			case 6:
+			$table			= 'livpure_ap';
+			break;
+			case 7:
+			$table			= 'livpure_ts';
+			break;
 		} 
        	
 		$result 		= $this->model->escalation_lifecycle($table);
@@ -9780,6 +9833,13 @@ could not be delivered,please try again.";
 			$titlename1		= 'Bluestar B2C';
             $brand_img		= "logo_livpure_yapnaa.png";			
             break;
+			
+			case 6:
+			$table			= 'livpure_ap';
+			break;
+			case 7:
+			$table			= 'livpure_ts';
+			break;
 			
 		} 
        	
@@ -9916,6 +9976,13 @@ could not be delivered,please try again.";
             $brand_img		= "logo_livpure_yapnaa.png";			
             break;
 			
+			case 6:
+			$table			= 'livpure_ap';
+			break;
+			case 7:
+			$table			= 'livpure_ts';
+			break;
+			
 		} 
        	
 		$result 					= $this->model->promotional_welcome_sms($table);
@@ -9977,6 +10044,12 @@ could not be delivered,please try again.";
             $brand_img		= "logo_livpure_yapnaa.png";			
             break;
 			
+			case 6:
+			$table			= 'livpure_ap';
+			break;
+			case 7:
+			$table			= 'livpure_ts';
+			break;
 		} 
        	
 		$result 					= $this->model->amc_cron($table);
@@ -10127,6 +10200,13 @@ could not be delivered,please try again.";
 			break;
 			case 5:
 			$brand	='bluestar_b2c';
+			break;
+			
+			case 6:
+			$brand			= 'livpure_ap';
+			break;
+			case 7:
+			$brand			= 'livpure_ts';
 			break;
 		}
 		$brand   	= 1;
