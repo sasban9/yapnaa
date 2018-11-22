@@ -1,13 +1,15 @@
 <?php session_start();
+if(isset($_SESSION['user_id'])){
+	
 require_once('../controller/user_controller.php');
 $obj_user = new users; 
 $produtcat=  $obj_user->get_product_cat_list(); 
-if(isset($_GET['user']) && isset($_GET['cat'])){
-$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_GET['cat'],$_GET['user']);
 
+if(isset($_GET['user']) && isset($_GET['cat'])){
+	$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_GET['cat'],$_GET['user']);
 }
 else{
-$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_SESSION['dl_product_type_id'],$_SESSION['user_id']);
+	$user_digilocker_list=  $obj_user->user_digilocker_list_dashboard($_SESSION['dl_product_type_id'],$_SESSION['user_id']);
 }
 //echo '<pre>';print_r($user_digilocker_list);
 if(isset($_POST['fileName'])){
@@ -32,21 +34,32 @@ jpeg')</script>";
 	$dl_product_id='';
 	$dl_doc_name=$_POST['fileName'];
     $produtcat=  $obj_user->upload_digilocker_dashboard($dl_product_type_id,$dl_user_id,$dl_doc_type,$dl_product_id,$dl_doc_name);
-	
-		
-		//echo "<script>location.reload(true)</script>";
+			
+	//echo "<script>location.reload(true)</script>";
 			
 }
+
 if(isset($_POST['saveProfile'])){
-	
 	$myproduct=  $obj_user->update_user_profile_dashboard();
-	if($myproduct !=NULL)
-	{
+	if($myproduct !=NULL){
 		echo '<script>alert("Your profile has been updated successfully. Please do re-login to apply the changes! ")</script>';
 		 
 	}
 }
+
+/* By Suman */
+
+if(isset($_POST['deleteDigilocker']) && $_POST['deleteDigilocker'] == 'Yes' ){
+	$dl_id 			= $_POST['dl_id'];
+	$response 		= $obj_user->deleteDigilocker($dl_id);
+	if($response){
+		echo '<script>alert("Item Deleted Successfully")</script>';
+		echo "<script>window.location.assign('digi-locker-product-details.php')</script>";
+	}
+}
+
 ?>
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -68,52 +81,56 @@ if(isset($_POST['saveProfile'])){
       <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
       <link href="assets/css/themify-icons.css" rel="stylesheet">
    </head>
+   
    <style>
+   
    .pointer {cursor: pointer;}
    .save{
-	background-color: #5740c9 !important;
-    border-color: #5740c9 !important;
-}
+		background-color: #5740c9 !important;
+		border-color: #5740c9 !important;
+	}
    .sidebar .nav p, .off-canvas-sidebar .nav p {
-	            font-size:15px !important;
-			    text-transform:none !important;
-		  }	
-.btn:hover {
-   border-color: #ff6010 !important;
-    color: #ffffff !important;
-   background-color: #ff6010 !important;
-}
+		font-size:15px !important;
+		text-transform:none !important;
+	}	
+	.btn:hover {
+	   border-color: #ff6010 !important;
+		color: #ffffff !important;
+	   background-color: #ff6010 !important;
+	}
 
 
-body {margin:2rem;}
+	body {margin:2rem;}
 
-.modal-dialog {
-      max-width: 800px;
-      margin: 30px auto;
-  }
+	.modal-dialog {
+		  max-width: 800px;
+		  margin: 30px auto;
+	  }
 
 
 
-.modal-body {
-  position:relative;
-  padding:0px;
-}
-.close {
-  position:absolute;
-  right:-30px;
-  top:0;
-  z-index:999;
-  font-size:2rem;
-  font-weight: normal;
-  color:#fff;
-  opacity:1;
-}
+	.modal-body {
+	  position:relative;
+	  padding:0px;
+	}
+	.close {
+	  position:absolute;
+	  right:-30px;
+	  top:0;
+	  z-index:999;
+	  font-size:2rem;
+	  font-weight: normal;
+	  color:#fff;
+	  opacity:1;
+	}
 
-#image {
-  height:100%; 
-  width:100%;
-}
+	#image {
+	  height:100%; 
+	  width:100%;
+	}
+	
    </style>
+   
    <body>
       <div class="wrapper">
          <div class="sidebar" data-background-color="white" data-active-color="danger">
@@ -180,6 +197,7 @@ body {margin:2rem;}
                </ul>
             </div>
          </div>
+		 
          <div class="main-panel">
             <nav class="navbar navbar-default" >
                <div class="container-fluid">
@@ -220,18 +238,18 @@ body {margin:2rem;}
                   </div>
                </div>
             </nav>
-            <div class="content">
+            
+			<div class="content">
                <div class="container-fluid">
                   <div class="row">
                      <div class="col-md-8">
                         <div class="card">
                            <div class="col-md-12">
                               <h4 class="title">My Digilocker</h4>
-                           </div>
-						   
+                           </div>						   
                           
                            <div class="col-md-12" >
-                              <div class="content" style="    background: #f4f3ef;">
+                              <div class="content" style="background: #f4f3ef;">
                                  <div class="row text-center">
                                     <div class="col-xs-6" >
                                        <a href="digi-locker.php" style="color:#000;">
@@ -247,32 +265,23 @@ body {margin:2rem;}
                               </div>
                               <div class="col-md-12" >
                                  <div class="content">
-                                    <!--div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">Samsung</h5>
-                                       <small>8 feb 2018</small>
-                                    </div>
-                                    <div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">ZeroB</h5>
-                                       <small>8 feb 2018</small>
-                                    </div>
-                                    <div class="col-md-3 text-center">
-                                       <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png" alt="Circle Image" class=" img-no-padding img-responsive img-center">
-                                       <h5 class="title ">Livpure</h5>
-                                       <small>8 feb 2018</small>
-                                    </div-->
 									<?php
 									if($user_digilocker_list !=NULL){
 									foreach($user_digilocker_list as $ls){?>
                                     <div class="col-md-3 text-center gallery" >
 									<!--<a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>">-->
-									<a >
-                                       <img src="../digilocker_images/<?php echo $ls['dl_document'];?>" alt="Circle Image" height="100" width="100" class=" img-fluid img-no-padding  img-center" 
-									   data-toggle="modal" data-bigimage="../digilocker_images/<?php echo $ls['dl_document'];?>"  data-target="#myModal1234" >
-                                     </a> 
-									  <h5 class="title "><?php echo $ls['dl_doc_name'];?></h5>
+									
+                                       <img src="../digilocker_images/<?php echo $ls['dl_document'];?>" alt="Circle Image" height="100" width="100" class="pointer img-fluid img-no-padding  img-center" 
+									   data-toggle="modal" data-bigimage="../digilocker_images/<?php echo $ls['dl_document'];?>"  data-target="#myModal1234" >  
+                                    
+									 
+									   <h5 class="title "><?php echo $ls['dl_doc_name'];?></h5>   
                                        <small><?php echo date('Y-m-d', strtotime($ls['dl_created_time']));?></small>
+									   <a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>" >
+							           <i class="fa fa-download" style="" ></i></a>
+									   
+									   <a class="delete_modal" data-toggle="modal" data-target="#deleteModal" data-delete="<?php echo $ls['dl_id'];?>"><i class="fa fa-trash" style="" ></i></a>
+									   
                                     </div>
 									<?php }
 									}
@@ -296,7 +305,7 @@ body {margin:2rem;}
                                  </div>
                                  <div class="col-xs-5">
                                     <a href="#" onclick="alert('Coming soon!')">
-                                    <span style="font-size: 14px;"><i class="fa fa-comment"></i>	Live chat</span>
+                                    <span style="font-size: 14px;"><i class="fa fa-comment"></i>Live chat</span>
                                     </a>
                                  </div>
                               </div>
@@ -357,90 +366,66 @@ body {margin:2rem;}
                   </div>
                </div>
             </div>
+			
             <footer class="footer">
                <div class="container-fluid">
-                  <!--nav class="pull-left">
-                     <ul>
-                        <li>
-                           <a href="#">
-                           Home
-                           </a>
-                        </li>
-                        <li>
-                           <a href="#">
-                           Blog
-                           </a>
-                        </li>
-                        <li>
-                           <a href="#">
-                           Contact
-                           </a>
-                        </li>
-                     </ul>
-                  </nav-->
                   <div class="copyright pull-right">
                      &copy; <script>document.write(new Date().getFullYear())</script>. All Rights Reserved. Movilo Networks Pvt. Ltd.
                   </div>
                </div>
             </footer>
+			
          </div>
       </div>
-	  
-	  	  <div id="myModal" class="modal fade" role="dialog">
-			  <div class="modal-dialog">
-
-				<!-- Modal content-->
+	    
+		
+		<!-- Modal -->
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
 				<div class="modal-content">
-				  <div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">×</button>
-					<h4 class="modal-title">Digilocker!</h4>
-				  </div>
-				  <div class="modal-body">
-				  <form action="" method="POST" enctype="multipart/form-data"> 
+				    <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h4 class="modal-title">Digilocker!</h4>
+				    </div>
+				    <div class="modal-body">
+						<form action="" method="POST" enctype="multipart/form-data"> 
 							 <div class="row">
-							 <div class="col-md-12"> 
-							  <div class="col-md-4">
-									<label>Enter Title</label>
-									<input type="text" id="fileName" style="max-width: 132px" name="fileName" required>
-									
+								<div class="col-md-12"> 
+									<div class="col-md-4">
+										<label>Enter Title</label>
+										<input type="text" id="fileName" style="max-width: 132px" name="fileName" required>
+									</div>
+									<div class="col-md-4">
+										<label>Product Type</label>
+										<input type="file" id="file_name" style="max-width: 132px" name="file_name" required>
+									</div>
 								</div>
-							   <div class="col-md-4">
-									<label>Product Type</label>
-									<input type="file" id="file_name" style="max-width: 132px" name="file_name" required>
-								</div>
-								
+							</div> 
+							<div class="modal-footer">
+								<input type="submit" id="digilockerForm" name="digilockerForm" class="btn btn-default save" value="Save">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							</div>
-								
-						</div> 
-						<div class="modal-footer">
-							<input type="submit" id="digilockerForm" name="digilockerForm" class="btn btn-default save" value="Save">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</form>
+						</form>
 					</div>
-				  
-				  
-				  
 				</div>
-              </div> 
-			</div>
+            </div> 
+		</div>
 	  
-	       	  		 <!--modal-->
+	    <!--modal-->
+		
 		<div id="myProfile" class="modal fade" role="dialog">
-			  <div class="modal-dialog">
+			<div class="modal-dialog">
 
-				<!-- Modal content-->
 				<div class="modal-content">
-				  <div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">×</button>
-					<h4 class="modal-title">Profile Details!</h4>
-				  </div>
-				  <div class="modal-body">
-				  <form action="" method="POST"> 
-							 <div class="row">
-							 <div class="col-md-10">
-							   <div class="col-md-10" >
-									
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h4 class="modal-title">Profile Details!</h4>
+					</div>
+					<div class="modal-body">
+						<form action="" method="POST"> 
+							<div class="row">
+								<div class="col-md-10">
+									<div class="col-md-10" >
 										<div class="row">
 											<span>
 											Name:
@@ -478,53 +463,72 @@ body {margin:2rem;}
 											  <?php } ?>
 											</span>
 										</div>
-										
-									
+									</div>
 								</div>
-								
-								
-								
 							</div>
-								
-						</div>
-                     <div class="modal-footer">
-					<?php if(empty($_SESSION['name']) || empty($_SESSION['user_phone']) || empty($_SESSION['user_email_id'])){?>
-											  
-						<input type="submit" id="saveProfile" name="saveProfile" class="btn btn-default save" value="save">
-						<?php } ?>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					  </div>						
-					</form>
+						
+							<div class="modal-footer">
+								<?php if(empty($_SESSION['name']) || empty($_SESSION['user_phone']) || empty($_SESSION['user_email_id'])){?>
+													  
+								<input type="submit" id="saveProfile" name="saveProfile" class="btn btn-default save" value="save">
+								<?php } ?>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>						
+						
+						</form>
 					</div>
 				  
-				  
-				  
 				</div>
-              </div> 
-			</div>
+            
+			</div> 
+		</div>
 			
-			<!-- Modal -->
-			<div class="modal fade" id="myModal1234" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			  <div class="modal-dialog" role="document">
-				<div class="modal-content">
+		<!-- Modal -->
+		<div class="modal fade" id="myModal1234" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-body">
 
-				  
-				  <div class="modal-body">
-
-				   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>        
-                    <a href="../digilocker_images/<?php echo $ls['dl_document'];?>" download="<?php echo $ls['dl_doc_name'].rand(10,100);?>" >
-							<img src="//media.tenor.com/images/556e9ff845b7dd0c62dcdbbb00babb4b/tenor.gif" alt="" id="image" class="img-fluid" title="Download">
-
-					</a>
-					
-				  </div>
-
-				</div>
+			   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>        
+			   <img src="//media.tenor.com/images/556e9ff845b7dd0c62dcdbbb00babb4b/tenor.gif" alt="" id="image" class="img-fluid" >
 			  </div>
-	  
-   </body>
+
+			</div>
+		  </div>
+		</div> 
+		
+		<!-- Modal -->
+		<div id="deleteModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				    <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h4 class="modal-title">Digilocker!</h4>
+				    </div>
+				    <div class="modal-body">
+						<form action="" method="POST" enctype="multipart/form-data"> 
+							<input type="hidden" id="dl_id" style="max-width: 132px" name="dl_id"  required>
+							<div class="col-md-12"> 
+								Are You sure To delete this File ?
+							</div>
+							
+							<div class="modal-footer">
+								<input type="submit" id="deleteDigilocker" name="deleteDigilocker" class="btn btn-default save" value="Yes">
+								<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+							</div>
+						</form>
+					</div>
+				</div>
+            </div> 
+		</div>
+	   
+</body>
+
+   
+   
+   
    <!--   Core JS Files   -->
    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
@@ -532,48 +536,44 @@ body {margin:2rem;}
    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
    <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
    <script src="assets/js/paper-dashboard.js"></script>
-   <script>
-   function brandList(catId){
-	   $('#dl_product_type_id').val(catId);
-   }
+	<script>
+		function brandList(catId){
+		   $('#dl_product_type_id').val(catId);
+		}
    
-$(document).ready(function() {
+		$(document).ready(function() {
+		// Gets the video src from the data-src on each button
+			var $imageSrc;  
+			$('.gallery img').click(function() {
+				$imageSrc = $(this).data('bigimage');
+			});
+			console.log($imageSrc); 
+			// when the modal is opened autoplay it  
+			$('#myModal1234').on('shown.bs.modal', function (e) {
+				
+			// set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
 
-// Gets the video src from the data-src on each button
-var $imageSrc;  
-$('.gallery img').click(function() {
-    $imageSrc = $(this).data('bigimage');
-});
-console.log($imageSrc);
-  
-  
-  
-// when the modal is opened autoplay it  
-$('#myModal1234').on('shown.bs.modal', function (e) {
-    
-// set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
-
-$("#image").attr('src', $imageSrc  ); 
-})
-  
-  
-// reset the modal image
-$('#myModal1234').on('hide.bs.modal', function (e) {
-    // a poor man's stop video
-    $("#image").attr('src',''); 
-}) 
-    
-    
-
-
-  
-  
-// document ready  
-});
-
-
-
-   
-   
-   </script>
+			$("#image").attr('src', $imageSrc  ); 
+			})
+			  
+			  
+			// reset the modal image
+			$('#myModal1234').on('hide.bs.modal', function (e) {
+				// a poor man's stop video
+				$("#image").attr('src',''); 
+			}) 
+		  
+		});  
+	</script>
+	
+	<script>
+		$('.delete_modal').click(function(){
+			var dl_id = $(this).attr("data-delete");
+			$('#dl_id').val(dl_id);
+		});
+	</script>
+	
+	
 </html>
+
+<?php } ?>

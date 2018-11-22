@@ -9,6 +9,7 @@ foreach($user_details as $user){
 	$_SESSION['user_phone']=$user['user_phone'];
 	$_SESSION['user_email_id']=$user['user_email_id'];
 }
+if(isset($_SESSION['user_id'])){
 require_once('../controller/user_controller.php');
 $obj_user = new users;
 $produtcat=  $obj_user->get_product_cat_list();
@@ -47,7 +48,9 @@ if(isset($_POST['saveProfile'])){
       <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
       <link href="assets/css/themify-icons.css" rel="stylesheet">
    </head>
-   <style>
+   
+<style>
+
 .pointer {cursor: pointer;}
 .save{
 	background-color: #5740c9 !important;
@@ -74,13 +77,10 @@ h6, .h6 {
    background-color: #ff6010 !important;
 }
 </style>
-   <body>
+
+	<body>
       <div class="wrapper">
          <div class="sidebar" data-background-color="white" data-active-color="danger">
-            <!--
-               Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-               Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-               -->
             <div class="sidebar-wrapper">
                <div class="logo">
                   <a href="https://yapnaa.com" class="simple-text" >
@@ -355,7 +355,7 @@ h6, .h6 {
 					<h4 class="modal-title">Adding Product is Simple!</h4>
 				  </div>
 				  <div class="modal-body">
-				  <form action="" method="POST"> 
+				  <form method="POST"> 
 							 <div class="row">
 							 <div class="col-md-12">
 							   <div class="col-md-4">
@@ -387,7 +387,7 @@ h6, .h6 {
 								
 						</div> 
 						<div class="modal-footer">
-							<input type="submit" id="addProductForm" name="addProductForm" class="btn btn-default save" value="Save">
+							<input type="button" id="addProductForm" name="addProductForm" class="btn btn-default save" value="Save">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</form>
@@ -692,17 +692,18 @@ h6, .h6 {
 		}
 	}); 
    }
-  $( "#addProductForm" ).click(function() {
-	      var brandId =$('#brands').val();
-	      var dateInstallation =$('#dateInstallation').val();
-	      var bId =$('#bId').val();
-	      var uId =$('#uId').val();
-		 
-			  $.ajax({
+   
+	$( "#addProductForm" ).click(function() {
+	    var brandId =$('#brands').val();
+	    var dateInstallation =$('#dateInstallation').val();
+	    var bId =$('#bId').val();
+	    var uId =$('#uId').val();
+		$.ajax({
 			url: "common-media.php?addproduct=submit", //This is the page where you will handle your SQL insert
 			type:"POST",
 			data:{brandId:brandId,dateInstallation:dateInstallation,bId:bId,uId:uId},
 			success:function(response){
+				console.log("resp: "+response);
 				alert("Product added successfully !");
 				location.reload(true);
 			},
@@ -711,7 +712,8 @@ h6, .h6 {
 				alert(JSON.stringify(error));
 			}
 		});  
-     });
+    });
+	
 	 $( "#deleteProductForm" ).click(function() {
 		 confirm("Are you sure!");
 	      var del_up_id =$('#upId').html();
@@ -734,3 +736,4 @@ h6, .h6 {
      
    </script>
 </html>
+<?php }?>

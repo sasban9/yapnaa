@@ -1,4 +1,5 @@
 <?php session_start();
+if(isset($_SESSION['user_id'])){
 require_once('../controller/user_controller.php');
 $obj_user = new users;
 $brandcategory=$obj_user->brand_category_list();
@@ -528,3 +529,4 @@ function responseMessage(msg) {
 }
    </script>
 </html>
+<?php }?>

@@ -41,6 +41,7 @@ class users
 			  return false;
 		  }
 	}
+  
    function n_yapnaa_send_mail(){
 	   $name=$_POST['name'];
 	   $email=$_POST['email'];
@@ -209,7 +210,7 @@ $headers .= "From: info@yapnaa.com";
 		  
 		   $_SESSION['user_mobile']		=  $mob;
 	        $ch = curl_init();
-			// $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1nimbus&password=demo123&sender=ARPITA&sendto=".urlencode($resend_otp_phone_no)."&message=".urlencode("Use OTP:".$user_reg_verification_otp ."for reset your password.\n.");
+			
 			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($mob)."&message=".urlencode("".$user_reg_verification_otp ." - Use this OTP for mobile number verification.\n.");
 				
 				
@@ -1112,48 +1113,54 @@ function checkout_user_login(){
 			
 			//echo $condition_log_in;die;
 			$arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
+			
 			//print_r($arr_log_in);die;
-			date_default_timezone_set('Asia/Kolkata');
-			$user_address 				= 	$_POST['user_address'];
-			$user_phone 				= 	isset($_POST['user_phone'])?$_POST['user_phone']:"";
-			
-			$user_name           		= 	isset($_POST['user_name'])?$_POST['user_name']:"";
-			$user_social_id           	= 	isset($_POST['user_social_id'])?$_POST['user_social_id']:"";
-			$user_profile_pic           = 	isset($_POST['user_profile_pic'])?$_POST['user_profile_pic']:"";
-			$user_gender          		 = 	isset($_POST['user_gender'])?$_POST['user_gender']:"";
-			$user_email_id          		 = 	isset($_POST['user_email_id'])?$_POST['user_email_id']:"";
-			$user_city           		= 	$_POST['user_city'];
-			// $user_pin		    		= 	($_POST["user_pin"]);
-			//$user_pin		    		= 	md5($_POST["user_pin"]);
-			$user_area_pincode			= 	$_POST["user_area_pincode"];
-			$user_gcm_id      			= 	$_POST['user_gcm_id'];
-			$user_login_device		= 	$_POST['user_login_device_type'];
-			$app_key	      			= 	$_POST['app_key'];
-			$app_secret      			= 	$_POST['app_secret'];
-			$user_created_date 			= 	date('Y-m-d h:i:s');
-			$user_last_login 			= 	date('Y-m-d h:i:s');
-			$user_reg_verification_otp	= rand(1000,9999);
-			$user_token					= rand(1000,9999999);
-			
-			$fields_reg	=	array(
-								"user_login_device"	=>		$user_login_device,	
-								"user_name"					=>		$user_name,	
-								"user_address"				=>		$user_address,	
-								"user_phone"				=>		$user_phone,	
-								"user_email_id"				=>		$user_email_id,	
-								"user_social_id"			=>		$user_social_id,	
-								"user_profile_pic"			=>		$user_profile_pic,	
-								"user_gender"				=>		$user_gender,	
-								"user_city"					=>		$user_city,	
-								"user_area_pincode"			=>		$user_area_pincode,	
-								"user_gcm_id"				=>		$user_gcm_id,		
-								"user_created_date"			=>		$user_created_date,	
-								"user_last_login"			=>		$user_last_login,	
-								"user_login_type"			=>		$user_login_type,	
-								"user_status"				=>		1,	
-								"user_token"				=>		$user_token	
-			
-							);
+		
+		
+				date_default_timezone_set('Asia/Kolkata');
+				$user_address 				= 	$_POST['user_address'];
+				$user_phone 				= 	isset($_POST['user_phone'])?$_POST['user_phone']:"";
+				
+				$user_name           		= 	isset($_POST['user_name'])?$_POST['user_name']:"";
+				$user_social_id           	= 	isset($_POST['user_social_id'])?$_POST['user_social_id']:"";
+				$user_profile_pic           = 	isset($_POST['user_profile_pic'])?$_POST['user_profile_pic']:"";
+				$user_gender          		 = 	isset($_POST['user_gender'])?$_POST['user_gender']:"";
+				$user_email_id          		 = 	isset($_POST['user_email_id'])?$_POST['user_email_id']:"";
+				$user_city           		= 	$_POST['user_city'];
+				// $user_pin		    		= 	($_POST["user_pin"]);
+				//$user_pin		    		= 	md5($_POST["user_pin"]);
+				$user_area_pincode			= 	$_POST["user_area_pincode"];
+				$user_gcm_id      			= 	$_POST['user_gcm_id'];
+				$user_login_device		= 	$_POST['user_login_device_type'];
+				$app_key	      			= 	$_POST['app_key'];
+				$app_secret      			= 	$_POST['app_secret'];
+				$user_created_date 			= 	date('Y-m-d h:i:s');
+				$user_last_login 			= 	date('Y-m-d h:i:s');
+				$user_reg_verification_otp	= rand(1000,9999);
+				$user_token					= rand(1000,9999999);
+				
+				
+				
+				
+				$fields_reg	=	array(
+									"user_login_device"	=>		$user_login_device,	
+									"user_name"					=>		$user_name,	
+									"user_address"				=>		$user_address,	
+									"user_phone"				=>		$user_phone,	
+									"user_email_id"				=>		$user_email_id,	
+									"user_social_id"			=>		$user_social_id,	
+									"user_profile_pic"			=>		$user_profile_pic,	
+									"user_gender"				=>		$user_gender,	
+									"user_city"					=>		$user_city,	
+									"user_area_pincode"			=>		$user_area_pincode,	
+									"user_gcm_id"				=>		$user_gcm_id,		
+									"user_created_date"			=>		$user_created_date,	
+									"user_last_login"			=>		$user_last_login,	
+									"user_login_type"			=>		$user_login_type,	
+									"user_status"				=>		1,	
+									"user_token"				=>		$user_token	
+				
+								);
 								
 			if(empty($arr_log_in )){
 				
@@ -1264,7 +1271,6 @@ function checkout_user_login(){
 		
     }
 	
-	
 /*-----------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------*/
 
@@ -1324,6 +1330,7 @@ function checkout_user_login(){
 	
 	
 /*-----------------------------------------------------------------------------------------------------------------------*/
+
 
 
 
@@ -2025,61 +2032,71 @@ function checkout_user_login(){
         $condition_log_in				 =  "user_token    =$add_product_user_token_key and user_id= $add_product_user_id";
         $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
 		
+		
 		$device_type				     =	$arr_log_in[0]['user_login_device']; 
-		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 	
-
-		if(empty($_POST['add_product_product_id'])){
-			$add_product_product_id  	 = 0;
-		}	
+		$user_gcm_id				 	 =	$arr_log_in[0]['user_gcm_id']; 
+		
 		
 		if($arr_log_in){
-			$fields_reg = array(
-							'up_user_id' 						=> $add_product_user_id,
-							'up_product_id'						=> $add_product_product_id,
-							'up_dealer_name'					=> $add_product_user_dealer_name,
-							'up_serial_no' 						=> $add_product_user_serial_no,
-							'up_created_date' 					=> date('Y-m-d h:i:s'),
-							'up_serial_no_image'				=> $add_icon
-						);
-							
-			$table_log_in = $table['tb4'];
-			$arr_result1   = $this->model->insert($table_log_in, $fields_reg);
-			$_POST['user_product_id'] = $arr_result1;
 			
-			//print_r($arr_result1);die;
-			if($arr_result1){
-				if( $add_product_installation=='Yes'){
-					$srm_c_date 					 = 	date('Y-m-d H:i:s');
-					$fields_reg = array(
-							'srm_user_id' 				=> $add_product_user_id,  
-							'srm_product_id'			=> $add_product_product_id,
-							'srm_user_notes'			=> 'Requested for insatllaion',
-							'srm_c_date' 				=> $srm_c_date,
-							'srm_user_generated_date'	=> $srm_c_date,
-							'srm_installation'			=> $add_product_installation,
-							'srm_installation_date'		=> $add_product_instal_date,
-						); 
-						// print_r($fields_reg);exit;
-					$table_log_in = $table['tb8'];
-					$arr_result   = $this->model->insert($table_log_in, $fields_reg);
-					  
-					if($device_type=='Android'){    
-						$pushMessage['SRM_id']			 = 	$arr_result;
-						$pushMessage['message']			 = 	"Service request for insatllation";
-							if (isset($user_gcm_id) && isset($pushMessage)) {		
-							$gcmRegIds  = array($user_gcm_id); 
-							$message = array("msg" => $pushMessage);	
-							$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
-							// echo'<pre>';print_r($message); 
-							}
-						return $result;
+			
+					 $fields_reg = array(
+									'up_user_id' 						=> $add_product_user_id,
+									'up_product_id'						=> $add_product_product_id,
+									'up_dealer_name'					=> $add_product_user_dealer_name,
+									'up_serial_no' 						=> $add_product_user_serial_no,
+									'up_created_date' 					=> date('Y-m-d h:i:s'),
+									'up_serial_no_image'				=> $add_icon
+								);
+								
+				$table_log_in = $table['tb4'];
+				$arr_result1   = $this->model->insert($table_log_in, $fields_reg);
+				$_POST['user_product_id'] = $arr_result1;
+				
+				//print_r($arr_result1);die;
+				if($arr_result1){
+					if( $add_product_installation=='Yes'){
+						$srm_c_date 					 = 	date('Y-m-d H:i:s');
+						$fields_reg = array(
+								'srm_user_id' 				=> $add_product_user_id,  
+								'srm_product_id'			=> $add_product_product_id,
+								'srm_user_notes'			=> 'Requested for insatllaion',
+								'srm_c_date' 				=> $srm_c_date,
+								'srm_user_generated_date'	=> $srm_c_date,
+								'srm_installation'			=> $add_product_installation,
+								'srm_installation_date'		=> $add_product_instal_date,
+							); 
+							// print_r($fields_reg);exit;
+						$table_log_in = $table['tb8'];
+						$arr_result   = $this->model->insert($table_log_in, $fields_reg);
+						  
+						if($device_type=='Android'){    
+							$pushMessage['SRM_id']			 = 	$arr_result;
+							$pushMessage['message']			 = 	"Service request for insatllation";
+								if (isset($user_gcm_id) && isset($pushMessage)) {		
+								$gcmRegIds  = array($user_gcm_id); 
+								$message = array("msg" => $pushMessage);	
+								$pushStatus = $this->sendMessageThroughGCM($gcmRegIds, $message);
+								// echo'<pre>';print_r($message); 
+								}
+							return $result;
+						}
+	 
+						
+						
+						if($device_type=='IOS'){ 
+							return $result;
+						}	
+						
+						
+						
+						
 					}
-					if($device_type=='IOS'){ 
-						return $result;
-					}
-				}
 			}
+			
 			return $arr_result1=3;
+			
+			
 		}else{
 			return $arr_log_in=1;
 		}
@@ -2117,9 +2134,8 @@ function checkout_user_login(){
 		
 		if(empty($dl_product_id)){
 			$dl_product_id 				 = 0;
-		}
-		
-		 //print_r($arr_log_in);exit;
+		}		
+		//print_r($arr_log_in);exit;
 		if($arr_log_in){//print_r($arr_log_in);exit;
 			//$table_log_in    				 = 	"users_digilocker";
 				
@@ -2133,7 +2149,7 @@ function checkout_user_login(){
 								'dl_updated_time'			=> $dl_updated_time
 							);
 			
-			//print_r($fields_reg);exit;
+			// print_r($fields_reg);exit;
             $table_log_in = "users_digilocker";
             $arr_result   = $this->model->insert($table_log_in, $fields_reg);
 			if($arr_result){
@@ -2293,7 +2309,7 @@ function checkout_user_login(){
         $fields_log_in   				 = 	'*';
         $condition_log_in				 = 	"user_token    =$user_product_list_token_key and user_id= $user_product_list_user_id";
         $arr_log_in      	 			 = 	$this->model->get_Details_condition($table_log_in, $fields_log_in, $condition_log_in);
-		//print_r($arr_log_in );die;
+		// print_r($arr_log_in );
 		if($arr_log_in){
 			$table		    				 = 	$table['tb4'];
 			$fields							 =  '*';
@@ -2387,8 +2403,7 @@ function checkout_user_login(){
 			$fields							 =  '*';
 			$condition		 				 = 	'up_id    ='.$user_particular_product_list_id;
 			$arr_log_in       				 = 	$this->model->user_product_list($table, $fields, $condition);
-			
-			//print_r($arr_log_in );die;
+			// print_r($arr_log_in );
 			return $arr_log_in;
 		}else{
 			return $arr_log_in='';
@@ -3250,7 +3265,7 @@ function checkout_user_login(){
             $arr_result   = $this->model->insert($table_log_in, $fields_reg); 
 			$subject1	=	"AMC Requested";		
 	
-		    $to                  = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com"; 
+		    $to                  = "sriramm@moviloglobal.com"; 
 		
 	  
             $subject = "$subject1";
@@ -3298,8 +3313,6 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 		
 		
 /*----------------------------------------------------------------------------------------------------------------------*/		
-	
-	
 	
 	
 	
@@ -4164,11 +4177,22 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 		$headers 			.= 'Content-type: text/html; charset=iso-8859-1'. "\r\n";	
 		$headers 			.= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 		//$to                  = "ranjan.jjbyte@gmail"; 
-		$to                  = "sriramm@moviloglobal.com"; 
+		$to                  = "sriramm@moviloglobal.com,ranjan.jjbyte@gmail.com"; 
 		//echo $subject;die;
 		
 		// Mail it
 		mail($to, $subject, $message,$headers);
+	}
+	
+	function registration_student($name,$age,$phone,$emailid){
+		 $data                                             = array();		
+		 $data["name"]                                     =  $name;
+		 $data["age"]                                      =  $age;
+		 $data["phone"]                                    =  $phone;
+		 $data["emailid"]                                  =  $emailid;		 
+		 
+		 $studentresult		                   =	$this->model->insert("student_table",$data);
+		return $studentresult;
 	}
 	
 	
@@ -4237,7 +4261,7 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 			$apptDate 			= NULL;
 		}
 
-		$to             = "sriramm@moviloglobal.com,harshal.jjbytes@gmail.com,vineet@moviloglobal.com"; 
+		$to             = "sriramm@moviloglobal.com,vineet@moviloglobal.com"; 
 	
 		$subject 		= "$subject1";
 
@@ -4284,6 +4308,226 @@ $headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";
 			return true;
 		}
 	}
+	
+	
+	// Function for insert data of transaction lifecycle data into timeline table
+	function insert_transaction_lifecycle_data($postData){
+		$table			= "timeline";
+		$arr_result   	= $this->model->insert($table, $postData); 
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	
+	// Function for update Service Request Date in DB
+	function update_service_date_in_brand($req_service_date,$table,$user_id){
+		$set_array 			 = array('req_service_date' =>$req_service_date,'status' => 3,'updated_on' => date('Y-m-d'));
+		$condition     		 = 'id = '.$user_id;	
+		$update_service_date = $this->model->update($table, $set_array, $condition);
+		
+		if($update_service_date){
+			return 1;
+		}else { 
+			return 0;
+		}
+	}
+	
+	
+	// Function for getting question and answer for landing page
+	function get_question_answer_for_landing_page($user_id,$cqa_qid){
+		$result 			= $this->model->get_question_answer_for_landing_page($user_id,$cqa_qid);
+		if(!empty($result)){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_value_of_answer($question_answer,$cqa_qid){
+		$result 			= $this->model->get_value_of_answer($question_answer,$cqa_qid);
+		if(!empty($result)){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// Update custome question and answer
+	function update_customer_question_answer($user_id,$tse_arr){
+		$data 				= array('cqa_answer' => $tse_arr[1],'cqa_weightage' => $tse_arr[2]);
+		$condition    	 	= 'cqa_user_id = '.$user_id.' AND cqa_qid = '.$tse_arr[0];	
+		
+		$update_cqs    		= $this->model->update('customer_question_answer', $data, $condition);
+		if($update_cqs){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	// Insert custome question and answer
+	function insert_customer_question_answer($getData,$tse_arr,$brand_name){
+		$data 				= array(
+									'cqa_user_id' => $getData['user_id'],
+									'cqa_brand_customer_id' => $getData['brand_customer_id'],
+									'cqa_qid' => $tse_arr[0],	
+									'cqa_answer' => $tse_arr[1],
+									'cqa_brand_id' => $getData['customer_type'],
+									'cqa_brand_name' => $brand_name,
+									'cqa_user_phone' => $getData['user_phone'],
+									'cqa_weightage' => $tse_arr[2],
+									'cqa_created_date' => date('Y-m-d H:i:s'),
+									'cqa_updated_date' => date('Y-m-d H:i:s')	
+									);
+		//print_r($data); die;							
+		$arr_result  	 	= $this->model->insert('customer_question_answer', $data);
+		if($insert_cqs){
+			return true;
+		}else{
+			return false;
+		}	
+	}
+	
+	
+	function getQA($customer_type,$user_id){
+		switch($_GET['customer_type']){
+			case 1:
+			$brand	='livpure';
+			break;
+			case 2:
+			$brand	='zerob_consol1';
+			break;
+			case 3:
+			$brand	='livpure_tn_kl';
+			break;
+			case 4:
+			$brand	='bluestar_b2b';
+			break;
+			case 5:
+			$brand	='bluestar_b2c';
+			break;
+		}
+		
+		$result 	= $this->model->get_q_a($brand,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+		
+	
+	// function for getting existing_profile_status_of_customer
+	function get_existing_profile_status_of_customer($brand_name,$user_id){
+		$result 	= $this->model->get_existing_profile_status_of_customer($brand_name,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	// update profile type in brand
+	function updateProfileInBrand($table,$update_data,$brand_customer_id,$user_id){
+		//$condition		= "id = '".$user_id."' AND CUSTOMERID = '".$brand_customer_id."'";			   
+		$condition		= "id = '".$user_id."' ";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
+	}
+	
+	
+	function get_answered_qsn_without_current_qsn($user_id,$qid_string){
+		$result 	= $this->model->get_answered_qsn_without_current_qsn($user_id,$qid_string);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+
+	
+	function get_brand_details_of_customer($customer_type,$user_id){
+		$result 			= $this->model->get_brand_details_of_customer($customer_type,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// function for inserting data in profile history
+	function insert_profile_history($data){
+		$table 			= 'profile_history';
+		$arr_result   	= $this->model->insert($table, $data);
+		
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}	
+	
+	function get_answer_weightage($value){
+		$table 			= 'yapnaa_answers_1';
+		$arr_result   	= $this->model->get_answer_weightage($table, $value);
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return array('answer_weightage' => 0);
+		}
+	}
+	
+	// Function for getting question and answer for landing page
+	function get_question_answer_for_landingpage($user_id,$question_id){
+		$result 			= $this->model->get_question_answer_for_landingpage($user_id,$question_id);
+		if(!empty($result)){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	// Update custome question and answer
+	function update_customer_question_answer_landingpage($user_id,$tse_arr){
+		$data 				= array('answer_id' => $tse_arr[1]);
+		$condition    	 	= 'user_id = '.$user_id.' AND question_id = '.$tse_arr[0];	
+		
+		$update_cqs    		= $this->model->update('customer_question_answer_1', $data, $condition);
+		if($update_cqs){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	// Insert custome question and answer
+	function insert_customer_question_answer_landingpage($user_id,$tse_arr,$customer_type){
+		$data 				= array(
+									'question_id' => $tse_arr[0],	
+									'user_id' => $user_id,
+									'answer_id' => $tse_arr[1],
+									'brand_id' => $customer_type,
+									'created_date' => date('Y-m-d H:i:s'),
+									'updated_date' => date('Y-m-d H:i:s')	
+									);
+							
+		$arr_result  	 	= $this->model->insert('customer_question_answer_1', $data);
+		if($insert_cqs){
+			return true;
+		}else{
+			return false;
+		}	
+	}
+	
 	
 	
 	

@@ -3,6 +3,7 @@ require_once('../controller/user_controller.php');
 $obj_user = new users;
 $produtcat=  $obj_user->get_product_cat_list();
 $dl_user_id=$_SESSION['user_id']; 
+if(isset($_SESSION['user_id'])){
 if(isset($_POST['fileName'])){
 	//print_r($_POST);die;
 	$extension = end(explode(".", $_FILES['file_name']['name']));
@@ -473,3 +474,4 @@ font-size: 13px;
      });
    </script>
 </html>
+<?php }?>

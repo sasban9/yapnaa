@@ -11,8 +11,7 @@ $user_name	= $_SESSION['name'];
      <title>Yapnaa</title>
 	 <link rel="shortcut icon" href="../images/yapnaa-fav.png" type="image/x-icon">
       <meta name="keywords" content="HTML5 Template" />
-      <meta name="description" content="Empowering consumers with simple, fast and personalized service across different channels any time, anywhere in single tap from Yapnaa app.
-">
+      <meta name="description" content="Yapnaa - Responsive HTML5 Template">
       <meta name="author" content="okler.net">
       <!-- Favicon -->
       <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
@@ -322,8 +321,8 @@ background: #ff6010;
                </div>
             </div>
          </header>
-			<div role="main" class="main">
-				<section class="page-header">
+         <div role="main" class="main">
+		 <section class="page-header">
 					<div class="container">
 						<div class="row">
 							<div class="col-md-12">
@@ -337,7 +336,7 @@ background: #ff6010;
 						</div>
 					</div>
 				</section>
-				<div class="container">
+				    <div class="container">
 					<div class="row">
 						<div class="col-md-12">
 							
@@ -357,7 +356,6 @@ background: #ff6010;
 					</div>
 					
 				</div>
-				
 				<div class="container" id="yapnaa_team">
 					<div class="row mt-xlg">
 						<div class="col-md-12">
@@ -365,8 +363,8 @@ background: #ff6010;
 							<p class="lead" style="text-align:center">People behind taking this vision across consumer eco-systems thus ensuring<br>
 							it is easy, fast and economical on a single platform. </p>
 						</div>
-					</div>
 					
+					</div>
 					<div class="row mt-xlg mb-xlg">
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<span class="thumb-info thumb-info-hide-wrapper-bg">
@@ -378,11 +376,21 @@ background: #ff6010;
 											<span class="thumb-info-inner">Vineet Srivastava</span>
 											<span class="thumb-info-type" style="background-color:#ff6010">CEO & Co-founder</span>
 										</span>
+										
 									</a>
 								</span>
 								<span class="thumb-info-caption">
-									<span class="thumb-info-caption-text" style="margin-bottom: 9px;">20 years of global technology experience in various roles across business and delivery in consumer industry.Have successfully built business in solution & services space for technology startup at inception stage. IIT, Roorkee 1994
-								</span>
+								
+									<span class="thumb-info-caption-text">20 years of global technology experience in various roles
+across business and delivery in consumer industry.
+Have successfully built business in solution & services
+space for technology startup at inception stage.
+
+IIT, Roorkee 1994
+
+
+
+</span>
 									<span class="thumb-info-social-icons">
 										
 										<a href="https://www.linkedin.com/in/vineet-srivastava-0217703"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
@@ -390,7 +398,6 @@ background: #ff6010;
 								</span>
 							</span>
 						</div>
-						
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<span class="thumb-info thumb-info-hide-wrapper-bg">
 								<span class="thumb-info-wrapper">
@@ -404,37 +411,20 @@ background: #ff6010;
 									</a>
 								</span>
 								<span class="thumb-info-caption">
-									<span class="thumb-info-caption-text">32 years in corporate sector, VC and startups.Technology entrepreneur, successfully built new business groups for large global corporations. Been part of and founded startups. Mentor, NSRCEL, IIM Bangalore,IIM Ahmedabad, 1984</span>
+									<span class="thumb-info-caption-text">32 years in corporate sector, VC and startups.
+Technology entrepreneur, successfully built new business
+groups for large global corporations. Been part of and
+founded startups.
+
+Mentor, NSRCEL, IIM Bangalore
+
+IIM Ahmedabad, 1984</span>
 									<span class="thumb-info-social-icons">
 										<a href="https://www.linkedin.com/in/mohansundaram/"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
 									</span>
 								</span>
 							</span>
 						</div>
-						
-						<div class="col-md-3 col-sm-6 col-xs-12">
-							<span class="thumb-info thumb-info-hide-wrapper-bg">
-								<span class="thumb-info-wrapper">
-									<a href="https://www.linkedin.com/company/yapnaa">
-										<img src="img/team/Sriram-M (1).jpg" class="img-responsive" alt="">
-										<br><br><br><br>
-										<span class="thumb-info-title">
-											<span class="thumb-info-inner">Sriram MAHALINGAM</span>
-											<span class="thumb-info-type" style="background-color:#ff6010">Head - Sales and Operation's</span>
-										</span>
-									</a>
-								</span>
-								<span class="thumb-info-caption">
-									<span class="thumb-info-caption-text">Business Management & Sales Operations professional with over two decades of experience in Corporate Sales and Sales Consulting.<br><br><br></span>
-									<span class="thumb-info-social-icons">
-										
-										
-										<a href="https://www.linkedin.com/company/yapnaa"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
-									</span>
-								</span>
-							</span>
-						</div>
-												
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<span class="thumb-info thumb-info-hide-wrapper-bg">
 								<span class="thumb-info-wrapper">
@@ -457,35 +447,31 @@ background: #ff6010;
 								</span>
 							</span>
 						</div>
-					</div>
-					
-					<div class="row mt-xlg mb-xlg">
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<span class="thumb-info thumb-info-hide-wrapper-bg">
 								<span class="thumb-info-wrapper">
 									<a href="https://www.linkedin.com/company/yapnaa">
-										<img src="img/team/Manish-Gangwar.jpg" class="img-responsive" alt="">
+										<img src="img/team/Sriram-M (1).jpg" class="img-responsive" alt="">
 										<br><br><br><br>
 										<span class="thumb-info-title">
-											<span class="thumb-info-inner">Manish Gangwar</span>
-											<span class="thumb-info-type" style="background-color:#ff6010">Advisor</span>
+											<span class="thumb-info-inner">Sriram MAHALINGAM</span>
+											<span class="thumb-info-type" style="background-color:#ff6010">Head - Sales and Operation's</span>
 										</span>
 									</a>
 								</span>
 								<span class="thumb-info-caption">
-									<span class="thumb-info-caption-text" style="margin-top: -37px;margin-bottom: -35px;">Manish Gangwar is a faculty member at Indian School of Business. Professor Gangwar holds a PhD in marketing from The University of Texas at Dallas. He has an MS from the University of Kentucky, BE from the Indian Institute of Technology, Roorkee and years of industry experience. His research explores marketing issues using quantitative models.<br><br><br></span>
-
+									<span class="thumb-info-caption-text">Business Management & Sales Operations professional with over two decades of experience in Corporate Sales and Sales Consulting.<br><br><br></span>
 									<span class="thumb-info-social-icons">
+										
+										
 										<a href="https://www.linkedin.com/company/yapnaa"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
 									</span>
 								</span>
 							</span>
 						</div>
-						
 					</div>
-					
 				</div>
-			</div>
+				</div>
             
 	  
 	   <footer id="footer" class="light">

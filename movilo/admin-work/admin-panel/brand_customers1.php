@@ -217,9 +217,14 @@ if(isset($_SESSION['admin_email_id'])){
 				<div class="col-lg-2 new" >
 					<label>Filter By</label>
 					<select id="filterByAttempt" class="form-control" name="filterByAttempt">
-						<option value="0"<?php echo($_POST['filterByAttempt']==0)?"selected":"";?>>Filter</option>
-						<option value="1" <?php echo($_POST['filterByAttempt']==1)?"selected":"";?>>Not Attempted Customer</option>						 
-						
+						<option value=""<?php echo($_POST['filterByAttempt']==0)?"selected":"";?>>Filter</option>					
+						<option value="" <?php echo($_POST['filterByAttempt']==1)?"selected":"";?>>Call back</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==12)?"selected":"";?>>No response</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==13)?"selected":"";?>>Not Reachable</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==2)?"selected":"";?>>Not interested</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==16)?"selected":"";?>>AMC Escalation</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==17)?"selected":"";?>>Product Escalation</option>
+						<option value="" <?php echo($_POST['filterByAttempt']==18)?"selected":"";?>>Service Escalation</option>
 					</select>
 				</div>
 				<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
@@ -314,263 +319,196 @@ if(isset($_SESSION['admin_email_id'])){
 				<!--form action="send-sms.php" method="POST"-->
 				<form action="send-sms.php" method="POST">
                     <table class="table table-striped table-bordered table-hover dataTables-example" >
-					<thead>
-						<tr>
-							<th><!--input type="checkbox" name="" id="selectAll" /--></th>
-							<th>Yapnaa ID</th>
-							<th><?php echo $customer; ?> ID</th>
-							<th>Phone </th>
-							
-							<?php if($_GET['customer_type'] == 4 || $_GET['customer_type'] == 5){ ?>
-								<th>Company Name</th>
-							<?php }else{ ?>
-								<th>Name</th>
-							<?php } ?>
-							
-							<th>AMC From & To</th>
-							<th>Last Call</th>
-							<th>Last Action</th>
-							<th>Last Comment/SMS</th>
-							<th>Action</th> 
-						</tr>
-					</thead>
 					
-					<tbody>
-					<?php $j=1;?>
-					<?php 
-						if(!empty($get_amc_list)){
-							$numbers 			= array_column($get_amc_list,"PHONE1");
-							$qust_map['qst'] 	= array_column($get_amc_list,"qust_map");
-						}
-						$qust_map = json_encode( $qust_map ); //convert array to a JSON string
-						$qust_map = htmlspecialchars( $qust_map, ENT_QUOTES );
+						<thead>
+							<tr>
+								<th><!--input type="checkbox" name="" id="selectAll" /--></th>
+								<th>Yapnaa ID</th>
+								<th><?php echo $customer; ?> ID</th>
+								<th>Phone </th>
+								
+								<?php if($_GET['customer_type'] == 4 || $_GET['customer_type'] == 5){ ?>
+									<th>Company Name</th>
+								<?php }else{ ?>
+									<th>Name</th>
+								<?php } ?>
+								
+								<th>AMC From & To</th>
+								<th>Last Call</th>
+								<th>Last Action</th>
+								<th>Last Comment/SMS</th>
+								<th>Action</th> 
+							</tr>
+						</thead>
 						
-						for($i=0;$i<count($get_amc_list);$i++){ 
+						<tbody>
+						<?php $j=1;?>
+						<?php 
+							if(!empty($get_amc_list)){
+								$numbers 			= array_column($get_amc_list,"PHONE1");
+								$qust_map['qst'] 	= array_column($get_amc_list,"qust_map");
+							}
+							$qust_map = json_encode( $qust_map ); //convert array to a JSON string
+							$qust_map = htmlspecialchars( $qust_map, ENT_QUOTES );
+							
+							for($i=0;$i<count($get_amc_list);$i++){ 
+									
+								date_default_timezone_set('Asia/Kolkata');
+		
+								$date 			= new DateTime();
+								$lastdatecall 	= $get_amc_list[$i]['last_called'];
+								$lastdatecall1 	= new DateTime($lastdatecall);
+								$diff			= $date->diff($lastdatecall1);
+																
+								$date1 = strtotime(date_format(date_create($get_amc_list[$i]['last_called']),"d-m-Y"));
+								$date2 = strtotime(date_format($date,"d-m-Y"));
 								
-							date_default_timezone_set('Asia/Kolkata');
-	
-							$date 			= new DateTime();
-							$lastdatecall 	= $get_amc_list[$i]['last_called'];
-							$lastdatecall1 	= new DateTime($lastdatecall);
-							$diff			= $date->diff($lastdatecall1);
-															
-							$date1 = strtotime(date_format(date_create($get_amc_list[$i]['last_called']),"d-m-Y"));
-							$date2 = strtotime(date_format($date,"d-m-Y"));
-							
-							$datediff= (int)round(($date2 - $date1)/3600/24,0);
-							
-							if(!empty($get_amc_list[$i]['qust_map'])){
-								$qust_map1	= $get_amc_list[$i]['qust_map'];
-							}
-							if(!empty($get_amc_list[$i]['PHONE1'])){
-								$PHONE1		= $get_amc_list[$i]['PHONE1'];
-							}
-							
-					?>
-						<tr>
-							<td><input  type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
-							<td><?php echo $get_amc_list[$i]['id'];?></td>
-							<td 
-								<?php 
+								$datediff= (int)round(($date2 - $date1)/3600/24,0);
+								
+								if(!empty($get_amc_list[$i]['qust_map'])){
+									$qust_map1	= $get_amc_list[$i]['qust_map'];
+								}
+								if(!empty($get_amc_list[$i]['PHONE1'])){
+									$PHONE1		= $get_amc_list[$i]['PHONE1'];
+								}
+								
+						?>
+							<tr>
+								<td><input  type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
+								<td><?php echo $get_amc_list[$i]['id'];?></td>
+								<td><?php echo $get_amc_list[$i]['CUSTOMERID'];?></td>
+								
+								<td><?php echo $get_amc_list[$i]['PHONE1']; ?>
+									<!-- <?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
+										<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" 
+										data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" 
+										data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" 
+										data-id="<?php echo $get_amc_list[$i]['id']; ?>"
+										data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" 
+										data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" 
+										data-next-service-data="<?php echo $get_amc_list[$i]['next_service_date']; ?>" 
+										data-last-service-data="<?php echo $get_amc_list[$i]['last_service_date']; ?>" 
+										data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" 
+										data-email="<?php echo $get_amc_list[$i]['email']; ?>" 
+										data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" 
+										data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
+										data-user-qm="<?php echo $qust_map; ?>"
+										data-toggle="modal" data-target="#userQstM" title="Edit AMC Details">
+										<i class="fa fa-eye"></i></button>	
+									<?php } ?> -->
+								</td>
+								
+								<?php if($_GET['customer_type'] == 4 || $_GET['customer_type'] == 5){ ?>
+									<td><?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?></td>
+								<?php }else{ ?>
+									<td><?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?></td>
+								<?php } ?>
+								
+								<td><?php echo (empty($get_amc_list[$i]['CONTRACT_FROM']) && empty($get_amc_list[$i]['CONTRACT_TO'])) ? '-' :($get_amc_list[$i]['CONTRACT_FROM']." to ".$get_amc_list[$i]['CONTRACT_TO']); ?></td>
+								<td><?php echo ($get_amc_list[$i]['last_called'] == '0000-00-00 00:00:00') ? '-' : $get_amc_list[$i]['last_called']; ?></td> 
+								<td><?php
+								
 									switch($get_amc_list[$i]['status']){
-								
-										case 0:
-											echo $get_amc_list[$i]['CUSTOMERID'];
-										break;
 										
 										case 1:
-										//Asked to call back
-											if(!$datediff <= 15){
-												echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
-											}
+											echo "Call back";
 										break;
-										
 										case 2:
-										//AMC Renewal
-											if(!$datediff <= 15){
-												echo 'style="background-color:red;color:white;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
-											}
+											echo "Not interested";
 										break;
-										
 										case 3:
-										//Appointment set
-											if(!$datediff <= 15){
-												echo 'style="background-color:green;color:white;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
-											}
-										break;
-										
-										case 4:
-										//Registered in App
-											if(!$datediff <= 15){
-												echo 'style="background-color:orange;color:white;font-style:bold;"<i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>'.$get_amc_list[$i]['CUSTOMERID'];
-											}
-										break;
-										
-										case 5:
-											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
-										break;
-										
-										case 6:
-										//AMC Expiry SMS sent
-											if(!$datediff <= 15){
-												echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
-											}
-										break;
-										
-										case 7:
-										//AMC REnewed
-											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
 											
+											if($get_amc_list[$i]['req_service_date'] !=NULL)
+											{
+											$time = strtotime($get_amc_list[$i]['req_service_date']);
+											echo "Service Appointment - ".date('d-m-Y H:i',$time);
+											}
+											else if($get_amc_list[$i]['req_amc_date'] !=NULL)
+											{
+											$time = strtotime($get_amc_list[$i]['req_amc_date']);
+											echo "AMC Appointment - ".date('d-m-Y H:i',$time);
+											}
+											else if($get_amc_list[$i]['req_upgrade_date'] !=NULL)
+											{
+											$time = strtotime($get_amc_list[$i]['req_upgrade_date']);
+											echo "Upgrade Appointment - ".date('d-m-Y H:i',$time);
+											}
+											else if($get_amc_list[$i]['req_follow_up_date'] !=NULL)
+											{
+											$time = strtotime($get_amc_list[$i]['req_follow_up_date']);
+											echo "Follow up Appointment - ".date('d-m-Y H:i',$time);
+											}
+											else{
+											$time = strtotime($get_amc_list[$i]['amc_appointment_datetime']);
+											echo "Appointment set - ".date('d-m-Y H:i',$time);
+											}
+										break;
+										case 4:
+											echo "Registered in App";
+										break;
+										case 6:
+											echo "AMC Expiry SMS sent";
+										break;
+										case 5:
+											echo "General SMS sent";
+										break;
+										case 7:
+											echo "AMC renewed";
 										break;
 										case 8:
-										//paid service
-											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
-											
+										$time = strtotime($get_amc_list[$i]['req_service_date']);										
+											echo "Paid service closed -".date('d-m-Y H:i',$time);
 										break;
 										case 9:
-										//upgrade
-											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
-											
+										$time = strtotime($get_amc_list[$i]['req_upgrade_date']);										
+											echo "Upgrade offer -".date('d-m-Y H:i',$time); 
 										break;
-										
 										default:
-											echo $get_amc_list[$i]['CUSTOMERID'];
+											echo "-";
 										break;
 									}
-								?>>
+								
+								?></td> 
+								<td><?php echo empty($get_amc_list[$i]['last_call_comment'])?$get_amc_list[$i]['last_sms_sent']:$get_amc_list[$i]['last_call_comment']; ?></td>
+								
+								<td>
+								
+								<!-- <button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button> -->
+								
+								<?php if($_GET['customer_type'] == 4 ||$_GET['customer_type'] == 5) { ?>
+									<!-- <button type="button"   
+									style="margin-right:2px; width:38px" 
+									class="custdatam btn btn-info pull-right actionBox" 
+									onclick="custQA('<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>',<?php echo $get_amc_list[$i]['PHONE1']; ?>,'<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>')" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>"
+									data-id="<?php echo $get_amc_list[$i]['id']; ?>" 
+									data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i>
+									</button> -->
 									
-							</td>
-							
-							<td><?php echo $get_amc_list[$i]['PHONE1']; ?>
-								<!-- <?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
-									<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" 
-									data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" 
-									data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" 
-									data-id="<?php echo $get_amc_list[$i]['id']; ?>"
-									data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" 
-									data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" 
-									data-next-service-data="<?php echo $get_amc_list[$i]['next_service_date']; ?>" 
-									data-last-service-data="<?php echo $get_amc_list[$i]['last_service_date']; ?>" 
-									data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" 
-									data-email="<?php echo $get_amc_list[$i]['email']; ?>" 
-									data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" 
-									data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
-									data-user-qm="<?php echo $qust_map; ?>"
-									data-toggle="modal" data-target="#userQstM" title="Edit AMC Details">
-									<i class="fa fa-eye"></i></button>	
-								<?php } ?> -->
-							</td>
-							
-							<?php if($_GET['customer_type'] == 4 || $_GET['customer_type'] == 5){ ?>
-								<td><?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?></td>
-							<?php }else{ ?>
-								<td><?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?></td>
-							<?php } ?>
-							
-							<td><?php echo (empty($get_amc_list[$i]['CONTRACT_FROM']) && empty($get_amc_list[$i]['CONTRACT_TO'])) ? '-' :($get_amc_list[$i]['CONTRACT_FROM']." to ".$get_amc_list[$i]['CONTRACT_TO']); ?></td>
-							<td><?php echo ($get_amc_list[$i]['last_called'] == '0000-00-00 00:00:00') ? '-' : $get_amc_list[$i]['last_called']; ?></td> 
-							<td><?php
-							
-								switch($get_amc_list[$i]['status']){
+									<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa.php?customer_type=<?php echo $_GET['customer_type'];?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>')"><i class="fa fa-ellipsis-v"></i>
+									</button>
 									
-									case 1:
-										echo "Call back";
-									break;
-									case 2:
-										echo "Not interested";
-									break;
-									case 3:
-										
-										if($get_amc_list[$i]['req_service_date'] !=NULL)
-										{
-										$time = strtotime($get_amc_list[$i]['req_service_date']);
-										echo "Service Appointment - ".date('d-m-Y H:i',$time);
-										}
-										else if($get_amc_list[$i]['req_amc_date'] !=NULL)
-										{
-										$time = strtotime($get_amc_list[$i]['req_amc_date']);
-										echo "AMC Appointment - ".date('d-m-Y H:i',$time);
-										}
-										else if($get_amc_list[$i]['req_upgrade_date'] !=NULL)
-										{
-										$time = strtotime($get_amc_list[$i]['req_upgrade_date']);
-										echo "Upgrade Appointment - ".date('d-m-Y H:i',$time);
-										}
-										else if($get_amc_list[$i]['req_follow_up_date'] !=NULL)
-										{
-										$time = strtotime($get_amc_list[$i]['req_follow_up_date']);
-										echo "Follow up Appointment - ".date('d-m-Y H:i',$time);
-										}
-										else{
-										$time = strtotime($get_amc_list[$i]['amc_appointment_datetime']);
-										echo "Appointment set - ".date('d-m-Y H:i',$time);
-										}
-									break;
-									case 4:
-										echo "Registered in App";
-									break;
-									case 6:
-										echo "AMC Expiry SMS sent";
-									break;
-									case 5:
-										echo "General SMS sent";
-									break;
-									case 7:
-										echo "AMC renewed";
-									break;
-									case 8:
-									$time = strtotime($get_amc_list[$i]['req_service_date']);										
-										echo "Paid service closed -".date('d-m-Y H:i',$time);
-									break;
-									case 9:
-									$time = strtotime($get_amc_list[$i]['req_upgrade_date']);										
-										echo "Upgrade offer -".date('d-m-Y H:i',$time); 
-									break;
-									default:
-										echo "-";
-									break;
-								}
-							
-							?></td> 
-							<td><?php echo empty($get_amc_list[$i]['last_call_comment'])?$get_amc_list[$i]['last_sms_sent']:$get_amc_list[$i]['last_call_comment']; ?></td>
-							
-							<td>
-							
-							<!-- <button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" data-id="<?php echo $get_amc_list[$i]['id']; ?>" data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-toggle="modal" data-target="#editAMC" title="Edit AMC Details"><i class="fa fa-pencil"></i></button> -->
-							
-							<?php if($_GET['customer_type'] == 4 ||$_GET['customer_type'] == 5) { ?>
-								<!-- <button type="button"   
-								style="margin-right:2px; width:38px" 
-								class="custdatam btn btn-info pull-right actionBox" 
-								onclick="custQA('<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>',<?php echo $get_amc_list[$i]['PHONE1']; ?>,'<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>')" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>"
-								data-id="<?php echo $get_amc_list[$i]['id']; ?>" 
-								data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i>
-								</button> -->
-								
-								<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa.php?customer_type=<?php echo $_GET['customer_type'];?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>')"><i class="fa fa-ellipsis-v"></i>
-								</button>
-								
-							<?php } ?>
-							<?php if($_GET['customer_type'] == 1 || $_GET['customer_type'] == 2 || $_GET['customer_type'] == 3) { ?>
-								<!-- <button type="button"   
-								style="margin-right:2px; width:38px" 
-								class="custdatam btn btn-info pull-right actionBox" 
-								onclick="custQA('<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>',<?php echo $get_amc_list[$i]['PHONE1']; ?>,'<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>')" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>"
-								data-id="<?php echo $get_amc_list[$i]['id']; ?>" 
-								data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i>
-								</button> -->
-								
-								<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa.php?customer_type=<?php echo $_GET['customer_type'];?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>')"><i class="fa fa-ellipsis-v"></i>
-								</button>
-								
-							<?php } ?>
-														
-							</td>   
-							 
-						</tr>
-					<?php $j++; } ?>
-					</tbody>
-				</table>  
+								<?php } ?>
+								<?php if($_GET['customer_type'] == 1 || $_GET['customer_type'] == 2 || $_GET['customer_type'] == 3) { ?>
+									<!-- <button type="button"   
+									style="margin-right:2px; width:38px" 
+									class="custdatam btn btn-info pull-right actionBox" 
+									onclick="custQA('<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>',<?php echo $get_amc_list[$i]['PHONE1']; ?>,'<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>')" data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>"
+									data-id="<?php echo $get_amc_list[$i]['id']; ?>" 
+									data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i>
+									</button> -->
+									
+									<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa.php?customer_type=<?php echo $_GET['customer_type'];?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>')"><i class="fa fa-ellipsis-v"></i>
+									</button>
+									
+								<?php } ?>
+															
+								</td>   
+								 
+							</tr>
+						<?php $j++; } ?>
+						</tbody>
+						
+					</table>  
 					
 					<div class="row">
 						<button type="submit" class="btn btn-success" id="sendSMSSubmit" name="sendSMSSubmit">

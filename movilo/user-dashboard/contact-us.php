@@ -1,8 +1,10 @@
 <?php session_start();
+if(isset($_SESSION['user_id'])){
 require_once('../controller/user_controller.php');
 $obj_user = new users;
 $brandcategory=$obj_user->brand_category_list();
 $brands_list=$obj_user->n_brand_list();
+
 if(isset($_POST['message']) || !empty($_POST['message'])){
 		//echo"here";
 		
@@ -475,3 +477,4 @@ element.style {
 });  */
    </script>
 </html>
+<?php }?>

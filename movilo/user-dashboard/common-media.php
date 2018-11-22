@@ -7,11 +7,10 @@ if(isset($_GET['logout'])){
 	 $brands_list=$obj_user->logout();     
 }
 if(isset($_REQUEST['brandcat'])){
-	
 	$p_category_id=$_POST['p_category_id'];
 	$brand_product_list=$obj_user->brand_product_list_by_category_dashboard($p_category_id); 
    
-   echo json_encode($brand_product_list);  
+	echo json_encode($brand_product_list);  
 }
 if(isset($_REQUEST['productdetails'])){
 	
@@ -22,13 +21,14 @@ if(isset($_REQUEST['productdetails'])){
    echo json_encode($productdetailsuser);  
 }
 if(isset($_REQUEST['addproduct'])){
+	//echo "<br><pre>"; print_r($_POST); die;
 	
 	$brands=$_POST['brandId'];
 	$dateInstallation=$_POST['dateInstallation'];
 	$bId=$_POST['bId'];
 	$product_user_id=$_POST['uId'];
 	$savepdt=$obj_user->add_product($bId,$product_user_id,$brands,$dateInstallation); 
-                            
+                        
    return $savepdt; 
 }
 if(isset($_REQUEST['deleteProduct'])){

@@ -60,7 +60,7 @@ class model {
 	function get_details_condition_orderby_asc($table,$fields,$condition,$orderby)
 	{
 		$sql = "SELECT $fields FROM $table where $condition order by $orderby asc";
-		//echo $sql;exit;
+		// echo $sql;exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){
@@ -138,7 +138,7 @@ class model {
 	function delete_row_data($table,$condition)
 	{
 		$sql = "DELETE FROM $table where $condition";
-		// echo $sql; exit;
+		//echo $sql; exit;
 		$qry	=	connection()->query($sql);		
 		return $qry;
 	}
@@ -259,56 +259,13 @@ class model {
 	function user_product_list($table,$fields,$condition)
 	{
 		$sql = "SELECT CONCAT_WS(' ', `up_title`, `p_category_name`) AS product_title, up.* ,pcl.*, b.* FROM $table as up join brand_products as bp on bp.product_id = up.up_product_id JOIN product_category_list as pcl on pcl.p_category_id = bp.product_name join brands as b on b.brand_id = bp.product_brand_id where $condition";
-		
-		/*$sql 	= " SELECT CONCAT_WS(' ', `up_title`, `p_category_name`) AS product_title,if(up.up_serial_no=NULL,up_serial_no,'No Data') AS up_serial_no,if(up.up_product_title=NULL,up_product_title,'No Data') AS up_product_title,if(up.up_serial_no_image=NULL,up_serial_no_image,'No Data') AS up_serial_no_image,if(up.up_dealer_name=NULL,up_dealer_name,'No Data') AS up_dealer_name,if(up.up_date_of_purchase=NULL,up_date_of_purchase,'No Data') AS up_date_of_purchase,if(up.up_location=NULL,up_location,'No Data') AS up_location,if(up_amc=NULL,up_amc,'No Data') AS up_amc,if(up.up_amc_from_date=NULL,up_amc_from_date,'No Data') AS up_amc_from_date,if(up.up_amc_to_date=NULL,up_amc_to_date,'No Data') AS up_amc_to_date,if(up.up_warranty_start_date=NULL,up_warranty_start_date,'No Data') AS up_warranty_start_date,if(up.up_warranty_end_date=NULL,up_warranty_end_date,'No Data') AS up_warranty_end_date,if(up.up_guarantee_start_date=NULL,up_guarantee_start_date,'No Data') AS up_guarantee_start_date,if(up.up_guarantee_end_date=NULL,up_guarantee_end_date,'No Data') AS up_guarantee_end_date,if(up.up_title=NULL,up_title,'No Data') AS up_title,if(up.up_additional_info=NULL,up_additional_info,'No Data') AS up_additional_info,if(up.up_invoice_no=NULL,up_invoice_no,'No Data') AS up_invoice_no,if(up.up_invoice_image=NULL,up_invoice_image,'No Data') AS up_invoice_image,if(up.up_location_id=NULL,up_location_id,'No Data') AS up_location_id,if(up.up_owner_invoice_copy=NULL,up_owner_invoice_copy,'No Data') AS up_owner_invoice_copy,if(up.up_owner_invoice_no=NULL,up_owner_invoice_no,'No Data') AS up_owner_invoice_no,if(up.up_owner_manual=NULL,up_owner_manual,'No Data') AS up_owner_manual,if(up.up_owner_guarantee_document=NULL,up_owner_guarantee_document,'No Data') AS up_owner_guarantee_document,if(up.up_owner_warranty_document=NULL,up_owner_warranty_document,'No Data') AS up_owner_warranty_document,if(up.up_owner_email=NULL,up_owner_email,'No Data') AS up_owner_email,if(up.up_owner_address=NULL,up_owner_address,'No Data') AS up_owner_address,if(up.up_owner_purchase_date=NULL,up_owner_purchase_date,'No Data') AS up_owner_purchase_date,if(up.up_owner_purchase_city=NULL,up_owner_purchase_city,'No Data') AS up_owner_purchase_city,if(up.up_owner_purchase_pincode=NULL,up_owner_purchase_pincode,'No Data') AS up_owner_purchase_pincode,if(up.up_owner_retailer_name=NULL,up_owner_retailer_name,'No Data') AS up_owner_retailer_name,if(up.up_owner_retailer_code=NULL,up_owner_retailer_code,'No Data') AS up_owner_retailer_code,if(up.up_owner_retailer_number=NULL,up_owner_retailer_number,'No Data') AS up_owner_retailer_number,
-		if(up.up_owner_warranty_start_date=NULL,up_owner_warranty_start_date,'No Data') AS up_owner_warranty_start_date,
-		if(up.up_owner_warranty_end_date=NULL,up_owner_warranty_end_date,'No Data') AS up_owner_warranty_end_date,	
-		if(up.up_owner_guarantee_start_date=NULL,up_owner_guarantee_start_date,'No Data') AS up_owner_guarantee_start_date,
-		if(up.up_owner_guarantee_end_date=NULL,up_owner_guarantee_end_date,'No Data') AS up_owner_guarantee_end_date,
-		if(pcl.p_category_id=NULL,p_category_id,'No Data') AS p_category_id,
-		if(pcl.p_category_name=NULL,p_category_name,'No Data') AS p_category_name,
-		if(pcl.p_category_icon_small=NULL,p_category_icon_small,'No Data') AS p_category_icon_small,
-		if(pcl.p_category_icon_medium=NULL,p_category_icon_medium,'No Data') AS p_category_icon_medium,
-		if(pcl.p_category_priority=NULL,p_category_priority,'No Data') AS p_category_priority,
-		if(pcl.p_category_c_date=NULL,p_category_c_date,'No Data') AS p_category_c_date,
-		if(pcl.p_category_m_date=NULL,p_category_m_date,'No Data') AS p_category_m_date,
-		if(pcl.p_category_status=NULL,p_category_status,'No Data') AS p_category_status,
-		if(b.brand_id=NULL,brand_id,'No Data') AS brand_id,
-		if(b.brand_name=NULL,brand_name,'No Data') AS brand_name,
-		if(b.brand_icon=NULL,brand_icon,'No Data') AS brand_icon,
-		if(b.brand_priority=NULL,brand_priority,'No Data') AS brand_priority,
-		if(b.brand_created_date=NULL,brand_created_date,'No Data') AS brand_created_date,
-		if(b.brand_modified_date=NULL,brand_modified_date,'No Data') AS brand_modified_date,
-		if(b.brand_status=NULL,brand_status,'No Data') AS brand_status,
-		if(b.customer_care_phone1=NULL,customer_care_phone1,'No Data') AS customer_care_phone1,
-		if(b.customer_care_phone2=NULL,customer_care_phone2,'No Data') AS customer_care_phone2,
-		if(b.customer_email_id=NULL,customer_email_id,'No Data') AS customer_email_id,
-		if(b.brand_url=NULL,brand_url,'No Data') AS brand_url
-		
-		FROM $table as up join brand_products as bp on bp.product_id = up.up_product_id JOIN product_category_list as pcl on pcl.p_category_id = bp.product_name join brands as b on b.brand_id = bp.product_brand_id where $condition ";*/
-		
-		//echo $sql; die;
+		// echo $sql; exit;
 		$qry	=	connection()->query($sql);
 		$ret=array();
 		while($row=mysqli_fetch_assoc($qry)){
-			$ret[]=$row;
-		}
-		//print_r($ret); die;
-		if(!empty($ret)){
-			if($ret[0]['up_title'] == ''){
-				$ret[0]['up_title'] 					= $ret[0]['product_title'];
-				$ret[0]['up_amc_from_date']	 			= '0000-00-00 00:00:00';
-				$ret[0]['up_amc_to_date'] 				= '0000-00-00 00:00:00';
-				$ret[0]['up_warranty_start_date'] 		= '0000-00-00 00:00:00';
-				$ret[0]['up_warranty_end_date'] 		= '0000-00-00 00:00:00';
-				
-				return $ret;
+				$ret[]=$row;
 			}
-		}
-		else{
-			return array();
-		}
-		
+		return $ret;
 	}
 	
 	
@@ -418,6 +375,108 @@ where users_products.up_user_id=$user_id";
 			//print_r($ret);exit;
 		return $ret;
 	}
+	
+	
+	/*  Suman  */
+	
+	function get_question_answer_for_landing_page($user_id,$cqa_qid){
+		
+		$sql 		= "SELECT cqa.*,(SELECT CONCAT_WS('_', 'qa', cqa.cqa_answer) FROM question_and_answer qa where cqa.cqa_qid=qa.qa_id) AS answer_weightage FROM customer_question_answer cqa WHERE cqa.cqa_user_id = ".$user_id." AND cqa.cqa_qid = ".$cqa_qid." ";
+		
+		$qry		= connection()->query($sql);
+		$row		= mysqli_fetch_assoc($qry);
+		return $row;
+		
+	}
+	
+	function get_value_of_answer($question_answer,$cqa_qid){
+		
+		$sql 		= "SELECT qa.".$question_answer." FROM question_and_answer qa WHERE qa.qa_id = ".$cqa_qid." ";
+		
+		$qry		= connection()->query($sql);
+		$row		= mysqli_fetch_assoc($qry);
+		$value 		= current($row);
+		return $value; 
+	}
+	
+	
+	function get_q_a($brand,$user_id){
+		$sql 				= "SELECT qa.*,(SELECT cqa.cqa_answer  FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS answer_given,(SELECT CONCAT_WS('_', 'qa', cqa.cqa_answer) FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS answer_weightage,
+		(SELECT cqa.cqa_weightage FROM customer_question_answer cqa where cqa.cqa_qid=qa.qa_id AND cqa.cqa_user_id = ".$user_id." ) AS weightage FROM question_and_answer qa WHERE qa.qa_brand = '".$brand."' ";
+		
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
+		return $row;
+	}
+	
+	
+	function get_existing_profile_status_of_customer($brand,$user_id){
+		$sql 				= "SELECT br.profile_type FROM ".$brand." br WHERE br.id = ".$user_id."  ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		if(!empty($row['profile_type'])){
+			return $row;
+		}else{
+			return array('profile_type' => 'New');
+		}
+		
+	}
+		
+	
+	function get_answered_qsn_without_current_qsn($user_id,$qid_string){
+		$sql 				= "SELECT cqa.* FROM `customer_question_answer` cqa WHERE cqa.cqa_user_id = ".$user_id." AND cqa.cqa_qid NOT IN (".$qid_string.") ";
+		$qry		= connection()->query($sql);
+		$row				= mysqli_fetch_all($qry,MYSQLI_ASSOC);
+		
+		return $row;
+	}
+	
+	
+	function get_brand_details_of_customer($customer_type,$user_id){
+		switch($customer_type) {
+			case 1:
+			$brand_name	= 'livpure';
+			break;
+			case 2:
+			$brand_name	= 'zerob_consol1';
+			break;
+			case 3:
+			$brand_name	= 'livpure_tn_kl';
+			break;
+			case 4:
+			$brand_name	= 'bluestar_b2b';
+			break;
+			case 5:
+			$brand_name	= 'bluestar_b2c';
+			break;
+		}
+		
+		$sql 				= "SELECT b.* FROM ".$brand_name." b WHERE b.id = ".$user_id." ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		return $row;
+		
+	}
+	
+	function get_answer_weightage($table, $value){
+		$sql 				= "SELECT ya.answer_weightage FROM ".$table." ya WHERE ya.id = ".$value." ";
+		$qry				= connection()->query($sql);
+		$row				= mysqli_fetch_assoc($qry);
+		return $row;
+	}
+	
+	
+	function get_question_answer_for_landingpage($user_id,$question_id){
+		$sql 		= "SELECT cqa.id AS cqaid FROM customer_question_answer_1 cqa WHERE cqa.user_id = ".$user_id." AND cqa.question_id = ".$question_id." ";
+		
+		$qry		= connection()->query($sql);
+		$row		= mysqli_fetch_assoc($qry);
+		return $row;
+	}
+
+	
+	
 	
 	
 }

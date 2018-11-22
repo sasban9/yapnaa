@@ -49,7 +49,7 @@ if(isset($_SESSION['admin_email_id'])){
 	}
 	
 	if(isset($_POST['search']) || !empty($_POST['search'])){
-		//print_r($_POST); die;
+		
 		$search 			= $_POST['search'];
 		$action_taken_by 	= $_POST['action_taken_by'];
 		$filter 			= $_POST['filter'];
@@ -99,15 +99,6 @@ if(isset($_SESSION['admin_email_id'])){
 			$control->download_brand_list($filterByAttempt,$action_taken_by,$search,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
 	}
-	
-	/*else{
-		$get_amc_list = $control->get_zerob_list("");
-	}*/
-	
-	// Get Sub Categories List
-	
-	//echo '<pre>';print_r($get_amc_list[0]['qust_map']); exit;
-	
 	
 	$std_comments = $control->get_standard_comments(); 
 	
@@ -226,9 +217,14 @@ if(isset($_SESSION['admin_email_id'])){
 				<div class="col-lg-2 new" >
 					<label>Filter By</label>
 					<select id="filterByAttempt" class="form-control" name="filterByAttempt">
-						<option value="0"<?php echo($_POST['filterByAttempt']==0)?"selected":"";?>>Filter</option>
-						<option value="1" <?php echo($_POST['filterByAttempt']==1)?"selected":"";?>>Not Attempted Customer</option>						 
-						
+						<option value="">Filter</option>				
+						<option value="1" <?php echo($_POST['filterByAttempt']==1)?"selected":"";?>>Call back</option>
+						<option value="12" <?php echo($_POST['filterByAttempt']==12)?"selected":"";?>>No response</option>
+						<option value="13" <?php echo($_POST['filterByAttempt']==13)?"selected":"";?>>Not Reachable</option>
+						<option value="2" <?php echo($_POST['filterByAttempt']==2)?"selected":"";?>>Not interested</option>
+						<option value="16" <?php echo($_POST['filterByAttempt']==16)?"selected":"";?>>AMC Escalation</option>
+						<option value="17" <?php echo($_POST['filterByAttempt']==17)?"selected":"";?>>Product Escalation</option>
+						<option value="18" <?php echo($_POST['filterByAttempt']==18)?"selected":"";?>>Service Escalation</option>
 					</select>
 				</div>
 				<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
@@ -274,7 +270,7 @@ if(isset($_SESSION['admin_email_id'])){
 			</div>
 			</br>
 			<div class="row">
-			<div class="col-lg-2 " >
+				<div class="col-lg-2 " >
 					<label>From</label>
 					<input type="text" class="form-control" placeholder="Yapnaa Id"  id="yapnaaIdfm" name="yapnaaIdfm" >
 				</div>
@@ -282,7 +278,7 @@ if(isset($_SESSION['admin_email_id'])){
 					<label>To</label>
 					<input type="text" class="form-control"  placeholder="Yapnaa Id" id="yapnaaIdto" name="yapnaaIdto" >
 				</div>
-             <div class="col-lg-2 old" style="display:none;">
+				<div class="col-lg-2 old" style="display:none;">
 					<label>AMC From</label>
 					<input type="date" class="form-control"  id="amc_fromDate" name="amc_fromDate" >
 				</div>
@@ -324,7 +320,7 @@ if(isset($_SESSION['admin_email_id'])){
 				<form action="send-sms.php" method="POST">
                     <table class="table table-striped table-bordered table-hover dataTables-example" >
 					<thead>
-					<tr>
+						<tr>
 							<th><!--input type="checkbox" name="" id="selectAll" /--></th>
 							<th>Yapnaa ID</th>
 							<th><?php echo $customer; ?> ID</th>
@@ -341,10 +337,9 @@ if(isset($_SESSION['admin_email_id'])){
 							<th>Last Action</th>
 							<th>Last Comment/SMS</th>
 							<th>Action</th> 
-						
-						
-					</tr>
+						</tr>
 					</thead>
+					
 					<tbody>
 					<?php $j=1;?>
 					<?php 
@@ -393,92 +388,94 @@ if(isset($_SESSION['admin_email_id'])){
 						<tr>
 							<td><input  type="checkbox" name="sms[]" value="<?php echo $get_amc_list[$i]['PHONE1'];?>" /></td>
 							<td><?php echo $get_amc_list[$i]['id'];?></td>
-							<td <?php 
-											switch($get_amc_list[$i]['status']){
+							<td 
+								<?php 
+									switch($get_amc_list[$i]['status']){
+								
+										case 0:
+											echo $get_amc_list[$i]['CUSTOMERID'];
+										break;
 										
-												case 0:
-													echo ">".$get_amc_list[$i]['CUSTOMERID'];
-												break;
-												
-												case 1:
-												//Asked to call back
-													if(!$datediff <= 15){
-														echo 'style="background-color:yellow;color:black;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-													}
-												break;
-												
-												case 2:
-												//AMC Renewal
-													if(!$datediff <= 15){
-														echo 'style="background-color:red;color:white;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-													}
-												break;
-												
-												case 3:
-												//Appointment set
-													if(!$datediff <= 15){
-														echo 'style="background-color:green;color:white;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-													}
-												break;
-												
-												case 4:
-												//Registered in App
-													if(!$datediff <= 15){
-														echo 'style="background-color:orange;color:white;font-style:bold;"><i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>'.$get_amc_list[$i]['CUSTOMERID'];
-													}
-												break;
-												
-												case 5:
-													echo 'style="background-color:yellow;color:black;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-												break;
-												
-												case 6:
-												//AMC Expiry SMS sent
-													if(!$datediff <= 15){
-														echo 'style="background-color:yellow;color:black;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-													}
-												break;
-												
-												case 7:
-												//AMC REnewed
-														echo 'style="background-color:yellow;color:black;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-													
-												break;
-												case 8:
-												//paid service
-														echo 'style="background-color:yellow;color:black;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-													
-												break;
-												case 9:
-												//upgrade
-														echo 'style="background-color:yellow;color:black;font-style:bold;">'.$get_amc_list[$i]['CUSTOMERID'];
-													
-												break;
-												
-												default:
-													echo $get_amc_list[$i]['CUSTOMERID'];
-												break;
+										case 1:
+										//Asked to call back
+											if(!$datediff <= 15){
+												echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
 											}
-									?>
+										break;
+										
+										case 2:
+										//AMC Renewal
+											if(!$datediff <= 15){
+												echo 'style="background-color:red;color:white;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
+											}
+										break;
+										
+										case 3:
+										//Appointment set
+											if(!$datediff <= 15){
+												echo 'style="background-color:green;color:white;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
+											}
+										break;
+										
+										case 4:
+										//Registered in App
+											if(!$datediff <= 15){
+												echo 'style="background-color:orange;color:white;font-style:bold;"<i class="fa fa-thumbs-o-up" style="margin-right:3%;"></i>'.$get_amc_list[$i]['CUSTOMERID'];
+											}
+										break;
+										
+										case 5:
+											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
+										break;
+										
+										case 6:
+										//AMC Expiry SMS sent
+											if(!$datediff <= 15){
+												echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
+											}
+										break;
+										
+										case 7:
+										//AMC REnewed
+											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
+											
+										break;
+										case 8:
+										//paid service
+											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
+											
+										break;
+										case 9:
+										//upgrade
+											echo 'style="background-color:yellow;color:black;font-style:bold;"'.$get_amc_list[$i]['CUSTOMERID'];
+											
+										break;
+										
+										default:
+											echo $get_amc_list[$i]['CUSTOMERID'];
+										break;
+									}
+								?>>
 									
 							</td>
-							<td><?php echo $get_amc_list[$i]['PHONE1']; ?></a>
+							
+							<td><?php echo $get_amc_list[$i]['PHONE1']; ?>
 								<?php if($ar_id==1 || $ar_id==2 || $ar_id==5){?>
-								<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" 
-								data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" 
-								data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" 
-								data-id="<?php echo $get_amc_list[$i]['id']; ?>"
-								data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" 
-								data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" 
-								data-next-service-data="<?php echo $get_amc_list[$i]['next_service_date']; ?>" 
-								data-last-service-data="<?php echo $get_amc_list[$i]['last_service_date']; ?>" 
-								data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" 
-								data-email="<?php echo $get_amc_list[$i]['email']; ?>" 
-								data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" 
-								data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
-								data-user-qm="<?php echo $qust_map; ?>"
-								data-toggle="modal" data-target="#userQstM" title="Edit AMC Details">
-								<i class="fa fa-eye"></i></button>	
+									<button type="button" style="margin-right:2px;" class="btn btn-info pull-right actionBox" 
+									data-mobile="<?php echo $get_amc_list[$i]['PHONE1']; ?>" 
+									data-mobile2="<?php echo $get_amc_list[$i]['PHONE2']; ?>" 
+									data-id="<?php echo $get_amc_list[$i]['id']; ?>"
+									data-contract="<?php echo $get_amc_list[$i]['CONTRACT_FROM']; ?>" 
+									data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" 
+									data-next-service-data="<?php echo $get_amc_list[$i]['next_service_date']; ?>" 
+									data-last-service-data="<?php echo $get_amc_list[$i]['last_service_date']; ?>" 
+									data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" 
+									data-email="<?php echo $get_amc_list[$i]['email']; ?>" 
+									data-address="<?php echo $get_amc_list[$i]['CUSTOMER_ADDRESS1']; ?>" 
+									data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>"
+									data-user-qm="<?php echo $qust_map; ?>"
+									data-toggle="modal" data-target="#userQstM" title="Edit AMC Details">
+									<i class="fa fa-eye"></i></button>	
 								<?php } ?>
 							</td>
 							
@@ -491,7 +488,7 @@ if(isset($_SESSION['admin_email_id'])){
 							<td><?php echo (empty($get_amc_list[$i]['CONTRACT_FROM']) && empty($get_amc_list[$i]['CONTRACT_TO'])) ? '-' :($get_amc_list[$i]['CONTRACT_FROM']." to ".$get_amc_list[$i]['CONTRACT_TO']); ?></td>
 							<td><?php echo ($get_amc_list[$i]['last_called'] == '0000-00-00 00:00:00') ? '-' : $get_amc_list[$i]['last_called']; ?></td> 
 							<td><?php
-							//if($get_amc_list[$i]['users'] == null || empty($get_amc_list[$i]['users'])){
+							
 								switch($get_amc_list[$i]['status']){
 									
 									case 1:
@@ -551,11 +548,6 @@ if(isset($_SESSION['admin_email_id'])){
 										echo "-";
 									break;
 								}
-							/*}
-							else{
-								echo "Registered in App";
-							}*/
-								
 							
 							?></td> 
 							<td><?php echo empty($get_amc_list[$i]['last_call_comment'])?$get_amc_list[$i]['last_sms_sent']:$get_amc_list[$i]['last_call_comment']; ?></td>
@@ -580,9 +572,7 @@ if(isset($_SESSION['admin_email_id'])){
 								data-expiry="<?php echo $get_amc_list[$i]['CONTRACT_TO']; ?>" data-name="<?php echo $get_amc_list[$i]['CUSTOMER_NAME']; ?>" data-email="<?php echo $get_amc_list[$i]['email']; ?>" data-customerid="<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>" data-toggle="modal" data-target="#myAction"><i class="fa fa-ellipsis-v"></i>
 								</button>
 							<?php } ?>
-							
-							
-							
+														
 							<?php //}?></td>   
 							 
 						</tr>
@@ -1005,11 +995,11 @@ if(isset($_SESSION['admin_email_id'])){
 											 <span id="sansq55"></span>
 										 </div>
 									
-																						<div class="controls    amc_requested" hidden="hidden">
-								<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="amc_requested_date" id="amc_requested_date" parsley-trigger="change" required>
+								<div class="controls    amc_requested" hidden="hidden">
+									<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="amc_requested_date" id="amc_requested_date" parsley-trigger="change" required>
 								</div>
 									
-															</div>
+							</div>
 														
 					 
 						<br><label id="custQuistionId20" data-qid="20"></label><br>
@@ -1028,20 +1018,19 @@ if(isset($_SESSION['admin_email_id'])){
 					 
 						<br><label id="custQuistionId21" data-qid="21"></label><br>
 							<div class="row"> 
-										<div class="col-lg-3" > 
-											<input type="radio" class="chk" id="ansq58" data-qid="21" value="" name="21"	> 
-											 <span id="sansq58"></span>
-										 </div>
-										 <div class="col-lg-3" > 
-											<input type="radio" class="chk" id="ansq59" data-qid="21" value="" name="21"	> 
-											 <span id="sansq59"></span>
-										 </div>
-									
-										 <div class="controls   wish_upgrade" hidden="hidden">
-											<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="wish_upgrade_date" id="wish_upgrade_date" parsley-trigger="change" required>
-										 </div>	
-									
-									</div>
+								<div class="col-lg-3" > 
+									<input type="radio" class="chk" id="ansq58" data-qid="21" value="" name="21"> 
+									<span id="sansq58"></span>
+								</div>
+								<div class="col-lg-3" > 
+									<input type="radio" class="chk" id="ansq59" data-qid="21" value="" name="21"> 
+									<span id="sansq59"></span>
+								</div>
+								<div class="controls   wish_upgrade" hidden="hidden">
+									<input size="16" style="margin-left: -18px;" type="text" value=""  class=" datetimepicker" name="wish_upgrade_date" id="wish_upgrade_date" parsley-trigger="change" required>
+								</div>	
+							
+							</div>
 														
 					 
 						<br><label id="custQuistionId22" data-qid="22"></label><br>

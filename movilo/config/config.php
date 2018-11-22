@@ -4,7 +4,7 @@ global $tb;
 	function connection(){
 		$servername = "localhost";//host name 
 		$username 	= "root"; //user name
-		$password 	= "M0v!Lo@987"; //user password
+		$password 	= "M0v!Lo@987";    //user password
 		$database	= "movilogl_movilo"; //db name
 		// Create connection
 		$con = new mysqli($servername, $username, $password, $database);
@@ -22,7 +22,6 @@ global $tb;
 	/* Base URL $arr_data[0] is having server name and $arr_data[1] have folder name*/
 	$url=$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 	$arr_data   =   explode("/",$url);
-	//print_r($arr_data); die;
 	$base_url	= $arr_data[0]."/".$arr_data[1]."/".$arr_data[2]."/"; 
 	
 ?>

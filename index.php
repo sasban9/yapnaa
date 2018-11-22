@@ -29,10 +29,9 @@ if(isset($_POST['search_query']) && !empty($_POST['search_query'])){
       <!-- Basic -->
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <title>Yapnaa- Your After Sales Companion </title>
+     <title>Yapnaa</title>
 	 <link rel="shortcut icon" href="../images/yapnaa-fav.png" type="image/x-icon">
-      <meta name="description" content="Yapnaa helps you connect with brands directly for service and support of your durables. You can also manage your bills and documents in digilocker. 
-">
+      <meta name="description" content="Yapnaa - Your After Sales Companion">
       <meta name="author" content="okler.net">
       <!-- Favicon -->
       <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
@@ -625,10 +624,11 @@ instead receive timely alerts before expiry date.</span>
 						
 						 
                      </div>
-					 <marquee behavior="scroll" direction="left"><img src="/img/superstartup_yapnaa.png" style="height: 22px;margin-top: -6px;"  alt="Natural" /><span style="font-style: italic;font-size: 16px;"><b>"Team Yapnaa awarded as winners for the most promising startups in all over Asia at the SuperStartups Summit 2018 - for the crème de la crème of the Asian startup world."</b><span></marquee>
+					<marquee behavior="scroll" direction="left"><img src="/img/superstartup_yapnaa.png" style="height: 22px;margin-top: -6px;"  alt="Natural" /><span style="font-style: italic;font-size: 16px;"><b>"Team Yapnaa awarded as winners for the most promising startups in all over Asia at the SuperStartups Summit 2018 - for the crème de la crème of the Asian startup world."</b><span></marquee>
 					
                   </div>
-                  <div class="row" style="    margin-bottom: 3%;">
+				   	
+                  <div class="row" style="    margin-bottom: 3%;">	
                      <div class="col-sm-12 desktop">
                         <h2 style="font-weight:bold; font-size:32px;">How Yapnaa helps you?</h2>
                      </div>
@@ -809,7 +809,12 @@ instead receive timely alerts before expiry date.</span>
                          <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                            </div>
-                           
+                           <!-- <div class="formBox" style="padding: 9%;border-radius: 14px;">
+                              
+                           <a class="twitter-timeline"  href="https://twitter.com/hashtag/Yapnaa" data-widget-id="956412608411660288">#Yapnaa Tweets</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			
+                           </div> -->
                            <!--div class="formBox" style="padding: 9%;border-radius: 14px;">
                               <h4> Dont just take word for it; read what your neighbours</h4>
                               <h5 style="font-size: 20px;margin-top: 4%;color: #ff6010; text-decoration: underline;">On Twitter</h5>

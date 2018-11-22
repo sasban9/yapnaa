@@ -1,6 +1,9 @@
 <?php 
 require 'PHPMailerAutoload.php';  
 require_once("model/model.php");
+
+include 'encryption_decryption.php';
+
 $obj_model	=new	model; 
 
 //Controller to perform all admin functions
@@ -25,7 +28,7 @@ class admin	{
 	return $responce;
 	}
 	function update_customer_type($cust_type){
-		switch($schedulecampaign){
+		switch($cust_type){
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
@@ -36,11 +39,6 @@ class admin	{
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -125,19 +123,14 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
-			$titlename1='Livpure';
-			$brand_img="logo_livpure_yapnaa.png";
+			$titlename1	='Livpure';
+			$brand_img	="logo_livpure_yapnaa.png";
 			
 			
             break;
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -159,7 +152,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 	function periodic_update_customer($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
-		    $table		=	'livpure'; 
+		    $table		=	'livpure';
 			$titlename1='Livpure';
 			$brand_img="logo_livpure_yapnaa.png";
 			
@@ -168,11 +161,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -202,11 +190,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -234,11 +217,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -268,11 +246,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -300,11 +273,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -334,11 +302,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -355,7 +318,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		return $made_right_choice;
 	}
 	function share_positive_experience_customer($schedulecampaign,$fromDate,$toDate){
-     switch($schedulecampaign){
+		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
@@ -366,11 +329,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -400,11 +358,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -432,11 +385,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -466,11 +414,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -498,11 +441,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -532,11 +470,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -565,11 +498,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -586,7 +514,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		return $highly_engaged_last_paid_service_6month;
 	}
 	function highly_engaged_last_paid_service_1year_customer($schedulecampaign,$fromDate,$toDate){
-		switch($schedulecampaign){
+		switch($schedulecampaign){ 
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
@@ -597,11 +525,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -618,7 +541,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_last_paid_service_1year;
 	}
-	function highly_engaged_under_AMC_customer($schedulecampaign,$fromDate,$toDate){
+	function highly_engaged_under_AMC_customer_yes($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -630,11 +553,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -651,7 +569,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_under_AMC;
 	}
-	function highly_engaged_withtimeline_customer($schedulecampaign,$fromDate,$toDate){
+	function highly_engaged_under_AMC_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -664,10 +582,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_under_AMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='No' $condition ) 
+		");
+		return $highly_engaged_under_AMC;
+	}
+	function highly_engaged_withtimeline_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -684,7 +625,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_withtimeline;
 	}
-	function highly_engaged_withquality_customer($schedulecampaign,$fromDate,$toDate){
+	function highly_engaged_withtimeline_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -697,10 +638,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_withtimeline		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='No' $condition ) 
+		");
+		return $highly_engaged_withtimeline;
+	}
+	function highly_engaged_withquality_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -717,7 +681,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_withquality;
 	}
-	function highly_engaged_feedbackservice_customer($schedulecampaign,$fromDate,$toDate){
+	function highly_engaged_withquality_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -730,10 +694,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_withquality		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='No' $condition ) 
+		");
+		return $highly_engaged_withquality;
+	}
+	function highly_engaged_feedbackservice_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -750,7 +737,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_feedbackservice;
 	}
-	function highly_engaged_requiredservice_customer($schedulecampaign,$fromDate,$toDate){
+	function highly_engaged_feedbackservice_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -763,10 +750,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_feedbackservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5  and answer='No' $condition ) 
+		");
+		return $highly_engaged_feedbackservice;
+	}
+	function highly_engaged_requiredservice_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -783,7 +793,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_requiredservice;
 	}
-	function highly_engaged_requestAMC_customer($schedulecampaign,$fromDate,$toDate){
+	function highly_engaged_requiredservice_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -796,10 +806,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_requiredservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=17  and answer='No' $condition ) 
+		");
+		return $highly_engaged_requiredservice;
+	}
+	function highly_engaged_requestAMC_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -816,7 +849,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_requestAMC;
 	}
-	function highly_engaged_wishUpgrade_customer($schedulecampaign,$fromDate,$toDate){
+	function highly_engaged_requestAMC_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -829,10 +862,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_requestAMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=19  and answer='No' $condition ) 
+		");
+		return $highly_engaged_requestAMC;
+	}
+	function highly_engaged_wishUpgrade_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -849,27 +905,50 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $highly_engaged_wishUpgrade;
 	}
+	function highly_engaged_wishUpgrade_customer_no($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$highly_engaged_wishUpgrade		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=1 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=21  and answer='No' $condition ) 
+		");
+		return $highly_engaged_wishUpgrade;
+	}
 	
 	function engaged_last_paid_service_6month_customer($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
-					case 1:
-					$table		=	'livpure';
-					$titlename1='Livpure';
-					$brand_img="logo_livpure_yapnaa.png";
-					
-					
-					break;
-					case 2:
-					$table		=	'zerob_consol1';
-					$titlename1='Zero B';
-					$brand_img="logo_livpure_yapnaa.png";			
-					break;
-					case 3:
-					$table		=	'livpure_tn_kl';
-					$titlename1='Livpure - TN/KL';
-					$brand_img="logo_livpure_yapnaa.png";			
-					break;			
-				} 
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
 		if($fromDate !='' && $toDate !='')
 	   {		   
 		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
@@ -884,7 +963,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		return $engaged_last_paid_service_6month;
 	}
 	function engaged_last_paid_service_1year_customer($schedulecampaign,$fromDate,$toDate){
-		switch($schedulecampaign){
+		switch($schedulecampaign){ 
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
@@ -895,11 +974,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -916,7 +990,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $engaged_last_paid_service_1year;
 	}
-	function engaged_under_AMC_customer($schedulecampaign,$fromDate,$toDate){
+	function engaged_under_AMC_customer_yes($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -928,11 +1002,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -949,7 +1018,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $engaged_under_AMC;
 	}
-	function engaged_withtimeline_customer($schedulecampaign,$fromDate,$toDate){
+	function engaged_under_AMC_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -962,10 +1031,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_under_AMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='No' $condition ) 
+		");
+		return $engaged_under_AMC;
+	}
+	function engaged_withtimeline_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -982,26 +1074,49 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $engaged_withtimeline;
 	}
-	function engaged_withquality_customer($schedulecampaign,$fromDate,$toDate){
-	switch($schedulecampaign){
-				case 1:
-				$table		=	'livpure';
-				$titlename1='Livpure';
-				$brand_img="logo_livpure_yapnaa.png";
-				
-				
-				break;
-				case 2:
-				$table		=	'zerob_consol1';
-				$titlename1='Zero B';
-				$brand_img="logo_livpure_yapnaa.png";			
-				break;
-				case 3:
-				$table		=	'livpure_tn_kl';
-				$titlename1='Livpure - TN/KL';
-				$brand_img="logo_livpure_yapnaa.png";			
-				break;			
-			} 
+	function engaged_withtimeline_customer_no($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_withtimeline		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='No' $condition ) 
+		");
+		return $engaged_withtimeline;
+	}
+	function engaged_withquality_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
 		if($fromDate !='' && $toDate !='')
 	   {		   
 		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
@@ -1015,26 +1130,49 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $engaged_withquality;
 	}
-	function engaged_feedbackservice_customer($schedulecampaign,$fromDate,$toDate){
-	switch($schedulecampaign){
-				case 1:
-				$table		=	'livpure';
-				$titlename1='Livpure';
-				$brand_img="logo_livpure_yapnaa.png";
-				
-				
-				break;
-				case 2:
-				$table		=	'zerob_consol1';
-				$titlename1='Zero B';
-				$brand_img="logo_livpure_yapnaa.png";			
-				break;
-				case 3:
-				$table		=	'livpure_tn_kl';
-				$titlename1='Livpure - TN/KL';
-				$brand_img="logo_livpure_yapnaa.png";			
-				break;			
-			} 
+	function engaged_withquality_customer_no($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_withquality		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='No' $condition ) 
+		");
+		return $engaged_withquality;
+	}
+	function engaged_feedbackservice_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
 		if($fromDate !='' && $toDate !='')
 	   {		   
 		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
@@ -1048,7 +1186,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $engaged_feedbackservice;
 	}
-	function engaged_requiredservice_customer($schedulecampaign,$fromDate,$toDate){
+	function engaged_feedbackservice_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1061,10 +1199,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_feedbackservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5  and answer='No' $condition ) 
+		");
+		return $engaged_feedbackservice;
+	}
+	function engaged_requiredservice_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1081,7 +1242,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $engaged_requiredservice;
 	}
-	function engaged_requestAMC_customer($schedulecampaign,$fromDate,$toDate){
+	function engaged_requiredservice_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1094,10 +1255,34 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_requiredservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=17  and answer='No' $condition ) 
+		");
+		return $engaged_requiredservice;
+	}
+	
+	function engaged_requestAMC_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1114,7 +1299,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $engaged_requestAMC;
 	}
-	function engaged_wishUpgrade_customer($schedulecampaign,$fromDate,$toDate){
+	function engaged_requestAMC_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1127,10 +1312,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_requestAMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=19  and answer='No' $condition ) 
+		");
+		return $engaged_requestAMC;
+	}
+	function engaged_wishUpgrade_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1144,6 +1352,34 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 	   }
 		$engaged_wishUpgrade		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
 		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=21  and answer='Yes' $condition ) 
+		");
+		return $engaged_wishUpgrade;
+	}
+	function engaged_wishUpgrade_customer_no($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$engaged_wishUpgrade		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=2 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=21  and answer='No' $condition ) 
 		");
 		return $engaged_wishUpgrade;
 	}
@@ -1161,11 +1397,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -1182,7 +1413,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		return $partialy_engaged_last_paid_service_6month;
 	}
 	function partialy_engaged_last_paid_service_1year_customer($schedulecampaign,$fromDate,$toDate){
-		switch($schedulecampaign){
+		switch($schedulecampaign){ 
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
@@ -1191,13 +1422,8 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			
             break;
 			case 2:
-		    $table		=	'zerob_consol1';
+		    $table		=	'zerob_consol1'; 
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1214,7 +1440,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_last_paid_service_1year;
 	}
-	function partialy_engaged_under_AMC_customer($schedulecampaign,$fromDate,$toDate){
+	function partialy_engaged_under_AMC_customer_yes($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1226,11 +1452,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1247,7 +1468,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_under_AMC;
 	}
-	function partialy_engaged_withtimeline_customer($schedulecampaign,$fromDate,$toDate){
+	function partialy_engaged_under_AMC_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1260,10 +1481,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_under_AMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=2  and answer='No' $condition ) 
+		");
+		return $partialy_engaged_under_AMC;
+	}
+	function partialy_engaged_withtimeline_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1280,7 +1524,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_withtimeline;
 	}
-	function partialy_engaged_withquality_customer($schedulecampaign,$fromDate,$toDate){
+	function partialy_engaged_withtimeline_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1293,10 +1537,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_withtimeline		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=3  and answer='No' $condition ) 
+		");
+		return $partialy_engaged_withtimeline;
+	}
+	function partialy_engaged_withquality_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1313,7 +1580,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_withquality;
 	}
-	function partialy_engaged_feedbackservice_customer($schedulecampaign,$fromDate,$toDate){
+	function partialy_engaged_withquality_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1326,10 +1593,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_withquality		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=4  and answer='No' $condition ) 
+		");
+		return $partialy_engaged_withquality;
+	}
+	function partialy_engaged_feedbackservice_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1346,7 +1636,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_feedbackservice;
 	}
-	function partialy_engaged_requiredservice_customer($schedulecampaign,$fromDate,$toDate){
+	function partialy_engaged_feedbackservice_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1359,10 +1649,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_feedbackservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=5  and answer='No' $condition ) 
+		");
+		return $partialy_engaged_feedbackservice;
+	}
+	function partialy_engaged_requiredservice_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1379,7 +1692,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_requiredservice;
 	}
-	function partialy_engaged_requestAMC_customer($schedulecampaign,$fromDate,$toDate){
+	function partialy_engaged_requiredservice_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1392,10 +1705,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_requiredservice		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=17  and answer='No' $condition ) 
+		");
+		return $partialy_engaged_requiredservice;
+	}
+	function partialy_engaged_requestAMC_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1412,7 +1748,7 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_requestAMC;
 	}
-	function partialy_engaged_wishUpgrade_customer($schedulecampaign,$fromDate,$toDate){
+	function partialy_engaged_requestAMC_customer_no($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
@@ -1425,10 +1761,33 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_requestAMC		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=19  and answer='No' $condition ) 
+		");
+		return $partialy_engaged_requestAMC;
+	}
+	function partialy_engaged_wishUpgrade_customer_yes($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
             break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1445,6 +1804,34 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 		");
 		return $partialy_engaged_wishUpgrade;
 	}   
+	function partialy_engaged_wishUpgrade_customer_no($schedulecampaign,$fromDate,$toDate){
+		switch($schedulecampaign){
+			case 1:
+		    $table		=	'livpure';
+			$titlename1='Livpure';
+			$brand_img="logo_livpure_yapnaa.png";
+			
+			
+            break;
+			case 2:
+		    $table		=	'zerob_consol1';
+			$titlename1='Zero B';
+            $brand_img="logo_livpure_yapnaa.png";			
+            break;			
+		} 
+		if($fromDate !='' && $toDate !='')
+	   {		   
+		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
+	   }
+	   else
+	   {
+		$condition="";   
+	   }
+		$partialy_engaged_wishUpgrade		=	$this->model->data_query("SELECT count(*) as users FROM $table zc where  zc.customet_type=3 and
+		zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=21  and answer='No' $condition ) 
+		");
+		return $partialy_engaged_wishUpgrade;
+	}   
 	
 	function engaged_customer($schedulecampaign,$fromDate,$toDate){
 		switch($schedulecampaign){
@@ -1458,11 +1845,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1497,11 +1879,6 @@ AND answer =  'No' $condition))");
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
 		if($fromDate !='' && $toDate !='')
@@ -1535,13 +1912,8 @@ WHERE qst_id =12 AND answer =  'No' $condition
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
-		}    
+		}
        if($fromDate !='' && $toDate !='')
 	   {		   
 		$condition="and date(date) between date('".$fromDate."') and date('".$toDate."')";
@@ -1581,12 +1953,7 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;			
+            break;			 
 		}
        if($fromDate !='' && $toDate !='')
 	   {		   
@@ -1613,11 +1980,6 @@ and zc.phone1 in (select user_phone from user_question_aws_mapping where qst_id=
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -1661,20 +2023,20 @@ WHERE user_phone =$userphone AND CURDATE( ) >= DATE( DATE_ADD( DATE, INTERVAL 14
 				 if($email !=''){
 				$brand_img="yapnaa-new-logo.png";		   
 				$text="<p style='font-weight:lighter;'>Dear $username,</p>"." 
-<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
-</p>
+						<p style='text-align:left;font-weight:normal;'>Now you can manage and secure all your home appliances and connect with brands for any support in the easiest way!
+						</p>
  
-<br><p style='text-align:center'>   
-<a href='http://bit.ly/yapnaa-website'>
-<input type='button' 
-style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
+							<br><p style='text-align:center'>   
+							<a href='http://bit.ly/yapnaa-website'>
+							<input type='button' 
+							style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;color:#fff;font:inherit;line-height:3;font-size:14px;border:none' value='Know More'/></a></p>
 
-<p style='text-align:center;font-family:arial,sans-serif;'>
-<a href='http://bit.ly/YapnaaForAndroid'>
-<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
- </a>
-</p> 
-";
+							<p style='text-align:center;font-family:arial,sans-serif;'>
+							<a href='http://bit.ly/YapnaaForAndroid'>
+							<img src='https://yapnaa.com/images/1-Yapnaa.gif' alt='Yapnaa' height='60%' width='60%'>
+							 </a>
+							</p> 
+							";
 				$subject="One app to secure all your appliances";
 				
 				$this->sendmail_phpmailer($text,$subject,$email,$brand_img);
@@ -1737,11 +2099,6 @@ style='width:33%;font-weight:normal;background-color:#fc7f2b;border-radius:20px;
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		}
@@ -1879,11 +2236,6 @@ http://bit.ly/YapnaaForAndroid";
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		}
 		 $partiallyengaged1 = $this->model->data_query("SELECT * , (SELECT user_phone FROM users
@@ -2019,11 +2371,6 @@ http://bit.ly/YapnaaForAndroid";
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		}  
@@ -2275,7 +2622,7 @@ http://bit.ly/YapnaaForAndroid";
 		
 	}
 	function schedule_campaign5($schedulecampaign){
-		switch($cust_type){
+		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
@@ -2286,11 +2633,6 @@ http://bit.ly/YapnaaForAndroid";
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -2307,7 +2649,7 @@ http://bit.ly/YapnaaForAndroid";
 		return true;
 	}
 	function schedule_campaign6($schedulecampaign){
-		switch($cust_type){
+		switch($schedulecampaign){
 			case 1:
 		    $table		=	'livpure';
 			$titlename1='Livpure';
@@ -2318,11 +2660,6 @@ http://bit.ly/YapnaaForAndroid";
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -2349,11 +2686,6 @@ http://bit.ly/YapnaaForAndroid";
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -2382,15 +2714,11 @@ http://bit.ly/YapnaaForAndroid";
 			$titlename1='Livpure';
 			$brand_img="logo_livpure_yapnaa.png";
 			
+			
             break;
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -2422,11 +2750,6 @@ http://bit.ly/YapnaaForAndroid";
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
             $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl'; 
-			$titlename1='Livpure - TN/KL';
-            $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 		  
         $partiallyengaged = $this->model->data_query("SELECT *,
@@ -2455,11 +2778,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            $brand_img="logo_livpure_yapnaa.png";			
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl'; 
-			$titlename1='Livpure - TN/KL';
             $brand_img="logo_livpure_yapnaa.png";			
             break;			
 		} 
@@ -2523,10 +2841,6 @@ AND zc.phone1 IN (SELECT user_phone FROM user_question_aws_mapping WHERE qst_id 
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename1='Zero B';
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename1='Livpure - TN/KL';
             break;			
 		}
 		
@@ -2603,11 +2917,7 @@ $datacustomer
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename2='Zero B';
-            break;
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename2='Livpure - TN/KL';
-            break;				
+            break;			
 		}
 		
 		$fields		=	'*';
@@ -2808,11 +3118,7 @@ $datacustomer4
 			case 2:
 		    $table		=	'zerob_consol1';
 			$titlename='Zero B';
-            break;	
-            case 3:
-		    $table		=	'livpure_tn_kl';
-			$titlename='Livpure - TN/KL';
-            break;				
+            break;			
 		}
 		
 		$fields		=	'*';
@@ -2920,9 +3226,8 @@ $datacustomer2
 		return true;
 	} 
 	 
-	
-	function insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
-		date_default_timezone_set('Asia/Kolkata');
+ function insertStatus($callbackCust,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername,$service_requested_date,$amc_requested_date,$follow_up_date,$wish_upgrade_date){  
+	date_default_timezone_set('Asia/Kolkata');
 	   $table		=	'user_question_aws_mapping';
 	   $sql="SELECT * FROM $table y where y.user_phone=$number and y.qst_id=$userQst";
 	  
@@ -2938,8 +3243,8 @@ $datacustomer2
 		                    'req_amc_date'                  =>$amc_requested_date,
 		                    'req_upgrade_date'              =>$wish_upgrade_date,
 		                    'req_follow_up_date'            =>$follow_up_date,
-							 'last_call_comment'            => $callbackCust,
-							 'highly_engaged'               =>'',
+							'last_call_comment'            => $callbackCust,
+							'highly_engaged'               =>'',
 							'partialy_engaged'              =>'',
 							'engaged'                       =>''
 							);
@@ -3075,8 +3380,7 @@ $datacustomer2
 		return $result;
 	
 	}
-	
-	
+
 	
 	function insertStatus1
 	($email,$comments,$userQst,$answer,$number,$brandId,$brandName,$customerid,$customername){  
@@ -4681,30 +4985,6 @@ $datacustomer
 				} 
 	}
 	
-	
-	function send_bulk_sms($user_numbers,$message){ 
-	//print_r($user_numbers);echo '<br>'.$message; exit;
-		date_default_timezone_set('Asia/Kolkata');
-		$today = date("Y-m-d H:i:s");
-		if($user_numbers){
-			for($i=0;$i<count($user_numbers);$i++){
-				if($user_numbers[$i]){
-					$ch = curl_init();
-				    $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_numbers[$i])."&message=".urlencode("".$message."");
-					
-					curl_setopt( $ch,CURLOPT_URL, $url );
-					curl_setopt( $ch,CURLOPT_POST, false ); 
-					curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
-					curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
-					$result = curl_exec($ch );
-					curl_close( $ch );
-				}
-			}	
-		}		
-		else{
-			return 0;
-		}
-	}
 	function get_standard_comments()
 	{
 		$table="yapnaa_standard_amc_comment";
@@ -4760,9 +5040,8 @@ $datacustomer
 		
 		$admin_name		= $_SESSION['admin_name'];
 		$ar_id  	        = $_SESSION['ar_id'];
-		if($expire !=NULL && $start !=NULL )
-		{
-		$set_array	=	array(
+		if($expire !=NULL && $start !=NULL ){
+			$set_array	=	array(
 							'amc_updated_by'		=> $admin_id,
 							'CONTRACT_TO'		    => $expire,
 							'CONTRACT_FROM'		    => $start,
@@ -4776,11 +5055,9 @@ $datacustomer
 							'status'			    =>	"7"
 						);
 		}
-		else
-		{
-	  $set_array	=	array(
+		else{
+			$set_array	=	array(
 						'amc_updated_by'		=> $admin_id,
-						
 						'CONTRACT_BY'		    => $closedBy,
 						'last_call_comment'	    => $comments,
 						'action_taken_by'	    => $admin_name,
@@ -4792,7 +5069,7 @@ $datacustomer
 					);	
 		}
 		$condition 	=	"CUSTOMERID='".$custID."'";				
-		$update_zerob_result		=	$this->model->update($table,$set_array,$condition);
+		$update_zerob_result		= $this->model->update($table,$set_array,$condition);
 		//echo $expire.'<br>'.$start;exit;
 		 $number = array($phone1);
 		$message = 'Dear Subscriber, your AMC for '.ucfirst($table).' water purifier has been renewed from '.$expire.' to '.$start.' . Thank you for connecting with yapnaa.com.';
@@ -4817,18 +5094,14 @@ $datacustomer
 				$condition		=	"up_id = ".$result[0]['up_id'];
 				$update_result	=	$this->model->update($table2,$set_array,$condition);
 				
-				//echo json_encode($update_result);die;
-				//$message = "AMC has been updated from ".$start." to ".$expire;
 				$username=$result1[0]['user_name'];
-				if($username !=NULL)
-				{
-				$condition_msg="<p>Hi $username,</p><p>Greetings from Yapnaa!</p>";
-				$condition_msg1="Hi $username,\nGreetings from Yapnaa!\n";
+				if($username !=NULL){
+					$condition_msg="<p>Hi $username,</p><p>Greetings from Yapnaa!</p>";
+					$condition_msg1="Hi $username,\nGreetings from Yapnaa!\n";
 				}
-				else
-				{
-				$condition_msg="<p>Greetings from Yapnaa!</p>";	
-				$condition_msg1="Greetings from Yapnaa!\n";	
+				else{
+					$condition_msg="<p>Greetings from Yapnaa!</p>";	
+					$condition_msg1="Greetings from Yapnaa!\n";	
 				}
 				$message = $condition_msg."<p>Thank you for signing up AMC, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
 				$message1 = $condition_msg1."Thank you for signing up AMC, kindly share your feedback on our services in the following link :-\n".$google_feedback_link."";
@@ -4861,15 +5134,13 @@ $datacustomer
 				//echo "Here";die;
 				$prod_id	=	$this->add_user_product($prod_details);
 				$username=$result1[0]['user_name'];
-				if($username !=NULL)
-				{
-				$condition_msg="<p>Hi $username,</p><p>Greetings from Yapnaa!</p>";
-				$condition_msg1="Hi $username,\nGreetings from Yapnaa!\n";
+				if($username !=NULL){
+					$condition_msg="<p>Hi $username,</p><p>Greetings from Yapnaa!</p>";
+					$condition_msg1="Hi $username,\nGreetings from Yapnaa!\n";
 				}
-				else
-				{
-				$condition_msg="<p>Greetings from Yapnaa!</p>";	
-				$condition_msg="Greetings from Yapnaa!\n";	
+				else{
+					$condition_msg="<p>Greetings from Yapnaa!</p>";	
+					$condition_msg="Greetings from Yapnaa!\n";	
 				}
 				$message = $condition_msg."<p>Thank you for signing up AMC, kindly share your feedback on our services in the following link :-<a href='".$google_feedback_link."' >Click me</a></p>";
 				$message1 = $condition_msg1."Thank you for signing up AMC, kindly share your feedback on our services in the following link :-\n".$google_feedback_link."";
@@ -5000,7 +5271,7 @@ $datacustomer
 		return $result;
 	}
 	function updateStatus($id,$comment,$status,$custType){
-		date_default_timezone_set('Asia/Kolkata'); 
+		date_default_timezone_set('Asia/Kolkata');
 		$admin_name		= $_SESSION['admin_name'];
 		$ar_id  	        = $_SESSION['ar_id'];
 		$today = date("Y-m-d H:i:s");
@@ -5053,7 +5324,7 @@ $datacustomer
 			if($result){
 				return 1;
 			 }
-			 else{ 
+			 else{
 				return 0;
 			}
 		/*}
@@ -5267,13 +5538,9 @@ $datacustomer
 							if($custType==2){	
 							$table		=	'zerob_consol1';
 							}
-							if($custType==1){	
-							$table		=	'livpure';
+							else{
+							$table		=	'livpure';	
 							}
-							if($custType==3){	
-							$table		=	'livpure_tn_kl';
-							}
-							
 							$condition 	=	"id='".$id[$i]."'";	
                             $fields		=	'*';							
 							$result1	=	$this->model->get_Details_condition($table,$fields,$condition);		
@@ -7207,6 +7474,7 @@ $datacustomer
 
     }
 	
+	
 	// SEARCH Customer
 	function get_brand_list($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
@@ -7242,7 +7510,6 @@ $datacustomer
 		return $arr_log_in;
 
     }
-	
 	
 	function get_brand_list1111111($filterByAttempt,$action_taken_by,$tag,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$filterByBrand,$yapnaaIdfm,$yapnaaIdto)
     {
@@ -7294,12 +7561,11 @@ $datacustomer
 			$table='zerob_consol1';
 		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
+		$this->download_csv_results($arr_log_in,"yapnaa.csv");
 		if($_GET['customer_type']==3){
 			$table='livpure_tn_kl';
 		$arr_log_in       				 = 	$this->model->download_brand_list($filterByAttempt,$action_taken_by,$param,$filter,$fromDate,$toDate,$amc_fromDate,$amc_toDate,$table,$filterByBrand,$yapnaaIdfm,$yapnaaIdto);
 		}
-		$this->download_csv_results($arr_log_in,"yapnaa.csv");
-		
 		exit;
 
     } 
@@ -9000,9 +9266,943 @@ could not be delivered,please try again.";
     } else {
         echo "Your message was successfully delivered,you would be contacted shortly.";
         }
-	} 
+	}
 	
 	
+	
+	
+	/* By Suman */
+	
+	function get_city_from_brand(){
+		$sql 		=	"SELECT DISTINCT CUSTOMER_AREA FROM  `livpure` ";
+		$result		=	$this->model->data_query($sql);	
+		return $result;
+	}
+	
+	function getDataFromMasterTableByCondition($brandname,$total,$status){
+		$result		= $this->model->getDataFromMasterTableByCondition($brandname,$total,$status);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}	
+	}	
+	
+	
+	/* function setCustomerListToTable($value,$value1){
+		$table		= 'daily_call_schedule_2';
+		$arr_input	= array(
+							'brandname'				=> $value['brandname'],
+							'admin_id'				=> $value['admin_id'],
+							'customer_id'			=> $value1['id'],
+							'status'				=> 0,  
+							'created_date'			=> date('Y-m-d H:i:s'),
+							'updated_date'			=> date('Y-m-d H:i:s'),
+							'tag'					=> $value1['tag']	
+						);
+		//echo "<br><pre>"; print_r($arr_input); die;				
+		$result		=	$this->model->insert($table,$arr_input);
+		return $result;
+	} */
+	
+	function setCustomerListToTable($value,$get_customer_list){
+		$table		= 'daily_call_schedule_2';
+		foreach($get_customer_list as $key1 => $value1){
+			$arr_input	= array(
+							'brandname'				=> $value['brandname'],
+							'admin_id'				=> $value['admin_id'],
+							'customer_id'			=> $value1['id'],
+							'status'				=> 0,  
+							'created_date'			=> date('Y-m-d H:i:s'),
+							'updated_date'			=> date('Y-m-d H:i:s'),
+							'tag'					=> $value1['tag']	
+						);
+						
+			//echo "<br><pre>";print_r($arr_input);die;		
+			$result		=	$this->model->insert($table,$arr_input);			
+		}
+		return $result;
+	}
+	
+	
+	function get_brand_name($admin_id){
+		$result		= $this->model->get_brand_name($admin_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_amc_list_from_brand_and_call($search,$fromDate,$toDate,$admin_id,$join_table_name){
+		$result		= $this->model->get_amc_list_from_brand_and_call($search,$fromDate,$toDate,$admin_id,$join_table_name);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_filtered_amc_list_from_brand_and_call($search,$fromDate,$toDate,$admin_id,$join_table_name){
+		$result		= $this->model->get_filtered_amc_list_from_brand_and_call($search,$fromDate,$toDate,$admin_id,$join_table_name);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	function getQA($customer_type,$user_id){
+		switch($_GET['customer_type']){
+			case 1:
+			$brand	='livpure';
+			break;
+			case 2:
+			$brand	='zerob_consol1';
+			break;
+			case 3:
+			$brand	='livpure_tn_kl';
+			break;
+			case 4:
+			$brand	='bluestar_b2b';
+			break;
+			case 5:
+			$brand	='bluestar_b2c';
+			break;
+		}
+		
+		$result 	= $this->model->get_q_a($brand,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	function insertQA($data1,$insert_data,$sql,$user_phone){
+		$result		= $this->model->insert_data_query($data1,$insert_data,$sql,$user_phone);
+		return $result; 
+	}
+	
+	function updateQA($data1,$insert_data,$user_id){
+		$result		= $this->model->update_data_query($data1,$insert_data,$user_id);
+		return $result; 
+	}
+	
+	function updateStatusInBrand($table,$update_data,$brand_customer_id,$user_id){
+		$condition		= "id = '".$user_id."' AND CUSTOMERID = '".$brand_customer_id."'";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
+	}
+	
+	function updateProfileInBrand($table,$update_data,$brand_customer_id,$user_id){
+		$condition		= "id = '".$user_id."' AND CUSTOMERID = '".$brand_customer_id."'";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
+	}
+	
+	function getQAdata($brand_customer_id,$user_phone){
+		$result				= $this->model->get_qa_data($brand_customer_id,$user_phone);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_qa_ids_of_customer($customer_type,$user_id){
+		$result 			= $this->model->get_qa_ids_of_customer($customer_type,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_brand_details_of_customer($customer_type,$user_id){
+		$result 			= $this->model->get_brand_details_of_customer($customer_type,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	// Delete Question and Answer Data by Userid
+	function delete_QA_data_by_userid($customer_type,$user_id){
+		$result 			= $this->model->delete_QA_data_by_userid($customer_type,$user_id);
+		return $result;
+	}
+		
+	// Update AMC Status 
+	function updateAmcData($table,$admin_id,$start,$expire,$userid,$comments,$closedBy,$transaction_status){
+		$admin_name				= 	$_SESSION['admin_name'];
+		$ar_id  	       	 	= 	$_SESSION['ar_id'];
+		
+		if($expire !=NULL && $start !=NULL ){
+			$set_array			= 	array(
+										'amc_updated_by'		=> $admin_id,
+										'CONTRACT_TO'		    => $expire,
+										'CONTRACT_FROM'		    => $start,
+										'CONTRACT_BY'		    => $closedBy,
+										'last_call_comment'	    => $comments,
+										'action_taken_by'	    => $admin_name,
+										'action_taken_by_id'    => $ar_id,
+										'status'			    => "7",
+										'transaction_status'	=> $transaction_status,
+										'updated_on'			=> date('Y-m-d')
+									);
+		}
+		
+		else{
+			$set_array			=	array(
+										'amc_updated_by'		=> $admin_id,
+										'CONTRACT_BY'		    => $closedBy,
+										'last_call_comment'	    => $comments,
+										'action_taken_by'	    => $admin_name,
+										'action_taken_by_id'    => $ar_id,
+										'status'			    =>	"0",
+										'transaction_status'	=> $transaction_status,
+										'updated_on'			=> date('Y-m-d')
+									);	
+		}
+		
+		$condition 				= 	"id='".$userid."'";				
+		$update_zerob_result	= 	$this->model->update($table,$set_array,$condition);
+		
+		return 1;	
+	}
+	
+	
+	function updateCustomerCommentInBrand($table,$update_data,$brand_customer_id,$user_id){
+		$condition		= "id = '".$user_id."' ";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
+	}
+	
+	
+	/* LIFE CYCLE PROCESS STARTS HERE */
+	
+	// Transaction Lifecycle
+	function transaction_lifecycle($customer_type){
+		switch($customer_type){
+			case 1:
+		    $table			= 'livpure';
+			$titlename1		= 'Livpure';
+			$brand_img		= "logo_livpure_yapnaa.png";
+            break;
+			
+			case 2:
+		    $table			= 'zerob_consol1';
+			$titlename1		= 'Zero B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;	
+
+			case 3:
+		    $table			= 'livpure_tn_kl';
+			$titlename1		= 'Livpure TN';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 4:
+		    $table			= 'bluestar_b2b';
+			$titlename1		= 'Bluestar B2B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 5:
+		    $table			= 'bluestar_b2c';
+			$titlename1		= 'Bluestar B2C';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+		} 
+       	
+		$result 					= $this->model->transaction_lifecycle($table);
+		
+		$userphone 					= array();
+		$user_detail 				= array();
+		if(!empty($result)){
+			for($i=0;$i<count($result); $i++){
+				$userphone['phone'] = $result[$i]['PHONE1'];
+				$userphone['url'] 	= 'Hi User please give feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/landing-transaction.php?customer_type='. $customer_type.'&brand_customer_id='.$result[$i]['CUSTOMERID'].'&user_phone='.$result[$i]["PHONE1"].'&user_id='.$result[$i]["id"].' ');
+				$userphone['id'] 	= $result[$i]['id'];
+				$userphone['CUSTOMERID'] 	= $result[$i]['CUSTOMERID'];
+				$userphone['profile_type'] 	= $result[$i]['profile_type'];
+				
+				$user_detail[] 		= $userphone;
+			}	
+		}
+		
+		$data 						= array();
+		foreach($user_detail as $key => $value){
+			$this->send_lifecycle_sms($value['phone'],$value['url']);
+			$data 					= array(
+										'tm_brand_user_id' 		=> $value['id'],
+										'tm_brand_customer_id'  => $value['CUSTOMERID'],
+										'tm_brand_name'   		=> $table,
+										'tm_brand_user_phone'   => $value['phone'],
+										'tm_brand_id'   		=> $customer_type,
+										'tm_interaction'		=> 'SMS',
+										'tm_interaction_type'	=> 13,
+										'tm_transaction_type'	=> 'SMS sent for transaction lifecycle',
+										'tm_movement_from'		=> $value['profile_type'],
+										'tm_movement_to'		=> $value['profile_type'],
+										'tm_created_date'		=> date('Y-m-d')
+										);
+			$timeline_response 		= $this->insert_timeline_data($data);							
+		}
+		
+		// Promotional Message afetr 30 days
+		$feedback_result 	= $this->model->promotional_message();
+		$feedabckphone		= array();	
+		if(!empty($feedback_result)){
+			foreach($feedback_result as $key1 => $value1){
+				$feedabckphone[] = $value1['tm_brand_user_phone'];
+			}
+		}
+		$text_message 		= "Hi thanks for giving feedback in yapnaa";
+		$this->send_bulk_sms($feedabckphone,$text_message);
+		
+		return true;
+	}
+
+	
+	// Function for going yapnaa promotional message afetr 7 days for change product
+	function productchange_lifecycle($customer_type){
+		switch($customer_type){
+			case 1:
+		    $table			= 'livpure';
+			$titlename1		= 'Livpure';
+			$brand_img		= "logo_livpure_yapnaa.png";
+            break;
+			
+			case 2:
+		    $table			= 'zerob_consol1';
+			$titlename1		= 'Zero B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;	
+
+			case 3:
+		    $table			= 'livpure_tn_kl';
+			$titlename1		= 'Livpure TN';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 4:
+		    $table			= 'bluestar_b2b';
+			$titlename1		= 'Bluestar B2B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 5:
+		    $table			= 'bluestar_b2c';
+			$titlename1		= 'Bluestar B2C';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+		} 
+       	
+		$result 				= $this->model->productchange_lifecycle($table);
+		
+		if(!empty($result)){
+			for($i=0;$i<count($result); $i++){
+				$userphone[] 	= $result[$i]['PHONE1'];
+			}	
+		}
+		
+		$text 					= "Hi thanks for giving feedback in yapnaa";
+		$this->send_bulk_sms($userphone,$text);
+		
+		$data 					= array();
+		if(!empty($result)){
+			foreach($result as $key => $value){
+				$data 				= array(
+											'tm_brand_user_id' 		=> $value['id'],
+											'tm_brand_customer_id'  => $value['CUSTOMERID'],
+											'tm_brand_name'   		=> $table,
+											'tm_brand_user_phone'   => $value['PHONE1'],
+											'tm_brand_id'   		=> $customer_type,
+											'tm_interaction'		=> 'SMS',
+											'tm_interaction_type'	=> 13,
+											'tm_transaction_type'	=> 'SMS sent for product change lifecycle',
+											'tm_movement_from'		=> $value['profile_type'],
+											'tm_movement_to'		=> $value['profile_type'],
+											'tm_created_date'		=> date('Y-m-d')
+											);						
+				$timeline_response 	= $this->insert_timeline_data($data);
+			}
+		}
+		return true;
+	}
+	
+	// Function for escalation lifecycle
+	function escalation_lifecycle($customer_type){
+		switch($customer_type){
+			case 1:
+		    $table			= 'livpure';
+			$titlename1		= 'Livpure';
+			$brand_img		= "logo_livpure_yapnaa.png";
+            break;
+			
+			case 2:
+		    $table			= 'zerob_consol1';
+			$titlename1		= 'Zero B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;	
+
+			case 3:
+		    $table			= 'livpure_tn_kl';
+			$titlename1		= 'Livpure TN';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 4:
+		    $table			= 'bluestar_b2b';
+			$titlename1		= 'Bluestar B2B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 5:
+		    $table			= 'bluestar_b2c';
+			$titlename1		= 'Bluestar B2C';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+		} 
+       	
+		$result 		= $this->model->escalation_lifecycle($table);
+		
+		// Follow up mail to brand
+		$to             = "spandag30@gmail.com"; 	
+		$subject 		= "Follow up mail in escalation";
+		if(!empty($result)){
+			foreach($result as $key => $value) {
+				$message 	= 	"
+									<html>
+										<head>
+											<title>Yapnaa</title>
+										</head>
+										
+										<body>
+											<table style='border:1px solid'>
+												<tr style='border:1px solid'>
+													<td style='border:1px solid'>This Email is regarding escalation of </td>
+												</tr style='border:1px solid'>
+												<tr style='border:1px solid'>
+													<table class='table table-striped table-bordered table-hover'>
+													
+														<thead>
+															<tr>
+																<th>Customer Name</th>
+																<th>Customer Phone</th> 
+															</tr>
+														</thead>
+														
+														<tbody>
+															<tr>
+																<td>".$value['CUSTOMER_NAME']."</td>
+																<td>".$value['PHONE1']."</td> 
+															</tr>
+														</tbody>
+														
+													</table>
+												</tr style='border:1px solid'>
+											</table>
+										</body>
+									</html>
+								";
+				
+				
+			}
+		}
+		
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= 'From: Yapnaa Admin <noreply@yapnaa.com>'. "\r\n";   
+		mail($to, $subject, $message,$headers);
+		
+		$data 						= array();
+		if(!empty($result)){
+			foreach($result as $key1 => $value1) {
+				$data 				= array(
+											'tm_brand_user_id' 		=> $value1['id'],
+											'tm_brand_customer_id'  => $value1['CUSTOMERID'],
+											'tm_brand_name'   		=> $table,
+											'tm_brand_user_phone'   => $value1['PHONE1'],
+											'tm_brand_id'   		=> $customer_type,
+											'tm_interaction'		=> 'SMS',
+											'tm_interaction_type'	=> 16,
+											'tm_transaction_type'	=> 'SMS sent for escalation lifecycle',
+											'tm_movement_from'		=> $value['profile_type'],
+											'tm_movement_to'		=> $value['profile_type'],
+											'tm_created_date'		=> date('Y-m-d')
+											);						
+				$timeline_response 	= $this->insert_timeline_data($data);
+			}
+		}
+		
+		return true;
+		
+	}
+	
+	
+	function amc_message($customer_type){
+		switch($customer_type){
+			case 1:
+		    $table			= 'livpure';
+			$titlename1		= 'Livpure';
+			$brand_img		= "logo_livpure_yapnaa.png";
+            break;
+			
+			case 2:
+		    $table			= 'zerob_consol1';
+			$titlename1		= 'Zero B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;	
+
+			case 3:
+		    $table			= 'livpure_tn_kl';
+			$titlename1		= 'Livpure TN';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 4:
+		    $table			= 'bluestar_b2b';
+			$titlename1		= 'Bluestar B2B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 5:
+		    $table			= 'bluestar_b2c';
+			$titlename1		= 'Bluestar B2C';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+		} 
+       	
+		$result 				= $this->model->amc_message($table);
+		
+		$userphone 				= array();
+		$user_detail 			= array();
+		if(!empty($result)){
+			for($i=0;$i<count($result); $i++){
+				$userphone['phone'] = $result[$i]['PHONE1'];
+				$userphone['url'] 	= 'Hi '.$result[$i]["CUSTOMER_NAME"].', please give feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/landing-amc-message.php?customer_type='. $customer_type.'&brand_customer_id='.$result[$i]['CUSTOMERID'].'&user_phone='.$result[$i]["PHONE1"].'&user_id='.$result[$i]["id"].' ');
+				
+				$user_detail[] 		= $userphone;
+			}	
+		}
+		
+		foreach($user_detail as $key => $value){
+			$this->send_lifecycle_sms($value['phone'],$value['url']);
+		}
+		return true;
+		
+	}
+
+	// Function for inserting data into timeline table
+	function insert_timeline_data($data){
+		$table 			= 'timeline';
+		$arr_result   	= $this->model->insert($table, $data);
+		
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}
+
+	// Function for inserting data into timeline_profile table
+	function insert_timeline_profile_data($data){
+		$table 			= 'timeline_profile';
+		$arr_result   	= $this->model->insert($table, $data);
+		
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}	
+	
+	// function for inserting data in profile history
+	function insert_profile_history($data){
+		$table 			= 'profile_history';
+		$arr_result   	= $this->model->insert($table, $data);
+		
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}	
+		
+	// function for get data from timeline table from userid and brandId
+	function get_timeline_detail_of_customer($customer_type,$user_id){
+		$result 			= $this->model->get_timeline_detail_of_customer($customer_type,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// function for getting existing_profile_status_of_customer
+	function get_existing_profile_status_of_customer($brand_name,$user_id){
+		$result 	= $this->model->get_existing_profile_status_of_customer($brand_name,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// Profile history data for a customer
+	function get_profile_history_data($brand,$user_id,$tm_id){
+		$result 	= $this->model->get_profile_history_data($brand,$user_id,$tm_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// Update call status afetr calling in daily_call_schedule table
+	function updateCallStatusInDailyCallSchedule($update_data,$call_id){
+		$condition		= "id = '".$call_id."' ";			   
+		$result 		= $this->model->update('daily_call_schedule_2',$update_data,$condition);
+		return $result;
+	}
+		
+	// Welcome Promotional message
+	function promotional_welcome_sms($customer_type){
+		
+		switch($customer_type){
+			case 1:
+		    $table			= 'livpure';
+			$titlename1		= 'Livpure';
+			$brand_img		= "logo_livpure_yapnaa.png";
+            break;
+			
+			case 2:
+		    $table			= 'zerob_consol1';
+			$titlename1		= 'Zero B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;	
+
+			case 3:
+		    $table			= 'livpure_tn_kl';
+			$titlename1		= 'Livpure TN';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 4:
+		    $table			= 'bluestar_b2b';
+			$titlename1		= 'Bluestar B2B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 5:
+		    $table			= 'bluestar_b2c';
+			$titlename1		= 'Bluestar B2C';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+		} 
+       	
+		$result 					= $this->model->promotional_welcome_sms($table);
+		$userphone 					= array();
+		$user_detail 				= array();
+		if(!empty($result)){
+			for($i=0;$i<count($result); $i++){
+				$userphone['phone'] = $result[$i]['PHONE1'];
+				
+				//$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?customer_type='. $customer_type.'&brand_customer_id='.$result[$i]['CUSTOMERID'].'&user_phone='.$result[$i]["PHONE1"].'&user_id='.$result[$i]["id"].' ');
+				
+				$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/promotional-feedback.php?hash='. encryptIt($customer_type."|".$result[$i]["id"]."|".$result[$i]["CUSTOMERID"]."|".$result[$i]["PHONE1"]).' ');
+				
+				
+				$userphone['id'] 	= $result[$i]['id'];
+				$userphone['CUSTOMERID'] 	= $result[$i]['CUSTOMERID'];
+				$userphone['profile_type'] 	= $result[$i]['profile_type'];
+				
+				$user_detail[] 		= $userphone;
+			}	
+			
+			foreach($user_detail as $key => $value){
+				$this->send_lifecycle_sms($value['phone'],$value['url']);
+			}
+			return true;
+		}
+	}
+	
+	// Livpure AMC 
+	function amc_cron($customer_type){
+		switch($customer_type){
+			case 1:
+		    $table			= 'livpure';
+			$titlename1		= 'Livpure';
+			$brand_img		= "logo_livpure_yapnaa.png";
+            break;
+			
+			case 2:
+		    $table			= 'zerob_consol1';
+			$titlename1		= 'Zero B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;	
+
+			case 3:
+		    $table			= 'livpure_tn_kl';
+			$titlename1		= 'Livpure TN';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 4:
+		    $table			= 'bluestar_b2b';
+			$titlename1		= 'Bluestar B2B';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+			case 5:
+		    $table			= 'bluestar_b2c';
+			$titlename1		= 'Bluestar B2C';
+            $brand_img		= "logo_livpure_yapnaa.png";			
+            break;
+			
+		} 
+       	
+		$result 					= $this->model->amc_cron($table);
+		
+		$userphone 					= array();
+		$user_detail 				= array();
+		if(!empty($result)){
+			for($i=0;$i<count($result); $i++){
+				$userphone['phone'] = $result[$i]['PHONE1'];
+				$userphone['url'] 	= 'Dear '.$result[$i]['CUSTOMER_NAME'].' please give your valueable feedback in the below url'." ".$this->get_tiny_url('http://13.126.160.18/amc-cron.php?customer_type='. $customer_type.'&brand_customer_id='.$result[$i]['CUSTOMERID'].'&user_phone='.$result[$i]["PHONE1"].'&user_id='.$result[$i]["id"].' ');
+				$userphone['id'] 	= $result[$i]['id'];
+				$userphone['CUSTOMERID'] 	= $result[$i]['CUSTOMERID'];
+				$userphone['profile_type'] 	= $result[$i]['profile_type'];
+				
+				$user_detail[] 		= $userphone;
+			}	
+			
+			foreach($user_detail as $key => $value){
+				$this->send_lifecycle_sms($value['phone'],$value['url']);
+			}
+			return true;
+		}
+	}	
+	
+	
+	// Promotional Message For Yapnaa After 30 Days
+	/* function promotional_message(){
+		$this->send_bulk_sms($value['phone'],$value['url']);
+	} */
+	
+	
+	//gets the data from a URL  
+	function get_tiny_url($url)  {  
+		$ch 		= curl_init();  
+		$timeout 	= 5;  
+		curl_setopt($ch,CURLOPT_URL,'http://tinyurl.com/api-create.php?url='.$url);  
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);  
+		curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);  
+		$data 		= curl_exec($ch);  
+		curl_close($ch);  
+		return $data;  
+	}
+		
+	function send_lifecycle_sms($user_numbers,$message){ 
+		date_default_timezone_set('Asia/Kolkata');
+		$today = date("Y-m-d H:i:s");
+		if($user_numbers){
+			$ch = curl_init();
+			$url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_numbers)."&message=".urlencode("".$message."");
+			
+			curl_setopt( $ch,CURLOPT_URL, $url );
+			curl_setopt( $ch,CURLOPT_POST, false ); 
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+			$result = curl_exec($ch );
+			curl_close( $ch );	
+		}		
+		else{
+			return 0;
+		}
+	}
+	
+	
+	function send_bulk_sms($user_numbers,$message){ 
+		date_default_timezone_set('Asia/Kolkata');
+		$today = date("Y-m-d H:i:s");
+		if($user_numbers){
+			for($i=0;$i<count($user_numbers);$i++){
+				if($user_numbers[$i]){
+					$ch = curl_init();
+				    $url = "http://nimbusit.co.in/api/swsendSingle.asp?username=t1jjbytes&password=62134339&sender=YAPNAA&sendto=".urlencode($user_numbers[$i])."&message=".urlencode("".$message."");
+					
+					curl_setopt( $ch,CURLOPT_URL, $url );
+					curl_setopt( $ch,CURLOPT_POST, false ); 
+					curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+					curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false ); 
+					$result = curl_exec($ch );
+					curl_close( $ch );
+				}
+			}	
+		}		
+		else{
+			return 0;
+		}
+	}
+	
+	
+	// Dashboard For pie chart
+	function get_dashboard_data_by_brand_status($table){
+		$result 	= $this->model->get_dashboard_data_by_brand_status($table);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_dashboard_data_by_brand_profile_type($table){
+		$result 	= $this->model->get_dashboard_data_by_brand_profile_type($table);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_dashboard_data_by_brand_not_interested($table){
+		$result 	= $this->model->get_dashboard_data_by_brand_not_interested($table);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// By Suman and for telecaller
+	function add_telecaller($arr_input){
+		$table		= 'admin_login';
+		$result		= $this->model->insert($table,$arr_input);
+		return $result;
+	}
+	
+	function get_telecaller_list(){
+		$result 	= $this->model->get_telecaller_list();
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// New Customer Question Answer Logic
+	function get_qa_data($customer_type,$user_id){
+		switch($customer_type){
+			case 1:
+			$brand	='livpure';
+			break;
+			case 2:
+			$brand	='zerob_consol1';
+			break;
+			case 3:
+			$brand	='livpure_tn_kl';
+			break;
+			case 4:
+			$brand	='bluestar_b2b';
+			break;
+			case 5:
+			$brand	='bluestar_b2c';
+			break;
+		}
+		$brand   	= 1;
+		$result 	= $this->model->get_qa_data($brand,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	// New Table Design By Saswata AND Suman
+	function insert_q_a($data){
+		$table 			= 'customer_question_answer_1';
+		$arr_result   	= $this->model->insert($table, $data);
+		
+		if($arr_result){
+			return $arr_result;
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	function update_q_a($data,$user_id){
+		$result		= $this->model->update_q_a($data,$user_id);
+		return $result; 
+	}
+	
+	function get_question_ids_of_customer($brand_id,$user_id){
+		$result 			= $this->model->get_question_ids_of_customer($brand_id,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_answer_weightage_of_customer($brand_id,$user_id){
+		$result 			= $this->model->get_answer_weightage_of_customer($brand_id,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function update_status_in_brand($table,$update_data,$user_id){
+		$condition		= "id = '".$user_id."' ";			   
+		$result 		= $this->model->update($table,$update_data,$condition);
+		return $result; 
+	}
+	
+	// Profile history data for a customer
+	function show_profile_history($brand,$user_id,$tm_id){
+		$result 	= $this->model->show_profile_history($brand,$user_id,$tm_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	function get_profile_popup_data($brand,$user_id){
+		$result 	= $this->model->get_profile_popup_data($brand,$user_id);
+		if($result){
+			return $result;
+		}else{
+			return array();
+		}
+	}
+	
+	
+	
+		
 }
 
 ?>
