@@ -1182,10 +1182,10 @@ class model {
 	
 	function promotional_welcome_sms($table){
 		if($table == 'livpure' || 'livpure_tn_kl' || 'livpure_ts' || 'livpure_ap'){
-			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND  CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 0 DAY )) ";
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 ";
 		}
 		if($table == 'bluestar_b2b' || 'bluestar_b2c'){
-			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 0 DAY )) ";
+			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 ";
 		}
 		if($table == 'zerob_consol1'){
 			$sql 				= "SELECT br.id,br.CUSTOMERID,br.CUSTOMER_NAME,br.PHONE1,br.profile_type FROM daily_call_schedule_2 dc LEFT JOIN ".$table." br ON dc.customer_id = br.id WHERE dc.brandname = '".$table."' AND br.status = 0 AND CURDATE() = DATE( DATE_ADD(br.updated_on, INTERVAL 5 DAY )) ";
