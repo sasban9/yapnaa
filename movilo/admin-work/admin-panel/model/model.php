@@ -1379,7 +1379,7 @@ class model {
 	
 	
 	function get_qa_data($brand,$user_id){
-		$sql 	= "SELECT ym.id AS mapping_id,ym.answer_id,yq.id AS question_id,yq.questions,yq.group_level,yq.parent_group_level,yq.brand,ya.answer_type,ya.answer_weightage, (SELECT cqa.answer_id FROM customer_question_answer_1 WHERE cqa.question_id = question_id AND cqa.user_id = ".$user_id.") AS answer_given FROM yap_mapping_1 ym LEFT JOIN yapnaa_questions_1 yq ON ym.question_id = yq.id LEFT JOIN yapnaa_answers_1 ya ON ym.answer_id = ya.id LEFT JOIN customer_question_answer_1 cqa ON cqa.question_id = yq.id WHERE yq.brand = ".$brand." ";
+		$sql 	= "SELECT ym.id AS mapping_id,ym.answer_id,yq.id AS question_id,yq.questions,yq.group_level,yq.parent_group_level,yq.brand,ya.answer_type,ya.answer_weightage, (SELECT cqa.answer_id FROM customer_question_answer_1 cqa WHERE cqa.question_id = yq.id AND cqa.user_id = ".$user_id.") AS answer_given FROM yap_mapping_1 ym LEFT JOIN yapnaa_questions_1 yq ON ym.question_id = yq.id LEFT JOIN yapnaa_answers_1 ya ON ym.answer_id = ya.id WHERE yq.brand = ".$brand." ";
 		
 		//echo $sql; die;
 		$qry	= connection()->query($sql);
