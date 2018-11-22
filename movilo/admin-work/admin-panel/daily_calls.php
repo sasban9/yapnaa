@@ -332,7 +332,7 @@ if(isset($_SESSION['admin_email_id'])){
 												
 											?>
 											
-											<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa.php?customer_type=<?php echo $_GET['customer_type']?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>&call_id=<?php echo $get_amc_list[$i]['call_id']; ?>')"><i class="fa fa-ellipsis-v"></i></button>
+											<button type="button" style="margin-right:2px; width:38px" class="custdatam btn btn-info pull-right actionBox" onclick="window.open('ajaxqa1.php?customer_type=<?php echo $_GET['customer_type']?>&brand_customer_id=<?php echo $get_amc_list[$i]['CUSTOMERID']; ?>&user_phone=<?php echo $get_amc_list[$i]['PHONE1']; ?>&user_id=<?php echo $get_amc_list[$i]['id']; ?>&call_id=<?php echo $get_amc_list[$i]['call_id']; ?>')"><i class="fa fa-ellipsis-v"></i></button>
 											
 										</td>   
 										 
